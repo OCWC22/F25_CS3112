@@ -1,249 +1,239 @@
-### **Homework 9.9 Solutions: Conditional Probability, Bayes' Formula, and Independent Events**
+Homework Solutions: Exercise 9.9
+=================================
 
----
+Q1. Given P(X|Y) = 1/2 and P(Y) = 1/4, find P(X n Y).
+- Formula: P(X n Y) = P(X|Y) * P(Y)
+- Calculation: (1/2) * (1/4) = 1/8
+- Answer: 1/8
 
-**Q1. Suppose P(X|Y) = 1/2 and P(Y) = 1/4. What is P(X ∩ Y)?**
-*   **Principle:** The definition of conditional probability is `P(X|Y) = P(X ∩ Y) / P(Y)`.
-*   **Step 1:** Rearrange the formula to solve for the intersection: `P(X ∩ Y) = P(X|Y) * P(Y)`.
-*   **Step 2:** Substitute the given values: `P(X ∩ Y) = (1/2) * (1/4)`.
-*   **Answer:** `P(X ∩ Y) = 1/8`.
+---------------------------------
 
-**Q2. Suppose P(X) = 1/3, P(Y) = 1/5, and P(X ∩ Y) = 1/6. What is P(X|Y)?**
-*   **Principle:** Use the formula for conditional probability.
-*   **Step 1:** `P(X|Y) = P(X ∩ Y) / P(Y)`.
-*   **Step 2:** Substitute the values: `P(X|Y) = (1/6) / (1/5) = (1/6) * 5`.
-*   **Answer:** `P(X|Y) = 5/6`.
+Q2. Given P(X) = 1/3, P(Y) = 1/5, and P(X n Y) = 1/6, find P(X|Y).
+- Formula: P(X|Y) = P(X n Y) / P(Y)
+- Calculation: (1/6) / (1/5) = 5/6
+- Answer: 5/6
 
-**Q3. 25% of students received an A on the first test, 15% on the second, and 10% on both. What is the probability that a student who received an A on the first test also received one on the second?**
-*   **Principle:** Conditional Probability.
-*   **Step 1:** Define events: `T1` = A on test one, `T2` = A on test two. We need `P(T2 | T1)`.
-*   **Step 2:** Given: `P(T1) = 0.25`, `P(T2) = 0.15`, `P(T1 ∩ T2) = 0.10`.
-*   **Step 3:** Apply the formula: `P(T2 | T1) = P(T1 ∩ T2) / P(T1) = 0.10 / 0.25`.
-*   **Answer:** 0.4 or 40%.
+---------------------------------
 
-**Q4. A condition affects 1 in 1000 people. A test has a 1% false negative rate and a 4% false positive rate. Find P(has condition | tests positive).**
-*   **Principle:** Bayes' Theorem is used to find the probability of a cause given an effect.
-*   **Step 1:** Define events: `C` = Has Condition, `T` = Tests Positive.
-*   **Step 2:** List given probabilities:
-    *   `P(C) = 1/1000 = 0.001`, so `P(C') = 1 - 0.001 = 0.999`.
-    *   False Negative `P(T'|C) = 0.01`, so True Positive `P(T|C) = 1 - 0.01 = 0.99`.
-    *   False Positive `P(T|C') = 0.04`.
-*   **Step 3:** Write Bayes' Formula: `P(C|T) = [P(T|C)P(C)] / [P(T|C)P(C) + P(T|C')P(C')]`.
-*   **Step 4:** Substitute values: `P(C|T) = (0.99 * 0.001) / [(0.99 * 0.001) + (0.04 * 0.999)]`
-    `= 0.00099 / (0.00099 + 0.03996) = 0.00099 / 0.04095`.
-*   **Answer:** Approximately 0.0242 or 2.42%.
+Q3. P(A on T1)=0.25, P(A on T2)=0.15, P(A on both)=0.10. Find P(A on T2 | A on T1).
+- Formula: P(T2|T1) = P(T1 n T2) / P(T1)
+- Calculation: 0.10 / 0.25 = 0.4
+- Answer: 40%
 
-**Q5. If A and B are independent, P(A)=1/3, and P(B)=1/4, what is P(A|B)?**
-*   **Principle:** For independent events, the occurrence of one does not affect the probability of the other.
-*   **Step 1:** By the definition of independence, `P(A|B) = P(A)`.
-*   **Answer:** 1/3.
+---------------------------------
 
-**Q6. An urn contains 25 red and 15 blue balls. Two are chosen without replacement. What is the probability the second is blue, given the first was red?**
-*   **Principle:** Conditional probability based on a reduced sample space.
-*   **Step 1:** After one red ball is drawn, the urn contains 24 red and 15 blue balls.
-*   **Step 2:** The total number of balls remaining is `24 + 15 = 39`.
-*   **Step 3:** The probability of drawing a blue ball now is the number of blue balls divided by the new total.
-*   **Answer:** `15 / 39 = 5/13`.
+Q4. P(Condition)=0.001. Test: 1% false neg, 4% false pos. Find P(Condition | Positive).
+- This is a Bayes' Theorem problem.
+- P(C)=0.001, P(T|C)=0.99, P(T|C')=0.04
+- P(C|T) = [P(T|C)P(C)] / [P(T|C)P(C) + P(T|C')P(C')]
+- P(C|T) = (0.99*0.001) / [(0.99*0.001) + (0.04*0.999)]
+- P(C|T) = 0.00099 / 0.04095
+- Answer: approx 2.42%
 
-**Q7. Urn 1 (3R, 2B), Urn 2 (1R, 4B). One ball is drawn from each.**
-*   **Principle:** The draws from the two urns are independent events.
-*   (a) P(both red) = `P(R from U1) * P(R from U2) = (3/5) * (1/5) = 3/25`.
-*   (b) P(both blue) = `P(B from U1) * P(B from U2) = (2/5) * (4/5) = 8/25`.
-*   (c) P(one red, one blue) = `P(R1, B2) + P(B1, R2) = (3/5)(4/5) + (2/5)(1/5) = 12/25 + 2/25 = 14/25`.
-*   (d) P(at least one red) = `1 - P(both blue) = 1 - 8/25 = 17/25`.
+---------------------------------
 
-**Q8. 10 semifinalists (7 men, 3 women). Two finalists are chosen.**
-*   **Principle:** Dependent events, as the selections are without replacement.
-*   (a) P(both men) = `P(M1) * P(M2|M1) = (7/10) * (6/9) = 42/90 = 7/15`.
-*   (b) P(both women) = `P(W1) * P(W2|W1) = (3/10) * (2/9) = 6/90 = 1/15`.
-*   (c) P(one man, one woman) = `1 - P(both men) - P(both women) = 1 - 7/15 - 1/15 = 7/15`.
+Q5. A, B independent, P(A)=1/3, P(B)=1/4. Find P(A|B).
+- By definition of independence, P(A|B) = P(A).
+- Answer: 1/3
 
-**Q9. Prove Bayes' Theorem for n=2 mutually disjoint events.**
-*   **Goal:** Prove `P(B1|A) = [P(A|B1)P(B1)] / [P(A|B1)P(B1) + P(A|B2)P(B2)]`.
-*   **Step 1 (Numerator):** From the definition of conditional probability, `P(A ∩ B1) = P(A|B1)P(B1)`.
-*   **Step 2 (Denominator):** Since B1 and B2 form a partition of the sample space, `A = (A ∩ B1) ∪ (A ∩ B2)`. Because B1 and B2 are disjoint, so are `(A ∩ B1)` and `(A ∩ B2)`. Thus, `P(A) = P(A ∩ B1) + P(A ∩ B2)`.
-*   **Step 3:** Rewriting Step 2 using the rule from Step 1 gives `P(A) = P(A|B1)P(B1) + P(A|B2)P(B2)`.
-*   **Step 4:** By definition, `P(B1|A) = P(A ∩ B1) / P(A)`.
-*   **Step 5:** Substitute the expressions from Step 1 (numerator) and Step 3 (denominator) into Step 4 to yield the theorem. **Proof complete.**
+---------------------------------
 
-**Q10. Prove the full version of Bayes' Theorem.**
-*   **Principle:** The proof is a direct generalization of the case for n=2.
-*   **Theorem:** For a partition of a sample space `B1, B2, ..., Bn` and an event A, `P(Bk|A) = [P(A|Bk)P(Bk)] / [Σ P(A|Bi)P(Bi)]` for `i=1 to n`.
-*   **Proof Sketch:** The numerator, `P(A|Bk)P(Bk)`, is equal to `P(A ∩ Bk)`. The denominator is an expansion of `P(A)` using the Law of Total Probability over the partition `B1, ..., Bn`. The final step is substituting these into the definition `P(Bk|A) = P(A ∩ Bk) / P(A)`.
+Q6. Urn: 25R, 15B. Draw 2 without replacement. Find P(2nd is Blue | 1st was Red).
+- After 1 red is drawn, there are 24R and 15B left (39 total).
+- The probability of the next being blue is 15/39.
+- Answer: 5/13
 
-**Q11. Urn (12 blue, 7 white). Choose one ball, then another. What is P(second is blue | first was blue)?**
-*   **Principle:** Reduced sample space.
-*   **Step 1:** After one blue ball is drawn, there are 11 blue and 7 white balls left.
-*   **Step 2:** The total number of balls is now `11 + 7 = 18`.
-*   **Answer:** `11/18`.
+---------------------------------
 
-**Q12. Urn 1 (8R, 19W), Urn 2 (4B, 10W).**
-*   **Note:** The question asks for the probability a ball from the first urn is blue, but the first urn contains no blue balls. Assuming the question intended to ask for the probability a ball from the first urn is **red**:
-*   **Principle:** Basic probability.
-*   **Step 1:** Total balls in Urn 1 = `8 + 19 = 27`.
-*   **Answer:** `P(Red) = 8/27`.
+Q7. Urn 1 (3R, 2B), Urn 2 (1R, 4B). One ball from each.
+- a) P(both red) = (3/5) * (1/5) = 3/25
+- b) P(both blue) = (2/5) * (4/5) = 8/25
+- c) P(one of each) = (3/5)(4/5) + (2/5)(1/5) = 14/25
+- d) P(at least one red) = 1 - P(both blue) = 1 - 8/25 = 17/25
 
-**Q13. Urn 1 (10R, 25G), Urn 2 (15R, 5G). Loaded coin P(H)=3/4 selects Urn 1. Find P(Green).**
-*   **Principle:** Law of Total Probability.
-*   **Step 1:** `P(G) = P(G|Urn1)P(Urn1) + P(G|Urn2)P(Urn2)`.
-*   **Step 2:** `P(Urn1) = P(H) = 3/4`, `P(Urn2) = P(T) = 1/4`.
-*   **Step 3:** `P(G|Urn1) = 25/35 = 5/7`, `P(G|Urn2) = 5/20 = 1/4`.
-*   **Step 4:** `P(G) = (5/7)(3/4) + (1/4)(1/4) = 15/28 + 1/16 = 60/112 + 7/112`.
-*   **Answer:** `67/112`.
+---------------------------------
 
-**Q14. Drug test: 4% use drugs. Test has 98% true positive rate and 5% false positive rate. Find P(user | positive test).**
-*   **Principle:** Bayes' Theorem.
-*   **Step 1:** `D`=User, `T`=Positive Test. `P(D)=0.04`, `P(D')=0.96`, `P(T|D)=0.98`, `P(T|D')=0.05`.
-*   **Step 2:** `P(D|T) = [P(T|D)P(D)] / [P(T|D)P(D) + P(T|D')P(D')]`.
-*   **Step 3:** `P(D|T) = (0.98 * 0.04) / [(0.98 * 0.04) + (0.05 * 0.96)] = 0.0392 / (0.0392 + 0.048)`.
-*   **Answer:** `0.0392 / 0.0872 ≈ 0.4495` or 45.0%.
+Q8. 10 semifinalists (7M, 3W). Two finalists chosen.
+- a) P(both men) = (7/10) * (6/9) = 42/90 = 7/15
+- b) P(both women) = (3/10) * (2/9) = 6/90 = 1/15
+- c) P(one man, one woman) = 1 - P(both men) - P(both women) = 7/15
 
-**Q15. Two factories, 2% and 5% defective. Factory 1 supplies 180 of 260 parts.**
-*   **Principle:** Conditional probability and Bayes' Theorem.
-*   **Step 1:** `F1`=Fac 1, `F2`=Fac 2, `D`=Defective. `P(F1)=180/260=18/26`, `P(F2)=80/260=8/26`. `P(D|F1)=0.02`, `P(D|F2)=0.05`.
-*   (a) P(defective from F1) = `P(D ∩ F1) = P(D|F1)P(F1) = 0.02 * (18/26) ≈ 0.0138`.
-*   (b) P(defective from F2) = `P(D ∩ F2) = P(D|F2)P(F2) = 0.05 * (8/26) ≈ 0.0154`.
-*   (c) P(defective) = `P(D) = P(D ∩ F1) + P(D ∩ F2) ≈ 0.0138 + 0.0154 = 0.0292`.
-*   (d) P(from F1 | defective) = `P(F1|D) = P(D ∩ F1) / P(D) ≈ 0.0138 / 0.0292 ≈ 0.4726`.
+---------------------------------
 
-**Q16. Three suppliers X, Y, Z with supplies 60%, 20%, 20% and defect rates 8%, 12%, 15%.**
-*   **Principle:** Law of Total Probability and Bayes' Theorem.
-*   (a) P(superior grade) = `1 - P(defective)`.
-    *   `P(D) = P(D|X)P(X) + P(D|Y)P(Y) + P(D|Z)P(Z)`
-    *   `P(D) = (0.08)(0.6) + (0.12)(0.2) + (0.15)(0.2) = 0.048 + 0.024 + 0.03 = 0.102`.
-    *   `P(Superior) = 1 - 0.102 = 0.898`.
-*   (b) P(from X | superior) = `P(X|S) = P(S|X)P(X) / P(S)`.
-    *   `P(S|X) = 1 - 0.08 = 0.92`.
-    *   `P(X|S) = (0.92 * 0.6) / 0.898 = 0.552 / 0.898 ≈ 0.6147`.
+Q9. Prove Bayes' Theorem for n=2.
+- Start with P(B1|A) = P(A n B1) / P(A).
+- The numerator is P(A|B1)P(B1).
+- The denominator P(A) expands to P(A|B1)P(B1) + P(A|B2)P(B2) because B1 and B2 partition the space.
+- Substituting these gives the theorem.
 
-**Q17. A, B independent. P(A)=P(B)=1/2. Find P(A ∩ B).**
-*   **Principle:** For independent events, `P(A ∩ B) = P(A)P(B)`.
-*   **Step 1:** `P(A ∩ B) = (1/2) * (1/2)`.
-*   **Answer:** `1/4`.
+---------------------------------
 
-**Q18. Pair of dice. E=sum is 6, F=first die is 4. Are they independent?**
-*   **Principle:** Test if `P(E ∩ F) = P(E)P(F)`.
-*   **Step 1:** `P(F) = 1/6`.
-*   **Step 2:** Outcomes for E are {(1,5), (2,4), (3,3), (4,2), (5,1)}. `P(E) = 5/36`.
-*   **Step 3:** `E ∩ F` is the outcome {(4,2)}. `P(E ∩ F) = 1/36`.
-*   **Step 4:** `P(E)P(F) = (5/36) * (1/6) = 5/216`.
-*   **Conclusion:** Since `1/36 ≠ 5/216`, the events are **not independent**.
+Q10. Prove the full version of Bayes' Theorem.
+- This extends the logic from n=2. The numerator P(A n Bk) is P(A|Bk)P(Bk). The denominator P(A) is expanded using the Law of Total Probability over the whole partition B1...Bn.
 
-**Q19. Die roll. E=number is odd, F=number is prime. Are they independent?**
-*   **Principle:** Test for independence.
-*   **Step 1:** `E={1,3,5}`, `P(E)=3/6=1/2`. `F={2,3,5}`, `P(F)=3/6=1/2`.
-*   **Step 2:** `E ∩ F = {3,5}`, `P(E ∩ F)=2/6=1/3`.
-*   **Step 3:** `P(E)P(F) = (1/2)*(1/2) = 1/4`.
-*   **Conclusion:** Since `1/3 ≠ 1/4`, the events are **not independent**.
+---------------------------------
 
-**Q20. Fair coin tossed three times. A=first is H, B=last is H. Are they independent?**
-*   **Principle:** Test for independence.
-*   **Step 1:** `P(A)=4/8=1/2`. `P(B)=4/8=1/2`.
-*   **Step 2:** `A ∩ B` is the set {HHH, HTH}. `P(A ∩ B)=2/8=1/4`.
-*   **Step 3:** `P(A)P(B) = (1/2)*(1/2)=1/4`.
-*   **Conclusion:** Since `P(A ∩ B) = P(A)P(B)`, the events **are independent**.
+Q11. Urn (12B, 7W). Two drawn. Find P(2nd is Blue | 1st was Blue).
+- After one blue is drawn, 11B and 7W remain (18 total).
+- Answer: 11/18
 
-**Q21. A, B independent, A ∩ B = ∅. What must be true?**
-*   **Principle:** Logic of independence and disjoint events.
-*   **Step 1:** Since A and B are independent, `P(A ∩ B) = P(A)P(B)`.
-*   **Step 2:** Since `A ∩ B = ∅`, `P(A ∩ B) = 0`.
-*   **Step 3:** Therefore, `P(A)P(B) = 0`. This implies that either `P(A)=0` or `P(B)=0` (or both).
+---------------------------------
 
-**Q22. Prove that if A and B are independent, then A and B' are also independent.**
-*   **Principle:** Set theory and the definition of independence.
-*   **Step 1:** We need to show `P(A ∩ B') = P(A)P(B')`.
-*   **Step 2:** The event A can be partitioned into two disjoint sets: `(A ∩ B)` and `(A ∩ B')`. So, `P(A) = P(A ∩ B) + P(A ∩ B')`.
-*   **Step 3:** Rearrange to get `P(A ∩ B') = P(A) - P(A ∩ B)`.
-*   **Step 4:** Since A and B are independent, substitute `P(A ∩ B) = P(A)P(B)`. This gives `P(A ∩ B') = P(A) - P(A)P(B)`.
-*   **Step 5:** Factor out P(A): `P(A ∩ B') = P(A)(1 - P(B))`.
-*   **Step 6:** Since `1 - P(B) = P(B')`, we have `P(A ∩ B') = P(A)P(B')`. **Proof complete.**
+Q12. Urn 1 (8R, 19W), Urn 2 (4B, 10W).
+- Assuming typo and question is P(Red from Urn 1).
+- Total balls in Urn 1 is 8 + 19 = 27.
+- Answer: 8/27
 
-**Q23. Multiple choice, 5 options, 2 questions. Student knows one answer, guesses the other.**
-*   **Principle:** Independent events.
-*   (a) P(both correct) = `P(Q1 correct) * P(Q2 correct) = 1 * (1/5) = 1/5`.
-*   (b) P(exactly one correct) = `P(known correct, guessed wrong) = 1 * (4/5) = 4/5`.
-*   (c) P(neither correct) = `0`, since the student is guaranteed to get the known question correct.
+---------------------------------
 
-**Q24. Two proofreaders, 1% and 1.5% miss rates. 1000 typos.**
-*   **Principle:** Independent events.
-*   **Step 1:** P(A misses)=0.01, P(B misses)=0.015.
-*   **Step 2:** P(both miss the same typo) = `P(A misses) * P(B misses) = 0.01 * 0.015 = 0.00015`.
-*   **Step 3:** Expected number missed by both = `Total typos * P(both miss) = 1000 * 0.00015 = 0.15`.
-*   **Answer:** The expected number of typos missed by both is 0.15.
+Q13. Urn 1 (10R, 25G), Urn 2 (15R, 5G). P(H)=3/4 selects Urn 1. Find P(Green).
+- P(G) = P(G|U1)P(U1) + P(G|U2)P(U2)
+- P(G) = (25/35)(3/4) + (5/20)(1/4) = 15/28 + 1/16
+- Answer: 67/112
 
-**Q25. Loaded coin, P(H)=0.7. Tossed twice.**
-*   **Principle:** The tosses are independent events.
-*   (a) P(HH) = `(0.7) * (0.7) = 0.49`.
-*   (b) P(one H) = `P(HT) + P(TH) = (0.7)(0.3) + (0.3)(0.7) = 0.21 + 0.21 = 0.42`.
-*   (c) P(no H) = `P(TT) = (0.3) * (0.3) = 0.09`.
-*   (d) P(at least one H) = `1 - P(no H) = 1 - 0.09 = 0.91`.
+---------------------------------
 
-**Q26. Describe events A, B, C that are pairwise independent but not mutually independent.**
-*   **Example:** Toss a fair coin twice.
-*   **Events:**
-    *   A = First toss is Heads {HH, HT}. P(A)=1/2.
-    *   B = Second toss is Heads {HH, TH}. P(B)=1/2.
-    *   C = Exactly one toss is Heads {HT, TH}. P(C)=1/2.
-*   **Pairwise Check:**
-    *   `P(A ∩ B)` {HH} = 1/4. `P(A)P(B) = (1/2)(1/2)=1/4`. (Independent)
-    *   `P(A ∩ C)` {HT} = 1/4. `P(A)P(C) = (1/2)(1/2)=1/4`. (Independent)
-    *   `P(B ∩ C)` {TH} = 1/4. `P(B)P(C) = (1/2)(1/2)=1/4`. (Independent)
-*   **Mutual Check:**
-    *   The event `A ∩ B ∩ C` is impossible (first is H, second is H, and exactly one is H). So `P(A ∩ B ∩ C) = 0`.
-    *   However, `P(A)P(B)P(C) = (1/2)(1/2)(1/2) = 1/8`.
-    *   Since `0 ≠ 1/8`, the events are not mutually independent.
+Q14. P(User)=0.04. Test: 98% true pos, 5% false pos. Find P(User | Positive).
+- P(U|+) = (0.98*0.04) / [(0.98*0.04) + (0.05*0.96)]
+- P(U|+) = 0.0392 / 0.0872
+- Answer: approx 45.0%
 
-**Q27. A family has two children. Given that one is a boy, what is the probability that the other is a boy?**
-*   **Principle:** Conditional probability on a reduced sample space.
-*   **Step 1:** The initial sample space is {BB, BG, GB, GG}.
-*   **Step 2:** The information "one is a boy" reduces the sample space to {BB, BG, GB}.
-*   **Step 3:** In this new sample space of 3 equally likely outcomes, only one outcome is {BB} (where the "other" child is also a boy).
-*   **Answer:** The probability is **1/3**.
+---------------------------------
 
-**Q28. Loaded coin P(H)=0.7, tossed 10 times.**
-*   **Principle:** Binomial probability: `P(k successes in n trials) = C(n,k) * p^k * (1-p)^(n-k)`.
-*   (a) P(7 heads) = `C(10,7) * (0.7)^7 * (0.3)^3 = 120 * (0.08235) * (0.027) ≈ 0.2668`.
-*   (b) P(10 heads) = `C(10,10) * (0.7)^10 * (0.3)^0 = 1 * (0.7)^10 ≈ 0.0282`.
-*   (c) P(0 heads) = `C(10,0) * (0.7)^0 * (0.3)^10 = 1 * (0.3)^10 ≈ 0.0000059`.
-*   (d) P(at least one head) = `1 - P(0 heads) ≈ 1 - 0.0000059 = 0.9999941`.
+Q15. Factory 1 (180 parts, 2% def), Factory 2 (80 parts, 5% def).
+- a) P(Def n F1) = 0.02 * (180/260) = 0.0138
+- b) P(Def n F2) = 0.05 * (80/260) = 0.0154
+- c) P(Def) = 0.0138 + 0.0154 = 0.0292
+- d) P(F1|Def) = 0.0138 / 0.0292 = 0.4726
 
-**Q29. 10 items are chosen from a batch with a 3% defect rate.**
-*   **Principle:** Binomial probability.
-*   (a) P(0 defective) = `(1 - 0.03)^10 = (0.97)^10 ≈ 0.7374`.
-*   (b) P(at least 1 defective) = `1 - P(0 defective) ≈ 1 - 0.7374 = 0.2626`.
-*   (c) P(at most 1 defective) = `P(0) + P(1) = 0.7374 + [C(10,1)*(0.03)^1*(0.97)^9] ≈ 0.7374 + 0.2281 = 0.9655`.
-*   (d) P(at least 2 defective) = `1 - P(at most 1 defective) ≈ 1 - 0.9655 = 0.0345`.
+---------------------------------
 
-**Q30. Mammogram, 4% false positive rate, taken every year for 10 years.**
-*   **Principle:** Binomial probability (viewing "no false positive" as a success).
-*   **Step 1:** P(no false positive in one year) = `1 - 0.04 = 0.96`.
-*   **Step 2:** P(no false positives in 10 years) = `(0.96)^10 ≈ 0.6648`.
-*   (a) P(false positive result during this time) = `1 - P(no false positives) ≈ 1 - 0.6648 = 0.3352`.
-*   (b) P(at least one false positive) is the same as (a).
-*   **Answer:** Approximately 33.5%.
+Q16. Suppliers X(60%, 8% def), Y(20%, 12% def), Z(20%, 15% def).
+- a) P(Def) = (0.6)(0.08)+(0.2)(0.12)+(0.2)(0.15) = 0.102. P(Superior) = 1-0.102 = 0.898
+- b) P(X|S) = P(S|X)P(X)/P(S) = (0.92)(0.6)/0.898 = 0.6147
 
-**Q31. 103 of 200 born male (P(M)=0.515). Family with 6 children.**
-*   **Principle:** Binomial probability. `p=0.515`, `1-p=0.485`.
-*   (a) P(none male) = `P(all 6 female) = (0.485)^6 ≈ 0.0122`.
-*   (b) P(at least one male) = `1 - P(none male) ≈ 1 - 0.0122 = 0.9878`.
-*   (c) P(exactly one male) = `C(6,1) * (0.515)^1 * (0.485)^5 = 6 * 0.515 * (0.0267) ≈ 0.0825`.
+---------------------------------
 
-**Q32. Multiple choice, 4 options, 3 questions. Student guesses all.**
-*   **Principle:** Binomial probability. `p=1/4`, `1-p=3/4`.
-*   (a) P(all 3 correct) = `(1/4)^3 = 1/64`.
-*   (b) P(exactly 2 correct) = `C(3,2) * (1/4)^2 * (3/4)^1 = 3 * (1/16) * (3/4) = 9/64`.
-*   (c) P(exactly 1 correct) = `C(3,1) * (1/4)^1 * (3/4)^2 = 3 * (1/4) * (9/16) = 27/64`.
-*   (d) P(none correct) = `(3/4)^3 = 27/64`.
-*   (e) Expected number of correct answers = `n * p = 3 * (1/4) = 3/4`.
-    *   Expected score = `(1 * P(1 correct)) + (0.5 * P(2 correct)) - (0.5 * P(3 correct)) - (0.5 * P(0 correct))`
-    *   `= (1 * 27/64) + (0.5 * 9/64) - (0.5 * 1/64) - (0.5 * 27/64)`
-    *   `= (27 + 4.5 - 0.5 - 13.5) / 64 = 17.5 / 64 ≈ 0.273`.
+Q17. A, B independent, P(A)=P(B)=1/2. Find P(A n B).
+- P(A n B) = P(A)P(B) = (1/2)(1/2)
+- Answer: 1/4
 
-**Q33. Gambler problem (Gambler's Ruin).**
-*   **Principle:** This problem is modeled by a recurrence relation. Let `Pk` be the probability of eventual ruin (reaching $0) starting with `$k`.
-*   **Setup:**
-    *   The game is defined by winning $1 with probability `p=1/6` and losing $1 with probability `q=5/6`.
-    *   After one play, the gambler is in state `k+1` (with probability `p`) or state `k-1` (with probability `q`).
-    *   The probability of ruin from state `k` is the weighted average of the probabilities of ruin from these subsequent states.
-*   **Recurrence Relation:** `Pk = p * P(k+1) + q * P(k-1)`.
-*   **Derivation:** Substituting `p=1/6` and `q=5/6`, the equation to be solved is `Pk = (1/6)P(k+1) + (5/6)P(k-1)`. This is the derivation requested by the question. Solving this requires setting up boundary conditions (e.g., `P0 = 1`, `P(goal) = 0`) and using techniques for linear difference equations.
+---------------------------------
+
+Q18. Dice roll. E={sum=6}, F={first=4}. Independent?
+- P(F)=1/6. P(E)=5/36. P(E n F) = P({4,2}) = 1/36.
+- Check: P(E)P(F) = (5/36)(1/6) = 5/216.
+- Answer: No, 1/36 != 5/216. Not independent.
+
+---------------------------------
+
+Q19. Die roll. E={odd}, F={prime}. Independent?
+- P(E)=3/6=1/2. P(F)=3/6=1/2. P(E n F) = P({3,5}) = 2/6=1/3.
+- Check: P(E)P(F) = (1/2)(1/2) = 1/4.
+- Answer: No, 1/3 != 1/4. Not independent.
+
+---------------------------------
+
+Q20. Coin tossed 3 times. A={first=H}, B={last=H}. Independent?
+- P(A)=1/2. P(B)=1/2. P(A n B) = P({HHH, HTH}) = 2/8 = 1/4.
+- Check: P(A)P(B) = (1/2)(1/2) = 1/4.
+- Answer: Yes, they are independent.
+
+---------------------------------
+
+Q21. A, B independent, A n B = {}. What must be true?
+- P(A n B) = P(A)P(B). Since A n B is empty, P(A n B) = 0.
+- So, P(A)P(B) = 0.
+- Answer: Either P(A) = 0 or P(B) = 0.
+
+---------------------------------
+
+Q22. Prove A and B' are independent if A and B are.
+- We know P(A n B') = P(A) - P(A n B).
+- Since A,B are independent, this is P(A) - P(A)P(B).
+- Factoring gives P(A)(1 - P(B)), which is P(A)P(B').
+- The condition is met.
+
+---------------------------------
+
+Q23. MC test (5 options, 2 Q's). Knows one, guesses one.
+- a) P(both correct) = 1 * (1/5) = 1/5
+- b) P(exactly one correct) = 1 * (4/5) = 4/5
+- c) P(neither correct) = 0
+
+---------------------------------
+
+Q24. Two proofreaders (1% and 1.5% miss rates). 1000 typos.
+- P(both miss) = 0.01 * 0.015 = 0.00015.
+- Expected missed by both = 1000 * 0.00015
+- Answer: 0.15
+
+---------------------------------
+
+Q25. Loaded coin, P(H)=0.7. Tossed twice.
+- a) P(HH) = (0.7)(0.7) = 0.49
+- b) P(one H) = (0.7)(0.3) + (0.3)(0.7) = 0.42
+- c) P(no H) = (0.3)(0.3) = 0.09
+- d) P(at least one H) = 1 - 0.09 = 0.91
+
+---------------------------------
+
+Q26. Pairwise vs. Mutual Independence.
+- Example: Toss coin twice. A=1st is H, B=2nd is H, C=exactly one H.
+- P(A)=1/2, P(B)=1/2, P(C)=1/2.
+- They are pairwise independent (e.g., P(A n B)=1/4 = P(A)P(B)).
+- Not mutually independent: P(A n B n C)=0, but P(A)P(B)P(C)=1/8.
+
+---------------------------------
+
+Q27. Two children, one is a boy. P(other is a boy)?
+- Sample space {BB, BG, GB, GG} reduces to {BB, BG, GB}.
+- Of these 3 outcomes, only 1 is BB.
+- Answer: 1/3
+
+---------------------------------
+
+Q28. Loaded coin P(H)=0.7, tossed 10 times.
+- a) P(7 H) = C(10,7)(0.7)^7(0.3)^3 = 0.2668
+- b) P(10 H) = (0.7)^10 = 0.0282
+- c) P(0 H) = (0.3)^10 = 0.0000059
+- d) P(at least 1 H) = 1 - P(0 H) = 0.9999941
+
+---------------------------------
+
+Q29. 10 items, 3% defect rate.
+- a) P(0 def) = (0.97)^10 = 0.7374
+- b) P(>=1 def) = 1 - P(0 def) = 0.2626
+- c) P(<=1 def) = P(0) + P(1) = 0.7374 + C(10,1)(0.03)(0.97)^9 = 0.9655
+- d) P(>=2 def) = 1 - P(<=1 def) = 0.0345
+
+---------------------------------
+
+Q30. Mammogram, 4% false positive rate for 10 years.
+- P(no false pos in 10 yrs) = (0.96)^10 = 0.6648.
+- P(at least one false pos) = 1 - 0.6648
+- Answer: 0.3352
+
+---------------------------------
+
+Q31. P(Male)=0.515. 6 children.
+- a) P(no males) = (0.485)^6 = 0.0122
+- b) P(>=1 male) = 1 - P(no males) = 0.9878
+- c) P(1 male) = C(6,1)(0.515)^1(0.485)^5 = 0.0825
+
+---------------------------------
+
+Q32. MC test (4 options, 3 Q's). Guesses all.
+- a) P(3 correct) = (1/4)^3 = 1/64
+- b) P(2 correct) = C(3,2)(1/4)^2(3/4) = 9/64
+- c) P(1 correct) = C(3,1)(1/4)(3/4)^2 = 27/64
+- d) P(0 correct) = (3/4)^3 = 27/64
+- e) Expected score = (1)(27/64)+(0.5)(9/64)-(0.5)(1/64)-(0.5)(27/64) = 17.5/64
+
+---------------------------------
+
+Q33. Gambler's Ruin.
+- Let Pk = prob of ruin starting with $k. Win $1 with p=1/6, lose $1 with q=5/6.
+- The prob of ruin from state k is the weighted average of ruin from the next states.
+- This gives the recurrence relation: Pk = p*P(k+1) + q*P(k-1).
+- Derivation: Pk = (1/6)P(k+1) + (5/6)P(k-1).
