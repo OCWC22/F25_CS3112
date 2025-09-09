@@ -1,201 +1,155 @@
-Homework Solutions – Probability Axioms and Expected Value (Exercise 9.8, Questions 1–21)
+Homework Solutions: Exercise 9.8
+=================================
+
+Q1. In any sample space S, what is P(∅)?
+- Step 1: The symbol ∅ represents the empty set, an impossible event.
+- Step 2: The probability of an impossible event is 0.
+- Answer: P(∅) = 0.
 
 ----------------------------------------------------
-GUIDE FOR A BUSY CEO LEARNING PROBABILITY
-----------------------------------------------------
-Think of probabilities like customer percentages in your business. Every "event" is like a group of customers. The "sample space" is ALL customers. The axioms of probability are like the business rules that make sure percentages never add up to more than 100%.
+Q2. Given: A, B, C are mutually exclusive, A ∪ B ∪ C = S, P(A)=0.3, P(B)=0.5.
+(a) Find P(A ∪ B).
+- Step 1: Since A and B are mutually exclusive, P(A ∪ B) = P(A) + P(B).
+- Step 2: P(A ∪ B) = 0.3 + 0.5 = 0.8.
+- Answer: 0.8.
 
-We will now go question by question, showing every single step, no skipping.
+(b) Find P(C).
+- Step 1: Since A, B, C form a partition of S, P(A) + P(B) + P(C) = 1.
+- Step 2: 0.8 + P(C) = 1 ⇒ P(C) = 1 - 0.8 = 0.2.
+- Answer: 0.2.
 
-====================================================
-Q1. In any sample space, what is P(∅)?
-----------------------------------------------------
-Step 1: The symbol ∅ means the empty set = “impossible event.”  
-Step 2: The probability of something impossible happening is always 0.  
-Answer: P(∅) = 0.
-
-----------------------------------------------------
-Q2. A, B, C are mutually exclusive events in a sample space S. 
-We are told: A ∪ B ∪ C = S, P(A)=0.3, P(B)=0.5.
-
-(a) Find P(A ∪ B).  
-Step 1: Mutually exclusive means they cannot overlap.  
-Step 2: P(A ∪ B) = P(A) + P(B) = 0.3 + 0.5 = 0.8.  
-Answer: 0.8.
-
-(b) Find P(C).  
-Step 1: Because A ∪ B ∪ C = S, the total probability is 1.  
-Step 2: P(C) = 1 − P(A ∪ B) = 1 − 0.8 = 0.2.  
-Answer: 0.2.
+(c) Find P(Aᶜ).
+- Step 1: The probability of a complement is P(Aᶜ) = 1 - P(A).
+- Step 2: P(Aᶜ) = 1 - 0.3 = 0.7.
+- Answer: 0.7.
 
 ----------------------------------------------------
-Q3. A and B are mutually exclusive events. A ∪ B ∪ C = S.
-P(A) = 0.4, P(B) = 0.2.
+Q3. Given: A, B are mutually exclusive, A ∪ B ∪ C = S, P(A)=0.4, P(B)=0.25.
+(a) Find P(A ∪ B).
+- Step 1: P(A ∪ B) = P(A) + P(B) = 0.4 + 0.25 = 0.65.
+- Answer: 0.65.
 
-(a) Find P(A ∪ B).  
-Step 1: Mutually exclusive again → P(A ∪ B) = P(A)+P(B).  
-Step 2: = 0.4 + 0.2 = 0.6.  
-Answer: 0.6.
-
-(b) Is P(C)=0.2 possible?  
-Step 1: A ∪ B ∪ C = S means total probability = 1.  
-Step 2: P(C) = 1 − (0.6) = 0.4.  
-Step 3: If we try P(C)=0.2, then total = 1.2 < 1. Impossible.  
-Answer: No, P(C) must equal 0.4.
+(b) Is P(C)=0.2 possible?
+- Step 1: If A, B, C partition S, then P(C) = 1 - P(A ∪ B) = 1 - 0.65 = 0.35.
+- Step 2: A value of P(C)=0.2 would mean the total probability is 0.4 + 0.25 + 0.2 = 0.85, which is not 1.
+- Answer: No, it is not possible. P(C) must be 0.35.
 
 ----------------------------------------------------
-Q4. P(A)=0.8, P(B)=0.7, P(A ∩ B)=0.6. Find P(A ∪ B).
-
-Step 1: Formula: P(A ∪ B) = P(A) + P(B) − P(A ∩ B).  
-Step 2: Substitute: 0.8 + 0.7 − 0.6 = 0.9.  
-Answer: 0.9.
-
-----------------------------------------------------
-Q5. P(A)=0.6, P(Bᶜ)=0.4, P(A ∩ B)=0.2.
-
-Step 1: P(B) = 1 − P(Bᶜ) = 1 − 0.4 = 0.6.  
-Step 2: Formula: P(A ∪ B) = P(A) + P(B) − P(A ∩ B).  
-Step 3: = 0.6 + 0.6 − 0.2 = 1.0.  
-Answer: 1.0.
+Q4. Given: P(A)=0.8, P(B)=0.7, P(A ∩ B)=0.6.
+- Step 1: Use the formula P(A ∪ B) = P(A) + P(B) - P(A ∩ B).
+- Step 2: P(A ∪ B) = 0.8 + 0.7 - 0.6 = 0.9.
+- Answer: 0.9.
 
 ----------------------------------------------------
-Q6. P(Uᶜ)=0.3, P(V)=0.6, P(Uᶜ ∪ Vᶜ)=0.4.
-
-Step 1: P(U)=1 − 0.3 = 0.7.  
-Step 2: By De Morgan’s law, (U ∩ V)ᶜ = Uᶜ ∪ Vᶜ.  
-Step 3: So P(U ∩ V) = 1 − P(Uᶜ ∪ Vᶜ) = 1 − 0.4 = 0.6.  
-Step 4: Now P(U ∪ V) = P(U)+P(V)−P(U ∩ V).  
-Step 5: = 0.7 + 0.6 − 0.6 = 0.7.  
-Answer: 0.7.
+Q5. Given: P(A)=0.6, P(Bᶜ)=0.4, P(A ∩ B)=0.2.
+- Step 1: Find P(B) = 1 - P(Bᶜ) = 1 - 0.4 = 0.6.
+- Step 2: P(A ∪ B) = P(A) + P(B) - P(A ∩ B) = 0.6 + 0.6 - 0.2 = 1.0.
+- Answer: 1.0.
 
 ----------------------------------------------------
-Q7. Sample space outcomes = {0,1,2}.  
-A={0}, B={1}, C={2}. P(A)=0.4, P(B)=0.3, P(C)=0.3.
-
-(a) P(A ∪ B) = 0.4+0.3 = 0.7.  
-(b) P(C)=0.3.  
-(c) P(A ∪ C) = 0.4+0.3=0.7.  
-(d) P(Aᶜ) = 1 − 0.4 = 0.6.  
-(e) P(Aᶜ ∩ Bᶜ) = probability of neither A nor B = C = 0.3.  
-(f) P(Aᶜ ∪ Bᶜ) = 1 − P(A ∩ B). But A ∩ B = ∅. So = 1.  
-Answers: (a)0.7, (b)0.3, (c)0.7, (d)0.6, (e)0.3, (f)1.
+Q6. Given: P(U)=0.3, P(V)=0.6, P(Uᶜ ∪ Vᶜ)=0.4.
+- Step 1: By De Morgan's Law, P(Uᶜ ∪ Vᶜ) = P((U ∩ V)ᶜ) = 0.4.
+- Step 2: P(U ∩ V) = 1 - P((U ∩ V)ᶜ) = 1 - 0.4 = 0.6.
+- Step 3: P(U ∪ V) = P(U) + P(V) - P(U ∩ V) = 0.3 + 0.6 - 0.6 = 0.3.
+- Answer: 0.3.
 
 ----------------------------------------------------
-Q8. Same as Q7 but P(A)=0.5, P(B)=0.4. Then P(C)=0.1.
-
-(a) P(A ∪ B)=0.5+0.4=0.9.  
-(b) P(C)=0.1.  
-(c) P(A ∪ C)=0.5+0.1=0.6.  
-(d) P(Aᶜ)=1−0.5=0.5.  
-(e) P(Aᶜ ∩ Bᶜ)=P(C)=0.1.  
-(f) P(Aᶜ ∪ Bᶜ)=1−P(A ∩ B)=1−0=1.  
-Answers: (a)0.9, (b)0.1, (c)0.6, (d)0.5, (e)0.1, (f)1.
+Q7. Given: S={0,1,2}, A={0}, B={1}, C={2}, P(A)=0.4, P(B)=0.3.
+(a) P({0,1}) = P(A ∪ B) = P(A) + P(B) = 0.4 + 0.3 = 0.7.
+(b) P(C) = 1 - P(A ∪ B) = 1 - 0.7 = 0.3.
+(c) P(A ∪ C) = P(A) + P(C) = 0.4 + 0.3 = 0.7.
+(d) P(Aᶜ) = 1 - P(A) = 1 - 0.4 = 0.6.
+(e) P(Aᶜ ∩ Bᶜ) = P((A ∪ B)ᶜ) = 1 - P(A ∪ B) = 1 - 0.7 = 0.3.
+(f) P(Aᶜ ∪ Bᶜ) = P((A ∩ B)ᶜ) = 1 - P(A ∩ B) = 1 - 0 = 1.
 
 ----------------------------------------------------
-Q9. P(A)=0.4, P(B)=0.5, P(A ∩ B)=0.2. Let C=S−(A∪B).
-
-(a) P(A ∪ B)=0.4+0.5−0.2=0.7.  
-(b) P(C)=1−0.7=0.3.  
-(c) A and C disjoint ⇒ P(A ∪ C)=0.4+0.3=0.7.  
-(d) P(Aᶜ)=1−0.4=0.6.  
-(e) P(Aᶜ ∩ Bᶜ)=P(C)=0.3.  
-(f) P(Aᶜ ∪ Bᶜ)=1−P(A ∩ B)=1−0.2=0.8.  
-Answers: (a)0.7, (b)0.3, (c)0.7, (d)0.6, (e)0.3, (f)0.8.
+Q8. Redo #7 with P(A)=0.5, P(B)=0.4.
+(a) P({0,1}) = 0.5 + 0.4 = 0.9.
+(b) P(C) = 1 - 0.9 = 0.1.
+(c) P(A ∪ C) = 0.5 + 0.1 = 0.6.
+(d) P(Aᶜ) = 1 - 0.5 = 0.5.
+(e) P(Aᶜ ∩ Bᶜ) = P(C) = 0.1.
+(f) P(Aᶜ ∪ Bᶜ) = 1 - P(A ∩ B) = 1 - 0 = 1.
 
 ----------------------------------------------------
-Q10. P(A)=0.7, P(B)=0.3, P(A ∩ B)=0.1.
-
-(a) P(A ∪ B)=0.7+0.3−0.1=0.9.  
-(b) P(C)=1−0.9=0.1.  
-(c) P(A ∪ C)=0.7+0.1=0.8.  
-(d) P(Aᶜ)=0.3.  
-(e) P(Aᶜ ∩ Bᶜ)=P(C)=0.1.  
-(f) P(Aᶜ ∪ Bᶜ)=1−0.1=0.9.  
-Answers: (a)0.9, (b)0.1, (c)0.8, (d)0.3, (e)0.1, (f)0.9.
+Q9. Given: P(A)=0.4, P(B)=0.5, P(A ∩ B)=0.2.
+(a) P(A ∪ B) = P(A) + P(B) - P(A ∩ B) = 0.4 + 0.5 - 0.2 = 0.7.
+(b) P(Aᶜ) = 1 - P(A) = 1 - 0.4 = 0.6.
+(c) P(Bᶜ) = 1 - P(B) = 1 - 0.5 = 0.5.
+(d) P(Aᶜ ∩ Bᶜ) = P((A ∪ B)ᶜ) = 1 - P(A ∪ B) = 1 - 0.7 = 0.3.
 
 ----------------------------------------------------
-Q11. Prove: If U ⊆ V, then P(U) ≤ P(V).
-
-Step 1: If U ⊆ V, then V = U ∪ (V−U).  
-Step 2: U and (V−U) are disjoint.  
-Step 3: P(V) = P(U) + P(V−U).  
-Step 4: Since probabilities are ≥0, P(V−U) ≥0.  
-Step 5: So P(V) ≥ P(U).  
-Answer: Proven.
+Q10. Redo #9 with P(A)=0.7, P(B)=0.3, P(A ∩ B)=0.1.
+(a) P(A ∪ B) = P(A) + P(B) - P(A ∩ B) = 0.7 + 0.3 - 0.1 = 0.9.
+(b) P(Aᶜ) = 1 - P(A) = 1 - 0.7 = 0.3.
+(c) P(Bᶜ) = 1 - P(B) = 1 - 0.3 = 0.7.
+(d) P(Aᶜ ∩ Bᶜ) = P((A ∪ B)ᶜ) = 1 - P(A ∪ B) = 1 - 0.9 = 0.1.
 
 ----------------------------------------------------
-Q12. Prove: For any U,V, P(V−U)=P(V)−P(U ∩ V).
-
-Step 1: Break V into disjoint parts: (V−U) and (U ∩ V).  
-Step 2: V = (V−U) ∪ (U ∩ V).  
-Step 3: P(V) = P(V−U)+P(U ∩ V).  
-Step 4: Rearrange: P(V−U) = P(V)−P(U ∩ V).  
-Answer: Proven.
+Q11. Prove that if U ⊆ V, then P(U) ≤ P(V).
+- Proof: V can be written as the disjoint union V = U ∪ (V - U).
+- By Axiom 3, P(V) = P(U) + P(V - U).
+- By Axiom 1, P(V - U) ≥ 0.
+- Therefore, P(V) ≥ P(U).
 
 ----------------------------------------------------
-Q13. Prove by induction that for mutually disjoint events A₁, ..., Aₙ, P(A₁ ∪ ... ∪ Aₙ) = ∑ P(Aᵢ).
-    - Base Case (n=2): P(A₁ ∪ A₂) = P(A₁) + P(A₂) by Axiom 3. This is true.
-    - Inductive Hypothesis: Assume for n=k, P(A₁ ∪ ... ∪ Aₖ) = ∑ P(Aᵢ) for i=1 to k.
-    - Inductive Step (n=k+1): Let B = A₁ ∪ ... ∪ Aₖ. The events B and Aₖ₊₁ are disjoint.
-      - P(A₁ ∪ ... ∪ Aₖ₊₁) = P(B ∪ Aₖ₊₁) = P(B) + P(Aₖ₊₁).
-      - By the hypothesis, this is (P(A₁) + ... + P(Aₖ)) + P(Aₖ₊₁).
-    - The formula holds for all n ≥ 2.
+Q13. Prove by induction that for mutually disjoint events A₁...Aₙ, P(∪Aᵢ) = ∑P(Aᵢ).
+- Base Case (n=2): P(A₁ ∪ A₂) = P(A₁) + P(A₂) by Axiom 3.
+- Inductive Hypothesis: Assume for n=k, P(∪Aᵢ for i=1 to k) = ∑P(Aᵢ for i=1 to k).
+- Inductive Step (n=k+1): Let B = A₁ ∪ ... ∪ Aₖ. B and Aₖ₊₁ are disjoint.
+  - P(A₁ ∪ ... ∪ Aₖ₊₁) = P(B ∪ Aₖ₊₁) = P(B) + P(Aₖ₊₁).
+  - By hypothesis, this is (P(A₁) + ... + P(Aₖ)) + P(Aₖ₊₁).
+- The formula holds for all n ≥ 2.
 
 ----------------------------------------------------
-Q14. Lottery Problem: 1.5M tickets, $2 cost. Prizes: 1x$2M, 10k x $20, 50k x $4.
-    - Net Gains: $1,999,998 (win), $18 (win), $2 (win), -$2 (loss).
-    - Probabilities: 1/1.5M, 10k/1.5M, 50k/1.5M, 1,439,999/1.5M.
-    - E = ($1,999,998 * 1 + $18 * 10,000 + $2 * 50,000 - $2 * 1,439,999) / 1,500,000
-    - E = (1,999,998 + 180,000 + 100,000 - 2,879,998) / 1,500,000
-    - E = -600,000 / 1,500,000 = -$0.40.
-    - Expected loss is $0.40.
+Q14. Lottery: 1.5M tickets at $2. Prizes: 1x$2M, 10k x $20, 50k x $4.
+- Net Gains: $1,999,998; $18; $2; -$2.
+- E = (1,999,998*1 + 18*10,000 + 2*50,000 - 2*1,439,999) / 1,500,000
+- E = (1,999,998 + 180,000 + 100,000 - 2,879,998) / 1,500,000
+- E = -600,000 / 1,500,000 = -$0.40.
 
 ----------------------------------------------------
-Q15. Sweepstakes Problem: 30M entries, $0.60 cost. Prizes: 1x$10M, 1x$1M, 1x$50k.
-    - E = ($9,999,999.40 * 1 + $999,999.40 * 1 + $49,999.40 * 1 - $0.60 * 29,999,997) / 30,000,000
-    - E = (11,049,998.2 - 17,999,998.2) / 30,000,000
-    - E = -6,950,000 / 30,000,000 ≈ -$0.23.
-    - Expected loss is approximately $0.23.
+Q15. Sweepstakes: 30M entries at $0.60. Prizes: 1x$10M, 1x$1M, 1x$50k.
+- E = (9,999,999.4*1 + 999,999.4*1 + 49,999.4*1 - 0.6*29,999,997) / 30,000,000
+- E = (11,049,998.2 - 17,999,998.2) / 30,000,000
+- E = -6,950,000 / 30,000,000 ≈ -$0.23.
 
 ----------------------------------------------------
-Q16. Urn with {2, 2, 5, 6}. Pick 2. Expected sum?
-    - Combinations C(4,2) = 6. They are {2,2}, {2,5}, {2,5}, {2,6}, {2,6}, {5,6}. Wait, the balls are {2a, 2b, 5, 6}.
-    - Pairs: {2a, 2b} sum=4; {2a, 5} sum=7; {2a, 6} sum=8; {2b, 5} sum=7; {2b, 6} sum=8; {5, 6} sum=11.
-    - E = (4 + 7 + 8 + 7 + 8 + 11) / 6 = 45 / 6 = 7.5.
+Q16. Urn {2,2,5,6}. Pick 2. Expected sum?
+- Pairs: {2,2}, {2,5}, {2,6}, {2,5}, {2,6}, {5,6}. C(4,2)=6 pairs.
+- Sums: 4, 7, 8, 7, 8, 11.
+- E = (4 + 7 + 8 + 7 + 8 + 11) / 6 = 45 / 6 = 7.5.
 
 ----------------------------------------------------
-Q17. Urn with {1, 2, 2, 8, 8}. Pick 2. Expected sum?
-    - Combinations C(5,2) = 10.
-    - Sums: 1+2=3 (2 times), 1+8=9 (2 times), 2+2=4 (1 time), 2+8=10 (4 times), 8+8=16 (1 time).
-    - E = (3*2 + 9*2 + 4*1 + 10*4 + 16*1) / 10 = (6 + 18 + 4 + 40 + 16) / 10 = 84 / 10 = 8.4.
+Q17. Urn {1,2,2,8,8}. Pick 2. Expected sum?
+- C(5,2)=10 pairs. Sums: 1+2 (2t), 1+8 (2t), 2+2 (1t), 2+8 (4t), 8+8 (1t).
+- E = (3*2 + 9*2 + 4*1 + 10*4 + 16*1) / 10 = (6+18+4+40+16)/10 = 8.4.
 
 ----------------------------------------------------
-Q18. Urn with {1, 2, 2, 8, 8}. Pick 3. Expected sum?
-    - Combinations C(5,3) = 10.
-    - Sums: 1+2+2=5 (1 time), 1+2+8=11 (4 times), 1+8+8=17 (1 time), 2+2+8=12 (2 times), 2+8+8=18 (2 times).
-    - E = (5*1 + 11*4 + 17*1 + 12*2 + 18*2) / 10 = (5 + 44 + 17 + 24 + 36) / 10 = 126 / 10 = 12.6.
+Q18. Urn {1,2,2,8,8}. Pick 3. Expected sum?
+- C(5,3)=10 triplets. Sums: 1+2+2 (1t), 1+2+8 (4t), 1+8+8 (1t), 2+2+8 (2t), 2+8+8 (2t).
+- E = (5*1 + 11*4 + 17*1 + 12*2 + 18*2) / 10 = (5+44+17+24+36)/10 = 12.6.
 
 ----------------------------------------------------
-Q19. Expected value of the sum of two dice.
-    - E(one die) = (1+2+3+4+5+6)/6 = 3.5.
-    - By linearity of expectation, E(sum) = E(die1) + E(die2) = 3.5 + 3.5 = 7.
+Q19. Expected value of sum of two dice.
+- E(one die) = (1+2+3+4+5+6)/6 = 3.5.
+- E(sum) = E(die1) + E(die2) = 3.5 + 3.5 = 7.
 
 ----------------------------------------------------
-Q20. Card game: Win $3 on face card (J,Q,K), lose $1 otherwise.
-    - There are 12 face cards and 40 non-face cards.
-    - P(Win) = 12/52, P(Loss) = 40/52.
-    - E = ($3 * 12/52) + (-$1 * 40/52) = (36 - 40) / 52 = -4/52 = -1/13 ≈ -$0.08.
-    - Expected loss is about 8 cents.
+Q20. Card game: Win $3 on face card, lose $1 otherwise.
+- P(Win) = 12/52, P(Loss) = 40/52.
+- E = ($3 * 12/52) + (-$1 * 40/52) = (36 - 40)/52 = -4/52 ≈ -$0.08.
 
 ----------------------------------------------------
 Q21. Coin game: Pay $1. Toss 4 times.
-    - 0H (P=1/16): Net = -$1 - $2 = -$3.
-    - 1H (P=4/16): Net = -$1 - $1 = -$2.
-    - 2H (P=6/16): Net = -$1.
-    - 3H (P=4/16): Net = +$3 - $1 = +$2.
-    - 4H (P=1/16): Net = +$4 - $1 = +$3.
-    - E = (-3*1 - 2*4 - 1*6 + 2*4 + 3*1) / 16 = (-3 - 8 - 6 + 8 + 3) / 16 = -6/16 = -$0.375.
-    - Expected loss is $0.375.
+- 0H (P=1/16): Get $2. Net gain: $2 - $1 = +$1.
+- 1H (P=4/16): Get $1. Net gain: $1 - $1 = $0.
+- 2H (P=6/16): Break even. Net gain: $0.
+- 3H (P=4/16): Win $3. Net gain: $3 - $1 = +$2.
+- 4H (P=1/16): Win $4. Net gain: $4 - $1 = +$3.
+- E = (1*1 + 0*4 + 0*6 + 2*4 + 3*1) / 16
+- E = (1 + 0 + 0 + 8 + 3) / 16 = 12/16 = 3/4 = +$0.75.
+- Expected gain is $0.75.
 
-====================================================
-END OF SOLUTIONS (Q1–Q21)
+=================================
+END OF SOLUTIONS
