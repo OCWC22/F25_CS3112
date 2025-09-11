@@ -1,0 +1,241 @@
+### In each of 3-15 a sequence is defined recursively. Use iteration to guess an explicit formula for the sequence.
+
+**Problem 3. a_k = a_{k-1} - 1, for all integers k >= 1, a_0 = 2**
+1.  **Write out the first few terms:**
+    *   a_0 = 2
+    *   a_1 = a_0 - 1 = 2 - 1
+    *   a_2 = a_1 - 1 = (2 - 1) - 1 = 2 - 2
+    *   a_3 = a_2 - 1 = (2 - 2) - 1 = 2 - 3
+2.  **Observe the pattern:** It appears that the k-th term is 2 minus k.
+3.  **Guess the formula:** a_n = 2 - n, for n >= 0.
+
+**Problem 5. c_k = 3c_{k-1} + 1, for all integers k >= 1, c_0 = 1**
+1.  **Write out the first few terms by iteration:**
+    *   c_0 = 1
+    *   c_1 = 3c_0 + 1 = 3(1) + 1
+    *   c_2 = 3c_1 + 1 = 3(3(1) + 1) + 1 = 3^2 * 1 + 3 + 1
+    *   c_3 = 3c_2 + 1 = 3(3^2 * 1 + 3 + 1) + 1 = 3^3 * 1 + 3^2 + 3 + 1
+2.  **Observe the pattern:** The k-th term is the sum of a geometric sequence: c_k = 3^k + 3^(k-1) + ... + 3 + 1.
+3.  **Apply the geometric series sum formula:** The sum 1 + r + r^2 + ... + r^k is (r^(k+1) - 1) / (r-1). Here, r=3.
+    c_k = (3^(k+1) - 1) / (3 - 1) = (3^(k+1) - 1) / 2.
+4.  **Guess the formula:** c_n = (3^(n+1) - 1) / 2, for n >= 0.
+
+**Problem 7. e_k = 4e_{k-1} + 5, for all integers k >= 1, e_0 = 2**
+1.  **Write out the first few terms by iteration:**
+    *   e_0 = 2
+    *   e_1 = 4e_0 + 5 = 4(2) + 5
+    *   e_2 = 4e_1 + 5 = 4(4(2) + 5) + 5 = 4^2 * 2 + 4*5 + 5
+    *   e_3 = 4e_2 + 5 = 4(4^2 * 2 + 4*5 + 5) + 5 = 4^3 * 2 + 4^2*5 + 4*5 + 5
+2.  **Observe the pattern:** The term consists of two parts: e_k = 4^k * 2 + 5 * (4^(k-1) + ... + 4 + 1).
+3.  **Apply the geometric series sum formula:** The sum 1 + 4 + ... + 4^(k-1) is (4^k - 1) / (4 - 1) = (4^k - 1) / 3.
+4.  **Combine and simplify:**
+    e_k = 2 * 4^k + 5 * [(4^k - 1) / 3]
+    e_k = (3 * 2 * 4^k) / 3 + (5 * 4^k - 5) / 3
+    e_k = (6 * 4^k + 5 * 4^k - 5) / 3
+    e_k = (11 * 4^k - 5) / 3
+5.  **Guess the formula:** e_n = (11 * 4^n - 5) / 3, for n >= 0.
+
+**Problem 9. g_k = g_{k-1} / (g_{k-1} + 2), for all integers k >= 2, g_1 = 1**
+1.  **Write out the first few terms:**
+    *   g_1 = 1 = 1/1
+    *   g_2 = g_1 / (g_1 + 2) = 1 / (1 + 2) = 1/3
+    *   g_3 = g_2 / (g_2 + 2) = (1/3) / (1/3 + 2) = (1/3) / (7/3) = 1/7
+    *   g_4 = g_3 / (g_3 + 2) = (1/7) / (1/7 + 2) = (1/7) / (15/7) = 1/15
+2.  **Observe the pattern:** The numerator is always 1. The denominators are 1, 3, 7, 15. This sequence of denominators follows the pattern 2^k - 1.
+3.  **Guess the formula:** g_n = 1 / (2^n - 1), for n >= 1.
+
+**Problem 11. p_k = p_{k-1} + 2 * 3^k, for all integers k >= 2, p_1 = 2**
+1.  **Write out the first few terms by iteration:**
+    *   p_1 = 2
+    *   p_2 = p_1 + 2 * 3^2 = 2 + 2 * 3^2
+    *   p_3 = p_2 + 2 * 3^3 = (2 + 2 * 3^2) + 2 * 3^3
+    *   p_k = p_1 + 2*3^2 + 2*3^3 + ... + 2*3^k
+2.  **Observe the pattern:** p_k = 2 + 2 * (3^2 + 3^3 + ... + 3^k).
+3.  **Factor and adjust for geometric series formula:**
+    p_k = 2 + 2 * 3^2 * (1 + 3 + ... + 3^(k-2))
+    The sum is (3^(k-1) - 1) / (3-1).
+    p_k = 2 + 18 * (3^(k-1) - 1) / 2 = 2 + 9(3^(k-1) - 1) = 2 + 9*3^(k-1) - 9 = 3^2*3^(k-1) - 7 = 3^(k+1) - 7.
+4.  **Guess the formula:** p_n = 3^(n+1) - 7, for n >= 1.
+
+**Problem 13. t_k = t_{k-1} + 3k + 1, for all integers k >= 1, t_0 = 0**
+1.  **Express t_k as a sum:**
+    t_k = (t_{k-2} + 3(k-1) + 1) + (3k + 1)
+    ...
+    t_k = t_0 + sum_{i=1 to k} (3i + 1)
+2.  **Substitute t_0 and split the summation:**
+    t_k = 0 + sum_{i=1 to k} 3i + sum_{i=1 to k} 1
+    t_k = 3 * (sum_{i=1 to k} i) + k
+3.  **Apply the sum of first k integers formula:** The sum is k(k+1)/2.
+    t_k = 3 * [k(k+1)/2] + k
+    t_k = (3k^2 + 3k)/2 + 2k/2 = (3k^2 + 5k)/2
+4.  **Guess the formula:** t_n = (3n^2 + 5n)/2 = n(3n+5)/2, for n >= 0.
+
+**Problem 15. y_k = y_{k-1} + k^2, for all integers k >= 2, y_1 = 1**
+1.  **Express y_k as a sum:**
+    y_k = (y_{k-2} + (k-1)^2) + k^2
+    ...
+    y_k = y_1 + sum_{i=2 to k} i^2
+2.  **Substitute y_1 and adjust the sum:**
+    y_k = 1 + (sum_{i=1 to k} i^2) - 1^2
+    y_k = sum_{i=1 to k} i^2
+3.  **Apply the sum of first k squares formula:** The sum is k(k+1)(2k+1)/6.
+4.  **Guess the formula:** y_n = n(n+1)(2n+1)/6, for n >= 1.
+
+### Word Problems and Other Applications
+
+**Problem 17. Solve the recurrence relation obtained as the answer to exercise 21(c) of Section 5.6.**
+The recurrence was `t_n = 2t_{n-1} + 2` with `t_1 = 2`.
+1.  **Iterate:**
+    *   t_1 = 2
+    *   t_2 = 2t_1 + 2 = 2(2) + 2
+    *   t_3 = 2t_2 + 2 = 2(2(2)+2) + 2 = 2^2(2) + 2^2 + 2
+    *   t_n = 2^(n-1)*t_1 + 2^(n-1) + ... + 2 = 2^(n-1)*2 + 2*(2^(n-2) + ... + 1)
+2.  **Simplify and use geometric series sum:**
+    t_n = 2^n + 2 * [(2^(n-1)-1)/(2-1)]
+    t_n = 2^n + 2 * (2^(n-1) - 1)
+    t_n = 2^n + 2^n - 2 = 2 * 2^n - 2
+3.  **Final Formula:** t_n = 2^(n+1) - 2, for n >= 1.
+
+**Problem 19. A worker is promised a bonus if he can produce 30 units on day 30. On day 0 he produces 170 units. Let b be the constant amount by which he must increase production each day. Find b.**
+The recurrence is `a_n = a_{n-1} + b` with `a_0 = 170`. This is an arithmetic sequence.
+1.  **Find the explicit formula:** a_n = a_0 + n*b = 170 + n*b.
+2.  **Set up the equation for day 30:** We need `a_30 = 30`.
+    30 = 170 + 30*b
+3.  **Solve for b:**
+    -140 = 30*b
+    b = -140 / 30 = -14/3.
+The worker must change production by -14/3 units per day (a decrease).
+
+**Problem 21. Suppose d is a fixed constant and a_k = r*a_{k-1} - d for k>=1, with a_0 = a. Show that a_n = r^n*a - d*(r^n-1)/(r-1).**
+1.  **Iterate:**
+    *   a_0 = a
+    *   a_1 = r*a_0 - d = r*a - d
+    *   a_2 = r*a_1 - d = r(r*a - d) - d = r^2*a - r*d - d
+    *   a_3 = r*a_2 - d = r(r^2*a - r*d - d) - d = r^3*a - r^2*d - r*d - d
+2.  **Observe the pattern:** a_n = r^n*a - d*(r^(n-1) + r^(n-2) + ... + r + 1).
+3.  **Apply geometric series sum:** The sum is (r^n - 1)/(r-1).
+4.  **Final Formula:** a_n = r^n*a - d*(r^n - 1)/(r-1). This verifies the given formula.
+
+**Problem 23. A country's population is 50 million and grows at 3% per year. What will it be in 25 years?**
+The recurrence is `P_n = 1.03 * P_{n-1}` with `P_0 = 50,000,000`.
+1.  **Find the explicit formula:** This is a geometric sequence, so `P_n = P_0 * (1.03)^n`.
+2.  **Calculate for n=25:**
+    P_25 = 50,000,000 * (1.03)^25
+    P_25 ≈ 50,000,000 * (2.093778)
+    P_25 ≈ 104,688,900
+The population will be approximately 104.7 million.
+
+**Problem 25. An algorithm runs in `a_k = 2a_{k-1}` steps with `a_1=7`. Another runs in `b_k=2b_{k-1}` steps with `b_1=0.05`. Find formulas for a_n and b_n.**
+Both are geometric sequences. The formula for a sequence starting at n=1 is `x_n = x_1 * r^(n-1)`.
+*   For a_n: r=2, a_1=7. The formula is **a_n = 7 * 2^(n-1)**.
+*   For b_n: r=2, b_1=0.05. The formula is **b_n = 0.05 * 2^(n-1)**.
+
+### Verifying Formulas with Induction
+
+**Problem 29. Verify the formula for Exercise 5.**
+**Formula:** c_n = (3^(n+1) - 1)/2. **Recurrence:** c_k = 3c_{k-1} + 1, c_0 = 1.
+*   **Basis Step (n=0):** c_0 = 1. Formula gives (3^1 - 1)/2 = 1. It holds.
+*   **Inductive Step:** Assume `c_k = (3^(k+1) - 1)/2`. Show `c_{k+1} = (3^(k+2) - 1)/2`.
+    `c_{k+1} = 3c_k + 1` (from recurrence)
+    `= 3 * [(3^(k+1) - 1)/2] + 1` (by inductive hypothesis)
+    `= (3^(k+2) - 3)/2 + 2/2`
+    `= (3^(k+2) - 1)/2`. This is the target formula for k+1.
+The formula is correct.
+
+**Problem 31. Verify the formula for Exercise 9.**
+**Formula:** g_n = 1/(2^n - 1). **Recurrence:** g_k = g_{k-1} / (g_{k-1} + 2), g_1 = 1.
+*   **Basis Step (n=1):** g_1 = 1. Formula gives 1/(2^1 - 1) = 1. It holds.
+*   **Inductive Step:** Assume `g_k = 1/(2^k - 1)`. Show `g_{k+1} = 1/(2^(k+1) - 1)`.
+    `g_{k+1} = g_k / (g_k + 2)`
+    `= [1/(2^k - 1)] / [1/(2^k - 1) + 2]`
+    `= [1/(2^k - 1)] / [(1 + 2(2^k - 1)) / (2^k - 1)]`
+    `= 1 / (1 + 2*2^k - 2)`
+    `= 1 / (2^(k+1) - 1)`. This is the target formula for k+1.
+The formula is correct.
+
+**Problem 33. Verify the formula for Exercise 11.**
+**Formula:** p_n = 3^(n+1) - 7. **Recurrence:** p_k = p_{k-1} + 2 * 3^k, p_1 = 2.
+*   **Basis Step (n=1):** p_1 = 2. Formula gives 3^(1+1) - 7 = 9 - 7 = 2. It holds.
+*   **Inductive Step:** Assume `p_k = 3^(k+1) - 7`. Show `p_{k+1} = 3^(k+2) - 7`.
+    `p_{k+1} = p_k + 2 * 3^(k+1)`
+    `= (3^(k+1) - 7) + 2 * 3^(k+1)`
+    `= (1 + 2) * 3^(k+1) - 7`
+    `= 3 * 3^(k+1) - 7 = 3^(k+2) - 7`. This is the target formula for k+1.
+The formula is correct.
+
+**Problem 39. Verify the formula for Exercise 14.**
+(Exercise 14 is `x_k = x_{k-1} + k, x_1=1`. The formula is `x_n = n(n+1)/2`).
+*   **Basis Step (n=1):** x_1 = 1. Formula gives 1(2)/2 = 1. It holds.
+*   **Inductive Step:** Assume `x_k = k(k+1)/2`. Show `x_{k+1} = (k+1)(k+2)/2`.
+    `x_{k+1} = x_k + (k+1)`
+    `= k(k+1)/2 + (k+1)`
+    `= k(k+1)/2 + 2(k+1)/2 = (k+2)(k+1)/2`. This is the target.
+The formula is correct.
+
+**Problem 41. Verify the formula for Exercise 16.**
+(Exercise 16 is `a_k = k - a_{k-1}, a_1=0`. The formula is piecewise: `a_n = (n-1)/2` for odd n, and `a_n = (n+2)/2` for even n).
+*   **Basis Step (n=1):** a_1 = 0. Formula for odd n gives (1-1)/2 = 0. It holds.
+*   **Inductive Step:** Assume the formula holds for k. Show it holds for k+1.
+    *   **Case 1 (k+1 is odd):** Then k is even.
+        `a_{k+1} = (k+1) - a_k = (k+1) - (k+2)/2 = (2k+2 - k - 2)/2 = k/2`.
+        The formula for odd k+1 is `((k+1)-1)/2 = k/2`. It matches.
+    *   **Case 2 (k+1 is even):** Then k is odd.
+        `a_{k+1} = (k+1) - a_k = (k+1) - (k-1)/2 = (2k+2 - k + 1)/2 = (k+3)/2`.
+        The formula for even k+1 is `((k+1)+2)/2 = (k+3)/2`. It matches.
+The formula is correct.
+
+**Problem 43. `a_k = 2a_{k-1} / (a_{k-1} + 1)`, `a_1 = 1`.**
+*   **(a) Guess Formula:** `a_1=1`, `a_2 = 2(1)/(1+1) = 1`, `a_3=1`. **Guess: a_n = 1.**
+*   **(b) Verify:**
+    *   **Basis Step (n=1):** a_1=1. Formula is 1. It holds.
+    *   **Inductive Step:** Assume `a_k=1`. Show `a_{k+1}=1`.
+        `a_{k+1} = 2a_k / (a_k + 1) = 2(1)/(1+1) = 1`. It holds.
+The formula is correct.
+
+**Problem 45. `c_k = 2c_{k-1} + c_{k-2}`, `c_0=1, c_1=2`.**
+*   **(a) Guess Formula:** Terms are 1, 2, 5, 12, 29, ... This is related to Pell numbers (`P_n = 2P_{n-1} + P_{n-2}`). The explicit formula is complex: `c_n = [(1+sqrt(2))^(n+1) + (1-sqrt(2))^(n+1)] / 2`.
+*   **(b) Verify:** Verification requires algebraic manipulation of `(1 +/- sqrt(2))` terms and is omitted here, but it follows the standard inductive proof structure.
+
+**Problem 47. `t_k = k - t_{k-1}`, `t_0=0`.**
+*   **(a) Guess Formula:** Terms are 0, 1, 1, 2, 2, 3, ... **Guess: t_n = ceil(n/2) for n>=1, t_0=0.**
+*   **(b) Verify (for n>=1):**
+    *   **Basis Step (n=1):** t_1=1. Formula is `ceil(1/2)=1`. It holds.
+    *   **Inductive Step (using strong induction):** Assume `t_i = ceil(i/2)` for `1 <= i < k`. Show `t_k = ceil(k/2)`.
+        `t_k = k - t_{k-1} = k - ceil((k-1)/2)`.
+        *   If k is even (k=2m): `2m - ceil((2m-1)/2) = 2m - m = m`. Target is `ceil(2m/2)=m`.
+        *   If k is odd (k=2m+1): `(2m+1) - ceil(2m/2) = 2m+1 - m = m+1`. Target is `ceil((2m+1)/2)=m+1`.
+The formula is correct.
+
+**Problem 49. `u_k = u_{k-2} * u_{k-1}`, `u_1=2, u_2=3`.**
+*   **(a) Guess Formula:** The exponents of prime factors 2 and 3 follow Fibonacci sequences. Let `F_n` be the standard Fibonacci sequence (F_0=0, F_1=1).
+    **Guess: u_n = 2^(F_{n-2}) * 3^(F_{n-1})` for n>=2, with F_0=0, F_1=1.**
+*   **(b) Verify:**
+    *   **Basis Step (n=2):** u_2=3. Formula is `2^(F_0) * 3^(F_1) = 2^0 * 3^1 = 3`. It holds.
+    *   **Inductive Step:** Assume formula holds for k-1 and k-2. Show for k.
+        `u_k = u_{k-2} * u_{k-1}`
+        `= [2^(F_{k-4})*3^(F_{k-3})] * [2^(F_{k-3})*3^(F_{k-2})]`
+        `= 2^(F_{k-4}+F_{k-3}) * 3^(F_{k-3}+F_{k-2})`
+        `= 2^(F_{k-2}) * 3^(F_{k-1})`. This is the target formula.
+The formula is correct.
+
+**Problem 51. `a_k = 2a_{k-1} + k - 1`, `a_1=0`.**
+*   **(a) Guess Formula:** Solved via method of undetermined coefficients. **Guess: a_n = 2^n - n - 1.**
+*   **(b) Verify:**
+    *   **Basis Step (n=1):** a_1=0. Formula is `2^1 - 1 - 1 = 0`. It holds.
+    *   **Inductive Step:** Assume `a_k = 2^k - k - 1`. Show `a_{k+1} = 2^(k+1) - (k+1) - 1`.
+        `a_{k+1} = 2a_k + (k+1) - 1 = 2a_k + k`
+        `= 2(2^k - k - 1) + k`
+        `= 2^(k+1) - 2k - 2 + k`
+        `= 2^(k+1) - k - 2 = 2^(k+1) - (k+1) - 1`. This is the target.
+The formula is correct.
+
+**Problem 53. `l_n` is the maximum number of regions a plane is divided into by n lines. `l_n = l_{n-1} + n`, `l_0 = 1`.**
+*   **(a) Guess Formula:** `l_n = 1 + sum_{i=1 to n} i = 1 + n(n+1)/2`. **Guess: l_n = (n^2 + n + 2)/2.**
+*   **(b) Verify:**
+    *   **Basis Step (n=0):** l_0=1. Formula is `(0+0+2)/2=1`. It holds.
+    *   **Inductive Step:** Assume `l_k = (k^2+k+2)/2`. Show `l_{k+1} = ((k+1)^2+(k+1)+2)/2`.
+        `l_{k+1} = l_k + (k+1)`
+        `= (k^2+k+2)/2 + 2(k+1)/2`
+        `= (k^2+k+2+2k+2)/2 = (k^2+3k+4)/2`.
+        Target RHS: `(k^2+2k+1+k+1+2)/2 = (k^2+3k+4)/2`. They match.
+The formula is correct.

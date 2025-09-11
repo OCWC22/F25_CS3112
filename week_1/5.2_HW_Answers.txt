@@ -1,0 +1,414 @@
+### Problem 1
+**Use mathematical induction to show that any amount of money of at least 14¢ can be made up using 3¢ and 8¢ coins.**
+
+Let P(n) be the statement "n cents can be made using 3¢ and 8¢ coins." We want to prove P(n) is true for all integers n >= 14.
+
+**Basis Step (n=14):**
+We must show that P(14) is true.
+14¢ can be made with two 3¢ coins and one 8¢ coin: 2 * 3 + 1 * 8 = 6 + 8 = 14.
+Thus, the basis step is true.
+
+**Inductive Step:**
+1.  **Inductive Hypothesis:** Suppose that for some integer k >= 14, P(k) is true. That is, k cents can be made using 3¢ and 8¢ coins.
+
+2.  **Goal:** We must show that P(k+1) is true. That is, k+1 cents can be made using 3¢ and 8¢ coins.
+
+3.  **Proof:**
+    Starting with the k cents from the inductive hypothesis, we consider two cases for how the k cents are formed:
+
+    *   **Case 1: The combination for k cents includes at least one 8¢ coin.**
+        To make k+1 cents, we can replace one 8¢ coin with three 3¢ coins. This changes the total value by: -8 + 3*(3) = -8 + 9 = +1 cent.
+        So, if k cents can be made with at least one 8¢ coin, k+1 cents can also be made.
+
+    *   **Case 2: The combination for k cents uses no 8¢ coins.**
+        In this case, the k cents must be made up entirely of 3¢ coins. So, k = 3m for some integer m.
+        Since we know k >= 14, it must be that 3m >= 14, which means m >= 14/3, so m must be at least 5.
+        This means there are at least five 3¢ coins in the combination for k.
+        To make k+1 cents, we can replace five 3¢ coins (15¢) with two 8¢ coins (16¢). This changes the total value by: -5*(3) + 2*(8) = -15 + 16 = +1 cent.
+        So, if k cents can be made with only 3¢ coins, k+1 cents can also be made.
+
+Since both possible cases lead to the conclusion that k+1 cents can be formed, the inductive step is true.
+
+**Conclusion:**
+Because the basis step and the inductive step have been proved, by the principle of mathematical induction, the statement is true for all integers n >= 14.
+
+### Problem 3
+**For the formula 1² + 2² + ... + n² = n(n+1)(2n+1)/6, for all integers n >= 1:**
+
+a. **Write P(1):**
+   1² = 1(1+1)(2*1+1)/6
+
+b. **Write P(k):**
+   1² + 2² + ... + k² = k(k+1)(2k+1)/6
+
+c. **Write P(k+1):**
+   1² + 2² + ... + (k+1)² = (k+1)((k+1)+1)(2(k+1)+1)/6
+   Simplifying the right side: 1² + 2² + ... + (k+1)² = (k+1)(k+2)(2k+3)/6
+
+d. **In a proof by mathematical induction that the formula holds for all integers n >= 1, what must be shown in the inductive step?**
+   You must show that for any integer k >= 1, IF P(k) is true, THEN P(k+1) is true. That is, you must prove that if 1² + 2² + ... + k² = k(k+1)(2k+1)/6, then it follows that 1² + 2² + ... + (k+1)² = (k+1)(k+2)(2k+3)/6.
+
+### Problem 5
+**Fill in the missing pieces in the following proof that 1 + 3 + 5 + ... + (2n-1) = n² for all integers n >= 1.**
+
+**Proof:**
+Let the property P(n) be the equation 1 + 3 + 5 + ... + (2n-1) = n².
+
+**Show that P(1) is true:**
+To establish P(1), we must show that when 1 is substituted in place of n, the left-hand side equals the right-hand side. The left-hand side is 1. The right-hand side is **(a) 1²**, which also equals 1. So P(1) is true.
+
+**Show that for all integers k >= 1, if P(k) is true then P(k+1) is true:**
+[Suppose P(k) is true for an integer k >= 1. That is:]
+Suppose 1 + 3 + 5 + ... + (2k-1) = **(b) k²**. (This is the inductive hypothesis.)
+
+[We must show that P(k+1) is true. That is:]
+We must show that **(c) 1 + 3 + 5 + ... + (2(k+1)-1) = (k+1)²** or, equivalently, 1 + 3 + 5 + ... + (2k+1) = **(d) (k+1)²**.
+
+The left-hand side of P(k+1) is 1 + 3 + 5 + ... + (2k+1).
+= 1 + 3 + 5 + ... + **(e) (2k-1)** + (2k+1)
+= (1 + 3 + 5 + ... + (2k-1)) + (2k+1)
+= k² + (2k+1) by **(f) the inductive hypothesis**
+= **(g) k² + 2k + 1**
+= **(h) (k+1)²**
+which is the right-hand side of P(k+1). [Thus P(k+1) is true.]
+
+### Problem 7
+**Prove that 1 + 6 + 11 + 16 + ... + (5n - 4) = n(5n - 3)/2 for all integers n >= 1.**
+
+Let P(n) be the statement 1 + 6 + 11 + ... + (5n - 4) = n(5n - 3)/2.
+
+**Basis Step (n=1):**
+LHS = 1
+RHS = 1(5*1 - 3)/2 = 1(2)/2 = 1
+Since LHS = RHS, P(1) is true.
+
+**Inductive Step:**
+1.  **Inductive Hypothesis:** Suppose P(k) is true for some integer k >= 1.
+    That is, 1 + 6 + 11 + ... + (5k - 4) = k(5k - 3)/2.
+
+2.  **Goal:** We must show P(k+1) is true.
+    That is, 1 + 6 + ... + (5(k+1) - 4) = (k+1)(5(k+1) - 3)/2.
+    The RHS simplifies to (k+1)(5k + 2)/2.
+
+3.  **Proof:**
+    LHS of P(k+1) = [1 + 6 + ... + (5k - 4)] + (5(k+1) - 4)
+    By the inductive hypothesis, we substitute for the bracketed part:
+    = [k(5k - 3)/2] + (5k + 5 - 4)
+    = [k(5k - 3)/2] + (5k + 1)
+    Find a common denominator:
+    = (5k² - 3k)/2 + (2(5k + 1))/2
+    = (5k² - 3k + 10k + 2)/2
+    = (5k² + 7k + 2)/2
+    Factor the numerator:
+    = (k+1)(5k+2)/2
+    This is the simplified RHS of P(k+1).
+
+**Conclusion:**
+Because the basis step and the inductive step have been proved, by the principle of mathematical induction, the statement is true for all integers n >= 1.
+
+### Problem 9
+**Prove that 4³ + 4⁴ + 4⁵ + ... + 4ⁿ = 4(4ⁿ - 16)/3 for all integers n >= 3.**
+
+Let P(n) be the statement 4³ + 4⁴ + ... + 4ⁿ = 4(4ⁿ - 16)/3.
+
+**Basis Step (n=3):**
+LHS = 4³ = 64
+RHS = 4(4³ - 16)/3 = 4(64 - 16)/3 = 4(48)/3 = 4 * 16 = 64
+Since LHS = RHS, P(3) is true.
+
+**Inductive Step:**
+1.  **Inductive Hypothesis:** Suppose P(k) is true for some integer k >= 3.
+    That is, 4³ + 4⁴ + ... + 4ᵏ = 4(4ᵏ - 16)/3.
+
+2.  **Goal:** We must show P(k+1) is true.
+    That is, 4³ + 4⁴ + ... + 4ᵏ⁺¹ = 4(4ᵏ⁺¹ - 16)/3.
+
+3.  **Proof:**
+    LHS of P(k+1) = [4³ + 4⁴ + ... + 4ᵏ] + 4ᵏ⁺¹
+    By the inductive hypothesis:
+    = [4(4ᵏ - 16)/3] + 4ᵏ⁺¹
+    = (4 * 4ᵏ - 64)/3 + 4ᵏ⁺¹
+    = (4ᵏ⁺¹ - 64)/3 + (3 * 4ᵏ⁺¹)/3
+    = (4ᵏ⁺¹ - 64 + 3 * 4ᵏ⁺¹)/3
+    = (4 * 4ᵏ⁺¹ - 64)/3
+    = (4 * (4ᵏ⁺¹ - 16))/3
+    = 4(4ᵏ⁺¹ - 16)/3
+    This is the RHS of P(k+1).
+
+**Conclusion:**
+Because the basis step and the inductive step have been proved, by the principle of mathematical induction, the statement is true for all integers n >= 3.
+
+### Problem 11
+**Prove that 1³ + 2³ + ... + n³ = [n(n+1)/2]² for all integers n >= 1.**
+
+Let P(n) be the statement 1³ + 2³ + ... + n³ = [n(n+1)/2]².
+
+**Basis Step (n=1):**
+LHS = 1³ = 1
+RHS = [1(1+1)/2]² = [1(2)/2]² = 1² = 1
+Since LHS = RHS, P(1) is true.
+
+**Inductive Step:**
+1.  **Inductive Hypothesis:** Suppose P(k) is true for some integer k >= 1.
+    That is, 1³ + 2³ + ... + k³ = [k(k+1)/2]².
+
+2.  **Goal:** We must show P(k+1) is true.
+    That is, 1³ + 2³ + ... + (k+1)³ = [(k+1)(k+2)/2]².
+
+3.  **Proof:**
+    LHS of P(k+1) = [1³ + 2³ + ... + k³] + (k+1)³
+    By the inductive hypothesis:
+    = [k(k+1)/2]² + (k+1)³
+    = (k²(k+1)²)/4 + (k+1)³
+    Factor out (k+1)²:
+    = (k+1)² [k²/4 + (k+1)]
+    Find a common denominator inside the brackets:
+    = (k+1)² [(k² + 4(k+1))/4]
+    = (k+1)² [(k² + 4k + 4)/4]
+    Factor the numerator inside the brackets:
+    = (k+1)² [(k+2)²/4]
+    = [(k+1)(k+2)/2]²
+    This is the RHS of P(k+1).
+
+**Conclusion:**
+Because the basis step and the inductive step have been proved, by the principle of mathematical induction, the statement is true for all integers n >= 1.
+
+### Problem 13
+**Prove that ∑(from i=1 to n-1) i(i+1) = n(n-1)(n+1)/3 for all integers n >= 2.**
+
+Let P(n) be the statement ∑(from i=1 to n-1) i(i+1) = n(n-1)(n+1)/3.
+
+**Basis Step (n=2):**
+LHS = ∑(from i=1 to 1) i(i+1) = 1(1+1) = 2
+RHS = 2(2-1)(2+1)/3 = 2(1)(3)/3 = 2
+Since LHS = RHS, P(2) is true.
+
+**Inductive Step:**
+1.  **Inductive Hypothesis:** Suppose P(k) is true for some integer k >= 2.
+    That is, ∑(from i=1 to k-1) i(i+1) = k(k-1)(k+1)/3.
+
+2.  **Goal:** We must show P(k+1) is true.
+    That is, ∑(from i=1 to k) i(i+1) = (k+1)((k+1)-1)((k+1)+1)/3 = (k+1)k(k+2)/3.
+
+3.  **Proof:**
+    LHS of P(k+1) = ∑(from i=1 to k) i(i+1)
+    Separate the final term:
+    = [∑(from i=1 to k-1) i(i+1)] + k(k+1)
+    By the inductive hypothesis:
+    = [k(k-1)(k+1)/3] + k(k+1)
+    Factor out k(k+1):
+    = k(k+1) * [(k-1)/3 + 1]
+    Find a common denominator in the brackets:
+    = k(k+1) * [(k-1 + 3)/3]
+    = k(k+1) * [(k+2)/3]
+    = k(k+1)(k+2)/3
+    This is the RHS of P(k+1).
+
+**Conclusion:**
+Because the basis step and the inductive step have been proved, by the principle of mathematical induction, the statement is true for all integers n >= 2.
+
+### Problem 15
+**Prove that ∑(from i=1 to n) i(i!) = (n+1)! - 1 for all integers n >= 1.**
+
+Let P(n) be the statement ∑(from i=1 to n) i(i!) = (n+1)! - 1.
+
+**Basis Step (n=1):**
+LHS = ∑(from i=1 to 1) i(i!) = 1(1!) = 1
+RHS = (1+1)! - 1 = 2! - 1 = 2 - 1 = 1
+Since LHS = RHS, P(1) is true.
+
+**Inductive Step:**
+1.  **Inductive Hypothesis:** Suppose P(k) is true for some integer k >= 1.
+    That is, ∑(from i=1 to k) i(i!) = (k+1)! - 1.
+
+2.  **Goal:** We must show P(k+1) is true.
+    That is, ∑(from i=1 to k+1) i(i!) = ((k+1)+1)! - 1 = (k+2)! - 1.
+
+3.  **Proof:**
+    LHS of P(k+1) = ∑(from i=1 to k+1) i(i!)
+    Separate the final term:
+    = [∑(from i=1 to k) i(i!)] + (k+1)((k+1)!)
+    By the inductive hypothesis:
+    = [(k+1)! - 1] + (k+1)((k+1)!)
+    Group the factorial terms:
+    = (k+1)! + (k+1)((k+1)!) - 1
+    Factor out (k+1)!:
+    = (k+1)! * (1 + (k+1)) - 1
+    = (k+1)! * (k+2) - 1
+    By definition of factorial, (k+2)(k+1)! = (k+2)!:
+    = (k+2)! - 1
+    This is the RHS of P(k+1).
+
+**Conclusion:**
+Because the basis step and the inductive step have been proved, by the principle of mathematical induction, the statement is true for all integers n >= 1.
+
+### Problem 17
+**Prove that ∏(from i=0 to n) [1/((2i+1)(2i+2))] = 1/(2n+2)! for all integers n >= 0.**
+*(Note: The product term can be expanded to see the pattern: (1/(1*2)) * (1/(3*4)) * ... which is 1/2! * 1/(3*4) * ... = 1/4! * ... = 1/(2n+2)!)*
+
+Let P(n) be the statement ∏(from i=0 to n) [1/((2i+1)(2i+2))] = 1/(2n+2)!.
+
+**Basis Step (n=0):**
+LHS = ∏(from i=0 to 0) [1/((2i+1)(2i+2))] = 1/((1)(2)) = 1/2
+RHS = 1/(2*0+2)! = 1/2! = 1/2
+Since LHS = RHS, P(0) is true.
+
+**Inductive Step:**
+1.  **Inductive Hypothesis:** Suppose P(k) is true for some integer k >= 0.
+    That is, ∏(from i=0 to k) [1/((2i+1)(2i+2))] = 1/(2k+2)!.
+
+2.  **Goal:** We must show P(k+1) is true.
+    That is, ∏(from i=0 to k+1) [1/((2i+1)(2i+2))] = 1/(2(k+1)+2)! = 1/(2k+4)!.
+
+3.  **Proof:**
+    LHS of P(k+1) = ∏(from i=0 to k+1) [1/((2i+1)(2i+2))]
+    Separate the final term:
+    = [∏(from i=0 to k) [1/((2i+1)(2i+2))]] * [1/((2(k+1)+1)(2(k+1)+2))]
+    By the inductive hypothesis:
+    = [1/(2k+2)!] * [1/((2k+3)(2k+4))]
+    = 1 / [(2k+2)! * (2k+3) * (2k+4)]
+    By definition of factorial, (2k+4)(2k+3)(2k+2)! = (2k+4)!:
+    = 1/(2k+4)!
+    This is the RHS of P(k+1).
+
+**Conclusion:**
+Because the basis step and the inductive step have been proved, by the principle of mathematical induction, the statement is true for all integers n >= 0.
+
+### Problem 19
+**Prove that for any integer n >= 1, if x is a real number, then d/dx (xⁿ) = nxⁿ⁻¹.**
+
+Let P(n) be the statement d/dx (xⁿ) = nxⁿ⁻¹.
+
+**Basis Step (n=1):**
+LHS = d/dx (x¹) = 1
+RHS = 1 * x¹⁻¹ = 1 * x⁰ = 1
+Since LHS = RHS, P(1) is true.
+
+**Inductive Step:**
+1.  **Inductive Hypothesis:** Suppose P(k) is true for some integer k >= 1.
+    That is, d/dx (xᵏ) = kxᵏ⁻¹.
+
+2.  **Goal:** We must show P(k+1) is true.
+    That is, d/dx (xᵏ⁺¹) = (k+1)xᵏ.
+
+3.  **Proof:**
+    LHS of P(k+1) = d/dx (xᵏ⁺¹)
+    Rewrite xᵏ⁺¹ as a product:
+    = d/dx (x * xᵏ)
+    Using the product rule for derivatives, (fg)' = f'g + fg':
+    = (d/dx(x) * xᵏ) + (x * d/dx(xᵏ))
+    = (1 * xᵏ) + (x * (kxᵏ⁻¹))  (by the inductive hypothesis)
+    = xᵏ + kxᵏ
+    = (1+k)xᵏ
+    = (k+1)xᵏ
+    This is the RHS of P(k+1).
+
+**Conclusion:**
+Because the basis step and the inductive step have been proved, by the principle of mathematical induction, the statement is true for all integers n >= 1.
+
+---
+**Solutions for Problems 20-31**
+*(Instructions for this block are to evaluate the sums or write them in closed form, not to provide an induction proof.)*
+
+### Problem 21
+**4 + 8 + 12 + 16 + ... + 200**
+This is an arithmetic series. We can factor out 4:
+= 4 * (1 + 2 + 3 + ... + 50)
+Using the formula for the sum of the first n integers, ∑i = n(n+1)/2:
+= 4 * [50(50+1)/2]
+= 4 * [50 * 51 / 2]
+= 4 * [25 * 51]
+= 100 * 51 = 5100
+
+### Problem 23
+**7 + 8 + 9 + 10 + ... + 600**
+This can be written as the sum of the first 600 integers minus the sum of the first 6 integers:
+= (1 + 2 + ... + 600) - (1 + 2 + ... + 6)
+= [600(601)/2] - [6(7)/2]
+= [300 * 601] - [3 * 7]
+= 180300 - 21 = 180279
+
+### Problem 25
+**a. 1 + 2 + 2² + ... + 2²⁵**
+This is a geometric series with first term a=1, common ratio r=2, and n=26 terms (from power 0 to 25).
+Using the formula for the sum of a geometric series, S = a(rⁿ-1)/(r-1):
+= 1 * (2²⁶ - 1) / (2 - 1)
+= 2²⁶ - 1
+
+**b. 2 + 2² + 2³ + ... + 2²⁶**
+This is a geometric series with first term a=2, common ratio r=2, and n=26 terms.
+= 2 * (2²⁶ - 1) / (2 - 1)
+= 2(2²⁶ - 1) = 2²⁷ - 2
+
+### Problem 27
+**5³ + 5⁴ + ... + 5ᵏ, where k is any integer with k >= 3.**
+This is a geometric series. We can find the sum by taking the sum of the series from power 0 to k and subtracting the missing initial terms.
+Sum = (5⁰ + 5¹ + ... + 5ᵏ) - (5⁰ + 5¹ + 5²)
+The sum of a geometric series 1 + r + ... + rᵏ is (rᵏ⁺¹ - 1)/(r-1).
+= [(5ᵏ⁺¹ - 1)/(5-1)] - [(5³ - 1)/(5-1)]
+= (5ᵏ⁺¹ - 1)/4 - (124)/4
+= (5ᵏ⁺¹ - 125)/4
+
+### Problem 29
+**1 - 2 + 2² - 2³ + ... + (-1)ⁿ2ⁿ, where n is a positive integer.**
+This is a geometric series with first term a=1, common ratio r=-2, and n+1 terms.
+Using the formula S = a(rⁿ⁺¹-1)/(r-1):
+= 1 * ((-2)ⁿ⁺¹ - 1) / (-2 - 1)
+= ((-2)ⁿ⁺¹ - 1) / -3
+= (1 - (-2)ⁿ⁺¹)/3
+
+### Problem 31
+**Find a formula in a, r, m, and n for the sum a rᵐ + a rᵐ⁺¹ + ... + a rᵐ⁺ⁿ where m and n are integers, n >= 0, and a and r are real numbers.**
+This is a geometric series.
+First term: a' = arᵐ
+Common ratio: r' = r
+Number of terms: (m+n) - m + 1 = n+1
+Using the formula for the sum S = first_term * (ratio^(num_terms) - 1) / (ratio - 1):
+Sum = (arᵐ) * (rⁿ⁺¹ - 1) / (r - 1)
+
+
+### Problem 33 (Find the mistake in the proof)
+**Theorem:** For any integer n ≥ 1, 1² + 2² + ... + n² = n(n+1)(2n+1)/6.
+
+**Analysis of the Proof:**
+The proof attempts to use mathematical induction.
+
+1.  **Basis Step:** The proof correctly shows that for n=1, the left-hand side (1²) and the right-hand side (1(2)(3)/6) both equal 1. This part is correct.
+
+2.  **Inductive Step:** The proof then states: "Suppose that for some integer k ≥ 1, k² = k(k+1)(2k+1)/6."
+
+**The Mistake:**
+The mistake is in the formulation of the **inductive hypothesis**. The inductive hypothesis, P(k), should assume that the entire formula is true for the value k, not just for a single term.
+
+*   **Incorrect Inductive Hypothesis (as written in the proof):**
+    `k² = k(k+1)(2k+1)/6`
+    This statement is fundamentally wrong. It claims that the last term of the series is equal to the formula for the entire sum.
+
+*   **Correct Inductive Hypothesis (what it should have been):**
+    `1² + 2² + ... + k² = k(k+1)(2k+1)/6`
+    This correctly states that we assume the entire sum up to k is equal to the formula.
+
+Because the proof starts the inductive step with a false assumption, the rest of the reasoning in that step is invalid.
+
+### Problem 35 (Find the mistake in the proof)
+**Theorem:** For any integer n ≥ 1, ∑(from i=1 to n) i(i!) = (n+1)! - 1.
+
+**Analysis of the Proof:**
+The proof attempts to show the basis step (P(1)) is true.
+
+The proof states: "When n=1, ∑(from i=1 to 1) i(i!) = (1+1)! - 1. So 1(1!) = 2! - 1 and 1 = 1."
+
+**The Mistake:**
+The mistake is in the **logical flow of the basis step**. The proof uses circular reasoning. It begins by *assuming* that the left-hand side equals the right-hand side for n=1, rather than calculating each side independently and then showing they are equal.
+
+*   **Incorrect Logic (as written in the proof):**
+    It starts with the statement `LHS = RHS` for n=1 and works from there. This assumes the very thing it is supposed to be proving.
+
+*   **Correct Logic (what it should have been):**
+    1.  **Evaluate the Left-Hand Side (LHS) for n=1:**
+        LHS = ∑(from i=1 to 1) i(i!) = 1(1!) = 1.
+    2.  **Evaluate the Right-Hand Side (RHS) for n=1:**
+        RHS = (1+1)! - 1 = 2! - 1 = 2 - 1 = 1.
+    3.  **Conclusion:** Since LHS = RHS (1 = 1), the basis step is true.
+
+The provided proof is also incomplete, as it never proceeds to the inductive step. The primary error is the flawed reasoning in the basis step.

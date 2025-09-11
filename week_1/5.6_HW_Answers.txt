@@ -1,0 +1,240 @@
+### Find the first four terms of each of the recursively defined sequences in 1-8.
+
+**1. a_k = 2a_{k-1} + k, for all integers k >= 2, a_1 = 1**
+*   a_1 = 1 (given)
+*   a_2 = 2 * a_1 + 2 = 2(1) + 2 = 4
+*   a_3 = 2 * a_2 + 3 = 2(4) + 3 = 8 + 3 = 11
+*   a_4 = 2 * a_3 + 4 = 2(11) + 4 = 22 + 4 = 26
+The first four terms are: 1, 4, 11, 26.
+
+**3. c_k = k(c_{k-1})^2, for all integers k >= 1, c_0 = 1**
+*   c_0 = 1 (given)
+*   c_1 = 1 * (c_0)^2 = 1 * (1)^2 = 1
+*   c_2 = 2 * (c_1)^2 = 2 * (1)^2 = 2
+*   c_3 = 3 * (c_2)^2 = 3 * (2)^2 = 3 * 4 = 12
+The first four terms are: 1, 1, 2, 12.
+
+**5. s_k = s_{k-1} + 2s_{k-2}, for all integers k >= 2, s_0 = 1, s_1 = 1**
+*   s_0 = 1 (given)
+*   s_1 = 1 (given)
+*   s_2 = s_1 + 2 * s_0 = 1 + 2(1) = 3
+*   s_3 = s_2 + 2 * s_1 = 3 + 2(1) = 5
+The first four terms are: 1, 1, 3, 5.
+
+**7. u_k = k * u_{k-1} - u_{k-2}, for all integers k >= 3, u_1 = 1, u_2 = 1**
+*   u_1 = 1 (given)
+*   u_2 = 1 (given)
+*   u_3 = 3 * u_2 - u_1 = 3(1) - 1 = 2
+*   u_4 = 4 * u_3 - u_2 = 4(2) - 1 = 8 - 1 = 7
+The first four terms are: 1, 1, 2, 7.
+
+### Show that the sequences in 9-14 satisfy the given recurrence relations.
+
+**9. a_k = 3k + 1, for all integers k >= 0. Show that this sequence satisfies the recurrence relation a_k = a_{k-1} + 3.**
+1.  Start with the right-hand side (RHS) of the recurrence relation: a_{k-1} + 3.
+2.  Substitute the explicit formula for a_{k-1}. To get a_{k-1}, replace k with (k-1) in the formula a_k = 3k + 1.
+    a_{k-1} = 3(k-1) + 1 = 3k - 3 + 1 = 3k - 2.
+3.  Now substitute this back into the RHS:
+    RHS = (3k - 2) + 3 = 3k + 1.
+4.  This result, 3k + 1, is the explicit formula for a_k.
+5.  Since RHS = a_k, the sequence satisfies the recurrence relation.
+
+**11. c_k = 2^k - 1, for all integers k >= 0. Show that this sequence satisfies the recurrence relation c_k = 2c_{k-1} + 1.**
+1.  Start with the RHS of the recurrence relation: 2c_{k-1} + 1.
+2.  Substitute the explicit formula for c_{k-1}:
+    c_{k-1} = 2^(k-1) - 1.
+3.  Substitute this back into the RHS:
+    RHS = 2 * (2^(k-1) - 1) + 1
+    RHS = (2 * 2^(k-1)) - (2 * 1) + 1
+    RHS = 2^k - 2 + 1
+    RHS = 2^k - 1.
+4.  This result is the explicit formula for c_k.
+5.  Since RHS = c_k, the sequence satisfies the recurrence relation.
+
+**13. t_k = 2 + k, for all integers k >= 0. Show that this sequence satisfies the recurrence relation t_k = 2t_{k-1} - t_{k-2}.**
+1.  Start with the RHS of the recurrence relation: 2t_{k-1} - t_{k-2}.
+2.  Substitute the explicit formulas for t_{k-1} and t_{k-2}:
+    t_{k-1} = 2 + (k-1) = k + 1.
+    t_{k-2} = 2 + (k-2) = k.
+3.  Substitute these back into the RHS:
+    RHS = 2 * (k + 1) - k
+    RHS = 2k + 2 - k
+    RHS = k + 2.
+4.  This result is the explicit formula for t_k.
+5.  Since RHS = t_k, the sequence satisfies the recurrence relation.
+
+### Tower of Hanoi Problems
+
+**17. Tower of Hanoi with Adjacency Requirement. Let a_n be the minimum number of moves to transfer n disks from pole A to C, where moves are restricted to adjacent poles (A to B, B to C, etc.).**
+*   **a. Find a_1 and a_2.**
+    *   For a_1 (1 disk): Move disk from A to B (1 move), then from B to C (1 move). Total: a_1 = 2.
+    *   For a_2 (2 disks):
+        1. Move disk 1 from A to C (takes a_1 = 2 moves).
+        2. Move disk 2 from A to B (1 move).
+        3. Move disk 1 from C to A (takes a_1 = 2 moves).
+        4. Move disk 2 from B to C (1 move).
+        5. Move disk 1 from A to C (takes a_1 = 2 moves).
+        This seems overly complex. A better strategy:
+        1. Move disk 1 from A->B->C (2 moves).
+        2. Move disk 2 from A->B (1 move).
+        3. Move disk 1 from C->B (1 move).
+        4. Move disk 2 from B->C (1 move).
+        5. Move disk 1 from A->B->C (2 moves). Wait, disk 1 is on B.
+        Let's try again: Move n-1 disks from A to C, move disk n from A to B, move n-1 from C to A, move n from B to C, move n-1 from A to C.
+        This gives a_n = a_{n-1} + 1 + a_{n-1} + 1 + a_{n-1} = 3a_{n-1} + 2.
+        Using a_1=2, we get a_2 = 3(2)+2 = 8.
+*   **c. Find a recurrence relation for a_1, a_2, ...**
+    To move n disks from A to C:
+    1.  Move the top n-1 disks from A to C. This takes a_{n-1} moves.
+    2.  Move the largest disk, n, from A to B (1 move).
+    3.  Move the n-1 disks from C back to A. This takes a_{n-1} moves.
+    4.  Move the largest disk, n, from B to C (1 move).
+    5.  Move the n-1 disks from A to C. This takes a_{n-1} moves.
+    The total number of moves is a_n = a_{n-1} + 1 + a_{n-1} + 1 + a_{n-1} = 3a_{n-1} + 2.
+    The recurrence relation is a_n = 3a_{n-1} + 2 for n >= 2, with a_1 = 2.
+
+**19. Four-Pole Tower of Hanoi. Let s_n be the minimum number of moves needed to transfer n disks.**
+*   **a. Find s_1 and s_2.**
+    *   s_1 (1 disk): Move disk 1 to the destination. s_1 = 1.
+    *   s_2 (2 disks): Move disk 1 to pole B. Move disk 2 to pole C. Move disk 1 from B to C. s_2 = 3.
+*   **c. Find s_3.**
+    The optimal strategy (Frame-Stewart algorithm) is given by the recurrence `s_n = min(2s_k + 2^(n-k) - 1)` for `1 <= k < n`.
+    To find s_3, we test possible values of k (k=1, 2):
+    *   If k=1: s_3 = 2s_1 + 2^(3-1) - 1 = 2(1) + 2^2 - 1 = 2 + 4 - 1 = 5.
+    *   If k=2: s_3 = 2s_2 + 2^(3-2) - 1 = 2(3) + 2^1 - 1 = 6 + 2 - 1 = 7.
+    The minimum is 5. So, s_3 = 5.
+
+**21. Double Tower of Hanoi. 2n disks of n different sizes (two of each size). Disks of the same size are indistinguishable. Let t_n be the minimum moves.**
+*   **a. Find t_1 and t_2.**
+    We assume same-sized disks can be stacked on each other freely.
+    *   t_1 (two size-1 disks): Move disk 1a to pole B (1 move). Move disk 1b to pole C (1 move). This is not a tower. To move the tower: Move 1a to C (1 move). Move 1b to C (1 move). Total: t_1 = 2.
+    *   t_2 (two size-1, two size-2):
+        1. Move the two size-1 disks from A to B. This takes t_1 = 2 moves.
+        2. Move the two size-2 disks from A to C. This takes 2 moves.
+        3. Move the two size-1 disks from B to C. This takes t_1 = 2 moves.
+        Total: t_2 = 2 + 2 + 2 = 6.
+*   **c. Find a recurrence relation for t_1, t_2, ...**
+    To move the tower of 2n disks from A to C:
+    1.  Move the top 2(n-1) disks (all disks smaller than size n) from A to B. This takes t_{n-1} moves.
+    2.  Move the two size-n disks from A to C. This takes 2 moves.
+    3.  Move the 2(n-1) disks from B to C. This takes t_{n-1} moves.
+    The recurrence relation is t_n = 2t_{n-1} + 2 for n >= 2, with t_1 = 2.
+
+### Fibonacci Sequence Problems
+
+**23. A single pair of rabbits (male and female) is born at the beginning of a year. Assume that each reproductive pair gives birth to two pairs of offspring (one m/f, one m/m) and that 50% of offspring pairs are reproductive (m/f). Let R_n be the number of reproductive pairs alive at the end of month n.**
+*   **a. How many reproductive pairs are alive at the end of month 5?**
+    *   R_0 = 1 (initial pair)
+    *   R_1 = 1 (not yet mature)
+    *   R_2 = R_1 + (R_0 * 1) = 1 + 1 = 2 (original pair gives birth to 1 new m/f pair)
+    *   R_3 = R_2 + (R_1 * 1) = 2 + 1 = 3 (only pairs alive at month 1 give birth)
+    *   R_4 = R_3 + (R_2 * 1) = 3 + 2 = 5 (pairs alive at month 2 give birth)
+    *   R_5 = R_4 + (R_3 * 1) = 5 + 3 = 8
+    There are 8 reproductive pairs.
+*   **b. Find a recurrence relation for R_0, R_1, ...**
+    The number of reproductive pairs in month n is the number from the previous month plus the number of new m/f pairs born. The new pairs are born from pairs that were alive two months prior.
+    R_n = R_{n-1} + R_{n-2} for n >= 2, with R_0 = 1, R_1 = 1.
+*   **c. How many reproductive pairs are alive at the end of month 6?**
+    R_6 = R_5 + R_4 = 8 + 5 = 13.
+
+**25. Explain why F_{k+1} = F_k + F_{k-2} + F_{k-3} + ... + F_1 + F_0 + 1 (using F_0=1, F_1=1).**
+This statement as written is incorrect. There is likely a typo in the problem. A known identity is that the sum of the first n Fibonacci numbers is F_{n+2} - 1.
+Sum Identity: ∑(i=0 to n) F_i = F_{n+2} - 1.
+Let's analyze the right-hand side (RHS) of the given equation using this identity:
+RHS = F_k + (F_{k-2} + F_{k-3} + ... + F_0) + 1
+The sum in parentheses is ∑(i=0 to k-2) F_i = F_{(k-2)+2} - 1 = F_k - 1.
+Substituting this into the RHS:
+RHS = F_k + (F_k - 1) + 1 = 2F_k.
+The problem then incorrectly claims that F_{k+1} = 2F_k.
+
+**27. Prove that for all integers k >= 2, F_k^2 - F_{k-1}^2 = F_k F_{k-1} - F_{k-1} F_{k-2}.**
+This statement as written is incorrect. Let's analyze both sides.
+*   Right-hand side (RHS) = F_k F_{k-1} - F_{k-1} F_{k-2} = F_{k-1} * (F_k - F_{k-2}).
+*   Since F_k = F_{k-1} + F_{k-2}, we have F_k - F_{k-2} = F_{k-1}.
+*   So, RHS = F_{k-1} * (F_{k-1}) = F_{k-1}^2.
+*   The problem then claims F_k^2 - F_{k-1}^2 = F_{k-1}^2, which simplifies to F_k^2 = 2F_{k-1}^2. This is false for the Fibonacci sequence (e.g., for k=4, F_4=3, F_3=2. 3^2 != 2*(2^2)). The problem statement contains a typo.
+
+**29. Prove that for all integers k >= 1, F_{k+1}^2 - F_k^2 = F_{k-1}F_{k+2}.**
+1.  Start with the right-hand side (RHS): F_{k-1}F_{k+2}.
+2.  Use the Fibonacci definition to expand F_{k+2}: F_{k+2} = F_{k+1} + F_k.
+    RHS = F_{k-1} * (F_{k+1} + F_k) = F_{k-1}F_{k+1} + F_{k-1}F_k.
+3.  Use the Fibonacci definition to replace F_{k-1}: F_{k-1} = F_{k+1} - F_k.
+    RHS = (F_{k+1} - F_k)F_{k+1} + F_{k-1}F_k.
+4.  This seems to be going in circles. Let's try replacing a different term.
+    Start with LHS = F_{k+1}^2 - F_k^2 = (F_{k+1} - F_k)(F_{k+1} + F_k).
+    From the definition, F_{k+1} - F_k = F_{k-1}.
+    LHS = F_{k-1} * (F_{k+1} + F_k).
+    Also from the definition, F_{k+1} + F_k = F_{k+2}.
+    LHS = F_{k-1} * F_{k+2}.
+5.  This equals the RHS. The identity is proven.
+
+**33. Verify that for n=0, 1, and 2, the formula F_n = (1/√5) * [((1+√5)/2)^(n+1) - ((1-√5)/2)^(n+1)] generates the Fibonacci sequence with F_0=1, F_1=1.**
+Let φ = (1+√5)/2 and ψ = (1-√5)/2. Note that φ - ψ = √5.
+*   **For n=0:**
+    F_0 = (1/√5) * (φ^1 - ψ^1) = (φ - ψ)/√5 = √5/√5 = 1. This is correct.
+*   **For n=1:**
+    F_1 = (1/√5) * (φ^2 - ψ^2). We use the property that φ^2 = φ+1 and ψ^2 = ψ+1.
+    F_1 = (1/√5) * ((φ+1) - (ψ+1)) = (1/√5) * (φ - ψ) = √5/√5 = 1. This is correct.
+*   **For n=2:**
+    F_2 = (1/√5) * (φ^3 - ψ^3). We use φ^3 = 2φ+1 and ψ^3 = 2ψ+1.
+    F_2 = (1/√5) * ((2φ+1) - (2ψ+1)) = (1/√5) * (2φ - 2ψ) = (2/√5) * (φ - ψ) = (2/√5) * √5 = 2. This is correct (since F_2 = F_1 + F_0 = 1+1=2).
+
+### Miscellaneous Problems
+
+**37. Compound Interest. 4% annual interest compounded quarterly.**
+*   **a. Find a recurrence relation for R_k, the amount on deposit at the end of the kth quarter.**
+    The annual rate is 4% (0.04), so the quarterly rate is 0.04/4 = 0.01.
+    The amount at the end of a quarter is the amount from the previous quarter plus 1% interest.
+    R_k = R_{k-1} + 0.01 * R_{k-1} = 1.01 * R_{k-1}, for k >= 1.
+*   **b. If R_0 = $5000, find the amount on deposit at the end of one year.**
+    One year is 4 quarters. We need R_4.
+    R_4 = (1.01)^4 * R_0 = (1.01)^4 * 5000 ≈ 1.04060401 * 5000 ≈ $5203.02.
+*   **c. Find the annual percentage rate (APR) for the account.**
+    APR = (Amount after 1 year - Principal) / Principal
+    APR = (5203.02 - 5000) / 5000 = 203.02 / 5000 = 0.040604.
+    The APR is approximately 4.06%.
+
+**39. Climbing a Staircase. You can move up one or two stairs at a time. Let c_n be the number of different ways to climb a staircase with n stairs.**
+*   **Find a recurrence relation for c_1, c_2, ...**
+    To reach the nth stair, the final step must be either from stair n-1 (a 1-stair step) or from stair n-2 (a 2-stair step). The total number of ways to reach stair n is the sum of the ways to reach these prior stairs.
+    c_n = c_{n-1} + c_{n-2}.
+*   **Initial Conditions:**
+    *   c_1 (1 stair): There is only one way (one 1-stair step). c_1 = 1.
+    *   c_2 (2 stairs): There are two ways: (1-stair, 1-stair) or (one 2-stair step). c_2 = 2.
+    The recurrence relation is c_n = c_{n-1} + c_{n-2} for n >= 3, with c_1=1 and c_2=2.
+
+### Recursive Definitions and Induction
+
+**41. Use the recursive definition of summation and mathematical induction to prove that for all positive integers n, if a_1, ..., a_n and c are real numbers, then ∑(i=1 to n) c*a_i = c * (∑(i=1 to n) a_i).**
+Let P(n) be the statement ∑(i=1 to n) c*a_i = c * (∑(i=1 to n) a_i).
+*   **Basis Step (n=1):**
+    LHS = ∑(i=1 to 1) c*a_i = c*a_1 (by definition of sum).
+    RHS = c * (∑(i=1 to 1) a_i) = c * a_1 (by definition of sum).
+    LHS = RHS, so P(1) is true.
+*   **Inductive Step:**
+    Assume P(k) is true for some k >= 1: ∑(i=1 to k) c*a_i = c * (∑(i=1 to k) a_i).
+    We must show P(k+1) is true: ∑(i=1 to k+1) c*a_i = c * (∑(i=1 to k+1) a_i).
+    LHS = ∑(i=1 to k+1) c*a_i
+        = (∑(i=1 to k) c*a_i) + c*a_{k+1}      (by recursive definition of sum)
+        = [c * (∑(i=1 to k) a_i)] + c*a_{k+1}  (by inductive hypothesis)
+        = c * [(∑(i=1 to k) a_i) + a_{k+1}]      (by distributive law)
+        = c * (∑(i=1 to k+1) a_i)              (by recursive definition of sum)
+    This is the RHS. Thus P(k+1) is true.
+By the principle of mathematical induction, the statement is true for all n >= 1.
+
+**43. Use the recursive definition of product and mathematical induction to prove that for all positive integers n, if a_1, ..., a_n and c are real numbers, then ∏(i=1 to n) (c*a_i) = c^n * (∏(i=1 to n) a_i).**
+Let P(n) be the statement ∏(i=1 to n) (c*a_i) = c^n * (∏(i=1 to n) a_i).
+*   **Basis Step (n=1):**
+    LHS = ∏(i=1 to 1) (c*a_i) = c*a_1 (by definition of product).
+    RHS = c^1 * (∏(i=1 to 1) a_i) = c * a_1 (by definition of product).
+    LHS = RHS, so P(1) is true.
+*   **Inductive Step:**
+    Assume P(k) is true for some k >= 1: ∏(i=1 to k) (c*a_i) = c^k * (∏(i=1 to k) a_i).
+    We must show P(k+1) is true: ∏(i=1 to k+1) (c*a_i) = c^(k+1) * (∏(i=1 to k+1) a_i).
+    LHS = ∏(i=1 to k+1) (c*a_i)
+        = (∏(i=1 to k) (c*a_i)) * (c*a_{k+1})       (by recursive definition of product)
+        = [c^k * (∏(i=1 to k) a_i)] * (c*a_{k+1})   (by inductive hypothesis)
+        = (c^k * c) * [(∏(i=1 to k) a_i) * a_{k+1}]   (by associativity/commutativity)
+        = c^(k+1) * (∏(i=1 to k+1) a_i)               (by recursive definition of product)
+    This is the RHS. Thus P(k+1) is true.
+By the principle of mathematical induction, the statement is true for all n >= 1.
