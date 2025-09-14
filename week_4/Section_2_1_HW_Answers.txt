@@ -1,0 +1,258 @@
+Section 2.1 — Homework Answers (Exercises 2.1‑2, 2.1‑3, 2.1‑4)
+
+This page is written to be crystal‑clear for a busy, non‑technical reader. It uses the book’s 1‑based indexing (A[1..n]). If you code in Python/Java/C/C++, replace A[1] with A[0], A[2] with A[1], etc.
+
+One recipe to follow every time (connects all sections)
+- Goal: say what result you want in one line.
+- Invariant (self‑talk): “At the start of iteration i, what do I KNOW for sure?”
+- Body: “What changes in this single pass?”
+- Next start: “Does my invariant sentence still fit the new i?”
+- Stop: “When i reaches the stop value, what does my invariant now imply?”
+
+Quick glossary
+- Array A[1..n]: a list of n numbers.
+- Loop invariant: a sentence that is true before every loop iteration; prove Initialization, Maintenance, Termination.
+
+2.1‑2 SUM‑ARRAY — prove it returns the sum
+What the problem asks
+- State a loop invariant for SUM‑ARRAY and prove the algorithm returns the total of A[1..n].
+
+Pseudocode
+  SUM-ARRAY(A, n)
+    sum = 0
+    for i = 1 to n
+      sum = sum + A[i]
+    return sum
+
+Loop invariant (simple version)
+- Before iteration i begins, sum equals A[1] + A[2] + … + A[i−1].
+
+Self‑talk script (use this literally while you trace)
+- Start of i: “I haven’t added A[i] yet; sum is the total of everything before i.”
+- Do body: “Add exactly one new item A[i] to sum.”
+- Advance i: “My sentence should now talk about the first i−1 items of the NEXT i, i.e., the i items I just totaled.”
+
+Proof (3 short steps)
+- Initialization: Before the first pass (i=1) there are no terms yet, so sum=0 equals the empty sum. True.
+- Maintenance: Assume sum is A[1..i−1] at the start of iteration i. The body adds A[i], so after the body sum = A[1..i]. When i increments, the invariant form holds for the next i.
+- Termination: Loop stops after i reaches n+1; by then sum = A[1..n]. Returned value is correct.
+
+Edge cases
+- n=0 → returns 0; negative/mixed numbers work the same.
+
+Iteration table (A = [7, 4, 9])
+- Columns: (i at start) | Invariant claim | sum before | Body action | sum after | i next
+- 1 | sum = A[1..0] = 0 | 0 | add A[1]=7 | 7 | 2
+- 2 | sum = A[1..1] = 7 | 7 | add A[2]=4 | 11 | 3
+- 3 | sum = A[1..2] = 11 | 11 | add A[3]=9 | 20 | 4 (stop)
+- Stop: i = 4 = n+1 ⇒ invariant gives sum = A[1..3] = 20.
+
+2.1‑2 Step‑by‑step walkthrough (learning + show‑your‑work)
+Tiny example (A = [7, 4, 9], n = 3)
+- Before loop (conceptually i=1): sum=0. Invariant says sum = A[1..0] (empty sum) = 0. ✓
+- Iteration i=1 begins: invariant holds (sum=0). Body: sum ← 0 + A[1]=7 → sum=7. i becomes 2.
+- Iteration i=2 begins: invariant says sum = A[1..1] = 7. Current sum=7. ✓ Body: sum ← 7 + A[2]=4 → sum=11. i becomes 3.
+- Iteration i=3 begins: invariant says sum = A[1..2] = 7+4=11. Current sum=11. ✓ Body: sum ← 11 + A[3]=9 → sum=20. i becomes 4.
+- Loop ends when i = n+1 = 4. Plugging i=4 into invariant gives sum = A[1..3] = 7+4+9 = 20. Return 20.
+
+Why “i − 1” in the invariant?
+- The invariant is checked at the start of iteration i, before adding A[i]. At that instant, only A[1]..A[i−1] have been included in sum.
+
+Formal 3‑step proof (recap, teacher‑ready)
+- Initialization: i=1 → sum equals the empty sum A[1..0] = 0, which matches sum’s initial value 0.
+- Maintenance: Assume at start of i we have sum = A[1..i−1]. The body adds A[i], so after it sum = A[1..i]. Then i increments, so at the start of the next iteration the invariant form holds again.
+- Termination: Loop stops when i=n+1. Substituting gives sum = A[1..n], which is exactly the required total.
+
+0‑based indexing mapping (if you implement in Python/Java/C/C++)
+- Code shape: for i in 0..n−1 with invariant “at start of i, sum = A[0..i−1]”.
+- It’s the same idea with indices shifted down by 1.
+
+2.1‑2 Narrated intuition (why this works)
+Think in snapshots of time
+- Snapshot S(i): the instant just BEFORE the body of iteration i runs.
+- At S(i) we have NOT touched A[i] yet. The only honest claim we can make is about A[1..i−1].
+
+Design the invariant from the code’s shape
+- The code adds exactly one new item per loop: A[i].
+- So the natural quantity to “accumulate” is the total of items we have already consumed.
+- Therefore the invariant must speak about “the already‑consumed part” = the prefix A[1..i−1].
+
+Micro‑checkpoints inside one iteration
+1) Start S(i): sum = total of A[1..i−1].
+2) Do the body: sum ← sum + A[i] ⇒ now sum = total of A[1..i].
+3) i increments ⇒ the next snapshot is S(i+1). The sentence for S(i+1) is “sum = total of A[1..(i+1)−1] = A[1..i]”. It matches step 2. ✓
+
+Off‑by‑one sanity rules
+- If your invariant mentions A[i] at S(i), it’s suspicious—you haven’t read A[i] yet.
+- Empty prefix A[1..0] must evaluate to 0; that’s why we initialize sum to 0.
+
+Common pitfalls (and how to fix them)
+- Wrong invariant: “sum = A[1..i] at start of i”. This fails at i=1 because you haven’t added A[1] yet.
+- Forgetting termination: Always substitute i = n+1 into your invariant to get the final claim.
+
+2.1‑3 INSERTION‑SORT in decreasing order
+Plain‑English idea
+- Keep the left part of the array in decreasing order. Take the next element (the “key”) and slide it left past any smaller elements. Drop it where it fits.
+
+Goal
+- Sorted array in strictly non‑increasing order (big to small).
+
+Invariant (self‑talk)
+- “At start of iteration i, the left prefix A[1..i−1] is already in decreasing order.”
+
+Pseudocode (decreasing, 1‑based indexing)
+  INSERTION-SORT-DECREASING(A, n)
+    for i = 2 to n
+      key = A[i]
+      j = i - 1
+      while j > 0 and A[j] < key    // note the '<'
+        A[j + 1] = A[j]
+        j = j - 1
+      A[j + 1] = key
+
+Why the single change works
+- In the increasing version we shift while A[j] > key. For decreasing order we shift while A[j] < key. Everything else stays the same.
+
+Step‑by‑step example (decreasing)
+- Start: [3, 1, 4, 2]
+- i=2, key=1: compare with 3. 3 < 1? no → place at 2 → [3, 1, 4, 2]
+- i=3, key=4: compare with 1 (1 < 4 yes) shift → [3, 1, 1, 2]; compare with 3 (3 < 4 yes) shift → [3, 3, 1, 2]; place 4 at front → [4, 3, 1, 2]
+- i=4, key=2: compare with 1 (1 < 2 yes) shift → [4, 3, 1, 1]; compare with 3 (3 < 2 no) place → [4, 3, 2, 1]
+
+Properties to remember
+- In‑place Θ(1) extra space; stable (uses strict < so equal keys don’t cross); time Θ(n^2) worst/avg, Θ(n) if nearly sorted in decreasing order already.
+
+2.1‑3 Step‑by‑step walkthrough (learning + show‑your‑work)
+Example (A = [3, 1, 4, 2], n = 4)
+- Invariant we keep: before iteration i, A[1..i−1] is sorted in decreasing order and contains the original first i−1 elements.
+
+Iteration table (with while‑steps)
+- i=2 start | A = [3, 1, 4, 2] | key=1 | j=1
+  • while? A[1]=3 < 1 → no | shift 0 times | place at A[2] → [3, 1, 4, 2]
+- i=3 start | A = [3, 1, 4, 2] | key=4 | j=2
+  • while #1: A[2]=1 < 4 yes → shift to right → [3, 1, 1, 2]; j=1
+  • while #2: A[1]=3 < 4 yes → shift to right → [3, 3, 1, 2]; j=0
+  • stop (j>0 false); place at A[1] → [4, 3, 1, 2]
+- i=4 start | A = [4, 3, 1, 2] | key=2 | j=3
+  • while #1: A[3]=1 < 2 yes → shift → [4, 3, 1, 1]; j=2
+  • while #2: A[2]=3 < 2 no → stop; place at A[3] → [4, 3, 2, 1]
+- Stop: i = 5 = n+1 ⇒ invariant implies A[1..4] decreasing.
+
+- i=2, key=1, j=1
+  • Check while: j>0 and A[j] < key → 1>0 and A[1]=3 < 1? false. No shifts.
+  • Place key at A[j+1]=A[2] → array stays [3, 1, 4, 2]. Now A[1..2] = [3,1] is decreasing. Invariant holds for next i.
+
+- i=3, key=4, j=2
+  • While step 1: A[2]=1 < 4 → shift: A[3]=A[2] ⇒ [3, 1, 1, 2]; j→1
+  • While step 2: A[1]=3 < 4 → shift: A[2]=A[1] ⇒ [3, 3, 1, 2]; j→0
+  • Exit (j>0 is false). Place key at A[1] ⇒ [4, 3, 1, 2]. Now A[1..3] is decreasing. Invariant holds.
+
+- i=4, key=2, j=3
+  • While step 1: A[3]=1 < 2 → shift: A[4]=A[3] ⇒ [4, 3, 1, 1]; j→2
+  • While step 2: A[2]=3 < 2? false → stop.
+  • Place key at A[3] ⇒ [4, 3, 2, 1]. Now A[1..4] decreasing.
+
+Termination
+- Loop ends when i = n+1 = 5. Invariant with i=5 says A[1..4] is decreasing → done.
+
+Teacher‑ready proof recap
+- Initialization: i=2 → A[1..1] (one element) is trivially decreasing.
+- Maintenance: while loop moves strictly smaller elements one step right and inserts key, producing decreasing A[1..i]. Increment i preserves the invariant form.
+- Termination: When i=n+1, A[1..n] is decreasing.
+
+Notes
+- Stability: while uses “<” (not “≤”), so equal keys do not move past each other ⇒ stable.
+- 0‑based mapping: change indices accordingly and use j ≥ 0 in while with A[j] < key.
+
+2.1‑3 Narrated intuition (why this works)
+Pick the “finished area”
+- We choose the left prefix A[1..i−1] as the area that is already in final decreasing order.
+
+What one iteration does
+- Create a “hole” at position i by saving key = A[i].
+- Walk left while elements are smaller than key; shift those smaller elements one step right to keep order.
+- When the while test fails, the hole is exactly where key belongs; drop key there.
+
+Why the comparison is “A[j] < key”
+- Decreasing order means larger numbers should appear earlier. While we see a smaller number to the left, that smaller number must move right to make room for the larger key.
+
+Why this is stable
+- We do NOT move equal numbers (since condition is strictly <). Equal keys keep their original relative order.
+
+If we mistakenly used “≤”
+- Equal elements would shift right, and a later equal key could jump ahead—breaking stability.
+
+2.1‑4 LINEAR‑SEARCH with proof
+Problem
+- Input: array A[1..n], value x. Output: index i with A[i]=x, or NIL if not present.
+
+Pseudocode
+  LINEAR-SEARCH(A, n, x)
+    for i = 1 to n
+      if A[i] == x
+        return i
+    return NIL
+
+Loop invariant
+- Before iteration i, x is not equal to any element in A[1..i−1].
+
+Self‑talk script
+- Start of i: “I have ruled out everything before i.”
+- Check: “Does A[i] equal x? If yes, stop and return i.”
+- If no: “Now I have ruled out up to i; advance to i+1.”
+
+Proof (3 short steps)
+- Initialization: Before i=1 we’ve checked nothing; invariant holds.
+- Maintenance: If A[i]==x we return i (correct). Otherwise x is not in A[1..i], so when i increments the invariant form still holds.
+- Termination: If the loop ends, x is not in A[1..n]; returning NIL is correct.
+
+Complexity
+- Worst/avg Θ(n), best Θ(1) if the match is at the front.
+
+2.1‑4 Step‑by‑step walkthrough (learning + show‑your‑work)
+Case 1 — value is present
+- A = [8, 5, 2], x = 5
+- i=1: invariant says x not in A[1..0] (empty). Check A[1]=8==5? no.
+- i=2: invariant says x not in A[1..1] (8). Check A[2]=5==5? yes → return 2. Correct.
+
+Case 2 — value not present
+- A = [7, 4], x = 9
+- i=1: invariant says x not in A[1..0]. Check A[1]=7==9? no.
+- i=2: invariant says x not in A[1..1] (7). Check A[2]=4==9? no.
+- i=3: loop ends (i = n+1). Invariant implies x not in A[1..2]; return NIL. Correct.
+
+Iteration table (present and not‑present)
+- Present: A=[8,5,2], x=5
+  • i=1 | claim: “not in A[1..0]” | check A[1]=8 ≠ 5 → continue
+  • i=2 | claim: “not in A[1..1]” | check A[2]=5 = 5 → return 2
+- Not present: A=[7,4], x=9
+  • i=1 | claim: “not in A[1..0]” | check 7 ≠ 9 → continue
+  • i=2 | claim: “not in A[1..1]” | check 4 ≠ 9 → continue
+  • i=3 stop | claim becomes “not in A[1..2]” ⇒ return NIL
+
+Why the invariant uses “i − 1”
+- At the start of iteration i we have not examined A[i] yet; only A[1..i−1] have been ruled out.
+
+Teacher‑ready proof recap
+- Initialization: i=1 → nothing checked yet, so “x not in A[1..0]” is true.
+- Maintenance: If we find A[i]=x we return the correct index; otherwise we’ve ruled out up to i, so the invariant holds for the next i.
+- Termination: i=n+1 ⇒ x not in A[1..n]; returning NIL is correct.
+
+Edge cases
+- Empty array (n=0) returns NIL immediately. Works for duplicates (returns first match).
+
+2.1‑4 Narrated intuition (why this works)
+Why the invariant is about the prefix
+- At the start of iteration i, the only part we’ve actually inspected is A[1..i−1]. We can confidently say “x is not there.” We should avoid claims about the unseen suffix.
+
+Three mental states while scanning
+1) Before checking A[i]: we know x is not in the checked prefix.
+2) Check A[i]. If it matches, we’re done (return i).
+3) If not, extend the proven‑empty region to include i and move on.
+
+Why termination gives NIL
+- If we never returned early, we have extended the “not here” region to the whole array; therefore x is not present.
+
+One‑minute cheat sheet
+- Insertion sort: keep left side sorted; shift while condition holds; drop key; Θ(n^2) generally, Θ(n) if nearly sorted.
+- Loop invariant recipe: say what’s true at start of iteration i; prove Initialization, Maintenance, Termination.
