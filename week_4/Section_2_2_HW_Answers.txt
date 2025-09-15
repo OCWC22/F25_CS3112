@@ -1,0 +1,184 @@
+Section 2.2 — Homework Answers (Exercises 2.2‑2, 2.2‑3, 2.2‑4)
+
+This page keeps the same style as Section 2.1 answers. We use the book’s 1‑based indexing (A[1..n]). If you code in Python/Java/C/C++, map A[1]→A[0], etc.
+
+2.2‑2 Selection sort: pseudocode, invariant, passes, running time
+Problem (rephrased)
+- Sort A[1..n] by repeatedly selecting the smallest element of the unsorted suffix and swapping it into the next position. Give pseudocode, a loop invariant, explain why we stop after n−1 passes, and analyze best/worst cases with Θ‑notation.
+
+Pseudocode (1‑based indexing)
+  SELECTION-SORT(A, n)
+    for i = 1 to n − 1
+      min_idx = i
+      for j = i + 1 to n
+        if A[j] < A[min_idx]
+          min_idx = j
+      if min_idx ≠ i
+        swap A[i] and A[min_idx]
+
+Loop invariant (concise)
+- At the start of iteration i (1 ≤ i ≤ n), the prefix A[1..i−1] contains the i−1 smallest elements of A[1..n] in nondecreasing order, and every element of A[1..i−1] is ≤ every element in A[i..n].
+
+Proof sketch (Initialization, Maintenance, Termination)
+- Initialization: Before i=1, the prefix A[1..0] is empty and trivially sorted; the claim holds.
+- Maintenance: The inner loop finds the minimum of A[i..n]; swapping it into A[i] makes A[1..i] the i smallest elements in sorted order. Thus the invariant holds for i+1.
+- Termination: When i = n, the invariant states A[1..n−1] is sorted and holds the n−1 smallest elements; the remaining element at A[n] must be the largest, so A[1..n] is sorted.
+
+Why only n−1 passes?
+- After placing the first n−1 elements, the last element is forced: it is the maximum and already in the only remaining position. A final (n‑th) pass would do nothing.
+
+Running time
+- Comparisons: In pass i, we compare across j = i+1..n → (n−i) comparisons; total = Σ_{i=1}^{n−1} (n−i) = n(n−1)/2 = Θ(n^2).
+- Swaps/assignments: At most one swap per outer pass (≤ n−1) = Θ(n). This does not change Θ(n^2) total time.
+- Therefore, worst‑case time = Θ(n^2). Best‑case time is not better: even if the array is already sorted, the algorithm still scans the suffix to confirm the minimum each pass, so total comparisons remain n(n−1)/2 = Θ(n^2). Thus best‑case = Θ(n^2) as well.
+
+
+2.2‑3 Linear search average vs worst case
+Problem (rephrased)
+- In LINEAR‑SEARCH over A[1..n], assume the sought value x is equally likely to be any array element (i.e., it is present and uniformly distributed over positions). How many elements are examined on average? What about the worst case? Give Θ‑notation and justify.
+
+Answer with justification
+- If x is equally likely at any position 1..n, the expected number of checks is
+  E[checks] = (1 + 2 + … + n) / n = (n+1)/2.
+  Hence average‑case running time is Θ(n).
+- Worst case occurs when x is at position n (or is absent and we scan all n): checks = n, so worst‑case running time is Θ(n).
+
+
+2.2‑4 Forcing a good best case for any sort
+Problem (rephrased)
+- How can you modify any sorting algorithm to have a good best‑case running time?
+
+Answer (standard technique)
+- Precede the algorithm with a linear‑time check for a “nice” condition—most commonly “is the array already sorted?”
+  CHECK-SORTED(A, n): scan once and verify A[1] ≤ A[2] ≤ … ≤ A[n]. If true, return immediately; otherwise run the original sort.
+- This guarantees best case Θ(n): on already sorted input, the precheck returns after a single pass. Worst‑case and average‑case asymptotics of the underlying algorithm are unchanged (the added O(n) precheck does not alter Θ when the sort itself is ≥ Θ(n)).
+
+Notes
+- Many practical sorts include early‑exit signals (e.g., bubble sort with a “no‑swap” flag) that achieve the same Θ(n) best case on sorted inputs.
+
+
+2.2‑2 Step‑by‑step walkthrough (learning + show‑your‑work)
+Tiny example (A = [5, 2, 4, 6, 1, 3], n = 6)
+- Invariant we keep: before iteration i, A[1..i−1] holds the i−1 smallest values in sorted order, and all of them are ≤ every element in A[i..n].
+
+Iteration i=1 begins
+- Start state: A = [5, 2, 4, 6, 1, 3]
+- Set min_idx = 1 (value 5). We will scan j = 2..6 to find the true minimum in the suffix A[1..6].
+  • j=2: compare A[2]=2 and A[min_idx]=5 → 2 < 5? yes → min_idx ← 2 (value 2)
+  • j=3: 4 < 2? no → min_idx stays 2
+  • j=4: 6 < 2? no → min_idx stays 2
+  • j=5: 1 < 2? yes → min_idx ← 5 (value 1)
+  • j=6: 3 < 1? no → min_idx stays 5
+- Swap A[1] and A[5] → A becomes [1, 2, 4, 6, 5, 3]
+- Invariant check: A[1..1] = [1] is the smallest element; sorted. ✓
+
+Iteration i=2 begins
+- Start state: A = [1, 2, 4, 6, 5, 3]
+- min_idx = 2 (value 2). Scan j = 3..6 over A[2..6].
+  • j=3: 4 < 2? no
+  • j=4: 6 < 2? no
+  • j=5: 5 < 2? no
+  • j=6: 3 < 2? no → min_idx remains 2
+- Since min_idx == i, no swap. A stays [1, 2, 4, 6, 5, 3].
+- Invariant: A[1..2] = [1,2] are the two smallest values, in order. ✓
+
+Iteration i=3 begins
+- Start state: A = [1, 2, 4, 6, 5, 3]
+- min_idx = 3 (value 4). Scan j = 4..6.
+  • j=4: 6 < 4? no
+  • j=5: 5 < 4? no
+  • j=6: 3 < 4? yes → min_idx ← 6 (value 3)
+- Swap A[3] and A[6] → A becomes [1, 2, 3, 6, 5, 4]
+- Invariant: A[1..3] = [1,2,3] are the three smallest, sorted. ✓
+
+Iteration i=4 begins
+- Start state: A = [1, 2, 3, 6, 5, 4]
+- min_idx = 4 (value 6). Scan j = 5..6.
+  • j=5: 5 < 6? yes → min_idx ← 5 (value 5)
+  • j=6: 4 < 5? yes → min_idx ← 6 (value 4)
+- Swap A[4] and A[6] → A becomes [1, 2, 3, 4, 5, 6]
+- Invariant: A[1..4] = [1,2,3,4] sorted, all ≤ A[5..6]. ✓
+
+Iteration i=5 begins
+- Start state: A = [1, 2, 3, 4, 5, 6]
+- min_idx = 5 (value 5). Scan j = 6..6.
+  • j=6: 6 < 5? no → min_idx stays 5
+- No swap. A remains [1, 2, 3, 4, 5, 6].
+- Stop: i reaches n = 6; the invariant implies A[1..6] is fully sorted. ✓
+
+Counting comparisons (show your work)
+- Pass i compares (n−i) elements: lengths are n−1, n−2, …, 1.
+- Sum = (n−1) + (n−2) + … + 1 = n(n−1)/2.
+  Reason: it’s the triangle number T_{n−1}; or pair terms from ends: (1+(n−1)) + (2+(n−2)) + … = (n)(n−1)/2.
+- Θ‑notation: comparisons dominate swaps, so time is Θ(n^2) in both best and worst cases.
+
+0‑based indexing mapping (if you code it)
+- Outer for i = 0..n−2; inner for j = i+1..n−1.
+- Invariant becomes: “Before i, A[0..i−1] holds the i smallest elements in sorted order.”
+
+
+2.2‑3 Step‑by‑step walkthrough (learning + show‑your‑work)
+Pseudocode (same as 2.1‑4, restated for convenience)
+  LINEAR-SEARCH(A, n, x)
+    for i = 1 to n
+      if A[i] == x
+        return i
+    return NIL
+
+Small examples
+- Example 1 (present, early): A = [9, 4, 7, 2, 5], x = 9
+  • i=1: A[1]=9 == x → return 1. Checks = 1.
+- Example 2 (present, middle): A = [9, 4, 7, 2, 5], x = 7
+  • i=1: 9 ≠ 7; i=2: 4 ≠ 7; i=3: 7 == 7 → return 3. Checks = 3.
+- Example 3 (absent): A = [9, 4, 7, 2, 5], x = 8
+  • i=1..5 all mismatches → return NIL. Checks = 5.
+
+Average‑case calculation (assume x is present and equally likely at any position)
+- Let C be the number of checks. If x is at position k, then C = k.
+- Probability x is at position k is 1/n, for k ∈ {1,…,n}.
+- Expected checks: E[C] = Σ_{k=1}^n (k · 1/n) = (1/n) · (1+2+…+n) = (1/n) · n(n+1)/2 = (n+1)/2.
+- Therefore average‑case running time is Θ(n) (linear in n).
+
+Worst case
+- If x is absent (or at the last position), the loop examines all n elements: C = n.
+- Worst‑case running time is Θ(n).
+
+0‑based indexing mapping
+- for i = 0..n−1; test A[i] and return i when found; NIL if loop completes.
+- Average checks become (n+1)/2 in 1‑based; in 0‑based you can think of positions 0..n−1 with expected checks (n+1)/2 as well, measured in element inspections.
+
+
+2.2‑4 Step‑by‑step walkthrough (learning + show‑your‑work)
+Goal
+- Modify any sorting algorithm so that its best case is “good” (linear time) by quickly detecting already‑sorted inputs and exiting early.
+
+Wrapper pattern
+  IS-SORTED(A, n)
+    for i = 2 to n
+      if A[i] < A[i−1]
+        return FALSE
+    return TRUE
+
+  WRAP-SORT(A, n)   // BASE-SORT is your original sorting algorithm
+    if IS-SORTED(A, n) == TRUE
+      return A                 // best case: just one pass
+    else
+      BASE-SORT(A, n)          // fall back to the usual algorithm
+      return A
+
+Concrete example 1 (already sorted)
+- Input A = [1, 2, 3, 4, 5]
+- IS-SORTED scans pairs (2≥1, 3≥2, 4≥3, 5≥4): no violation → TRUE → WRAP-SORT returns immediately.
+- Time: Θ(n) (one pass only). This achieves a “good best case.”
+
+Concrete example 2 (not sorted)
+- Input A = [3, 1, 4, 2]
+- IS-SORTED: at i=2, detect 1 < 3 → FALSE → run BASE-SORT (e.g., mergesort, quicksort, heapsort, insertion sort, etc.).
+- Total time: Θ(n) for the precheck + time(BASE-SORT). Asymptotically the BASE-SORT term dominates, so worst‑case/average‑case complexity is unchanged.
+
+Why this does not “cheat” the analysis
+- We truly improved only the best case: when the input is already sorted (or trivially “nice”), we can finish in Θ(n) by observation.
+- On typical random inputs, the Θ(n) precheck is dwarfed by the Θ(n log n) or Θ(n^2) sorting work, so your overall Θ bounds remain the same for average/worst cases.
+
+0‑based indexing mapping
+- In IS-SORTED use i = 1..n−1 and compare A[i] < A[i−1] (0‑based). The wrapper logic is identical.
