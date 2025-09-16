@@ -1,222 +1,156 @@
-Exercise 2.2‑2 — Selection sort: pseudocode, invariant, passes, running time
-Question (textbook 2.2‑2)
-- Give pseudocode for SELECTION-SORT on A[1..n], state a loop invariant, explain why the outer loop runs only n−1 times, and analyze both best- and worst-case running times.
+Exercise 2.2-2 - Selection Sort Analysis with a Loop Invariant
+Textbook prompt (CLRS 2.2-2)
+- Provide pseudocode for SELECTION-SORT on A[1..n].
+- State a loop invariant for the outer loop and prove it by initialization, maintenance, and termination.
+- Explain why the outer loop needs only n-1 passes.
+- Describe the best- and worst-case running times.
 
-Solution (step-by-step)
-Step 1 — Write the algorithm explicitly (1‑based)
+Plain-language restatement
+- Picture an assistant who always looks through the unsorted part of a list to find the cheapest remaining item and moves it to the front display. We will explain in plain language how the algorithm works, why the invariant proves it correct, and why its running time stays quadratic no matter the input order.
+
+Step 1 - Pseudocode with 1-based indexing
   SELECTION-SORT(A, n)
-    for i = 1 to n − 1
+    for i = 1 to n - 1
       min_idx = i
       for j = i + 1 to n
         if A[j] < A[min_idx]
           min_idx = j
-      if min_idx ≠ i
+      if min_idx != i
         swap A[i] and A[min_idx]
-  • Outer loop marks the boundary between the sorted prefix A[1..i−1] and unsorted suffix A[i..n].
-  • Thought process: rewrite the reference pseudocode so later reasoning points to concrete lines (outer vs inner loop).
-  • Assumptions: indices are valid for 1 ≤ i ≤ n, comparisons are total order comparisons, and swap executes atomically.
+- Outer loop chooses the boundary between the sorted prefix A[1..i-1] and the unsorted suffix A[i..n].
+- Inner loop scans the suffix and remembers where the smallest number lives.
+- A conditional swap moves that smallest number into position i.
 
-Step 2 — Declare the loop invariant
-  Invariant sentence: At the start of iteration i, the prefix A[1..i−1] stores the i−1 smallest elements of the array in nondecreasing order and every element in that prefix is ≤ every element in A[i..n].
-  • Concept focus: express what we know about the sorted prefix and how it relates to the remainder; this is the key claim we will maintain.
-  • Assumption: the comparison used in the inner loop truly returns the smaller element according to the desired ordering.
+Step 2 - State the loop invariant
+Informal version: "Before each new pass, the left-hand portion already contains the smallest elements, lined up neatly from smallest to largest."
+Formal version: At the start of iteration i, the prefix A[1..i-1] contains the i-1 smallest elements of the original array, in nondecreasing order, and every element in that prefix is less than or equal to every element in A[i..n].
 
-Step 3 — Prove the invariant
-  • Strategy: check initialization, maintenance, and termination exactly as in the textbook proof, but with the explicit invariant stated above.
-  (a) Initialization: For i = 1 the prefix A[1..0] is empty, so it is trivially sorted and the claim holds.
-  (b) Maintenance: During iteration i the inner loop finds the index of the minimum element in A[i..n]. Swapping it with A[i] appends the next-smallest element to the sorted prefix, so A[1..i] satisfies the invariant for the next iteration. The reasoning assumes the swap leaves all other entries unchanged.
-  (c) Termination: When the loop ends, i = n. Plugging that into the invariant says A[1..n−1] is sorted and contains the n−1 smallest elements. The last remaining element A[n] must therefore be the largest, so the whole array is sorted.
+Step 3 - Prove the loop invariant using the three textbook checkpoints
+1. Initialization (i = 1): The prefix A[1..0] is empty. An empty sequence is vacuously sorted and trivially contains the "smallest" zero elements. Therefore the invariant holds before the first pass.
+2. Maintenance (generic iteration i): Assume the invariant is true when a pass begins. The inner loop scans A[i..n], finds the smallest entry in that range, and stores its index in min_idx. Swapping that element into position i appends the next-smallest value to the prefix. Because no other positions are disturbed, A[1..i] now contains the i smallest elements in nondecreasing order. The invariant is ready for iteration i+1.
+3. Termination (loop finishes): The for loop stops after i increases to n. Substituting i = n into the invariant says that A[1..n-1] holds the n-1 smallest elements in sorted order, so the final element A[n] must be the largest. Altogether A[1..n] is sorted.
 
-Step 4 — Justify the “n−1 passes” statement
-  • Once positions 1 through n−1 hold the correct elements, the remaining element automatically belongs at index n. An additional pass would perform no work; this depends on the assumption that the array is finite and the algorithm never introduces duplicates.
+Step 4 - Why the outer loop stops at n-1
+- After we correctly place the first n-1 elements, the lone remaining element automatically belongs in slot n. A final iteration would only compare the last element with itself and swap nothing, so the algorithm avoids that redundant work.
 
-Step 5 — Analyze running time carefully
-  • Comparisons: Pass i performs (n−i) comparisons. Summing gives Σ_{i=1}^{n−1} (n−i) = n(n−1)/2 = Θ(n^2).
-  • Swaps: At most one swap per pass (≤ n−1) ⇒ Θ(n).
-  • Best case: Still Θ(n^2) comparisons because every pass inspects the unsorted suffix even if the array is sorted.
-  • Worst case: Θ(n^2) for the same reason; swaps do not change the dominant term.
-  • Space: Θ(1) extra variables (min_idx, i, j).
-  • Modeling note: assumes each comparison/swap costs O(1) and array reads/writes dominate runtime.
+Step 5 - Running-time accounting
+1. Comparisons in the inner loop: On pass i the inner loop inspects n-i entries. Summing across passes yields (n-1) + (n-2) + ... + 1 = n(n-1)/2 comparisons.
+2. Swaps: At most one swap occurs per pass, so there are at most n-1 swaps.
+3. Best case: Even if the array is already sorted, the inner loop still performs the same comparisons, so the cost remains proportional to n^2.
+4. Worst case: Completely reversed data triggers the same number of comparisons and swaps, so the cost is still proportional to n^2.
+5. Space usage: Only the counters i, j, and the index min_idx are extra -> constant auxiliary space.
 
-Step 6 — Show the algebra for comparison counts
-  1. Start with the series Σ_{i=1}^{n−1} (n−i). Distribute to obtain (n−1) + (n−2) + … + 1.
-  2. Pair terms from opposite ends: (1+(n−1)) + (2+(n−2)) + … Each pair sums to n and there are (n−1)/2 pairs when n−1 is odd, or (n−1)/2 pairs plus a middle term when even.
-  3. Therefore the total comparisons equal n(n−1)/2, which is Θ(n^2). This explicit derivation confirms the intuition that the outer loop performs a “triangle number” of comparisons.
-  4. Cross-check with the compact example table: the column “j-range scanned” lists the same lengths (5,4,3,2,1 when n=6), whose sum is 15 = 6·5/2.
+Worked example (A = [5, 2, 4, 6, 1, 3])
+Pass i | j range scanned | min_idx found | Swap?                | Array afterward
+------+-----------------+---------------+---------------------+----------------
+1     | positions 2..6  | 5 (value 1)   | swap A[1] with A[5] | [1,2,4,6,5,3]
+2     | positions 3..6  | 2 (value 2)   | none                 | [1,2,4,6,5,3]
+3     | positions 4..6  | 6 (value 3)   | swap A[3] with A[6] | [1,2,3,6,5,4]
+4     | positions 5..6  | 5 (value 5)   | none                 | [1,2,3,6,5,4]
+5     | position 6 only | 6 (value 4)   | swap A[5] with A[6] | [1,2,3,4,5,6]
+- Before each pass, the prefix matches the invariant statement, and after pass 5 the entire array is sorted.
 
-2.2‑2 Example (compact)
-Purpose: double-check that the invariant and runtime claims match concrete iterations.
-Example array: A = [5, 2, 4, 6, 1, 3], n = 6
-Invariant reminder: before iteration i, A[1..i−1] holds the i−1 smallest values in sorted order, and all of them are ≤ every element in A[i..n].
+Quick recap and why it matters
+- Core idea: each pass finds the smallest remaining value and locks it into the sorted prefix, using the invariant that the prefix already holds the i-1 smallest values.
+- Why it works: the invariant survives initialization, every maintenance step, and termination, so the final array must be sorted.
+- When to use: handy for interviews, problems with minimal extra memory, or systems where swapping costs dominate and predictable writes matter.
 
-Counting comparisons (show your work)
-- Pass i compares (n−i) elements: lengths are n−1, n−2, …, 1.
-- Sum = (n−1) + (n−2) + … + 1 = n(n−1)/2.
-  Reason: it’s the triangle number T_{n−1}; or pair terms from ends: (1+(n−1)) + (2+(n−2)) + … = (n)(n−1)/2.
-- Θ‑notation: comparisons dominate swaps, so time is Θ(n^2) in both best and worst cases.
 
-0‑based indexing mapping (if you code it)
-- Outer for i = 0..n−2; inner for j = i+1..n−1.
-- Invariant becomes: “Before i, A[0..i−1] holds the i smallest elements in sorted order.”
+Exercise 2.2-3 - Linear Search Average-Case Cost
+Textbook prompt (CLRS 2.2-3)
+- Analyze LINEAR-SEARCH when the target value x, if present, is equally likely to appear in any of the n array positions.
+- How many elements does the algorithm inspect on average? What are the best- and worst-case running times?
 
-Compact per‑pass table (same example)
-- Columns: i | j‑range scanned | min_idx (value) after scan | swap performed? | A after pass
-- 1 | 2..6 | 5 (1) | swap(1,5) | [1, 2, 4, 6, 5, 3]
-- 2 | 3..6 | 2 (2) | none      | [1, 2, 4, 6, 5, 3]
-- 3 | 4..6 | 6 (3) | swap(3,6) | [1, 2, 3, 6, 5, 4]
-- 4 | 5..6 | 6 (4) | swap(4,6) | [1, 2, 3, 4, 5, 6]
-- 5 | 6..6 | 5 (5) | none      | [1, 2, 3, 4, 5, 6]
+Plain-language restatement
+- Suppose we check a customer roster from top to bottom until we find a name (or report a miss). We want to quantify how many names we expect to check on average in a way that is easy to remember and reuse on homework, LeetCode, or quick code reviews.
 
-Exercise 2.2‑3 — Linear search average vs worst case
-Question (textbook 2.2‑3)
-- Suppose x is present in A[1..n] and is equally likely to appear in any position. How many elements does LINEAR-SEARCH inspect on average, and how does that compare to the worst case? State the answers in Θ-notation and show the arithmetic.
+Algorithm reminder (1-based)
+  LINEAR-SEARCH(A, n, x)
+    for i = 1 to n
+      if A[i] == x
+        return i
+    return NIL
+- One comparison per position. Stop immediately once we match x; otherwise the loop runs through the entire array and returns NIL.
 
-Solution (step-by-step)
-Step 1 — Translate the probability model
-  • Let the random variable C be the number of inspections performed.
-  • Because x is equally likely to be at any index k (1 ≤ k ≤ n), P[C = k] = 1/n.
-  • Assumption: conditional on x being present, positions are uniformly distributed; this is the only randomness we use.
+Step 1 - Define the random variable for "work"
+- Let C be the number of comparisons performed.
+- If x first appears at position k (1 <= k <= n), then C = k.
+- If x is absent, then C = n (we check every element).
 
-Step 2 — Compute the expectation explicitly
-  1. Write the random variable explicitly: C = k when x appears first at index k.
-  2. Use the uniform model: P[C = k] = 1/n for every k ∈ {1,…,n}.
-  3. Substitute into the expectation formula:
-       E[C] = Σ_{k=1}^n k · P[C = k] = Σ_{k=1}^n k · (1/n).
-     Factor out 1/n and expand the sum of the first n integers:
-       E[C] = (1/n) · (1 + 2 + … + n).
-  4. Apply the closed form 1 + 2 + … + n = n(n+1)/2, giving E[C] = (1/n) · n(n+1)/2 = (n+1)/2.
-  5. Interpretation: the average number of inspections grows linearly with n, so the average-case running time is Θ(n).
-  • Thought process: translate the narrative “each position equally likely” into a simple arithmetic mean; recognize the triangular-number formula.
+Step 2 - Compute the expected number of comparisons when x is present
+1. Uniform model: each position k is equally likely with probability 1/n.
+2. Expectation formula:
+     E[C] = sum_{k=1}^{n} k * P[C = k] = sum_{k=1}^{n} k * (1/n).
+3. Factor out 1/n to obtain (1/n) * (1 + 2 + ... + n).
+4. Use the triangular-number identity 1 + 2 + ... + n = n(n + 1)/2.
+5. Therefore E[C] = (1/n) * n(n + 1)/2 = (n + 1)/2.
+6. Interpretation: on average we inspect about half the array. Average-case time therefore grows linearly with n (Theta(n)).
 
-Step 3 — Identify the worst case
-  • The loop does the most work when x sits at position n or is absent.
-  • In both situations, C = n inspections ⇒ Θ(n) worst-case time.
-  • Assumption: cost per comparison is constant, so the number of inspected items directly reflects running time.
+Step 3 - Best and worst cases
+- Best case: x is at the first position. C = 1 comparison -> Theta(1) time.
+- Worst case: x is absent or at position n. C = n comparisons -> Theta(n) time.
+- Average case: as shown, C = (n + 1)/2 in expectation -> Theta(n) time.
 
-2.2‑3 Examples (compact)
-Purpose: visualize best/average/worst cases predicted by the expectation calculation.
-Array: [9, 4, 7, 2, 5]
-Cases: present early (x=9), present middle (x=7), absent (x=8)
+Step 4 - Small examples to solidify the story (array [9, 4, 7, 2, 5])
+Target | Comparisons examined     | Outcome
+-------+-------------------------+---------
+x = 9  | check A[1] only         | return 1
+x = 7  | check A[1], A[2], A[3]  | return 3
+x = 8  | check all five elements | return NIL
+- These cases line up exactly with the best-, typical-, and worst-case analyses above.
 
-Compact step tables
-- Example 1 (present at first element)
-  i  A[i]  compare to x  action/result
-  1   9      == 9        return 1 (stop)
+Quick recap and why it matters
+- Core idea: scan left to right until the target appears, tracking that everything before the current index has already been ruled out.
+- Why it works: the loop invariant guarantees skipped entries cannot contain x, so the first match is safe and finishing the loop proves absence.
+- When to use: great for tiny datasets, debugging utilities, or LeetCode warm-ups when an ordered structure is unavailable.
 
-- Example 2 (present in the middle)
-  i  A[i]  compare to x  action/result
-  1   9      != 7        continue
-  2   4      != 7        continue
-  3   7      == 7        return 3 (stop)
 
-- Example 3 (absent)
-  i  A[i]  compare to x  action/result
-  1   9      != 8        continue
-  2   4      != 8        continue
-  3   7      != 8        continue
-  4   2      != 8        continue
-  5   5      != 8        continue
-  —   —        —         return NIL (not found)
+Exercise 2.2-4 - Forcing a Linear-Time Best Case for Any Comparison Sort
+Textbook prompt (CLRS 2.2-4)
+- Modify an arbitrary comparison sorting algorithm so that its best-case running time becomes Theta(n) without changing its asymptotic average- or worst-case running times.
 
-Average‑case calculation (assume x is present and equally likely at any position)
-- Let C be the number of checks. If x is at position k, then C = k.
-- Probability x is at position k is 1/n, for k ∈ {1,…,n}.
-- Expected checks: E[C] = Σ_{k=1}^n (k · 1/n) = (1/n) · (1+2+…+n) = (1/n) · n(n+1)/2 = (n+1)/2.
-- Therefore average‑case running time is Θ(n) (linear in n).
+Plain-language restatement
+- Think of a teammate asking, "If the data is already sorted, can we just recognize that and finish immediately?" We will wrap any sort with a quick pre-check that spots the easy scenario while keeping the usual performance when the input is messy.
 
-Worst case
-- If x is absent (or at the last position), the loop examines all n elements: C = n.
-- Worst‑case running time is Θ(n).
-
-0‑based indexing mapping
-- for i = 0..n−1; test A[i] and return i when found; NIL if loop completes.
-- Average checks become (n+1)/2 in 1‑based; in 0‑based you can think of positions 0..n−1 with expected checks (n+1)/2 as well, measured in element inspections.
-
-Exercise 2.2‑4 — Forcing a good best case for any sort
-Question (textbook 2.2‑4)
-- How can any comparison sort be modified so that its best case becomes linear time without changing its other asymptotic bounds?
-
-Solution (step-by-step)
-Step 1 — Pick a linear-time “easy case” test
-  • Define IS-SORTED(A, n): scan once and verify A[1] ≤ A[2] ≤ … ≤ A[n].
-  • Cost: Θ(n) comparisons, Θ(1) space.
-  • Thought process: identify a property (“already sorted”) that can be tested cheaply and guarantees the answer.
-
-Step 2 — Wrap the original sorting algorithm
+Step 1 - Add a fast "already sorted" test
   IS-SORTED(A, n)
     for i = 2 to n
-      if A[i] < A[i−1]
+      if A[i] < A[i - 1]
         return FALSE
     return TRUE
+- This scan costs Theta(n) time and Theta(1) extra space.
 
-  WRAP-SORT(A, n)   // BASE-SORT is the given algorithm
+Step 2 - Wrap the original sorting routine
+  WRAP-SORT(A, n)
     if IS-SORTED(A, n) == TRUE
-      return A                 // already sorted ⇒ finish in Θ(n)
+      return A                      // done in linear time
     else
-      BASE-SORT(A, n)          // fall back to the original routine
+      BASE-SORT(A, n)               // run the existing algorithm
       return A
-  • Assumption: the check and base sort operate on the same data representation so we can reuse results.
+- BASE-SORT is any comparison sort you already trust (insertion sort, merge sort, heapsort, etc.).
 
-Step 3 — Explain the complexity effect
-  • Best case: If the array is already sorted, IS-SORTED returns TRUE and the wrapper finishes in Θ(n).
-  • Otherwise: You pay Θ(n) for the check plus time(BASE-SORT). Because BASE-SORT is at least Ω(n), the Θ(n) precheck does not change its Θ-bound in average or worst cases.
-  • Space overhead: Θ(1) beyond what BASE-SORT already uses.
-  • Thought process: treat the wrapper as “check + original cost”; compare the additional Θ(n) work to the dominant cost of BASE-SORT.
+Step 3 - Argue about running time
+- Best case: if the input is already sorted, IS-SORTED returns TRUE, and WRAP-SORT finishes in Theta(n) time with no further work.
+- Other cases: you spend Theta(n) time on the check and then pay the original cost T_base(n). Because every comparison sort already costs at least Omega(n) on nontrivial inputs, the added Theta(n) work does not change its Theta bounds for average or worst cases.
+- Space: only a few extra variables for the check -> Theta(1) overhead on top of BASE-SORT.
 
-Step 4 — Write the running-time equation explicitly
-  T_wrapper(n) = T_check(n) + T_base(n) = Θ(n) + T_base(n).
-  • Best case (already sorted): T_base(n) = 0 ⇒ T_wrapper(n) = Θ(n).
-  • Worst/average case: T_base(n) dominates, so T_wrapper(n) ∈ Θ(T_base(n)).
-  • Assumption: BASE-SORT’s cost is unaffected by the check (no side effects).
+Step 4 - Concrete traces
+Already sorted input (A = [1, 2, 3, 4, 5])
+i | Comparison made          | Result
+--+-------------------------+--------
+2 | A[2] (2) < A[1] (1)?    | no
+3 | A[3] (3) < A[2] (2)?    | no
+4 | A[4] (4) < A[3] (3)?    | no
+5 | A[5] (5) < A[4] (4)?    | no
+- IS-SORTED returns TRUE; WRAP-SORT exits after Theta(n) work.
 
-Notes
-- Many practical implementations (e.g., bubble sort with a no-swap flag) apply this exact idea.
+Unsorted input (A = [3, 1, 4, 2])
+i | Comparison made          | Result
+--+-------------------------+--------
+2 | A[2] (1) < A[1] (3)?    | yes
+- IS-SORTED stops immediately and returns FALSE. WRAP-SORT then calls BASE-SORT, so the total time is Theta(n) for the check plus the original sorting cost.
 
-2.2‑4 Step‑by‑step walkthrough (learning + show‑your‑work)
-Goal
-- Purpose: convert the abstract wrapper idea into concrete traces that verify the reasoning.
-Goal
-- Modify any sorting algorithm so that its best case is “good” (linear time) by quickly detecting already‑sorted inputs and exiting early.
-
-Wrapper pattern
-  IS-SORTED(A, n)
-    for i = 2 to n
-      if A[i] < A[i−1]
-        return FALSE
-    return TRUE
-
-  WRAP-SORT(A, n)   // BASE-SORT is your original sorting algorithm
-    if IS-SORTED(A, n) == TRUE
-      return A                 // best case: just one pass
-    else
-      BASE-SORT(A, n)          // fall back to the usual algorithm
-      return A
-
-Concrete example 1 (already sorted)
-- Input A = [1, 2, 3, 4, 5]
-- IS-SORTED scans pairs (2≥1, 3≥2, 4≥3, 5≥4): no violation → TRUE → WRAP-SORT returns immediately.
-- Time: Θ(n) (one pass only). This achieves a “good best case.”
-
-Compact check table (already sorted)
-  i  compare A[i] vs A[i−1]  violation?  state
-  2    2 ≥ 1                  no         keep scanning
-  3    3 ≥ 2                  no         keep scanning
-  4    4 ≥ 3                  no         keep scanning
-  5    5 ≥ 4                  no         keep scanning
-  —    —                      —          IS-SORTED = TRUE → return
-
-Concrete example 2 (not sorted)
-- Input A = [3, 1, 4, 2]
-- IS-SORTED: at i=2, detect 1 < 3 → FALSE → run BASE-SORT (e.g., mergesort, quicksort, heapsort, insertion sort, etc.).
-- Total time: Θ(n) for the precheck + time(BASE-SORT). Asymptotically the BASE-SORT term dominates, so worst‑case/average‑case complexity is unchanged.
-
-Compact check table (not sorted)
-  i  compare A[i] vs A[i−1]  violation?  state
-  2    1 < 3                  yes         IS-SORTED = FALSE → run BASE-SORT
-
-Why this does not “cheat” the analysis
-- We truly improved only the best case: when the input is already sorted (or trivially “nice”), we can finish in Θ(n) by observation.
-- On typical random inputs, the Θ(n) precheck is dwarfed by the Θ(n log n) or Θ(n^2) sorting work, so your overall Θ bounds remain the same for average/worst cases.
-
-0‑based indexing mapping
-- In IS-SORTED use i = 1..n−1 and compare A[i] < A[i−1] (0‑based). The wrapper logic is identical.
+Quick recap and why it matters
+- Core idea: run a fast linear pass to spot already sorted input, otherwise fall back to the original comparison sort.
+- Why it works: the O(n) pre-check does not change average or worst bounds, but it lets truly sorted inputs finish in linear time.
+- When to use: valuable in engineering pipelines where data often arrives nearly sorted, in LeetCode variations that reward best-case tuning, or to short-circuit expensive batch sorts.
