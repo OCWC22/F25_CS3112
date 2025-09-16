@@ -1,0 +1,145 @@
+Appendix (optional, not graded) — Case study — Find First and Last Position of Element in Sorted Array (LeetCode 34)
+Note: This section is theory practice only and not part of the graded homework. It shows how Section 2.2 ideas (order of growth, exploiting structure) guide design choices.
+Why this example?
+- It directly illustrates Section 2.2’s core lesson: pick the right model/assumption (array is sorted) and use an algorithm whose order of growth leverages that property. Linear scan is Θ(n); binary search is Θ(log n). On big inputs, that difference dominates.
+
+Plain‑English brief
+- Job: Given a sorted list of numbers and a target value, return the first index and last index where the target appears. If it doesn’t appear, return [-1, -1].
+- Three ways to think about it:
+  1) Walk every aisle (linear scan): fast to write, Θ(n) time. Works but ignores that the list is sorted.
+  2) Find one match with binary search, then walk left and right to find edges: may degrade to Θ(n) when there are many duplicates.
+  3) Use two binary searches: one finds the left edge, one finds the right edge. Each is Θ(log n). This is the scalable choice.
+
+Key idea (why Θ(log n) wins)
+- Binary search halves the remaining search space each step. After k steps, only n / 2^k items remain. When that shrinks to 1, k ≈ log2 n. That’s the Section 2.2 “order of growth” advantage in action.
+
+Two‑binary‑search recipe (0‑based indexing)
+  // returns the boundary index or −1 if not found
+  FIND-BOUND(nums, target, isFirst)
+    begin = 0; end = len(nums) − 1
+    bound = −1
+    while begin ≤ end
+      mid = floor((begin + end) / 2)
+      if nums[mid] == target
+        bound = mid
+        if isFirst == TRUE
+          // keep searching LEFT to find first occurrence
+          end = mid − 1
+        else
+          // keep searching RIGHT to find last occurrence
+          begin = mid + 1
+      else if nums[mid] < target
+        begin = mid + 1
+      else
+        end = mid − 1
+    return bound
+
+  SEARCH-RANGE(nums, target)
+    first = FIND-BOUND(nums, target, TRUE)
+    if first == −1
+      return [−1, −1]
+    last = FIND-BOUND(nums, target, FALSE)
+    return [first, last]
+
+Self‑talk invariant (what’s always true during search)
+- “At the start of each while step, if the target exists in the array, then at least one valid occurrence lies within the current window [begin..end].”
+- On equality, we record mid and then shrink the window toward the side we still need: left for first, right for last. Eventually, the window collapses and we’ve found the required boundary.
+
+Step‑by‑step trace (show your work)
+Example 1: nums = [1, 2, 3, 7, 7, 7, 9], target = 7
+- Find first (left bound):
+  • begin=0, end=6 → mid=3, nums[3]=7 == target → bound=3; need earlier? move end=2.
+  • begin=0, end=2 → mid=1, nums[1]=2 < 7 → begin=2.
+  • begin=2, end=2 → mid=2, nums[2]=3 < 7 → begin=3.
+  • loop ends (begin=3, end=2). First = bound = 3.
+- Find last (right bound):
+  • begin=0, end=6 → mid=3, nums[3]=7 == target → bound=3; need later? begin=4.
+  • begin=4, end=6 → mid=5, nums[5]=7 == target → bound=5; need later? begin=6.
+  • begin=6, end=6 → mid=6, nums[6]=9 > 7 → end=5.
+  • loop ends. Last = bound = 5.
+- Answer: [3, 5].
+
+Compact tables for the two searches (Example 1)
+- Find first (left bound)
+  begin end mid nums[mid] action                         bound
+  0     6   3   7        match → move left (end=2)       3
+  0     2   1   2        < target → begin=2              3
+  2     2   2   3        < target → begin=3              3
+  stop (begin=3 > end=2) → first = 3
+
+- Find last (right bound)
+  begin end mid nums[mid] action                         bound
+  0     6   3   7        match → move right (begin=4)    3
+  4     6   5   7        match → move right (begin=6)    5
+  6     6   6   9        > target → end=5                5
+  stop → last = 5
+
+Example 2 (not found): nums = [2, 4, 6, 8], target = 7
+- First search collapses window without equality → returns −1 → overall answer [−1, −1].
+
+Why not “binary search then linearly expand”?
+- If 90% of the array is the target, the linear expansion can scan almost the entire array: Θ(n). Two binary searches guarantee Θ(log n) regardless of duplicates.
+
+Complexity (RAM model, Section 2.2 tie‑in)
+- Time: Two binary searches → 2 · Θ(log n) = Θ(log n). The constant 2 disappears in Θ‑notation. On large n, Θ(log n) beats Θ(n) no matter the constants, as discussed in Section 2.2.
+- Space: Θ(1) extra space (just a few indices).
+
+Quick checklist (apply in practice)
+ - Ask: “What structure or property can I exploit?” Here: sorted.
+ - Prefer algorithms whose order of growth matches the structure: binary search (Θ(log n)) over scanning (Θ(n)).
+ - When locating ranges of equal values, do two directed binary searches: one for the left edge, one for the right.
+ - Early exit strategy: if not found in first search, skip the second.
+
+
+Optional Python implementations (0‑based arrays)
+  def selection_sort(a):
+      n = len(a)
+      for i in range(n - 1):
+          min_idx = i
+          for j in range(i + 1, n):
+              if a[j] < a[min_idx]:
+                  min_idx = j
+          if min_idx != i:
+              a[i], a[min_idx] = a[min_idx], a[i]
+
+  def linear_search(a, x):
+      for i, v in enumerate(a):
+          if v == x:
+              return i
+      return None  # NIL
+
+  def is_sorted(a):
+      for i in range(1, len(a)):
+          if a[i] < a[i - 1]:
+              return False
+      return True
+
+  def wrap_sort(a, base_sort):
+      if is_sorted(a):
+          return a
+      base_sort(a)
+      return a
+
+  def find_bound(nums, target, first):
+      lo, hi = 0, len(nums) - 1
+      bound = -1
+      while lo <= hi:
+          mid = (lo + hi) // 2
+          if nums[mid] == target:
+              bound = mid
+              if first:
+                  hi = mid - 1  # search left
+              else:
+                  lo = mid + 1  # search right
+          elif nums[mid] < target:
+              lo = mid + 1
+          else:
+              hi = mid - 1
+      return bound
+
+  def search_range(nums, target):
+      first = find_bound(nums, target, True)
+      if first == -1:
+          return [-1, -1]
+      last = find_bound(nums, target, False)
+      return [first, last]
