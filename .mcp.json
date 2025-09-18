@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "pdf-reader-mcp": {
+      "command": "python",
+      "args": [
+        "tools/pdf_reader_mcp.py"
+      ],
+      "name": "PDF Reader"
+    }
+  }
+}
