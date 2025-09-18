@@ -1,0 +1,255 @@
+Section 3.2 Homework Solutions
+
+Exercise 3.2-1: Prove that max{f(n), g(n)} = Θ(f(n) + g(n))
+============================================================================================================
+
+We need to prove that max{f(n), g(n)} = Θ(f(n) + g(n)) for asymptotically nonnegative functions f(n) and g(n).
+
+This requires showing both directions:
+1. max{f(n), g(n)} = O(f(n) + g(n))  [Upper bound]
+2. max{f(n), g(n)} = Ω(f(n) + g(n))  [Lower bound]
+
+Proof of Upper Bound - max{f(n), g(n)} = O(f(n) + g(n)):
+---------------------------------------------------------
+For any n, we have:
+- max{f(n), g(n)} = f(n) when f(n) ≥ g(n)
+- max{f(n), g(n)} = g(n) when g(n) > f(n)
+
+In either case:
+- max{f(n), g(n)} ≤ f(n) + g(n)
+
+Since f(n) and g(n) are asymptotically nonnegative, for sufficiently large n₀:
+- f(n) ≥ 0 and g(n) ≥ 0 for all n ≥ n₀
+
+Therefore, max{f(n), g(n)} ≤ 1 · (f(n) + g(n)) for all n ≥ n₀.
+
+By definition, max{f(n), g(n)} = O(f(n) + g(n)) with c = 1.
+
+Proof of Lower Bound - max{f(n), g(n)} = Ω(f(n) + g(n)):
+---------------------------------------------------------
+For any n:
+- max{f(n), g(n)} ≥ f(n)
+- max{f(n), g(n)} ≥ g(n)
+
+Therefore:
+- 2 · max{f(n), g(n)} ≥ f(n) + g(n)
+- max{f(n), g(n)} ≥ (1/2) · (f(n) + g(n))
+
+For sufficiently large n₀ where f(n) ≥ 0 and g(n) ≥ 0:
+- max{f(n), g(n)} ≥ (1/2) · (f(n) + g(n)) for all n ≥ n₀
+
+By definition, max{f(n), g(n)} = Ω(f(n) + g(n)) with c = 1/2.
+
+Conclusion:
+----------
+Since max{f(n), g(n)} = O(f(n) + g(n)) and max{f(n), g(n)} = Ω(f(n) + g(n)),
+by Theorem 3.1, we have: max{f(n), g(n)} = Θ(f(n) + g(n)).
+
+
+Exercise 3.2-2: Explain why "The running time of algorithm A is at least O(n²)" is meaningless
+============================================================================================================
+
+This statement is meaningless because it misuses asymptotic notation in a contradictory way.
+
+Analysis of the Statement:
+--------------------------
+1. "At least" implies a lower bound (minimum guarantee)
+2. O(n²) denotes an upper bound (maximum growth rate)
+3. Combining them creates: "the minimum is at most n²"
+
+Why It's Meaningless:
+--------------------
+- O(n²) means the running time grows no faster than n²
+- "At least O(n²)" would mean "at minimum, it grows no faster than n²"
+- This provides NO useful information about the algorithm
+
+Every algorithm's running time is "at least O(n²)" because:
+- An O(1) algorithm is "at least O(n²)" (it's also O(n²))
+- An O(n) algorithm is "at least O(n²)" (it's also O(n²))
+- An O(2ⁿ) algorithm is "at least O(n²)" (but NOT O(n²))
+
+The statement fails to bound the running time in any meaningful way.
+
+Correct Alternatives:
+--------------------
+If the speaker intended to convey a lower bound:
+- "The running time is at least Ω(n²)" - provides a lower bound
+- "The running time is Ω(n²)" - cleaner way to state the same
+
+If the speaker intended to convey an upper bound:
+- "The running time is at most O(n²)" - redundant but clear
+- "The running time is O(n²)" - proper usage
+
+If the speaker intended a tight bound:
+- "The running time is Θ(n²)" - provides both upper and lower bounds
+
+
+Exercise 3.2-3: Is 2^(n+1) = O(2^n)? Is 2^(2n) = O(2^n)?
+============================================================================================================
+
+Part 1: Is 2^(n+1) = O(2^n)?
+----------------------------
+YES. We need to show ∃ c > 0, n₀ > 0 such that 2^(n+1) ≤ c·2^n for all n ≥ n₀.
+
+Algebraic manipulation:
+2^(n+1) = 2·2^n
+
+Therefore, 2^(n+1) ≤ 2·2^n for all n ≥ 1.
+
+By the definition of O-notation with c = 2 and n₀ = 1:
+2^(n+1) = O(2^n) ✓
+
+Part 2: Is 2^(2n) = O(2^n)?
+---------------------------
+NO. We need to check if ∃ c > 0, n₀ > 0 such that 2^(2n) ≤ c·2^n for all n ≥ n₀.
+
+Algebraic manipulation:
+2^(2n) = (2^n)² = 2^n · 2^n
+
+For 2^(2n) ≤ c·2^n to hold:
+2^n · 2^n ≤ c·2^n
+2^n ≤ c
+
+This would require c ≥ 2^n for all n ≥ n₀.
+
+Since 2^n grows without bound as n → ∞, no constant c can satisfy this inequality for all n ≥ n₀.
+
+Therefore, 2^(2n) ≠ O(2^n) ✗
+
+Alternative explanation:
+- 2^(2n) grows exponentially faster than 2^n
+- The ratio 2^(2n)/2^n = 2^n → ∞ as n → ∞
+- This violates the requirement for O-notation
+
+
+Exercise 3.2-4: Prove Theorem 3.1
+============================================================================================================
+
+Theorem 3.1: For any two functions f(n) and g(n),
+            f(n) = Θ(g(n)) if and only if f(n) = O(g(n)) AND f(n) = Ω(g(n))
+
+Proof (⇒): If f(n) = Θ(g(n)), then f(n) = O(g(n)) AND f(n) = Ω(g(n))
+---------------------------------------------------------------------
+Given: f(n) = Θ(g(n))
+
+By definition of Θ-notation:
+∃ c₁, c₂, n₀ > 0 such that 0 ≤ c₁g(n) ≤ f(n) ≤ c₂g(n) for all n ≥ n₀
+
+From the upper inequality f(n) ≤ c₂g(n):
+- This satisfies the definition of O-notation with c = c₂
+- Therefore, f(n) = O(g(n))
+
+From the lower inequality c₁g(n) ≤ f(n):
+- This satisfies the definition of Ω-notation with c = c₁
+- Therefore, f(n) = Ω(g(n))
+
+Proof (⇐): If f(n) = O(g(n)) AND f(n) = Ω(g(n)), then f(n) = Θ(g(n))
+---------------------------------------------------------------------
+Given: f(n) = O(g(n)) AND f(n) = Ω(g(n))
+
+From f(n) = O(g(n)):
+∃ c₂, n₁ > 0 such that 0 ≤ f(n) ≤ c₂g(n) for all n ≥ n₁
+
+From f(n) = Ω(g(n)):
+∃ c₁, n₂ > 0 such that 0 ≤ c₁g(n) ≤ f(n) for all n ≥ n₂
+
+Let n₀ = max{n₁, n₂}.
+
+For all n ≥ n₀:
+- From O-notation: f(n) ≤ c₂g(n)
+- From Ω-notation: c₁g(n) ≤ f(n)
+
+Combining: 0 ≤ c₁g(n) ≤ f(n) ≤ c₂g(n) for all n ≥ n₀
+
+This satisfies the definition of Θ-notation.
+Therefore, f(n) = Θ(g(n)).
+
+Conclusion: The theorem is proved in both directions. ∎
+
+
+Exercise 3.2-5: Prove that an algorithm's running time is Θ(g(n)) iff worst-case is O(g(n)) and best-case is Ω(g(n))
+============================================================================================================
+
+Let T(n) denote the running time of an algorithm for input size n.
+Let W(n) = worst-case running time
+Let B(n) = best-case running time
+
+Note: For any input size n, B(n) ≤ T(n) ≤ W(n)
+
+Proof (⇒): If T(n) = Θ(g(n)) for all inputs, then W(n) = O(g(n)) and B(n) = Ω(g(n))
+--------------------------------------------------------------------------------------
+Given: T(n) = Θ(g(n)) for all inputs
+
+By definition of Θ:
+∃ c₁, c₂, n₀ > 0 such that c₁g(n) ≤ T(n) ≤ c₂g(n) for all n ≥ n₀ and all inputs
+
+Since this holds for ALL inputs:
+- W(n) ≤ c₂g(n) for all n ≥ n₀ (even the worst case satisfies the upper bound)
+- Therefore, W(n) = O(g(n))
+
+- B(n) ≥ c₁g(n) for all n ≥ n₀ (even the best case satisfies the lower bound)
+- Therefore, B(n) = Ω(g(n))
+
+Proof (⇐): If W(n) = O(g(n)) and B(n) = Ω(g(n)), then T(n) = Θ(g(n))
+----------------------------------------------------------------------
+Given: W(n) = O(g(n)) and B(n) = Ω(g(n))
+
+From W(n) = O(g(n)):
+∃ c₂, n₁ > 0 such that W(n) ≤ c₂g(n) for all n ≥ n₁
+
+From B(n) = Ω(g(n)):
+∃ c₁, n₂ > 0 such that B(n) ≥ c₁g(n) for all n ≥ n₂
+
+Let n₀ = max{n₁, n₂}.
+
+For all n ≥ n₀ and any input:
+c₁g(n) ≤ B(n) ≤ T(n) ≤ W(n) ≤ c₂g(n)
+
+Therefore: c₁g(n) ≤ T(n) ≤ c₂g(n) for all n ≥ n₀
+
+This satisfies the definition of Θ-notation.
+Therefore, T(n) = Θ(g(n)). ∎
+
+
+Exercise 3.2-6: Prove that o(g(n)) ∩ ω(g(n)) is the empty set
+============================================================================================================
+
+We need to prove that no function can simultaneously belong to both o(g(n)) and ω(g(n)).
+
+Proof by Contradiction:
+-----------------------
+Assume ∃ f(n) such that f(n) ∈ o(g(n)) AND f(n) ∈ ω(g(n)).
+
+From f(n) ∈ o(g(n)):
+For ANY constant c > 0, ∃ n₀ > 0 such that 0 ≤ f(n) < cg(n) for all n ≥ n₀
+
+From f(n) ∈ ω(g(n)):
+For ANY constant c' > 0, ∃ n₁ > 0 such that 0 ≤ c'g(n) < f(n) for all n ≥ n₁
+
+Let's choose c = 1 for both definitions.
+
+From o(g(n)) with c = 1:
+∃ n₀ such that f(n) < g(n) for all n ≥ n₀
+
+From ω(g(n)) with c' = 1:
+∃ n₁ such that g(n) < f(n) for all n ≥ n₁
+
+Let n₂ = max{n₀, n₁}.
+
+For all n ≥ n₂:
+- From o(g(n)): f(n) < g(n)
+- From ω(g(n)): g(n) < f(n)
+
+This gives us: f(n) < g(n) < f(n)
+Which implies: f(n) < f(n)
+
+This is a contradiction!
+
+Alternative Proof Using Limits:
+-------------------------------
+If f(n) ∈ o(g(n)), then lim(n→∞) f(n)/g(n) = 0
+If f(n) ∈ ω(g(n)), then lim(n→∞) f(n)/g(n) = ∞
+
+A limit cannot simultaneously equal 0 and ∞, which is a contradiction.
+
+Therefore, o(g(n)) ∩ ω(g(n)) = ∅ (empty set). ∎

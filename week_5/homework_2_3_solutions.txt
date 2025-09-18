@@ -1,0 +1,220 @@
+Section 2.3 Homework Solutions
+
+Exercise 2.3-4: Use mathematical induction to show that when n ≥ 2 is an exact power of 2, the solution of the recurrence T(n) = 2 if n = 2, and T(n) = 2T(n/2) + n if n = 2^k, k > 1 is T(n) = n lg n
+============================================================================================================
+
+We need to prove that T(n) = n lg n when n = 2^k for some integer k ≥ 1.
+
+Base Case (k = 1, n = 2):
+------------------------
+T(2) = 2 (given)
+n lg n = 2 lg 2 = 2 · 1 = 2 ✓
+
+The base case holds.
+
+Inductive Hypothesis:
+--------------------
+Assume that for some k ≥ 1, T(2^k) = 2^k · k = 2^k lg(2^k).
+
+Inductive Step:
+--------------
+We need to prove that T(2^(k+1)) = 2^(k+1) · (k+1) = 2^(k+1) lg(2^(k+1)).
+
+From the recurrence:
+T(2^(k+1)) = 2T(2^(k+1)/2) + 2^(k+1)
+           = 2T(2^k) + 2^(k+1)
+
+By the inductive hypothesis, T(2^k) = 2^k · k, so:
+T(2^(k+1)) = 2(2^k · k) + 2^(k+1)
+           = 2^(k+1) · k + 2^(k+1)
+           = 2^(k+1)(k + 1)
+           = 2^(k+1) · lg(2^(k+1))
+
+(Since lg(2^(k+1)) = k+1)
+
+Therefore, by mathematical induction, T(n) = n lg n for all n = 2^k where k ≥ 1. ✓
+
+
+Exercise 2.3-5: Recursive version of insertion sort with recurrence
+============================================================================================================
+
+Part A: Pseudocode for Recursive Insertion Sort
+------------------------------------------------
+
+RECURSIVE-INSERTION-SORT(A, n)
+1  if n ≤ 1          // base case: 0 or 1 element is already sorted
+2      return
+3  RECURSIVE-INSERTION-SORT(A, n-1)  // recursively sort first n-1 elements
+4  // Insert A[n] into the sorted subarray A[1:n-1]
+5  key = A[n]
+6  i = n - 1
+7  while i > 0 and A[i] > key
+8      A[i + 1] = A[i]
+9      i = i - 1
+10 A[i + 1] = key
+
+Alternative cleaner version:
+
+RECURSIVE-INSERTION-SORT(A, n)
+1  if n > 1
+2      RECURSIVE-INSERTION-SORT(A, n-1)
+3      INSERT-LAST(A, n)
+
+INSERT-LAST(A, n)
+1  key = A[n]
+2  i = n - 1
+3  while i > 0 and A[i] > key
+4      A[i + 1] = A[i]
+5      i = i - 1
+6  A[i + 1] = key
+
+Part B: Worst-Case Recurrence
+-----------------------------
+In the worst case, the array is reverse sorted, and inserting A[n] requires comparing with and shifting all n-1 elements.
+
+Base case: T(1) = c₁ (constant time for n = 1)
+
+Recursive case:
+T(n) = T(n-1) + Θ(n)
+
+More precisely:
+T(n) = T(n-1) + cn for some constant c > 0
+
+This recurrence represents:
+- T(n-1): Time to recursively sort the first n-1 elements
+- cn: Time to insert the nth element in the worst case (comparing and shifting n-1 elements)
+
+Solution of the recurrence:
+T(n) = T(n-1) + cn
+     = T(n-2) + c(n-1) + cn
+     = T(n-3) + c(n-2) + c(n-1) + cn
+     = ...
+     = c₁ + c·2 + c·3 + ... + c·n
+     = c₁ + c∑(i=2 to n) i
+     = c₁ + c·(n(n+1)/2 - 1)
+     = Θ(n²)
+
+Therefore, the worst-case running time is Θ(n²), same as iterative insertion sort.
+
+
+Exercise 2.3-6: Binary search algorithm and analysis
+============================================================================================================
+
+Part A: Iterative Binary Search
+-------------------------------
+
+BINARY-SEARCH-ITERATIVE(A, n, v)
+1  left = 1
+2  right = n
+3  while left ≤ right
+4      mid = ⌊(left + right) / 2⌋
+5      if A[mid] == v
+6          return mid
+7      elseif A[mid] < v
+8          left = mid + 1    // search right half
+9      else
+10         right = mid - 1   // search left half
+11 return NIL               // v not found
+
+Part B: Recursive Binary Search
+-------------------------------
+
+BINARY-SEARCH-RECURSIVE(A, left, right, v)
+1  if left > right
+2      return NIL
+3  mid = ⌊(left + right) / 2⌋
+4  if A[mid] == v
+5      return mid
+6  elseif A[mid] < v
+7      return BINARY-SEARCH-RECURSIVE(A, mid+1, right, v)
+8  else
+9      return BINARY-SEARCH-RECURSIVE(A, left, mid-1, v)
+
+// Initial call: BINARY-SEARCH-RECURSIVE(A, 1, n, v)
+
+Part C: Worst-Case Analysis - Proof that T(n) = Θ(lg n)
+--------------------------------------------------------
+
+The worst case occurs when:
+1. v is not in the array, or
+2. v is found at the last comparison
+
+Key observation: Each comparison eliminates half of the remaining elements.
+
+For the iterative version:
+- Initially, we have n elements to consider
+- After 1 comparison: n/2 elements remain
+- After 2 comparisons: n/4 elements remain
+- After k comparisons: n/2^k elements remain
+
+The algorithm terminates when n/2^k < 1, which occurs when:
+n/2^k < 1
+n < 2^k
+lg n < k
+
+Therefore, k = ⌈lg n⌉ + 1 comparisons are needed in the worst case.
+
+For the recursive version:
+T(n) = T(n/2) + Θ(1)
+     = T(n/4) + Θ(1) + Θ(1)
+     = T(n/8) + 3·Θ(1)
+     = ...
+     = T(1) + (lg n)·Θ(1)
+     = Θ(lg n)
+
+Formal recurrence:
+T(1) = c (base case)
+T(n) = T(⌊n/2⌋) + c for n > 1
+
+By the master theorem (or by repeated substitution), T(n) = Θ(lg n).
+
+
+Exercise 2.3-7: Insertion sort with binary search
+============================================================================================================
+
+Question: Would using binary search instead of linear search improve insertion sort to Θ(n lg n)?
+
+Answer: NO. The worst-case running time would still be Θ(n²).
+
+Analysis:
+--------
+
+Modified Insertion Sort with Binary Search:
+
+For each element A[i] (where i = 2 to n):
+1. Use binary search to find the correct position j in the sorted subarray A[1:i-1]
+   Time: O(lg i) ≤ O(lg n)
+
+2. Shift elements A[j:i-1] one position to the right to make room for A[i]
+   Time: O(i-j) which is O(i) in the worst case
+
+Total worst-case time:
+----------------------
+The worst case still occurs when the array is reverse sorted, requiring maximum shifts.
+
+For each i from 2 to n:
+- Binary search time: O(lg i)
+- Shifting time: O(i) in the worst case (when A[i] needs to go to position 1)
+
+Total time = ∑(i=2 to n)[O(lg i) + O(i)]
+           = ∑(i=2 to n) O(lg i) + ∑(i=2 to n) O(i)
+           = O(n lg n) + O(n²)
+           = O(n²)
+
+Why Binary Search Doesn't Help:
+-------------------------------
+1. Finding the position is faster: O(lg n) instead of O(n)
+2. BUT shifting elements still takes O(n) time per insertion
+3. The shifting dominates the overall complexity
+
+The bottleneck in insertion sort is not finding where to insert (which binary search optimizes), but actually moving elements to make room for the insertion.
+
+Comparison with standard insertion sort:
+- Standard: O(n) comparisons + O(n) shifts per element = O(n²) total
+- With binary search: O(lg n) comparisons + O(n) shifts per element = O(n²) total
+
+Conclusion:
+----------
+Binary search reduces the number of comparisons from O(n²) to O(n lg n), but the number of data movements (shifts) remains O(n²) in the worst case. Since data movement dominates, the overall worst-case complexity remains Θ(n²).
+
+Note: Binary search might provide a practical improvement when comparisons are expensive (e.g., comparing long strings), but it doesn't improve the asymptotic worst-case running time.
