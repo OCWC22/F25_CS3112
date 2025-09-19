@@ -1085,3 +1085,200 @@ The 12 entries in the matrix are to be stored in row major form in locations 7,6
 
 ### Answers for Test Yourself
 1. integers; n = dq + r; 0 ≤ r < d 2. the quotient obtained when n is divided by d; the nonnegative remainder obtained when n is divided by d 3. odd or even 4. 0, 1, 2, . . ., (d − 1); dq, dq + 1, dq + 2, . . ., dq + (d − 1) 5. If A1, then C; If A2, then C; If A3, then C 6. |x + y| ≤ |x| + |y|
+
+## Chapter 4.5: Direct Proof and Counterexample V: Floor and Ceiling
+
+### Introduction
+Proof serves many purposes simultaneously. In being exposed to the scrutiny and judgment of a new audience, [a] proof is subject to a constant process of criticism and revalidation. Errors, ambiguities, and misunderstandings are cleared up by constant exposure. Proof is respectability. Proof is the seal of authority. Proof, in its best instances, increases understanding by revealing the heart of the matter. Proof suggests new mathematics. The novice who studies proofs gets closer to the creation of new mathematics. Proof is mathematical power, the electric voltage of the subject which vitalizes the static assertions of the theorems. Finally, proof is ritual, and a celebration of the power of pure reason. — Philip J. Davis and Reuben Hersh, The Mathematical Experience, 1981
+
+Imagine a real number sitting on a number line. The floor and ceiling of the number are the integers to the immediate left and to the immediate right of the number (unless the number is, itself, an integer, in which case its floor and ceiling both equal the number itself). Many computer languages have built-in functions that compute floor and ceiling automatically. These functions are very convenient to use when writing certain kinds of computer programs. In addition, the concepts of floor and ceiling are important in analyzing the efficiency of many computer algorithms.
+
+### Definitions
+
+**Floor Function:**
+Given any real number x, the floor of x, denoted ⌊x⌋, is defined as follows:
+⌊x⌋ = that unique integer n such that n ≤ x < n + 1.
+Symbolically, if x is a real number and n is an integer, then
+⌊x⌋ = n ⇔ n ≤ x < n + 1.
+
+**Ceiling Function:**
+Given any real number x, the ceiling of x, denoted ⌈x⌉, is defined as follows:
+⌈x⌉ = that unique integer n such that n − 1 < x ≤ n.
+Symbolically, if x is a real number and n is an integer, then
+⌈x⌉ = n ⇔ n − 1 < x ≤ n.
+
+### Example 4.5.1: Computing Floors and Ceilings
+Compute ⌊x⌋ and ⌈x⌉ for each of the following values of x:
+a. 25/4
+b. 0.999
+c. −2.01
+
+**Solution:**
+a. 25/4 = 6.25 and 6 < 6.25 < 7; hence ⌊25/4⌋ = 6 and ⌈25/4⌉ = 7.
+b. 0 < 0.999 < 1; hence ⌊0.999⌋ = 0 and ⌈0.999⌉ = 1.
+c. −3 < −2.01 < −2; hence ⌊−2.01⌋ = −3 and ⌈−2.01⌉ = −2.
+Note that on some calculators ⌊x⌋ is denoted INT (x).
+
+### Example 4.5.2: An Application
+The 1,370 students at a college are given the opportunity to take buses to an out-of-town game. Each bus holds a maximum of 40 passengers.
+a. For reasons of economy, the athletic director will send only full buses. What is the maximum number of buses the athletic director will send?
+b. If the athletic director is willing to send one partially filled bus, how many buses will be needed to allow all the students to take the trip?
+
+**Solution:**
+a. ⌊1370/40⌋ = ⌊34.25⌋ = 34
+b. ⌈1370/40⌉ = ⌈34.25⌉ = 35
+
+### Example 4.5.3: Some General Values of Floor
+If k is an integer, what are ⌊k⌋ and ⌊k + 1/2⌋? Why?
+
+**Solution:**
+Suppose k is an integer. Then
+⌊k⌋ = k because k is an integer and k ≤ k < k + 1,
+and
+⌊k + 1/2⌋ = k because k is an integer and k ≤ k + 1/2 < k + 1.
+
+### Example 4.5.4: Disproving an Alleged Property of Floor
+Is the following statement true or false?
+For all real numbers x and y, ⌊x + y⌋ = ⌊x⌋ + ⌊y⌋.
+
+**Solution:**
+The statement is false. As a counterexample, take x = y = 1/2. Then
+⌊x⌋ + ⌊y⌋ = ⌊1/2⌋ + ⌊1/2⌋ = 0 + 0 = 0,
+whereas
+⌊x + y⌋ = ⌊1/2 + 1/2⌋ = ⌊1⌋ = 1.
+Hence ⌊x + y⌋ ≠ ⌊x⌋ + ⌊y⌋.
+
+### Theorem 4.5.1: Floor Addition with Integers
+For all real numbers x and all integers m, ⌊x + m⌋ = ⌊x⌋ + m.
+
+**Proof:**
+Suppose a real number x and an integer m are given. [We must show that ⌊x + m⌋ = ⌊x⌋ + m.] Let n = ⌊x⌋. By definition of floor,
+n is an integer and n ≤ x < n + 1.
+
+This double inequality enables you to compute the value of ⌊x + m⌋ in terms of n by adding m to all sides:
+n + m ≤ x + m < n + m + 1.
+Thus the left-hand side of the equation to be shown is
+⌊x + m⌋ = n + m.
+On the other hand, since n = ⌊x⌋, the right-hand side of the equation to be shown is
+⌊x⌋ + m = n + m
+also. Thus ⌊x + m⌋ = ⌊x⌋ + m.
+
+### Theorem 4.5.2: The Floor of n/2
+For any integer n,
+⌊n/2⌋ = {n/2 if n is even
+        {(n−1)/2 if n is odd.
+
+**Proof:**
+Suppose n is a [particular but arbitrarily chosen] integer. By the quotient-remainder theorem, either n is odd or n is even.
+
+Case 1 (n is odd): In this case, n = 2k + 1 for some integer k. [We must show that ⌊n/2⌋ = (n − 1)/2.] But the left-hand side of the equation to be shown is
+⌊n/2⌋ = ⌊(2k + 1)/2⌋ = ⌊2k/2 + 1/2⌋ = ⌊k + 1/2⌋ = k
+because k is an integer and k ≤ k + 1/2 < k + 1. And the right-hand side of the equation to be shown is
+(n − 1)/2 = (2k + 1 − 1)/2 = 2k/2 = k
+also. So since both the left-hand and right-hand sides equal k, they are equal to each other. That is, ⌊n/2⌋ = (n − 1)/2 [as was to be shown].
+
+Case 2 (n is even): In this case, n = 2k for some integer k. [We must show that ⌊n/2⌋ = n/2.] The rest of the proof of this case is left as an exercise.
+
+### Theorem 4.5.3: Quotient-Remainder with Floor
+If n is any integer and d is a positive integer, and if q = ⌊n/d⌋ and r = n − d⌊n/d⌋, then
+n = dq + r and 0 ≤ r < d.
+
+**Proof:**
+Suppose n is any integer, d is a positive integer, q = ⌊n/d⌋, and r = n − d⌊n/d⌋. [We must show that n = dq + r and 0 ≤ r < d.] By substitution,
+dq + r = d⌊n/d⌋ + (n − d⌊n/d⌋) = n.
+So it remains only to show that 0 ≤ r < d. But q = ⌊n/d⌋. Thus, by definition of floor,
+q ≤ n/d < q + 1.
+Then
+dq ≤ n < dq + d  by multiplying all parts by d
+0 ≤ n − dq < d  by subtracting dq from all parts
+and so
+But
+r = n − d⌊n/d⌋ = n − dq.
+Hence
+0 ≤ r < d  by substitution.
+[This is what was to be shown.]
+
+### Example 4.5.6: Computing div and mod
+Use the floor notation to compute 3850 div 17 and 3850 mod 17.
+
+**Solution:**
+By formula (4.5.1),
+3850 div 17 = ⌊3850/17⌋ = ⌊226.4705882 . . .⌋ = 226
+3850 mod 17 = 3850 − 17·⌊3850/17⌋
+= 3850 − 17·226
+= 3850 − 3842 = 8.
+
+### Key Applications and Properties
+
+1. **div and mod using floor:**
+For a nonnegative integer n and a positive integer d,
+n div d = ⌊n/d⌋ and n mod d = n − d⌊n/d⌋.
+
+2. **Divisibility condition:**
+d divides n if, and only if, n mod d = 0, or, in other words, n = d⌊n/d⌋.
+
+### Test Yourself Questions
+1. Given any real number x, the floor of x is the unique integer n such that _____.
+2. Given any real number x, the ceiling of x is the unique integer n such that _____.
+
+### Exercise Set 4.5
+
+Compute ⌊x⌋ and ⌈x⌉ for each of the values of x in 1-4.
+1. 37.999
+2. 17/4
+3. −14.00001
+4. −32/5
+
+5. Use the floor notation to express 259 div 11 and 259 mod 11.
+6. If k is an integer, what is ⌈k⌉? Why?
+7. If k is an integer, what is ⌈k + 1/2⌉? Why?
+8. Seven pounds of raw material are needed to manufacture each unit of a certain product. Express the number of units that can be produced from n pounds of raw material using either the floor or the ceiling notation. Which notation is more appropriate?
+9. Boxes, each capable of holding 36 units, are used to ship a product from the manufacturer to a wholesaler. Express the number of boxes that would be required to ship n units of the product using either the floor or the ceiling notation. Which notation is more appropriate?
+10. If 0 = Sunday, 1 = Monday, 2 = Tuesday, . . . , 6 = Saturday, then January 1 of year n occurs on the day of the week given by the following formula:
+⌊n + (n−1)/4 − (n−1)/100 + (n−1)/400⌋ mod 7.
+a. Use this formula to find January 1 of
+i. 2050
+ii. 2100
+iii. the year of your birth.
+b. Interpret the different components of this formula.
+
+11. State a necessary and sufficient condition for the floor of a real number to equal that number.
+12. Prove that if n is any even integer, then ⌊n/2⌋ = n/2.
+13. Suppose n and d are integers and d ≠ 0. Prove each of the following.
+a. If d | n, then n = ⌊n/d⌋ · d.
+b. If n = ⌊n/d⌋ · d, then d | n.
+c. Use the floor notation to state a necessary and sufficient condition for an integer n to be divisible by an integer d.
+
+Some of the statements in 14-22 are true and some are false. Prove each true statement and find a counterexample for each false statement, but do not use Theorem 4.5.1 in your proofs.
+14. For all real numbers x and y, ⌊x − y⌋ = ⌊x⌋ − ⌊y⌋.
+15. For all real numbers x, ⌊x − 1⌋ = ⌊x⌋ − 1.
+16. For all real numbers x, ⌊x²⌋ = ⌊x⌋².
+17. For all integers n,
+⌊n/3⌋ = {n/3 if n mod 3 = 0
+        {(n−1)/3 if n mod 3 = 1
+        {(n−2)/3 if n mod 3 = 2
+18. For all real numbers x and y, ⌈x + y⌉ = ⌈x⌉ + ⌈y⌉.
+19. For all real numbers x, ⌈x − 1⌉ = ⌈x⌉ − 1.
+20. For all real numbers x and y, ⌈xy⌉ = ⌈x⌉ · ⌈y⌉.
+21. For all odd integers n, ⌈n/2⌉ = (n + 1)/2.
+22. For all real numbers x and y, ⌈xy⌉ = ⌈x⌉ · ⌊y⌋.
+
+Prove each of the statements in 23-29.
+23. For any real number x, if x is not an integer, then ⌊x⌋ + ⌊−x⌋ = −1.
+24. For any integer m and any real number x, if x is not an integer, then ⌊x⌋ + ⌊m − x⌋ = m − 1.
+25. For all real numbers x, ⌊⌊x/2⌋/2⌋ = ⌊x/4⌋.
+26. For all real numbers x, if x − ⌊x⌋ < 1/2 then ⌊2x⌋ = 2⌊x⌋.
+27. For all real numbers x, if x − ⌊x⌋ ≥ 1/2 then ⌊2x⌋ = 2⌊x⌋ + 1.
+28. For any odd integer n,
+⌊n²/4⌋ = (n−1)(n+1)/4.
+29. For any odd integer n,
+⌈n²/4⌉ = (n² + 3)/4.
+
+30. Find the mistake in the following "proof" that ⌊n/2⌋ = (n − 1)/2 if n is an odd integer.
+"Proof: Suppose n is any odd integer. Then n = 2k + 1 for some integer k. Consequently,
+⌊n/2⌋ = ⌊(2k + 1)/2⌋ = ⌊2k/2⌋ = ⌊k⌋ = k.
+But n = 2k + 1. Solving for k gives k = (n − 1)/2.
+Hence, by substitution, ⌊n/2⌋ = (n − 1)/2."
+
+### Answers for Test Yourself
+1. n ≤ x < n + 1 2. n − 1 < x ≤ n
