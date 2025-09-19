@@ -408,6 +408,30 @@ c. What is the relationship between the running time of insertion sort and the n
 
 d. Give an algorithm that determines the number of inversions in any permutation on n elements in Θ(n lg n) worst-case time. (Hint: Modify merge sort.)
 
+## 2.3 Designing algorithms (Section Summary)
+
+### 2.3.2 Analyzing divide-and-conquer algorithms
+
+The merge sort algorithm follows the divide-and-conquer paradigm. Its recurrence for the worst-case running time T(n) is:
+
+**T(n) = 2T(n/2) + Θ(n)**
+
+This recurrence comes from:
+- **Divide:** D(n) = Θ(1) (computing the middle takes constant time)
+- **Conquer:** 2T(n/2) (recursively solving two subproblems of size n/2)
+- **Combine:** C(n) = Θ(n) (merging n elements)
+
+The solution to this recurrence is **T(n) = Θ(n lg n)**, which represents a significant improvement over insertion sort's Θ(n²) worst-case time.
+
+For the general divide-and-conquer recurrence:
+
+**T(n) = aT(n/b) + f(n)**
+
+where:
+- a = number of subproblems
+- n/b = size of each subproblem
+- f(n) = time to divide and combine
+
 ## Chapter notes
 
 In 1968, Knuth published the first of three volumes with the general title *The Art of Computer Programming* [259, 260, 261]. The first volume ushered in the modern study of computer algorithms with a focus on the analysis of running time. The full series remains an engaging and worthwhile reference for many of the topics presented here. According to Knuth, the word "algorithm" is derived from the name "al-Khowârizmî," a ninth-century Persian mathematician.
