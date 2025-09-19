@@ -432,7 +432,7 @@ change of variable: j = k + 1
 
 First calculate the lower and upper limits of the new summation:
 
-When k = 0, j = k + 1 = 0 + $1 = 1$.
+When k = 0, j = k + 1 = 0 + 1 = 1.
 When k = 6, j = k + 1 = 6 + 1 = 7.
 
 Thus the new sum goes from j = 1 to j = 7.
@@ -476,7 +476,7 @@ b. Transform the summation obtained in part (a) by changing all j's to k's.
 
 **Solution**
 
-a. When k = 1, then j = k - $1 = 1$ - 1 = 0. (So the new lower limit is 0.)
+a. When k = 1, then j = k - 1 = 1 - 1 = 0. (So the new lower limit is 0.)
 When k = n + 1, then j = k - 1 = (n + 1) - 1 = n. (So the new upper limit is n.)
 
 Since j = k - 1, then k = j + 1. Also note that n is a constant as far as the terms of the sum are concerned. It follows that
@@ -532,7 +532,7 @@ The definition of zero factorial as 1 may seem odd, but, as you will see when yo
 ### Example 5.1.15 The First Ten Factorials
 
 ```
-0! = 1          5! = 5·4·3·2·$1 = 1$20
+0! = 1          5! = 5·4·3·2·1 = 120
 1! = 1          6! = 6·5·4·3·2·1 = 720
 2! = 2·1 = 2    7! = 7·6·5·4·3·2·1 = 5,040
 3! = 3·2·1 = 6  8! = 8·7·6·5·4·3·2·1 = 40,320
@@ -878,8 +878,11 @@ Write the summations in 29–32 in expanded form.
 Evaluate the summations and products in 33–36 for the indicated values of the variable.
 
 33. 1/1² + 1/2² + 1/3² + . . . + 1/n²; n = 1
+
 34. 1(1!) + 2(2!) + 3(3!) + . . . + m(m!); m = 2
+
 35. (1·2)/(3·4) - (2·3)/(4·5) + (3·4)/(5·6) - (4·5)/(6·7) + (5·6)/(7·8) - (6·7)/(8·9); k = 3
+
 36. (1·2)/(3·4) - (2·3)/(4·5) + (3·4)/(5·6) - . . . + ((m-1)·m)/((m+1)·(m+2)); m = 1
 
 Rewrite 37–39 by separating off the final term.
@@ -893,14 +896,23 @@ Rewrite 37–39 by separating off the final term.
 Write each of 43–52 using summation or product notation.
 
 43. 1² - 2² + 3² - 4² + 5² - 6² + 7²
+
 44. (1³ - 1) - (2³ - 1) + (3³ - 1) - (4³ - 1) + (5³ - 1)
+
 45. (2² - 1)·(3² - 1)·(4² - 1)
+
 46. 1 - r + r² - r³ + r⁴ - r⁵
+
 47. 1 - r + r² - r³ + r⁴ - r⁵
+
 48. (1 - t)·(1 - t²)·(1 - t³)·(1 - t⁴)
+
 49. 13 + 23 + 33 + · · · + n³
+
 50. 2/2! + 3/3! + 4/4! + · · · + (n+1)/(n+1)!
+
 51. n + (n - 1) + (n - 2) + · · · + 1
+
 52. n + n/2 + n/3 + n/4 + · · · + n/n
 
 Transform each of 53 and 54 by making the change of variable i = k + 1.
@@ -1229,14 +1241,16 @@ also. Hence P(1) is true.
 
 **Show that for all integers k ≥ 1, if P(k) is true then P(k + 1) is also true:**
 
-[Suppose that P(k) is true for a particular but arbitrarily chosen integer k ≥ 1. That is:] Suppose that k is any integer with k ≥ 1 such that
+[Suppose that P(k) is true for a particular but arbitrarily chosen integer k ≥ 1. That is:]
+Suppose that k is any integer with k ≥ 1 such that
 ```
 1 + 2 + 3 + ··· + k = k(k + 1)/2
 ```
 ← P(k)
 inductive hypothesis
 
-[We must show that P(k + 1) is true. That is:] We must show that
+[We must show that P(k + 1) is true. That is:]
+We must show that
 ```
 1 + 2 + 3 + · · · + (k + 1) = (k + 1)[(k + 1) + 1]/2
 ```
@@ -1298,6 +1312,8 @@ Thus the two sides of P(k + 1) are equal to the same quantity and so they are eq
 
 →
 
+→
+
 1 2
 
 →
@@ -1323,6 +1339,7 @@ b. Evaluate 5 + 6 + 7 + 8 + · · · + 50.
 c. For an integer h ≥ 2, write 1 + 2 + 3 + · · · + (h − 1) in closed form.
 
 **Solution**
+
 a. 2 + 4 + 6 + · · · + 500 = 2· (1 + 2 + 3 + · · · + 250)
 ```
 = 2· [250· 251/2]
@@ -1368,7 +1385,6 @@ and because r⁰ = 1 and r¹ = r, the formula for n ≥ 1 can be rewritten as
 ### Example 5.2.3 Sum of a Geometric Sequence
 
 Prove that
-
 ```
 ∑ᵢ₌₀ⁿ rⁱ = (rⁿ⁺¹ − 1)/(r − 1)
 ```
@@ -1452,7 +1468,7 @@ also because r¹ = r and r ≠ 1. Hence P(0) is true.
 
 Let k be any integer with k ≥ 0, and suppose that
 ```
-$\sum_{i=0}^{k} r^i = \frac{r^{k+1} - 1}{r - 1}$
+∑_{i=0}^{k} r^i = \frac{r^{k+1} - 1}{r - 1}
 ```
 
 ← P(k)
@@ -1460,7 +1476,7 @@ inductive hypothesis
 
 [We must show that P(k + 1) is true. That is:] We must show that
 ```
-$\sum_{i=0}^{k+1} r^i = \frac{r^{(k + 1) + 1} - 1}{r - 1}$
+∑_{i=0}^{k+1} r^i = \frac{r^{(k + 1) + 1} - 1}{r - 1}
 ```
 or, equivalently, that
 ```
@@ -1741,3 +1757,669 @@ Find the mistakes in the proof fragments in 33–35.
 ## Answers for Test Yourself
 
 1. greater than or equal to some initial value 2. (a) P(a) is true (b) P(k) is true; inductive hypothesis; P(k + 1) is true
+
+---
+
+## 5.6 Defining Sequences Recursively
+
+**Page 318**
+
+> So, Nat'ralists observe, a Flea/Hath smaller Fleas that on him prey,/And these have smaller Fleas to bite 'em,/And so proceed ad inﬁnitum. — Jonathan Swift, 1733
+
+A sequence can be deﬁned in a variety of different ways. One informal way is to write the ﬁrst few terms with the expectation that the general pattern will be obvious. We might say, for instance, "consider the sequence 3, 5, 7, . . .." Unfortunately, misunderstandings can occur when this approach is used. The next term of the sequence could be 9 if we mean a sequence of odd integers, or it could be 11 if we mean the sequence of odd prime numbers.
+
+The second way to deﬁne a sequence is to give an explicit formula for its nth term. For example, a sequence a₀, a₁, a₂, . . . can be speciﬁed by writing:
+
+```
+aₙ = (-1)ⁿ/(n+1) for all integers n ≥ 0.
+```
+
+The advantage of deﬁning a sequence by such an explicit formula is that each term of the sequence is uniquely determined and can be computed in a ﬁxed, ﬁnite number of steps, by substitution.
+
+The third way to deﬁne a sequence is to use recursion. This requires giving both an equation, called a recurrence relation, that deﬁnes each later term in the sequence by reference to earlier terms and also one or more initial values for the sequence.
+
+Sometimes it is very diﬃcult or impossible to ﬁnd an explicit formula for a sequence, but it is possible to deﬁne the sequence using recursion. Note that deﬁning sequences recursively is similar to proving theorems by mathematical induction. The recurrence relation is like the inductive step and the initial conditions are like the basis step. Indeed, the fact that sequences can be deﬁned recursively is equivalent to the fact that mathematical induction works as a method of proof.
+
+### Deﬁnition: Recurrence Relation and Initial Conditions
+
+A recurrence relation for a sequence a₀, a₁, a₂, . . . is a formula that relates each term aₖ to certain of its predecessors aₖ₋₁, aₖ₋₂, . . . , aₖ₋ᵢ, where i is an integer with k − i ≥ 0. The initial conditions for such a recurrence relation specify the values of a₀, a₁, a₂, . . . , aᵢ₋₁, if i is a ﬁxed integer, or a₀, a₁, . . . , aₘ, where m is an integer with m ≥ 0, if i depends on k.
+
+**Page 319**
+
+### Example 5.6.1 Computing Terms of a Recursively Deﬁned Sequence
+
+Deﬁne a sequence c₀, c₁, c₂, . . . recursively as follows: For all integers k ≥ 2,
+
+(1) cₖ = cₖ₋₁ + kcₖ₋₂ + 1 (recurrence relation)
+(2) c₀ = 1 and c₁ = 2 (initial conditions)
+
+Find c₂, c₃, and c₄.
+
+**Solution**
+
+```
+c₂ = c₁ + 2c₀ + 1
+   = 2 + 2·1 + 1 = 5    [by substituting k = 2 into (1)]
+
+c₃ = c₂ + 3c₁ + 1
+   = 5 + 3·2 + 1 = 12   [by substituting k = 3 into (1)]
+
+c₄ = c₃ + 4c₂ + 1
+   = 12 + 4·5 + 1 = 33  [by substituting k = 4 into (1)]
+```
+
+### Example 5.6.2 Writing a Recurrence Relation in More Than One Way
+
+Let s₀, s₁, s₂, . . . be a sequence that satisﬁes the following recurrence relation:
+
+For all integers k ≥ 1, sₖ = 3sₖ₋₁ − 1.
+
+Explain why the following statement is true:
+
+For all integers k ≥ 0, sₖ₊₁ = 3sₖ − 1.
+
+**Solution**
+
+In informal language, the recurrence relation says that any term of the sequence equals 3 times the previous term minus 1. Now for any integer k ≥ 0, the term previous to sₖ₊₁ is sₖ. Thus for any integer k ≥ 0, sₖ₊₁ = 3sₖ − 1.
+
+**Page 320**
+
+### Example 5.6.3 Sequences That Satisfy the Same Recurrence Relation
+
+Let a₁, a₂, a₃, . . . and b₁, b₂, b₃, . . . satisfy the recurrence relation that the kth term equals 3 times the (k − 1)st term for all integers k ≥ 2:
+
+(1) aₖ = 3aₖ₋₁ and bₖ = 3bₖ₋₁.
+
+But suppose that the initial conditions for the sequences are different:
+
+(2) a₁ = 2 and b₁ = 1.
+
+Find (a) a₂, a₃, a₄ and (b) b₂, b₃, b₄.
+
+**Solution**
+
+a. a₂ = 3a₁ = 3 · 2 = 6
+   a₃ = 3a₂ = 3 · 6 = 18
+   a₄ = 3a₃ = 3 · 18 = 54
+   Thus a₁, a₂, a₃, . . . begins 2, 6, 18, 54, . . .
+
+b. b₂ = 3b₁ = 3 · 1 = 3
+   b₃ = 3b₂ = 3 · 3 = 9
+   b₄ = 3b₃ = 3 · 9 = 27
+   Thus b₁, b₂, b₃, . . . begins 1, 3, 9, 27, . . .
+
+### Example 5.6.4 Showing That a Sequence Given by an Explicit Formula Satisﬁes a Certain Recurrence Relation
+
+The sequence of Catalan numbers, named after the Belgian mathematician Eugène Catalan (1814–1894), arises in a remarkable variety of different contexts in discrete mathematics. It can be deﬁned as follows: For each integer n ≥ 1,
+
+```
+Cₙ = (1/(n+1)) · (2n choose n)
+```
+
+a. Find C₁, C₂, and C₃.
+b. Show that this sequence satisﬁes the recurrence relation Cₖ = (4k−2)/(k+1) · Cₖ₋₁ for all integers k ≥ 2.
+
+**Solution**
+
+a. C₁ = (1/2) · (2 choose 1) = (1/2) · 2 = 1
+   C₂ = (1/3) · (4 choose 2) = (1/3) · 6 = 2
+   C₃ = (1/4) · (6 choose 3) = (1/4) · 20 = 5
+
+b. To obtain the kth and (k − 1)st terms of the sequence, just substitute k and k − 1 in place of n in the explicit formula:
+
+```
+Cₖ = (1/(k+1)) · (2k choose k)
+Cₖ₋₁ = (1/k) · (2(k-1) choose k-1) = (1/k) · (2k-2 choose k-1)
+```
+
+Then start with the right-hand side of the recurrence relation and transform it into the left-hand side:
+
+For each integer k ≥ 2,
+
+```
+(4k-2)/(k+1) · Cₖ₋₁ = (4k-2)/(k+1) · (1/k) · (2k-2 choose k-1)
+                  = (2(2k-1))/(k+1) · (1/k) · ((2k-2)!)/((k-1)!(k-1)!)
+                  = (1/(k+1)) · (2(2k-1))/k · ((2k-2)!)/((k-1)!(k-1)!)
+                  = (1/(k+1)) · (1/k) · 2(2k-1) · ((2k-2)!)/((k-1)!(k-1)!)
+                  = (1/(k+1)) · (1/2) · (1/k) · 2k · (2k-1) · (2k-2)!/(k!(k-1)!)
+                  = (1/(k+1)) · (1/k) · (2k)!/(k!(k-1)!)
+                  = (1/(k+1)) · (2k)!/(k!k!)
+                  = (1/(k+1)) · (2k choose k)
+                  = Cₖ
+```
+
+**Page 321-322**
+
+### Examples of Recursively Deﬁned Sequences
+
+Recursion is one of the central ideas of computer science. To solve a problem recursively means to ﬁnd a way to break it down into smaller subproblems each having the same form as the original problem—and to do this in such a way that when the process is repeated many times, the last of the subproblems are small and easy to solve and the solutions of the subproblems can be woven together to form a solution to the original problem.
+
+Probably the most diﬃcult part of solving problems recursively is to ﬁgure out how knowing the solution to smaller subproblems of the same type as the original problem will give you a solution to the problem as a whole. You suppose you know the solutions to smaller subproblems and ask yourself how you would best make use of that knowledge to solve the larger problem. The supposition that the smaller subproblems have already been solved has been called the recursive paradigm or the recursive leap of faith. Once you take this leap, you are right in the middle of the most diﬃcult part of the problem, but generally, the path to a solution from this point, though diﬃcult, is short. The recursive leap of faith is similar to the inductive hypothesis in a proof by mathematical induction.
+
+### Example 5.6.5 The Tower of Hanoi
+
+In 1883 a French mathematician, Édouard Lucas, invented a puzzle that he called The Tower of Hanoi (La Tour D'Hanoï). The puzzle consisted of eight disks of wood with holes in their centers, which were piled in order of decreasing size on one pole in a row of three. Those who played the game were supposed to move all the disks one by one from one pole to another, never placing a larger disk on top of a smaller one.
+
+The directions to the puzzle claimed it was based on an old Indian legend: On the steps of the altar in the temple of Benares, for many, many years Brahmins have been moving a tower of 64 golden disks from one pole to another; one by one, never placing a larger on top of a smaller. When all the disks have been transferred the Tower and the Brahmins will fall, and it will be the end of the world.
+
+The puzzle offered a prize of ten thousand francs (about $34,000 US today) to anyone who could move a tower of 64 disks by hand while following the rules of the game. Assuming that you transferred the disks as eﬃciently as possible, how many moves would be required to win the prize?
+
+**Solution**
+
+An elegant and eﬃcient way to solve this problem is to think recursively. Suppose that you, somehow or other, have found the most eﬃcient way possible to transfer a tower of k − 1 disks one by one from one pole to another, obeying the restriction that you never place a larger disk on top of a smaller one. What is the most eﬃcient way to transfer a tower of k disks from one pole to another? The answer is described as follows:
+
+**Step 1**: Transfer the top k − 1 disks from pole A to pole B.
+**Step 2**: Move the bottom disk from pole A to pole C.
+**Step 3**: Transfer the top k − 1 disks from pole B to pole C.
+
+To see that this sequence of moves is most eﬃcient, observe that to move the bottom disk of a stack of k disks from one pole to another, you must ﬁrst transfer the top k − 1 disks to a third pole to get them out of the way. Thus transferring the stack of k disks from pole A to pole C requires at least two transfers of the top k − 1 disks: one to transfer them off the bottom disk to free the bottom disk so that it can be moved and another to transfer them back on top of the bottom disk after the bottom disk has been moved to pole C.
+
+Thus the minimum sequence of moves must include going from the initial position (a) to position (b) to position (c) to position (d). It follows that:
+
+```
+[the minimum number of moves needed to transfer a tower of k disks from pole A to pole C] =
+[the minimum moves needed to go from position (a) to (b)] +
+[the minimum moves needed to go from position (b) to (c)] +
+[the minimum moves needed to go from position (c) to (d)]
+```
+
+For each integer n ≥ 1, let
+
+```
+mₙ = the minimum number of moves needed to transfer a tower of n disks from one pole to another
+```
+
+Note that the numbers mₙ are independent of the labeling of the poles. Also the values of mₙ are independent of the number of larger disks that may lie below the top n, provided these remain stationary while the top n are moved.
+
+Going from position (a) to position (b) requires mₖ₋₁ moves, going from position (b) to position (c) requires just one move, and going from position (c) to position (d) requires mₖ₋₁ moves. By substitution, therefore,
+
+```
+mₖ = mₖ₋₁ + 1 + mₖ₋₁ = 2mₖ₋₁ + 1 for all integers k ≥ 2.
+```
+
+The initial condition is:
+
+```
+m₁ = 1 (only one move is needed to move one disk)
+```
+
+Hence the complete recursive speciﬁcation is:
+
+(1) mₖ = 2mₖ₋₁ + 1 for all integers k ≥ 2 (recurrence relation)
+(2) m₁ = 1 (initial condition)
+
+Here is a computation of the next ﬁve terms:
+
+```
+m₂ = 2m₁ + 1 = 2·1 + 1 = 3
+m₃ = 2m₂ + 1 = 2·3 + 1 = 7
+m₄ = 2m₃ + 1 = 2·7 + 1 = 15
+m₅ = 2m₄ + 1 = 2·15 + 1 = 31
+m₆ = 2m₅ + 1 = 2·31 + 1 = 63
+```
+
+For the original problem with 64 disks, m₆₄ ≈ 1.844674 × 10¹⁹ seconds, which is approximately 584.5 billion years.
+
+**Page 323-324**
+
+### Example 5.6.6 The Fibonacci Numbers
+
+One of the earliest examples of a recursively deﬁned sequence arises in the writings of Leonardo of Pisa, commonly known as Fibonacci, who was the greatest European mathematician of the Middle Ages. In 1202 Fibonacci posed the following problem:
+
+A single pair of rabbits (male and female) is born at the beginning of a year. Assume the following conditions:
+
+1. Rabbit pairs are not fertile during their ﬁrst month of life but thereafter give birth to one new male/female pair at the end of every month.
+2. No rabbits die.
+
+How many rabbits will there be at the end of the year?
+
+**Solution**
+
+The crucial observation is that the number of rabbit pairs born at the end of month k is the same as the number of pairs alive at the end of month k − 2. Because it is exactly the rabbit pairs that were alive at the end of month k − 2 that were fertile during month k. The rabbits born at the end of month k − 1 were not.
+
+Now the number of rabbit pairs alive at the end of month k equals the ones alive at the end of month k − 1 plus the pairs newly born at the end of the month. Thus:
+
+```
+[the number of rabbit pairs alive at the end of month k] =
+[the number of rabbit pairs alive at the end of month k − 1] +
+[the number of rabbit pairs alive at the end of month k − 2]
+```
+
+For each integer n ≥ 1, let
+
+```
+Fₙ = the number of rabbit pairs alive at the end of month n
+```
+
+and let
+
+```
+F₀ = the initial number of rabbit pairs = 1
+```
+
+Then by substitution, for all integers k ≥ 2,
+
+```
+Fₖ = Fₖ₋₁ + Fₖ₋₂
+```
+
+Now F₀ = 1, as already noted, and F₁ = 1 also, because the ﬁrst pair of rabbits is not fertile until the second month. Hence the complete speciﬁcation is:
+
+(1) Fₖ = Fₖ₋₁ + Fₖ₋₂ for all integers k ≥ 2 (recurrence relation)
+(2) F₀ = 1, F₁ = 1 (initial conditions)
+
+To answer Fibonacci's question, compute F₂ through F₁₂:
+
+```
+F₂ = F₁ + F₀ = 1 + 1 = 2
+F₃ = F₂ + F₁ = 2 + 1 = 3
+F₄ = F₃ + F₂ = 3 + 2 = 5
+F₅ = F₄ + F₃ = 5 + 3 = 8
+F₆ = F₅ + F₄ = 8 + 5 = 13
+F₇ = F₆ + F₅ = 13 + 8 = 21
+F₈ = F₇ + F₆ = 21 + 13 = 34
+F₉ = F₈ + F₇ = 34 + 21 = 55
+F₁₀ = F₉ + F₈ = 55 + 34 = 89
+F₁₁ = F₁₀ + F₉ = 89 + 55 = 144
+F₁₂ = F₁₁ + F₁₀ = 144 + 89 = 233
+```
+
+At the end of the twelfth month there are 233 rabbit pairs, or 466 rabbits in all.
+
+**Page 325-326**
+
+### Example 5.6.7 Compound Interest
+
+On your twenty-ﬁrst birthday you get a letter informing you that on the day you were born an eccentric rich aunt deposited $100,000 in a bank account earning 4% interest compounded annually and she now intends to turn the account over to you, provided you can ﬁgure out how much it is worth. What is the amount currently in the account?
+
+**Solution**
+
+To approach this problem recursively, observe that:
+
+```
+[the amount in the account at the end of any particular year] =
+[the amount in the account at the end of the previous year] +
+[the interest earned on the account during the year]
+```
+
+Now the interest earned during the year equals the interest rate, 4% = 0.04 times the amount in the account at the end of the previous year. Thus:
+
+```
+[the amount in the account at the end of any particular year] =
+[the amount in the account at the end of the previous year] + (0.04)·[the amount in the account at the end of the previous year]
+```
+
+For each positive integer n, let
+
+```
+Aₙ = the amount in the account at the end of year n
+```
+
+and let
+
+```
+A₀ = the initial amount in the account = $100,000
+```
+
+Then for any particular year k,
+
+```
+Aₖ = Aₖ₋₁ + (0.04)·Aₖ₋₁ = (1 + 0.04)·Aₖ₋₁ = (1.04)·Aₖ₋₁
+```
+
+Consequently, the sequence is speciﬁed as:
+
+(1) Aₖ = (1.04)·Aₖ₋₁ for all integers k ≥ 1 (recurrence relation)
+(2) A₀ = $100,000 (initial condition)
+
+The value on your twenty-ﬁrst birthday can be computed by repeated substitution:
+
+```
+A₁ = 1.04·A₀ = 1.04·$100,000 = $104,000
+A₂ = 1.04·A₁ = 1.04·$104,000 = $108,160
+A₃ = 1.04·A₂ = 1.04·$108,160 = $112,486.40
+...
+A₂₁ = 1.04·A₂₀ ≈ $227,876.81
+```
+
+The amount in the account is $227,876.81 (to the nearest cent).
+
+**Page 327-328**
+
+### Example 5.6.8 Compound Interest with Compounding Several Times a Year
+
+When an annual interest rate of i is compounded m times per year, the interest rate paid per period is i/m. For instance, if 3% = 0.03 annual interest is compounded quarterly, then the interest rate paid per quarter is 0.03/4 = 0.0075.
+
+For each integer k ≥ 1, let Pₖ = the amount on deposit at the end of the kth period, assuming no additional deposits or withdrawals. Then the interest earned during the kth period equals the amount on deposit at the end of the (k − 1)st period times the interest rate for the period:
+
+```
+interest earned during kth period = Pₖ₋₁·(i/m)
+```
+
+The amount on deposit at the end of the kth period, Pₖ, equals the amount at the end of the (k − 1)st period, Pₖ₋₁, plus the interest earned during the kth period:
+
+```
+Pₖ = Pₖ₋₁ + Pₖ₋₁·(i/m) = Pₖ₋₁(1 + i/m)
+```
+
+Suppose $10,000 is left on deposit at 3% compounded quarterly.
+
+a. How much will the account be worth at the end of one year, assuming no additional deposits or withdrawals?
+b. The annual percentage yield (APY) is the percentage increase in the value of the account over a one-year period. What is the APY for this account?
+
+**Solution**
+
+a. For each integer n ≥ 1, let Pₙ = the amount on deposit after n consecutive quarters, and let P₀ = $10,000. Then by the formula above with i = 0.03 and m = 4:
+
+(1) Pₖ = Pₖ₋₁(1 + 0.0075) = (1.0075)·Pₖ₋₁ for all integers k ≥ 1
+
+The amount after one year (four quarters) is:
+
+```
+P₀ = $10,000
+P₁ = 1.0075·P₀ = 1.0075·$10,000 = $10,075.00
+P₂ = 1.0075·P₁ = 1.0075·$10,075 = $10,150.56
+P₃ = 1.0075·P₂ = 1.0075·$10,150.56 = $10,226.69
+P₄ = 1.0075·P₃ = 1.0075·$10,226.69 = $10,303.39
+```
+
+Hence after one year there is $10,303.39 in the account.
+
+b. The percentage increase (APY) is:
+
+```
+($10,303.39 - $10,000)/$10,000 = 0.03034 = 3.034%
+```
+
+### Recursive Deﬁnitions of Sum and Product
+
+Addition and multiplication are called binary operations because only two numbers can be added or multiplied at a time. Careful deﬁnitions of sums and products of more than two numbers use recursion.
+
+**Deﬁnition: Recursive Summation and Product**
+
+Given numbers a₁, a₂, . . . , aₙ, where n is a positive integer:
+
+The summation from i = 1 to n of the aᵢ, denoted ∑ᵢ₌₁ⁿ aᵢ, is deﬁned as:
+
+```
+∑ᵢ₌₁¹ aᵢ = a₁
+∑ᵢ₌₁ⁿ aᵢ = (∑ᵢ₌₁ⁿ⁻¹ aᵢ) + aₙ, if n > 1
+```
+
+The product from i = 1 to n of the aᵢ, denoted ∏ᵢ₌₁ⁿ aᵢ, is deﬁned as:
+
+```
+∏ᵢ₌₁¹ aᵢ = a₁
+∏ᵢ₌₁ⁿ aᵢ = (∏ᵢ₌₁ⁿ⁻¹ aᵢ)·aₙ, if n > 1
+```
+
+**Page 329-332**
+
+### Example 5.6.9 A Sum of Sums
+
+Prove that for any positive integer n, if a₁, a₂, . . . , aₙ and b₁, b₂, . . . , bₙ are real numbers, then:
+
+```
+∑ᵢ₌₁ⁿ (aᵢ + bᵢ) = ∑ᵢ₌₁ⁿ aᵢ + ∑ᵢ₌₁ⁿ bᵢ
+```
+
+**Solution**
+
+The proof is by mathematical induction. Let the property P(n) be the equation:
+
+```
+∑ᵢ₌₁ⁿ (aᵢ + bᵢ) = ∑ᵢ₌₁ⁿ aᵢ + ∑ᵢ₌₁ⁿ bᵢ
+```
+
+**Show that P(1) is true:** For n = 1, both sides equal a₁ + b₁.
+
+**Show that for all integers k ≥ 1, if P(k) is true then P(k + 1) is also true:**
+
+Suppose that for some k ≥ 1:
+
+```
+∑ᵢ₌₁ᵏ (aᵢ + bᵢ) = ∑ᵢ₌₁ᵏ aᵢ + ∑ᵢ₌₁ᵏ bᵢ
+```
+
+We must show that:
+
+```
+∑ᵢ₌₁ᵏ⁺¹ (aᵢ + bᵢ) = ∑ᵢ₌₁ᵏ⁺¹ aᵢ + ∑ᵢ₌₁ᵏ⁺¹ bᵢ
+```
+
+The left-hand side is:
+
+```
+∑ᵢ₌₁ᵏ⁺¹ (aᵢ + bᵢ) = [∑ᵢ₌₁ᵏ (aᵢ + bᵢ)] + (aₖ₊₁ + bₖ₊₁)
+                  = [∑ᵢ₌₁ᵏ aᵢ + ∑ᵢ₌₁ᵏ bᵢ] + (aₖ₊₁ + bₖ₊₁)
+                  = [∑ᵢ₌₁ᵏ aᵢ + aₖ₊₁] + [∑ᵢ₌₁ᵏ bᵢ + bₖ₊₁]
+                  = ∑ᵢ₌₁ᵏ⁺¹ aᵢ + ∑ᵢ₌₁ᵏ⁺¹ bᵢ
+```
+
+which equals the right-hand side.
+
+### Test Yourself
+
+1. A recursive deﬁnition for a sequence consists of a _____ and _____.
+2. A recurrence relation is an equation that deﬁnes each later term of a sequence by reference to _____ in the sequence.
+3. Initial conditions for a recursive deﬁnition of a sequence consist of one or more of the _____ of the sequence.
+4. To solve a problem recursively means to divide the problem into smaller subproblems of the same type as the initial problem, to suppose _____, and to ﬁgure out how to use the supposition to _____.
+5. A crucial step for solving a problem recursively is to deﬁne a _____ in terms of which the recurrence relation and initial conditions can be speciﬁed.
+
+**Answers:**
+1. recurrence relation; initial conditions
+2. earlier terms
+3. values of the ﬁrst few terms
+4. that the smaller subproblems have already been solved; solve the initial problem
+5. sequence
+
+---
+
+## 5.7 Solving Recurrence Relations by Iteration
+
+The keener one's sense of logical deduction, the less often one makes hard and fast
+inferences. — Bertrand Russell, 1872–1970
+
+Suppose you have a sequence that satisﬁes a certain recurrence relation and initial
+conditions. It is often helpful to know an explicit formula for the sequence, especially if
+
+you need to compute terms that are far out in the sequence or if you want to investigate
+properties of the sequence as a whole. In this section we discuss a method for ﬁnding
+explicit formulas for certain types of recursively deﬁned sequences. The method is
+called iteration, and it consists of repeatedly applying the recurrence relation to
+earlier and earlier terms until a pattern can be discerned. When a pattern is found,
+mathematical induction is often used to prove that the pattern is correct.
+
+The method of iteration is especially useful for solving recurrence relations that
+have the form
+aₙ = caₙ₋₁ + f(n)
+where c is a constant and f(n) is a function of n. The Fibonacci sequence
+satisﬁes a recurrence relation of this form with c = 1 and f(n) = aₙ₋₂, but since
+f(n) = aₙ₋₂ is not a function of n alone, the method of iteration cannot be
+applied directly to solve the Fibonacci recurrence relation.
+
+To illustrate the method, let's ﬁnd an explicit formula for the Tower of Hanoi
+sequence. Recall that the Tower of Hanoi sequence m₁, m₂, m₃, . . . satisﬁes the
+recurrence relation
+mₖ = 2mₖ₋₁ + 1 for all integers k ≥ 2
+and the initial condition
+m₁ = 1.
+
+We want to ﬁnd an explicit formula for mₙ in terms of n only. Let's apply the
+recurrence relation repeatedly:
+
+mₙ = 2mₙ₋₁ + 1
+= 2(2mₙ₋₂ + 1) + 1
+= 2²mₙ₋₂ + 2 + 1
+= 2²(2mₙ₋₃ + 1) + 2 + 1
+= 2³mₙ₋₃ + 2² + 2 + 1
+= 2³(2mₙ₋₄ + 1) + 2² + 2 + 1
+= 2⁴mₙ₋₄ + 2³ + 2² + 2 + 1
+
+At this point we can see a pattern emerging. After i applications of the recurrence
+relation, we have
+mₙ = 2ⁱmₙ₋ᵢ + (2ⁱ⁻¹ + 2ⁱ⁻² + · · · + 2 + 1)
+
+When i = n − 1, this becomes
+mₙ = 2ⁿ⁻¹m₁ + (2ⁿ⁻² + 2ⁿ⁻³ + · · · + 2 + 1)
+
+But m₁ = 1, so
+mₙ = 2ⁿ⁻¹ + (2ⁿ⁻² + 2ⁿ⁻³ + · · · + 2 + 1)
+
+The quantity in parentheses is the sum of a geometric sequence, which we know how
+to compute from Section 5.2:
+2ⁿ⁻² + 2ⁿ⁻³ + · · · + 2 + 1 = 2ⁿ⁻¹ − 1
+
+Therefore,
+mₙ = 2ⁿ⁻¹ + (2ⁿ⁻¹ − 1) = 2ⁿ − 1
+
+This gives us the explicit formula
+mₙ = 2ⁿ − 1 for all integers n ≥ 1.
+
+To verify that this formula is correct, we can use mathematical induction.
+
+### Theorem 5.7.1
+
+For the Tower of Hanoi sequence deﬁned by:
+mₖ = 2mₖ₋₁ + 1 for all integers k ≥ 2
+m₁ = 1
+
+we have that mₙ = 2ⁿ − 1 for all integers n ≥ 1.
+
+**Proof (by mathematical induction):**
+
+Let P(n) be the property that mₙ = 2ⁿ − 1.
+
+**Show that P(1) is true:**
+m₁ = 1 (by the initial condition)
+2¹ − 1 = 2 − 1 = 1
+So P(1) is true.
+
+**Show that for all integers k ≥ 1, if P(k) is true then P(k + 1) is also true:**
+
+Suppose that for some k ≥ 1, mₖ = 2ᵏ − 1. [This is the inductive hypothesis.]
+
+We must show that mₖ₊₁ = 2ᵏ⁺¹ − 1.
+
+By the recurrence relation:
+mₖ₊₁ = 2mₖ + 1
+= 2(2ᵏ − 1) + 1 (by the inductive hypothesis)
+= 2ᵏ⁺¹ − 2 + 1
+= 2ᵏ⁺¹ − 1
+
+So P(k + 1) is true.
+
+Therefore, by mathematical induction, mₙ = 2ⁿ − 1 for all integers n ≥ 1. [This is what was to be shown.] ■
+
+The method of iteration can also be used to solve recurrence relations of the form
+aₙ = caₙ₋₁ + d
+where c and d are constants. Such recurrence relations are called ﬁrst-order linear
+recurrence relations with constant coefﬁcients.
+
+### Example 5.7.1 Solving a First-Order Linear Recurrence Relation
+
+Find an explicit formula for the sequence deﬁned by:
+aₙ = 3aₙ₋₁ + 2 for all integers n ≥ 1
+a₀ = 1
+
+**Solution**
+
+We apply the recurrence relation repeatedly:
+
+aₙ = 3aₙ₋₁ + 2
+= 3(3aₙ₋₂ + 2) + 2
+= 3²aₙ₋₂ + 3·2 + 2
+= 3²(3aₙ₋₃ + 2) + 3·2 + 2
+= 3³aₙ₋₃ + 3²·2 + 3·2 + 2
+
+After i applications of the recurrence relation:
+aₙ = 3ⁱaₙ₋ᵢ + 2(3ⁱ⁻¹ + 3ⁱ⁻² + · · · + 3 + 1)
+
+When i = n, this becomes:
+aₙ = 3ⁿa₀ + 2(3ⁿ⁻¹ + 3ⁿ⁻² + · · · + 3 + 1)
+
+But a₀ = 1, so:
+aₙ = 3ⁿ + 2(3ⁿ⁻¹ + 3ⁿ⁻² + · · · + 3 + 1)
+
+The quantity in parentheses is the sum of a geometric sequence:
+3ⁿ⁻¹ + 3ⁿ⁻² + · · · + 3 + 1 = (3ⁿ − 1)/2
+
+Therefore:
+aₙ = 3ⁿ + 2·(3ⁿ − 1)/2 = 3ⁿ + 3ⁿ − 1 = 2·3ⁿ − 1
+
+This gives us the explicit formula:
+aₙ = 2·3ⁿ − 1 for all integers n ≥ 0.
+
+To verify this formula, we can use mathematical induction. (The details are left as an exercise.) ■
+
+The general form of the solution for recurrence relations of the form aₙ = caₙ₋₁ + d is:
+
+### Theorem 5.7.2 Solution of First-Order Linear Recurrence Relations
+
+If a sequence a₀, a₁, a₂, . . . satisﬁes the recurrence relation
+aₙ = caₙ₋₁ + d for all integers n ≥ 1
+where c and d are constants with c ≠ 1, and if a₀ is the initial value, then
+aₙ = cⁿa₀ + d·(cⁿ − 1)/(c − 1) for all integers n ≥ 0.
+
+**Proof:**
+The proof uses mathematical induction and follows the same pattern as the veriﬁcation in Example 5.7.1. (The details are left as an exercise.) ■
+
+### Example 5.7.2 Using the General Formula
+
+Use the general formula from Theorem 5.7.2 to ﬁnd an explicit formula for the sequence deﬁned by:
+aₙ = 4aₙ₋₁ + 5 for all integers n ≥ 1
+a₀ = 2
+
+**Solution**
+
+We have c = 4, d = 5, and a₀ = 2. Substituting into the formula:
+aₙ = 4ⁿ·2 + 5·(4ⁿ − 1)/(4 − 1)
+= 2·4ⁿ + (5/3)(4ⁿ − 1)
+= 2·4ⁿ + (5/3)·4ⁿ − 5/3
+= (11/3)·4ⁿ − 5/3
+
+Therefore, aₙ = (11/3)·4ⁿ − 5/3 for all integers n ≥ 0. ■
+
+### Test Yourself
+
+1. The method of _____ consists of repeatedly applying a recurrence relation to earlier and earlier terms until a pattern can be discerned.
+2. A recurrence relation of the form aₙ = caₙ₋₁ + d, where c and d are constants, is called a _____ recurrence relation.
+3. For a recurrence relation aₙ = caₙ₋₁ + d with c ≠ 1, the general solution is aₙ = _____.
+
+## Exercise Set 5.7
+
+Use the method of iteration to ﬁnd explicit formulas for the sequences deﬁned by the recurrence relations in 1–8.
+
+1. aₙ = 2aₙ₋₁ + 1 for all integers n ≥ 1, a₀ = 0
+2. aₙ = 3aₙ₋₁ + 2 for all integers n ≥ 1, a₀ = 1
+3. aₙ = 4aₙ₋₁ − 3 for all integers n ≥ 1, a₀ = 1
+4. aₙ = 5aₙ₋₁ + 4 for all integers n ≥ 1, a₀ = 0
+5. aₙ = aₙ₋₁ + 2n for all integers n ≥ 1, a₀ = 1
+6. aₙ = aₙ₋₁ + 3n + 1 for all integers n ≥ 1, a₀ = 0
+7. aₙ = 2aₙ₋₁ + n for all integers n ≥ 1, a₀ = 1
+8. aₙ = 3aₙ₋₁ + 2n for all integers n ≥ 1, a₀ = 0
+
+Use Theorem 5.7.2 to ﬁnd explicit formulas for the sequences deﬁned by the recurrence relations in 9–12.
+
+9. aₙ = 2aₙ₋₁ + 3 for all integers n ≥ 1, a₀ = 1
+10. aₙ = 3aₙ₋₁ + 4 for all integers n ≥ 1, a₀ = 2
+11. aₙ = 4aₙ₋₁ + 5 for all integers n ≥ 1, a₀ = 1
+12. aₙ = 5aₙ₋₁ + 6 for all integers n ≥ 1, a₀ = 0
+
+13. Prove Theorem 5.7.2 using mathematical induction.
+
+14. Verify the formula obtained in Example 5.7.1 using mathematical induction.
+
+15. A sequence is deﬁned recursively by aₙ = 2aₙ₋₁ for all integers n ≥ 1, with a₀ = 1.
+   a. Use the method of iteration to conjecture an explicit formula for aₙ.
+   b. Prove your conjecture using mathematical induction.
+
+16. A sequence is deﬁned recursively by aₙ = 3aₙ₋₁ + 1 for all integers n ≥ 1, with a₀ = 0.
+   a. Use the method of iteration to conjecture an explicit formula for aₙ.
+   b. Prove your conjecture using mathematical induction.
+
+## Answers for Test Yourself
+
+1. iteration
+2. ﬁrst-order linear
+3. cⁿa₀ + d·(cⁿ − 1)/(c − 1)
