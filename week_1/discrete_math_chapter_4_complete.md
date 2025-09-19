@@ -1282,3 +1282,359 @@ Hence, by substitution, ⌊n/2⌋ = (n − 1)/2."
 
 ### Answers for Test Yourself
 1. n ≤ x < n + 1 2. n − 1 < x ≤ n
+
+# Chapter 4.7: Indirect Argument: Two Classical Theorems
+
+## Introduction
+
+He is unworthy of the name of man who does not know that the diagonal of a square is incommensurable with its side.—Plato (ca. 428–347 B.C.E.)
+
+This section contains proofs of two of the most famous theorems in mathematics: that √2 is irrational and that there are infinitely many prime numbers. Both proofs are examples of indirect arguments and were well known more than 2,000 years ago, but they remain exemplary models of mathematical argument to this day.
+
+## Historical Context
+
+When mathematics flourished at the time of the ancient Greeks, mathematicians believed that given any two line segments, say A and B, a certain unit of length could be found so that segment A was exactly a units long and segment B was exactly b units long. (The segments were said to be commensurable with respect to this special unit of length.) Then the ratio of the lengths of A and B would be in the same proportion as the ratio of the integers a and b.
+
+Now it is easy to find a line segment of length √2; just take the diagonal of the unit square:
+
+```
+c
+ |
+ |
+1+-----+
+|     |
+|     | 1
+|     |
++-----+
+```
+
+By the Pythagorean theorem, c² = 1² + 1² = 2, and so c = √2. If the belief of the ancient Greeks were correct, there would be integers a and b such that:
+
+```
+length(diagonal)   c   √2
+--------------- = - = --
+length(side)      1   1
+```
+
+And this would imply that √2 = a/b. But then √2 would be a ratio of two integers, or, in other words, √2 would be rational.
+
+In the fourth or fifth century B.C.E., the followers of the Greek mathematician and philosopher Pythagoras discovered that √2 was not rational. This discovery was very upsetting to them, for it undermined their deep, quasi-religious belief in the power of whole numbers to describe phenomena.
+
+## Definitions
+
+**Rational Number:** A real number r is rational if there exist integers a and b with b ≠ 0 such that r = a/b.
+
+**Irrational Number:** A real number is irrational if it is not rational.
+
+## Theorem 4.7.1: Irrationality of √2
+
+**Theorem 4.7.1:** √2 is irrational.
+
+**Proof (by contradiction):**
+
+Suppose not. That is, suppose √2 is rational. Then there are integers m and n with no common factors such that:
+
+√2 = m/n
+
+[by dividing m and n by any common factors if necessary]. [We must derive a contradiction.] Squaring both sides gives:
+
+2 = m²/n²
+
+Or, equivalently:
+
+m² = 2n²
+
+Note that this equation implies that m² is even (by definition of even). It follows that m is even (by Proposition 4.6.4: If the square of an integer is even, then that integer is even).
+
+Since m is even, we can write:
+
+m = 2k for some integer k
+
+Substituting this into the previous equation:
+
+(2k)² = 2n²
+4k² = 2n²
+2k² = n²
+
+Consequently, n² is even, and so n is even (again by Proposition 4.6.4). But we also know that m is even. Hence both m and n have a common factor of 2. But this contradicts the supposition that m and n have no common factors. [Hence the supposition is false and so the theorem is true.]
+
+## Example 4.7.1: Irrationality of 1 + 3√2
+
+**Proposition 4.7.2:** 1 + 3√2 is irrational.
+
+**Proof (by contradiction):**
+
+Suppose not. Suppose 1 + 3√2 is rational. [We must derive a contradiction.] Then by definition of rational:
+
+1 + 3√2 = a/b for some integers a and b with b ≠ 0
+
+It follows that:
+
+3√2 = a/b - 1 = a/b - b/b = (a-b)/b
+
+Hence:
+
+√2 = (a-b)/(3b)
+
+But a-b and 3b are integers (since a and b are integers and differences and products of integers are integers), and 3b ≠ 0 by the zero product property.
+
+Hence √2 is a quotient of the two integers a-b and 3b with 3b ≠ 0, and so √2 is rational (by definition of rational). This contradicts the fact that √2 is irrational. [This contradiction shows that the supposition is false.] Hence 1 + 3√2 is irrational.
+
+## Proposition 4.7.3
+
+**Proposition 4.7.3:** For any integer a and any prime number p, if p | a then p ∤ (a + 1).
+
+**Proof (by contradiction):**
+
+Suppose not. That is, suppose there exists an integer a and a prime number p such that p | a and p | (a + 1). Then, by definition of divisibility, there exist integers r and s such that a = pr and a + 1 = ps. It follows that:
+
+1 = (a + 1) - a = ps - pr = p(s - r)
+
+and so (since s - r is an integer) p | 1. But, by Theorem 4.3.2, the only integer divisors of 1 are 1 and -1, and p > 1 because p is prime. Thus p ≤ 1 and p > 1, which is a contradiction. [Hence the supposition is false, and the proposition is true.]
+
+## Theorem 4.7.4: Infinitude of the Primes
+
+**Theorem 4.7.4:** The set of prime numbers is infinite.
+
+**Proof (by contradiction):**
+
+Suppose not. That is, suppose the set of prime numbers is finite. [We must deduce a contradiction.] Then some prime number p is the largest of all the prime numbers, and hence we can list the prime numbers in ascending order:
+
+2, 3, 5, 7, 11, ..., p
+
+Let N be the product of all the prime numbers plus 1:
+
+N = (2 · 3 · 5 · 7 · 11 · ... · p) + 1
+
+Then N > 1, and so, by Theorem 4.3.4, N is divisible by some prime number q. Because q is prime, q must equal one of the prime numbers 2, 3, 5, 7, 11, ..., p.
+
+Thus, by definition of divisibility, q divides 2 · 3 · 5 · 7 · 11 · ... · p, and so, by Proposition 4.7.3, q does not divide (2 · 3 · 5 · 7 · 11 · ... · p) + 1, which equals N. Hence N is divisible by q and N is not divisible by q, and we have reached a contradiction. [Therefore, the supposition is false and the theorem is true.]
+
+## Open Questions in Number Theory
+
+In this section we proved that there are infinitely many prime numbers. There is no known formula for obtaining primes, but a few formulas have been found to be more successful at producing them than other formulas.
+
+**Mersenne Primes:** One such formula is due to Marin Mersenne, a French monk who lived from 1588–1648. Mersenne primes have the form 2^p - 1, where p is prime. Not all numbers of this form are prime, but because Mersenne primes are easier to test for primality than are other numbers, most of the largest known prime numbers are Mersenne primes.
+
+**Fermat Primes:** Another formula that seems to produce a relatively large number of prime numbers is due to Fermat. Fermat primes are prime numbers of the form 2^(2^n) + 1, where n is a positive integer.
+
+**Twin Primes Conjecture:** Another famous open question involving primes is the twin primes conjecture, which states that there are infinitely many pairs of prime numbers of the form p and p + 2.
+
+**Sophie Germain's Conjecture:** Related to the twin primes conjecture is a conjecture made by Sophie Germain, a French mathematician born in 1776, who made significant progress toward a proof of Fermat's Last Theorem. Germain conjectured that there are infinitely many prime number pairs of the form p and 2p + 1.
+
+## When to Use Indirect Proof
+
+The examples in this section and Section 4.6 have not provided a definitive answer to the question of when to prove a statement directly and when to prove it indirectly. Many theorems can be proved either way. Usually, however, when both types of proof are possible, indirect proof is clumsier than direct proof. In the absence of obvious clues suggesting indirect argument, try first to prove a statement directly. Then, if that does not succeed, look for a counterexample. If the search for a counterexample is unsuccessful, look for a proof by contradiction or contraposition.
+
+## Exercise Set 4.7
+
+1. A calculator display shows that √2 = 1.414213562, and 1.414213562 = 1414213562/1000000000. This suggests that √2 is a rational number, which contradicts Theorem 4.7.1. Explain the discrepancy.
+
+2. Example 4.2.1(h) illustrates a technique for showing that any repeating decimal number is rational. A calculator display shows the result of a certain calculation as 40.72727272727. Can you be sure that the result of the calculation is a rational number? Explain.
+
+Determine which statements in 3–13 are true and which are false. Prove those that are true and disprove those that are false.
+
+3. 6 - 7√2 is irrational.
+4. 3√2 - 7 is irrational.
+5. √4 is irrational.
+6. 2/6 is rational.
+7. The sum of any two irrational numbers is irrational.
+8. The difference of any two irrational numbers is irrational.
+9. The positive square root of a positive irrational number is irrational.
+10. If r is any rational number and s is any irrational number, then r/s is irrational.
+11. The sum of any two positive irrational numbers is irrational.
+12. The product of any two irrational numbers is irrational.
+13. If an integer greater than 1 is a perfect square, then its cube root is irrational.
+
+14. Consider the following sentence: If x is rational then √x is irrational. Is this sentence always true, sometimes true and sometimes false, or always false? Justify your answer.
+
+15. a. Prove that for all integers a, if a³ is even then a is even.
+   b. Prove that ∛2 is irrational.
+
+16. a. Use proof by contradiction to show that for any integer n, it is impossible for n to equal both 3q₁ + r₁ and 3q₂ + r₂, where q₁, q₂, r₁, and r₂, are integers, 0 ≤ r₁ < 3, 0 ≤ r₂ < 3, and r₁ ≠ r₂.
+   b. Use proof by contradiction, the quotient-remainder theorem, division into cases, and the result of part (a) to prove that for all integers n, if n² is divisible by 3 then n is divisible by 3.
+   c. Prove that √3 is irrational.
+
+17. Give an example to show that if d is not prime and n² is divisible by d, then n need not be divisible by d.
+
+18. The quotient-remainder theorem says not only that there exist quotients and remainders but also that the quotient and remainder of a division are unique. Prove the uniqueness. That is, prove that if a and d are integers with d > 0 and if q₁, r₁, q₂, and r₂ are integers such that a = dq₁ + r₁ where 0 ≤ r₁ < d and a = dq₂ + r₂ where 0 ≤ r₂ < d, then q₁ = q₂ and r₁ = r₂.
+
+19. Prove that √5 is irrational.
+
+20. Prove that for any integer a, 9 ∤ (a² - 3).
+
+21. An alternative proof of the irrationality of √2 counts the number of 2's on the two sides of the equation 2n² = m² and uses the unique factorization of integers theorem to deduce a contradiction. Write a proof that uses this approach.
+
+22. Use the proof technique illustrated in exercise 21 to prove that if n is any integer that is not a perfect square, then √n is irrational.
+
+23. Prove that √2 + √3 is irrational.
+
+24. Prove that log₅(2) is irrational. (Hint: Use the unique factorisation of integers theorem.)
+
+25. Let N = 2 · 3 · 5 · 7 + 1. What remainder is obtained when N is divided by 2? 3? 5? 7? Is N prime? Justify your answer.
+
+26. Suppose a is an integer and p is a prime number such that p | a and p | (a + 3). What can you deduce about p? Why?
+
+27. Let p₁, p₂, p₃, ... be a list of all prime numbers in ascending order. Here is a table of the first six:
+   p₁ = 2, p₂ = 3, p₃ = 5, p₄ = 7, p₅ = 11, p₆ = 13
+   a. For each i = 1, 2, 3, 4, 5, 6, let Nᵢ = p₁p₂...pᵢ + 1. Calculate N₁, N₂, N₃, N₄, N₅, and N₆.
+   b. For each i = 1, 2, 3, 4, 5, 6, find the smallest prime number qᵢ such that qᵢ divides Nᵢ.
+
+28. An alternative proof of the infinitude of the prime numbers begins as follows:
+   Proof: Suppose there are only finitely many prime numbers. Then one is the largest. Call it p. Let M = p! + 1. We will show that there is a prime number q such that q > p.
+   Complete this proof.
+
+29. Prove that for all integers n, if n > 2 then there is a prime number p such that n < p < n!.
+
+30. Prove that if p₁, p₂, ..., and pₙ are distinct prime numbers with p₁ = 2 and n > 1, then p₁p₂ · ... · pₙ + 1 can be written in the form 4k + 3 for some integer k.
+
+31. a. Fermat's last theorem says that for all integers n > 2, the equation xⁿ + yⁿ = zⁿ has no positive integer solution (solution for which x, y, and z are positive integers). Prove the following: If for all prime numbers p > 2, xᵖ + yᵖ = zᵖ has no positive integer solution, then for any integer n > 2 that is not a power of 2, xⁿ + yⁿ = zⁿ has no positive integer solution.
+   b. Fermat proved that there are no integers x, y, and z such that x⁴ + y⁴ = z⁴. Use this result to remove the restriction in part (a) that n not be a power of 2. That is, prove that if n is a power of 2 and n > 4, then xⁿ + yⁿ = zⁿ has no positive integer solution.
+
+32. Prove that there exists a unique prime number of the form n² - 1, where n is an integer that is greater than or equal to 2.
+
+33. Prove that there exists a unique prime number of the form n² + 2n - 3, where n is a positive integer.
+
+34. Prove that there is at most one real number a with the property that a + r = r for all real numbers r. (Such a number is called an additive identity.)
+
+35. Prove that there is at most one real number b with the property that br = r for all real numbers r. (Such a number is called a multiplicative identity.)
+
+### Answers for Test Yourself
+
+1. two integers
+2. the integer is even; have a common factor greater than 1
+3. 2 · 3 · 5 · 7 · 11 · ... · p + 1; p
+
+## Section 4.7
+
+### The Irrationality of √2
+
+**Theorem 4.7.1**
+
+The number √2 is irrational.
+
+**Proof by contradiction:**
+
+Suppose that √2 is rational. Then there are integers m and n such that
+
+√2 = m/n
+
+and m and n have no common factors (other than 1). We can assume that the fraction m/n is in lowest terms.
+
+Squaring both sides gives
+
+2 = m²/n²
+
+or
+
+2n² = m²
+
+Since m² = 2n², we know that m² is even (because it equals 2 times an integer). It follows that m must also be even (because the square of an odd integer is odd).
+
+Since m is even, we can write m = 2k for some integer k. Substituting gives
+
+2n² = (2k)²
+
+2n² = 4k²
+
+n² = 2k²
+
+So n² is even, and therefore n is also even.
+
+Thus both m and n are even. But this contradicts the assumption that m and n have no common factors (other than 1).
+
+Therefore, √2 cannot be rational, and must be irrational.
+
+### Proposition 4.7.2
+
+For any real number x, if x > 0, then x + 1/x ≥ 2.
+
+**Proof:**
+
+Let x be any real number with x > 0.
+
+Then (√x - 1/√x)² ≥ 0
+
+Expanding the left side gives:
+
+(√x)² - 2(√x)(1/√x) + (1/√x)² ≥ 0
+
+x - 2 + 1/x ≥ 0
+
+x + 1/x ≥ 2
+
+### Proposition 4.7.3
+
+For any real number x, if x > 0, then x + 1/x > 2 if and only if x ≠ 1.
+
+**Proof:**
+
+(⇒) Suppose x > 0 and x + 1/x > 2.
+
+From the proof of Proposition 4.7.2, we have
+
+(√x - 1/√x)² > 0
+
+This inequality is strict, so √x - 1/√x ≠ 0, which means √x ≠ 1/√x, so x ≠ 1.
+
+(⇐) Suppose x > 0 and x ≠ 1.
+
+Then (√x - 1/√x)² > 0
+
+Expanding gives x - 2 + 1/x > 0
+
+So x + 1/x > 2
+
+### Theorem 4.7.4
+
+There are infinitely many prime numbers.
+
+**Proof by contradiction:**
+
+Suppose there are only finitely many prime numbers. Let's call them p₁, p₂, ..., pₙ and consider the number
+
+N = p₁p₂...pₙ + 1
+
+Since N > 1, by the fundamental theorem of arithmetic, N has a prime divisor p.
+
+Since p₁, p₂, ..., pₙ are all the primes, p must be one of them, say p = pᵢ for some i.
+
+Then p divides N (since p is a prime divisor of N) and p divides p₁p₂...pₙ (since p = pᵢ).
+
+Therefore, p divides N - p₁p₂...pₙ = 1.
+
+But no prime can divide 1, which is a contradiction.
+
+Therefore, there must be infinitely many prime numbers.
+
+### Open Questions in Number Theory
+
+**Are there infinitely many twin primes?**
+
+Twin primes are pairs of prime numbers that differ by 2, such as (3, 5), (5, 7), (11, 13), (17, 19), etc.
+
+This is one of the most famous unsolved problems in number theory.
+
+### Exercise Set 4.7
+
+**Exercise 1:** Prove that √3 is irrational.
+
+**Exercise 2:** Prove that for any real number x, if x > 0, then x + 4/x ≥ 4.
+
+**Exercise 3:** Prove that for any real number x, if x > 0, then x + 4/x > 4 if and only if x ≠ 2.
+
+**Exercise 4:** Prove that √6 is irrational.
+
+**Exercise 5:** Prove that there are infinitely many prime numbers of the form 4n + 3.
+
+**Exercise 6:** Let p be a prime number. Prove that √p is irrational.
+
+**Exercise 7:** Prove that for any real number x > 0, x² + 1/x² ≥ 2.
+
+**Exercise 8:** Prove that for any real number x > 0, x² + 1/x² > 2 if and only if x ≠ 1.
+
+**Exercise 9:** Let n be a positive integer. Prove that if 2ⁿ - 1 is prime, then n is prime.
+
+**Exercise 10:** Prove that there are infinitely many prime numbers of the form 6n + 5.
+
+This is the end of Chapter 4.7 content.
