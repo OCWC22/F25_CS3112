@@ -432,7 +432,7 @@ change of variable: j = k + 1
 
 First calculate the lower and upper limits of the new summation:
 
-When k = 0, j = k + 1 = 0 + 1 = 1.
+When k = 0, j = k + 1 = 0 + $1 = 1$.
 When k = 6, j = k + 1 = 6 + 1 = 7.
 
 Thus the new sum goes from j = 1 to j = 7.
@@ -476,7 +476,7 @@ b. Transform the summation obtained in part (a) by changing all j's to k's.
 
 **Solution**
 
-a. When k = 1, then j = k - 1 = 1 - 1 = 0. (So the new lower limit is 0.)
+a. When k = 1, then j = k - $1 = 1$ - 1 = 0. (So the new lower limit is 0.)
 When k = n + 1, then j = k - 1 = (n + 1) - 1 = n. (So the new upper limit is n.)
 
 Since j = k - 1, then k = j + 1. Also note that n is a constant as far as the terms of the sum are concerned. It follows that
@@ -532,7 +532,7 @@ The definition of zero factorial as 1 may seem odd, but, as you will see when yo
 ### Example 5.1.15 The First Ten Factorials
 
 ```
-0! = 1          5! = 5·4·3·2·1 = 120
+0! = 1          5! = 5·4·3·2·$1 = 1$20
 1! = 1          6! = 6·5·4·3·2·1 = 720
 2! = 2·1 = 2    7! = 7·6·5·4·3·2·1 = 5,040
 3! = 3·2·1 = 6  8! = 8·7·6·5·4·3·2·1 = 40,320
@@ -1028,32 +1028,31 @@ Use the algorithm you developed for exercise 87 to convert the integers in 88–
 > [Mathematical induction is] the standard proof technique in computer science.
 > — Anthony Ralston, 1984
 
-Mathematical induction is one of the more recently developed techniques of proof in the history of mathematics. It is used to check conjectures about the outcomes of processes that occur repeatedly and according to definite patterns.
+Mathematical induction is one of the more recently developed techniques of proof in the history of mathematics. It is used to check conjectures about the outcomes of processes that occur repeatedly and according to definite patterns. We introduce the technique with an example.
 
-### Example: Coins Problem
+Some people claim that the United States penny is such a small coin that it should be abolished. They point out that frequently a person who drops a penny on the ground does not even bother to pick it up. Other people argue that abolishing the penny would not give enough flexibility for pricing merchandise. What prices could still be paid with exact change if the penny were abolished and another coin worth 3¢ were introduced? The answer is that the only prices that could not be paid with exact change would be 1¢, 2¢, 4¢, and 7¢. In other words,
 
-**Claim:** For all integers n ≥ 8, n cents can be obtained using 3¢ and 5¢ coins.
+Any whole number of cents of at least 8¢ can be obtained using 3¢ and 5¢ coins.
 
-More formally: For all integers n ≥ 8, P(n) is true, where P(n) is the sentence "n cents can be obtained using 3¢ and 5¢ coins."
+More formally:
+For all integers n ≥ 8, n cents can be obtained using 3¢ and 5¢ coins.
 
 **Page 246**
 
-## Principle of Mathematical Induction
+### Principle of Mathematical Induction
 
 Let P(n) be a property that is defined for integers n, and let a be a fixed integer. Suppose the following two statements are true:
 
 1. P(a) is true.
-2. For all integers k ≥ a, if P(k) is true then P(k+1) is true.
+2. For all integers k ≥ a, if P(k) is true then P(k + 1) is true.
 
 Then the statement
-
 ```
 for all integers n ≥ a, P(n)
 ```
-
 is true.
 
-## Method of Proof by Mathematical Induction
+### Method of Proof by Mathematical Induction
 
 **Page 247**
 
@@ -1063,9 +1062,9 @@ To prove such a statement, perform the following two steps:
 
 **Step 1 (basis step):** Show that P(a) is true.
 
-**Step 2 (inductive step):** Show that for all integers k ≥ a, if P(k) is true then P(k+1) is true. To perform this step:
+**Step 2 (inductive step):** Show that for all integers k ≥ a, if P(k) is true then P(k + 1) is true. To perform this step:
 - Suppose that P(k) is true, where k is any particular but arbitrarily chosen integer with k ≥ a. [This supposition is called the **inductive hypothesis**.]
-- Then show that P(k+1) is true.
+- Then show that P(k + 1) is true.
 
 ### Proposition 5.2.1
 
@@ -1082,10 +1081,663 @@ P(8) is true because 8¢ can be obtained using one 3¢ coin and one 5¢ coin.
 
 Suppose that k is any integer with k ≥ 8 such that k¢ can be obtained using 3¢ and 5¢ coins. [P(k) - inductive hypothesis]
 
-We must show that (k+1)¢ can be obtained using 3¢ and 5¢ coins. [P(k+1)]
+We must show that (k + 1)¢ can be obtained using 3¢ and 5¢ coins. [P(k + 1)]
 
-**Case 1** (There is a 5¢ coin among those used to make up the k¢): In this case replace the 5¢ coin by two 3¢ coins; the result will be (k+1)¢.
+**Case 1** (There is a 5¢ coin among those used to make up the k¢): In this case replace the 5¢ coin by two 3¢ coins; the result will be (k + 1)¢.
 
-**Case 2** (There is no 5¢ coin among those used to make up the k¢): Then 3¢ coins are used exclusively. Since k ≥ 8, at least three 3¢ coins must be included. Replace three 3¢ coins by two 5¢ coins to obtain (k+1)¢.
+**Case 2** (There is no 5¢ coin among those used to make up the k¢): Then 3¢ coins are used exclusively. Since k ≥ 8, at least three 3¢ coins must be included. Replace three 3¢ coins by two 5¢ coins to obtain (k + 1)¢.
 
-[The chapter continues with more sections on mathematical induction, strong mathematical induction, recursion, and other related topics through page 310]
+[Since we have proved the basis step and the inductive step, we conclude that the proposition is true.]
+
+The following example shows how to use mathematical induction to prove a formula for the sum of the first n integers.
+
+### Example 5.2.1 Sum of the First n Integers
+
+Use mathematical induction to prove that
+```
+1 + 2 + ··· + n = n(n + 1)/2
+```
+for all integers n ≥ 1.
+
+**Solution**
+
+To construct a proof by induction, you must first identify the property P(n). In this case, P(n) is the equation
+
+```
+1 + 2 + ··· + n = n(n + 1)/2
+```
+
+← P(n)
+
+[To see that P(n) is a sentence, note that its subject is "the sum of the integers from 1 to n" and its verb is "equals."]
+
+In the basis step of the proof, you must show that the property is true for n = 1, or, in other words that P(1) is true. Now P(1) is obtained by substituting 1 in place of n in P(n). The left-hand side of P(1) is the sum of all the successive integers starting at 1 and ending at 1. This is just 1. Thus P(1) is
+
+Note To write P(1), just copy P(n) and replace each n by 1.
+
+```
+1 = 1(1 + 1)/2
+```
+
+← basis (P(1))
+
+Of course, this equation is true because the right-hand side is
+```
+1·2/2 = 1,
+```
+which equals the left-hand side.
+
+In the inductive step, you assume that P(k) is true, for a particular but arbitrarily chosen integer k with k ≥ 1. [This assumption is the inductive hypothesis.] You must then show that P(k + 1) is true. What are P(k) and P(k + 1)? P(k) is obtained by substituting k for every n in P(n). Thus P(k) is
+
+Note To write P(k), just copy P(n) and replace each n by k.
+
+```
+1 + 2 + ··· + k = k(k + 1)/2
+```
+
+← P(k)
+inductive hypothesis
+
+Similarly, P(k + 1) is obtained by substituting the quantity (k + 1) for every n that appears in P(n). Thus P(k + 1) is
+
+Note To write P(k + 1), just copy P(n) and replace each n by (k + 1).
+
+```
+1 + 2 + · · · + (k + 1) = (k + 1)((k + 1) + 1)/2
+```
+or, equivalently,
+
+```
+1 + 2 + · · · + (k + 1) = (k + 1)(k + 2)/2
+```
+
+← P(k + 1)
+
+Now the inductive hypothesis is the supposition that P(k) is true. How can this supposition be used to show that P(k + 1) is true? P(k + 1) is an equation, and the truth of an equation can be shown in a variety of ways. One of the most straightforward is to use the inductive hypothesis along with algebra and other known facts to transform separately the left-hand and right-hand sides until you see that they are the same. In this case, the left-hand side of P(k + 1) is
+
+```
+1 + 2 + · · · + (k + 1),
+```
+
+which equals
+
+The next-to-last term is k because the terms are successive integers and the last term is k + 1.
+
+```
+(1 + 2 + · · · + k) + (k + 1)
+```
+
+But by substitution from the inductive hypothesis,
+
+```
+(1 + 2 + · · · + k) + (k + 1) = k(k + 1)/2 + (k + 1)
+```
+
+since the inductive hypothesis says that 1 + 2 + · · · + k = k(k + 1)/2
+
+```
+= k(k + 1)/2 + 2(k + 1)/2
+= (k² + k + 2k + 2)/2
+= (k² + 3k + 2)/2
+```
+
+by multiplying the numerator and denominator of the second term by 2 to obtain a common denominator
+
+by multiplying out the two numerators
+by adding fractions with the same denominator and combining like terms.
+
+So the left-hand side of P(k + 1) is (k² + 3k + 2)/2. Now the right-hand side of P(k + 1) is
+
+```
+(k + 1)(k + 2)/2 = (k² + 3k + 2)/2
+```
+
+by multiplying out the numerator.
+
+Thus the two sides of P(k + 1) are equal to each other, and so the equation P(k + 1) is true.
+
+This discussion is summarized as follows:
+
+### Theorem 5.2.2 Sum of the First n Integers
+
+For all integers n ≥ 1,
+```
+1 + 2 + ··· + n = n(n + 1)/2
+```
+
+**Proof (by mathematical induction):**
+
+Let the property P(n) be the equation
+```
+1 + 2 + 3 + ··· + n = n(n + 1)/2
+```
+
+← P(n)
+
+**Show that P(1) is true:**
+To establish P(1), we must show that
+```
+1 = 1(1 + 1)/2
+```
+← P(1)
+
+But the left-hand side of this equation is 1 and the right-hand side is
+```
+1(1 + 1)/2 = 1·2/2 = 1
+```
+also. Hence P(1) is true.
+
+**Show that for all integers k ≥ 1, if P(k) is true then P(k + 1) is also true:**
+
+[Suppose that P(k) is true for a particular but arbitrarily chosen integer k ≥ 1. That is:] Suppose that k is any integer with k ≥ 1 such that
+```
+1 + 2 + 3 + ··· + k = k(k + 1)/2
+```
+← P(k)
+inductive hypothesis
+
+[We must show that P(k + 1) is true. That is:] We must show that
+```
+1 + 2 + 3 + · · · + (k + 1) = (k + 1)[(k + 1) + 1]/2
+```
+or, equivalently, that
+```
+1 + 2 + 3 + · · · + (k + 1) = (k + 1)(k + 2)/2
+```
+← P(k + 1)
+
+[We will show that the left-hand side and the right-hand side of P(k + 1) are equal to the same quantity and thus are equal to each other.]
+The left-hand side of P(k + 1) is
+```
+1 + 2 + 3 + · · · + (k + 1)
+= 1 + 2 + 3 + · · · + k + (k + 1)
+= k(k + 1)/2 + (k + 1)
+```
+
+by making the next-to-last term explicit
+by substitution from the inductive hypothesis
+
+```
+= k(k + 1)/2 + 2(k + 1)/2
+= (k² + k)/2 + (2k + 2)/2
+= (k² + k + 2k + 2)/2
+= (k² + 3k + 2)/2
+```
+
+by algebra.
+
+And the right-hand side of P(k + 1) is
+```
+(k + 1)(k + 2)/2 = (k² + 3k + 2)/2
+```
+
+Thus the two sides of P(k + 1) are equal to the same quantity and so they are equal to each other. Therefore the equation P(k + 1) is true [as was to be shown].
+[Since we have proved both the basis step and the inductive step, we conclude that the theorem is true.]
+
+**Page 279**
+
+3 . . . . . . 50
+
+51 . . . . . . 98
+
+99
+
+100
+
+→
+
+→
+
+→
+
+→
+
+→
+
+→
+
+→
+
+1 2
+
+→
+
+The story is told that one of the greatest mathematicians of all time, Carl Friedrich Gauss (1777–1855), was given the problem of adding the numbers from 1 to 100 by his teacher when he was a young child. The teacher had asked his students to compute the sum, supposedly to gain himself some time to grade papers. But after just a few moments, Gauss produced the correct answer. Needless to say, the teacher was dumbfounded. How could young Gauss have calculated the quantity so rapidly? In his later years, Gauss explained that he had imagined the numbers paired according to the following schema.
+
+sum is 101
+sum is 101
+sum is 101
+sum is 101
+
+The sum of the numbers in each pair is 101, and there are 50 pairs in all; hence the total sum is 50· 101 = 5,050.
+
+• Definition Closed Form
+If a sum with a variable number of terms is shown to be equal to a formula that does not contain either an ellipsis or a summation symbol, we say that it is written in closed form.
+
+For example, writing 1 + 2 + 3 + · · · + n = n(n + 1)/2 expresses the sum 1 + 2 + 3 + · · · + n in closed form.
+
+### Example 5.2.2 Applying the Formula for the Sum of the First n Integers
+
+a. Evaluate 2 + 4 + 6 + · · · + 500.
+b. Evaluate 5 + 6 + 7 + 8 + · · · + 50.
+c. For an integer h ≥ 2, write 1 + 2 + 3 + · · · + (h − 1) in closed form.
+
+**Solution**
+a. 2 + 4 + 6 + · · · + 500 = 2· (1 + 2 + 3 + · · · + 250)
+```
+= 2· [250· 251/2]
+= 62,750.
+```
+
+by applying the formula for the sum of the first n integers with n = 250
+
+b. 5 + 6 + 7 + 8 + · · · + 50 = (1 + 2 + 3 + · · · + 50) − (1 + 2 + 3 + 4)
+```
+= [50· 51/2] − 10
+= 1,265
+```
+
+by applying the formula for the sum of the first n integers with n = 50
+
+c. 1 + 2 + 3 + · · · + (h − 1) = (h − 1) · [(h − 1) + 1]/2
+```
+= (h − 1)· h/2
+```
+
+by applying the formula for the sum of the first n integers with n = h − 1
+since (h − 1) + 1 = h.
+
+The next example asks for a proof of another famous and important formula in mathematics—the formula for the sum of a geometric sequence. In a geometric sequence, each term is obtained from the preceding one by multiplying by a constant factor. If the first term is 1 and the constant factor is r, then the sequence is 1, r, r², r³, . . . , rⁿ, . . . . The sum of the first n terms of this sequence is given by the formula
+
+```
+∑ᵢ₌₀ⁿ rⁱ = (rⁿ⁺¹ − 1)/(r − 1)
+```
+
+for all integers n ≥ 0 and real numbers r not equal to 1. The expanded form of the formula is
+
+```
+r⁰ + r¹ + r² + · · · + rⁿ = (rⁿ⁺¹ − 1)/(r − 1),
+```
+
+and because r⁰ = 1 and r¹ = r, the formula for n ≥ 1 can be rewritten as
+
+```
+1 + r + r² + · · · + rⁿ = (rⁿ⁺¹ − 1)/(r − 1).
+```
+
+### Example 5.2.3 Sum of a Geometric Sequence
+
+Prove that
+
+```
+∑ᵢ₌₀ⁿ rⁱ = (rⁿ⁺¹ − 1)/(r − 1)
+```
+for all integers n ≥ 0 and all real numbers r except 1.
+
+**Solution**
+
+In this example the property P(n) is again an equation, although in this case it contains a real variable r:
+
+```
+∑ᵢ₌₀ⁿ rⁱ = (rⁿ⁺¹ − 1)/(r − 1)
+```
+
+← the property (P(n))
+
+Because r can be any real number other than 1, the proof begins by supposing that r is a particular but arbitrarily chosen real number not equal to 1. Then the proof continues by mathematical induction on n, starting with n = 0. In the basis step, you must show that P(0) is true; that is, you show the property is true for n = 0. So you substitute 0 for each n in P(n):
+
+```
+∑ᵢ₌₀⁰ rⁱ = (r⁰⁺¹ − 1)/(r − 1)
+```
+
+← basis (P(0))
+
+In the inductive step, you suppose k is any integer with k ≥ 0 for which P(k) is true; that is, you suppose the property is true for n = k. So you substitute k for each n in P(n):
+
+```
+∑ᵢ₌₀ᵏ rⁱ = (rᵏ⁺¹ − 1)/(r − 1)
+```
+
+← inductive hypothesis (P(k))
+
+Then you show that P(k + 1) is true; that is, you show the property is true for n = k + 1. So you substitute k + 1 for each n in P(n):
+
+```
+∑ᵢ₌₀ᵏ⁺¹ rⁱ = (r⁽ᵏ⁺¹⁾⁺¹ − 1)/(r − 1)
+```
+or, equivalently,
+
+```
+∑ᵢ₌₀ᵏ⁺¹ rⁱ = (rᵏ⁺² − 1)/(r − 1)
+```
+
+← to show (P(k + 1))
+
+In the inductive step for this proof we use another common technique for showing that an equation is true: We start with the left-hand side and transform it step-by-step into the right-hand side using the inductive hypothesis together with algebra and other known facts.
+
+### Theorem 5.2.3 Sum of a Geometric Sequence
+
+For any real number r except 1, and any integer n ≥ 0,
+```
+∑ᵢ₌₀ⁿ rⁱ = (rⁿ⁺¹ − 1)/(r − 1)
+```
+
+**Proof (by mathematical induction):**
+
+Suppose r is a particular but arbitrarily chosen real number that is not equal to 1, and let the property P(n) be the equation
+```
+∑ᵢ₌₀ⁿ rⁱ = (rⁿ⁺¹ − 1)/(r − 1)
+```
+
+← P(n)
+
+We must show that P(n) is true for all integers n ≥ 0. We do this by mathematical induction on n.
+
+**Show that P(0) is true:**
+To establish P(0), we must show that
+```
+∑ᵢ₌₀⁰ rⁱ = (r⁰⁺¹ − 1)/(r − 1)
+```
+← P(0)
+
+The left-hand side of this equation is r⁰ = 1 and the right-hand side is
+```
+(r⁰⁺¹ − 1)/(r − 1) = (r − 1)/(r − 1) = 1
+```
+also because r¹ = r and r ≠ 1. Hence P(0) is true.
+
+**Show that for all integers k ≥ 0, if P(k) is true then P(k + 1) is also true:**
+
+[Suppose that P(k) is true for a particular but arbitrarily chosen integer k ≥ 0. That is:]
+
+Let k be any integer with k ≥ 0, and suppose that
+```
+$\sum_{i=0}^{k} r^i = \frac{r^{k+1} - 1}{r - 1}$
+```
+
+← P(k)
+inductive hypothesis
+
+[We must show that P(k + 1) is true. That is:] We must show that
+```
+$\sum_{i=0}^{k+1} r^i = \frac{r^{(k + 1) + 1} - 1}{r - 1}$
+```
+or, equivalently, that
+```
+∑_{i=0}^{k+1} rⁱ = (r^{k+2} − 1)/(r − 1)
+```
+
+← P(k + 1)
+
+[We will show that the left-hand side of P(k + 1) equals the right-hand side.]
+
+The left-hand side of P(k + 1) is
+```
+∑_{i=0}^{k+1} rⁱ = ∑_{i=0}^k rⁱ + r^{k+1}
+```
+
+by writing the (k + 1)st term separately from the first k terms
+
+```
+= (r^{k+1} − 1)/(r − 1) + r^{k+1}
+```
+
+by substitution from the inductive hypothesis
+
+```
+= (r^{k+1} − 1)/(r − 1) + r^{k+1}(r − 1)/(r − 1)
+```
+
+by multiplying the numerator and denominator of the second term by (r − 1) to obtain a common denominator
+
+```
+= (r^{k+1} − 1 + r^{k+1}(r − 1))/(r − 1)
+= (r^{k+1} − 1 + r^{k+2} − r^{k+1})/(r − 1)
+= (r^{k+2} − 1)/(r − 1)
+```
+
+by adding fractions
+by multiplying out and using the fact that r^{k+1} · r = r^{k+1} · r¹ = r^{k+2}
+
+by canceling the r^{k+1}'s.
+
+which is the right-hand side of P(k + 1) [as was to be shown.]
+[Since we have proved the basis step and the inductive step, we conclude that the theorem is true.]
+
+### Proving an Equality
+
+The proofs of the basis and inductive steps in Examples 5.2.1 and 5.2.3 illustrate two different ways to show that an equation is true: (1) transforming the left-hand side and the right-hand side independently until they are seen to be equal, and (2) transforming one side of the equation until it is seen to be the same as the other side of the equation.
+
+Sometimes people use a method that they believe proves equality but that is actually invalid. For example, to prove the basis step for Theorem 5.2.3, they perform the following steps:
+
+```
+∑_{i=0}^0 rⁱ = (r^{0+1} − 1)/(r − 1)
+r⁰ = (r¹ − 1)/(r − 1)
+1 = (r − 1)/(r − 1)
+$1 = 1$
+```
+
+! Caution!
+
+Don't do this!
+
+The problem with this method is that starting from a statement and deducing a true conclusion does not prove that the statement is true. A true conclusion can also be deduced from a false statement. For instance, the steps below show how to deduce the true conclusion that $1 = 1$ from the false statement that 1 = 0:
+
+```
+1 = 0
+0 = 1
+1 + 0 = 0 + 1
+$1 = 1$
+```
+
+← false
+
+← true
+
+When using mathematical induction to prove formulas, be sure to use a method that avoids invalid reasoning, both for the basis step and for the inductive step.
+
+### Deducing Additional Formulas
+
+The formula for the sum of a geometric sequence can be thought of as a family of different formulas in r, one for each real number r except 1.
+
+### Example 5.2.4 Applying the Formula for the Sum of a Geometric Sequence
+
+In each of (a) and (b) below, assume that m is an integer that is greater than or equal to 3. Write each of the sums in closed form.
+
+a. 1 + 3 + 3² + · · · + 3^{m−2}
+b. 3² + 3³ + 3⁴ + · · · + 3ᵐ
+
+**Solution**
+
+a. 1 + 3 + 3² + · · · + 3^{m−2} = (3^{(m−2)+1} − 1)/(3 − 1)
+```
+= (3^{m−1} − 1)/2
+```
+
+by applying the formula for the sum of a geometric sequence with r = 3 and n = m − 2
+
+b. 3² + 3³ + 3⁴ + · · · + 3ᵐ = 3² · (1 + 3 + 3² + · · · + 3^{m−2})
+```
+= 9 · [(3^{m−1} − 1)/2]
+```
+
+by factoring out 3²
+by part (a).
+
+As with the formula for the sum of the first n integers, there is a way to think of the formula for the sum of the terms of a geometric sequence that makes it seem simple and intuitive. Let
+
+```
+S_n = 1 + r + r² + · · · + rⁿ.
+```
+
+Then
+```
+rS_n = r + r² + r³ + · · · + r^{n+1},
+```
+and so
+```
+rS_n − S_n = (r + r² + r³ + · · · + r^{n+1}) − (1 + r + r² + · · · + rⁿ)
+= r^{n+1} − 1.
+```
+
+But
+```
+rS_n − S_n = (r − 1)S_n.
+```
+
+Equating the right-hand sides of equations (5.2.1) and (5.2.2) and dividing by r − 1 gives
+```
+S_n = (r^{n+1} − 1)/(r − 1).
+```
+
+This derivation of the formula is attractive and is quite convincing. However, it is not as logically airtight as the proof by mathematical induction. To go from one step to another in the previous calculations, the argument is made that each term among those indicated by the ellipsis (. . .) has such-and-such an appearance and when these are canceled such-and-such occurs. But it is impossible actually to see each such term and each such calculation, and so the accuracy of these claims cannot be fully checked. With mathematical induction it is possible to focus exactly on what happens in the middle of the ellipsis and verify without doubt that the calculations are correct.
+
+## Test Yourself
+
+1. Mathematical induction is a method for proving that a property defined for integers n is true for all values of n that are _____.
+
+2. Let P(n) be a property defined for integers n and consider constructing a proof by mathematical induction for the statement "P(n) is true for all n ≥ a."
+   (a) In the basis step one must show that _____.
+   (b) In the inductive step one supposes that _____ for some particular but arbitrarily chosen value of an integer k ≥ a. This supposition is called the _____. One then has to show that _____.
+
+## Exercise Set 5.2
+
+1. Use mathematical induction (and the proof of Proposition 5.2.1 as a model) to show that any amount of money of at least 14¢ can be made up using 3¢ and 8¢ coins.
+
+2. Use mathematical induction to show that any postage of at least 12¢ can be obtained using 3¢ and 7¢ stamps.
+
+3. For each positive integer n, let P(n) be the formula
+   1² + 2² + · · · + n² = n(n + 1)(2n + 1)/6
+   a. Write P(1). Is P(1) true?
+   b. Write P(k).
+   c. Write P(k + 1).
+   d. In a proof by mathematical induction that the formula holds for all integers n ≥ 1, what must be shown in the inductive step?
+
+4. For each integer n with n ≥ 2, let P(n) be the formula
+   ∑_{i=1}^{n-1} i(i + 1) = n(n − 1)(n + 1)/3
+   a. Write P(2). Is P(2) true?
+   b. Write P(k).
+   c. Write P(k + 1).
+   d. In a proof by mathematical induction that the formula holds for all integers n ≥ 2, what must be shown in the inductive step?
+
+5. Fill in the missing pieces in the following proof that
+   1 + 3 + 5 + · · · + (2n − 1) = n²
+   for all integers n ≥ 1.
+
+**Proof:** Let the property P(n) be the equation
+   1 + 3 + 5 + · · · + (2n − 1) = n². ← P(n)
+
+   Show that P(1) is true: To establish P(1), we must show
+   that when 1 is substituted in place of n, the left-hand side
+   equals the right-hand side. But when n = 1, the left-hand side is the sum of all the odd integers from 1 to 2·1 − 1, which is the sum of the odd integers from 1 to 1, which is just 1. The right-hand side is (a) , which also equals 1. So P(1) is true.
+
+   Show that for all integers k ≥ 1, if P(k) is true then P(k + 1) is true: Let k be any integer with k ≥ 1.
+   [Suppose P(k) is true. That is:]
+   Suppose 1 + 3 + 5 + · · · + (2k − 1) = (b) . ← P(k)
+   [This is the inductive hypothesis.]
+   [We must show that P(k + 1) is true. That is:]
+   We must show that
+   (c) = (d) . ← P(k + 1)
+
+   But the left-hand side of P(k + 1) is
+   $1 + 3 + 5 + \cdots + (2(k + 1) - 1)$
+   = 1 + 3 + 5 + · · · + (2k + 1)
+   by algebra
+   = [1 + 3 + 5 + · · · + (2k − 1)] + (2k + 1)
+   the next-to-last term is 2k − 1 because (e)
+   by (f)
+   = k² + (2k + 1)
+   = (k + 1)²
+
+   which is the right-hand side of P(k + 1) [as was to be shown.]
+   [Since we have proved the basis step and the inductive step, we
+   conclude that the given statement is true.]
+
+Prove each statement in 6–9 using mathematical induction. Do not derive them from Theorem 5.2.2 or Theorem 5.2.3.
+
+6. For all integers n ≥ 1, 2 + 4 + 6 + · · · + 2n = n² + n.
+
+7. For all integers n ≥ 1,
+   1 + 6 + 11 + 16 + · · · + (5n − 4) = n(5n − 3)/2.
+
+8. For all integers n ≥ 0, 1 + 2 + 2² + · · · + 2ⁿ = 2ⁿ⁺¹ − 1.
+
+9. For all integers n ≥ 3,
+   4³ + 4⁴ + 4⁵ + · · · + 4ⁿ = 4(4ⁿ − 16)/3.
+
+Prove each of the statements in 10–17 by mathematical induction:
+
+10. 1² + 2² + · · · + n² = n(n + 1)(2n + 1)/6, for all integers n ≥ 1.
+
+11. 1³ + 2³ + · · · + n³ = [n(n + 1)/2]², for all integers n ≥ 1.
+
+12. ∑_{i=1}^{n-1} i(i + 1) = n(n − 1)(n + 1)/3, for all integers n ≥ 2.
+
+13. ∑_{i=1}^n i·2ⁱ = n·2^{n+2} + 2, for all integers n ≥ 0.
+
+14. ∑_{i=1}^n i(i!) = (n + 1)! − 1, for all integers n ≥ 1.
+
+15. (1 − 1/2)(1 − 1/3)(1 − 1/4)···(1 − 1/n) = 1/n, for all integers n ≥ 2.
+
+16. ∏_{i=0}^n [1/(2i + 1) · 1/(2i + 2)] = 1/(2n + 2)!, for all integers n ≥ 0.
+
+17. ∏_{i=0}^n 1/(2i + 1) × 1/(2i + 2) = 1/(2n + 2)!, for all integers n ≥ 0.
+
+18. If x is a real number not divisible by π, then for all integers n ≥ 1,
+   sin x + sin 3x + sin 5x + · · · + sin(2n − 1)x = (1 − cos 2nx)/(2 sin x).
+
+19. (For students who have studied calculus) Use mathematical induction, the product rule from calculus, and the facts that d(x)/dx = 1 and that x^{k+1} = x·x^k to prove that for all integers n ≥ 1,
+   d(xⁿ)/dx = nx^{n−1}.
+
+Use the formula for the sum of the first n integers and/or the formula for the sum of a geometric sequence to evaluate the sums in 20–29 or to write them in closed form.
+
+20. 4 + 8 + 12 + 16 + · · · + 200
+
+21. 5 + 10 + 15 + 20 + · · · + 300
+
+22. 3 + 4 + 5 + 6 + · · · + 1000
+
+23. 7 + 8 + 9 + 10 + · · · + 600
+
+24. 1 + 2 + 3 + · · · + (k − 1), where k is an integer and k ≥ 2.
+
+25. a. 1 + 2 + 2² + · · · + 2^{25}
+   b. 2 + 2² + 2³ + · · · + 2^{26}
+
+26. 3 + 3² + 3³ + · · · + 3ⁿ, where n is an integer with n ≥ 1
+
+27. 5³ + 5⁴ + 5⁵ + · · · + 5ᵏ, where k is any integer with k ≥ 3.
+
+28. 1 + 1/2 + 1/4 + · · · + 1/2ⁿ, where n is a positive integer
+
+29. 1 − 2 + 2² − 2³ + · · · + (−1)ⁿ 2ⁿ, where n is a positive integer
+
+30. Find a formula in n, a, m, and d for the sum (a + md) + (a + (m + 1)d) + (a + (m + 2)d) + · · · + (a + (m + n)d), where m and n are integers, n ≥ 0, and a and d are real numbers. Justify your answer.
+
+31. Find a formula in a, r, m, and n for the sum
+   arᵐ + ar^{m+1} + ar^{m+2} + · · · + ar^{m+n}
+   where m and n are integers, n ≥ 0, and a and r are real numbers. Justify your answer.
+
+32. You have two parents, four grandparents, eight great-grandparents, and so forth.
+   a. If all your ancestors were distinct, what would be the total number of your ancestors for the past 40 generations (counting your parents' generation as number one)? (Hint: Use the formula for the sum of a geometric sequence.)
+   b. Assuming that each generation represents 25 years, how long is 40 generations?
+   c. The total number of people who have ever lived is approximately 10 billion, which equals 10¹⁰ people. Compare this fact with the answer to part (a). What do you deduce?
+
+Find the mistakes in the proof fragments in 33–35.
+
+33. Theorem: For any integer n ≥ 1, 1² + 2² + · · · + n² = n(n + 1)(2n + 1)/6.
+   "Proof (by mathematical induction): Certainly the theorem is true for n = 1 because 1² = 1 and 1(1 + 1)(2·1 + 1)/6 = 1. So the basis step is true. For the inductive step, suppose that for some integer k ≥ 1, k² = k(k + 1)(2k + 1)/6. We must show that (k + 1)² = (k + 1)((k + 1) + 1)(2(k + 1) + 1)/6."
+
+34. Theorem: For any integer n ≥ 0, ∑_{i=0}^n i(i!) = (n + 1)! − 1.
+   "Proof (by mathematical induction): Let the property P(n) be ∑_{i=0}^n i(i!) = (n + 1)! − 1. Show that P(1) is true: When n = 1, ∑_{i=0}^1 i(i!) = (1 + 1)! − 1, so 1(1!) = 2! − 1, and $1 = 1$. Thus P(1) is true."
+
+35. Theorem: For any integer n ≥ 0, 1 + 2 + 2² + · · · + 2ⁿ = 2ⁿ⁺¹ − 1.
+   "Proof (by mathematical induction): Let the property P(n) be 1 + 2 + 2² + · · · + 2ⁿ = 2ⁿ⁺¹ − 1. Show that P(0) is true: The left-hand side of P(0) is 1 + 2 + 2² + · · · + 2⁰ = 1 and the right-hand side is 2^{0+1} − 1 = 2 − $1 = 1$ also. So P(0) is true."
+
+36. Use Theorem 5.2.2 to prove that if m and n are any positive integers and m is odd, then ∑_{k=0}^{m-1} (n + k) is divisible by m. Does the conclusion hold if m is even? Justify your answer.
+
+37. Use Theorem 5.2.2 and the result of exercise 10 to prove that if p is any prime number with p ≥ 5, then the sum of squares of any p consecutive integers is divisible by p.
+
+## Answers for Test Yourself
+
+1. greater than or equal to some initial value 2. (a) P(a) is true (b) P(k) is true; inductive hypothesis; P(k + 1) is true
