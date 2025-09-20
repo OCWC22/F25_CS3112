@@ -1378,72 +1378,164 @@ A similar analysis can be used to fill in the numbers for the other regions of t
    next i
    ```
    How many times will the inner loop be iterated when the algorithm is implemented and run?
+is implemented and run?
 
-10. a. How many ways can the letters of the word QUICK be arranged in a row?
+10. A calculator has an eight-digit display and a decimal point that is located at the extreme right of the number displayed, at the extreme left, or between any pair of digits. The calculator can also display a minus sign at the extreme left of the number. How many distinct numbers can the calculator display? (Note that certain numbers are equal, such as 1.9, 1.90, and 01.900, and should, therefore, not be counted twice.)
+
+11. a. How many ways can the letters of the word QUICK be arranged in a row?
     b. How many ways can the letters of the word QUICK be arranged in a row if the Q and the U must remain next to each other in the order QU?
     c. How many ways can the letters of the word QUICK be arranged in a row if the letters QU must remain together but may be in either the order QU or the order UQ?
 
-11. a. How many ways can the letters of the word THEORY be arranged in a row?
+12. a. How many ways can the letters of the word THEORY be arranged in a row?
     b. How many ways can the letters of the word THEORY be arranged in a row if T and H must remain next to each other as either TH or HT?
 
-12. A group of eight people are attending the movies together.
+13. A group of eight people are attending the movies together.
     a. Two of the eight insist on sitting side-by-side. In how many ways can the eight be seated together in a row?
     b. Two of the people do not like each other and do not want to sit side-by-side. Now how many ways can the eight be seated together in a row?
 
-13. An early compiler recognized variable names according to the following rules: Numeric variable names had to begin with a letter, and then the letter could be followed by another letter or a digit or by nothing at all. String variable names had to begin with the symbol $ followed by a letter, which could then be followed by another letter or a digit or by nothing at all. How many distinct variable names were recognized by this compiler?
+14. An early compiler recognized variable names according to the following rules: Numeric variable names had to begin with a letter, and then the letter could be followed by another letter or a digit or by nothing at all. String variable names had to begin with the symbol $ followed by a letter, which could then be followed by another letter or a digit or by nothing at all. How many distinct variable names were recognized by this compiler?
 
-14. a. If any seven digits could be used to form a telephone number, how many seven-digit telephone numbers would not have any repeated digits?
+15. Identifiers in a certain database language must begin with a letter, and then the letter may be followed by other characters, which can be letters, digits, or underscores (_). However, 82 keywords (all consisting of 15 or fewer characters) are reserved and cannot be used as identifiers. How many identifiers with 30 or fewer characters are possible? (Write the answer using summation notation and evaluate it using a formula from Section 5.2.)
+
+16. a. If any seven digits could be used to form a telephone number, how many seven-digit telephone numbers would not have any repeated digits?
     b. How many seven-digit telephone numbers would have at least one repeated digit?
     c. What is the probability that a randomly chosen seven-digit telephone number would have at least one repeated digit?
 
-15. a. How many strings of four hexadecimal digits do not have any repeated digits?
+17. a. How many strings of four hexadecimal digits do not have any repeated digits?
     b. How many strings of four hexadecimal digits have at least one repeated digit?
     c. What is the probability that a randomly chosen string of four hexadecimal digits has at least one repeated digit?
 
-16. Just as the difference rule gives rise to a formula for the probability of the complement of an event, so the addition and inclusion/exclusion rules give rise to formulas for the probability of the union of mutually disjoint events and for a general union of (not necessarily mutually exclusive) events.
+18. Just as the difference rule gives rise to a formula for the probability of the complement of an event, so the addition and inclusion/exclusion rules give rise to formulas for the probability of the union of mutually disjoint events and for a general union of (not necessarily mutually exclusive) events.
     a. Prove that for mutually disjoint events A and B, P(A ∪ B) = P(A) + P(B).
     b. Prove that for any events A and B, P(A ∪ B) = P(A) + P(B) - P(A ∩ B).
 
-17. a. How many integers from 1 through 1,000 are multiples of 4 or multiples of 7?
-    b. Suppose an integer from 1 through 1,000 is chosen at random. Use the result of part (a) to find the probability that the integer is a multiple of 4 or a multiple of 7.
-    c. How many integers from 1 through 1,000 are neither multiples of 4 nor multiples of 7?
+19. A combination lock requires three selections of numbers, each from 1 through 39. Suppose the lock is constructed in such a way that no number can be used twice in a row but the same number may occur both first and third. For example, 20 13 20 would be acceptable, but 20 20 13 would not. How many different combinations are possible?
 
-18. a. How many integers from 1 through 1,000 are multiples of 2 or multiples of 9?
-    b. Suppose an integer from 1 through 1,000 is chosen at random. Use the result of part (a) to find the probability that the integer is a multiple of 2 or a multiple of 9.
-    c. How many integers from 1 through 1,000 are neither multiples of 2 nor multiples of 9?
+20. a. How many integers from 1 through 100,000 contain the digit 6 exactly once?
+    b. How many integers from 1 through 100,000 contain the digit 6 at least once?
+    c. If an integer is chosen at random from 1 through 100,000, what is the probability that it contains two or more occurrences of the digit 6?
 
-19. A college conducted a survey to explore the academic interests and achievements of its students. It asked students to place checks beside the numbers of all the statements that were true of them. Statement #1 was "I was on the honor roll last term," statement #2 was "I belong to an academic club, such as the math club or the Spanish club," and statement #3 was "I am majoring in at least two subjects." Out of a sample of 100 students, 28 checked #1, 26 checked #2, and 14 checked #3, 8 checked both #1 and #2, 4 checked both #1 and #3, 3 checked both #2 and #3, and 2 checked all three statements.
-    a. How many students checked at least one of the statements?
-    b. How many students checked none of the statements?
-    c. Let H be the set of students who checked #1, C the set of students who checked #2, and D the set of students who checked #3. Fill in the numbers for all eight regions of the diagram below.
+21. Six new employees, two of whom are married to each other, are to be assigned six desks that are lined up in a row. If the assignment of employees to desks is made randomly, what is the probability that the married couple will have nonadjacent desks? (Hint: First find the probability that the couple will have adjacent desks, and then subtract this number from 1.)
 
-    d. How many students checked #1 and #2 but not #3?
-    e. How many students checked #2 and #3 but not #1?
-    f. How many students checked #2 but neither of the other two?
+22. Consider strings of length n over the set {a, b, c, d}.
+   a. How many such strings contain at least one pair of adjacent characters that are the same?
+   b. If a string of length ten over {a, b, c, d} is chosen at random, what is the probability that it contains at least one pair of adjacent characters that are the same?
 
-20. A study was done to determine the efficacy of three different drugs—A, B, and C—in relieving headache pain. Over the period covered by the study, 50 subjects were given the chance to use all three drugs. The following results were obtained:
-    - 21 reported relief from drug A.
-    - 21 reported relief from drug B.
-    - 31 reported relief from drug C.
-    - 9 reported relief from both drugs A and B.
-    - 14 reported relief from both drugs A and C.
-    - 15 reported relief from both drugs B and C.
-    - 41 reported relief from at least one of the drugs.
+23. a. How many integers from 1 through 1,000 are multiples of 4 or multiples of 7?
+   b. Suppose an integer from 1 through 1,000 is chosen at random. Use the result of part (a) to find the probability that the integer is a multiple of 4 or a multiple of 7.
+   c. How many integers from 1 through 1,000 are neither multiples of 4 nor multiples of 7?
 
-    Note that some of the 21 subjects who reported relief from drug A may also have reported relief from drugs B or C. A similar occurrence may be true for the other data.
+24. a. How many integers from 1 through 1,000 are multiples of 2 or multiples of 9?
+   b. Suppose an integer from 1 through 1,000 is chosen at random. Use the result of part (a) to find the probability that the integer is a multiple of 2 or a multiple of 9.
+   c. How many integers from 1 through 1,000 are neither multiples of 2 nor multiples of 9?
 
-    a. How many people got relief from none of the drugs?
-    b. How many people got relief from all three drugs?
-    c. Let A be the set of all subjects who got relief from drug A, B the set of all subjects who got relief from drug B, and C the set of all subjects who got relief from drug C. Fill in the numbers for all eight regions of the diagram below.
+25. Counting Strings:
+   a. Make a list of all bit strings of lengths zero, one, two, three, and four that do not contain the bit pattern 111.
+   b. For each integer n ≥ 0, let dn = the number of bit strings of length n that do not contain the bit pattern 111. Find d0, d1, d2, d3, and d4.
+   c. Find a recurrence relation for d0, d1, d2, . . .
+   d. Use the results of parts (b) and (c) to find the number of bit strings of length five that do not contain the pattern 111.
 
-    d. How many subjects got relief from A only?
+26. Counting Strings: Consider the set of all strings of a's, b's, and c's.
+   a. Make a list of all of these strings of lengths zero, one, two, and three that do not contain the pattern aa.
+   b. For each integer n ≥ 0, let sn = the number of strings of a's, b's, and c's of length n that do not contain the pattern aa. Find s0, s1, s2, and s3.
+   c. Find a recurrence relation for s0, s1, s2, . . .
+   d. Use the results of parts (b) and (c) to find the number of strings of a's, b's, and c's of length four that do not contain the pattern aa.
+   e. Use the technique described in Section 5.8 to find an explicit formula for s0, s1, s2, . . .
 
----
+27. For each integer n ≥ 0, let ak be the number of bit strings of length n that do not contain the pattern 101.
+   a. Show that ak = ak-1 + ak-3 + ak-4 + · · · + a0 + 2, for all integers k ≥ 3.
+   b. Use the result of part (a) to show that if k ≥ 3, then ak = 2ak-1 - ak-2 + ak-3.
 
-## Answers for Test Yourself
+28. For each integer n ≥ 2 let an be the number of permutations of {1, 2, 3, . . . , n} in which no number is more than one place removed from its "natural" position. Thus a1 = 1 since the one permutation of {1}, namely 1, does not move 1 from its natural position. Also a2 = 2 since neither of the two permutations of {1,2}, namely 12 and 21, moves either number more than one place from its natural position.
+   a. Find a3.
+   b. Find a recurrence relation for a1, a2, a3, . . .
 
-1. the number of elements in A equals N(A₁) + N(A₂) + · · · + N(Aₖ)
-2. the number of elements in A - B is the difference between the number of elements in A and the number of elements in B, that is, N(A - B) = N(A) - N(B)
-3. 1 - P(A)
-4. N(A ∪ B) = N(A) + N(B) - N(A ∩ B)
-5. N(A ∪ B ∪ C) = N(A) + N(B) + N(C) - N(A ∩ B) - N(A ∩ C) - N(B ∩ C) + N(A ∩ B ∩ C)
+29. Refer to Example 9.3.5.
+   a. Write the following IP address in dotted decimal form: 11001010 00111000 01101011 11101110
+   b. How many Class A networks can there be?
+   c. What is the dotted decimal form of the IP address for a computer in a Class A network?
+   d. How many host IDs can there be for a Class A network?
+   e. How many Class C networks can there be?
+   f. What is the dotted decimal form of the IP address for a computer in a Class C network?
+   g. How many host IDs can there be for a Class C network?
+   h. How can you tell, by looking at the first of the four numbers in the dotted decimal form of an IP address, what kind of network the address is from? Explain.
+   i. An IP address is 140.192.32.136. What class of network does it come from?
+   j. An IP address is 202.56.107.238. What class of network does it come from?
+
+30. A row in a classroom has n seats. Let sn be the number of ways nonempty sets of students can sit in the row so that no student is seated directly adjacent to any other student. (For instance, a row of three seats could contain a single student in any of the seats or a pair of students in the two outer seats. Thus s3 = 4.) Find a recurrence relation for s1, s2, s3, . . .
+
+31. Assume that birthdays are equally likely to occur in any one of the 12 months of the year.
+   a. Given a group of four people, A, B, C, and D, what is the total number of ways in which birth months could be associated with A, B, C, and D? (For instance, A and B might have been born in May, C in September, and D in February. As another example, A might have been born in January, B in June, C in March, and D in October.)
+   b. How many ways could birth months be associated with A, B, C, and D so that no two people would share the same birth month?
+   c. How many ways could birth months be associated with A, B, C, and D so that at least two people would share the same birth month?
+   d. What is the probability that at least two people out of A, B, C, and D share the same birth month?
+   e. How large must n be so that in any group of n people, the probability that two or more share the same birth month is at least 50%?
+
+32. Assuming that all years have 365 days and all birthdays occur with equal probability, how large must n be so that in any randomly chosen group of n people, the probability that two or more have the same birthday is at least 1/2? (This is called the birthday problem. Many people find the answer surprising.)
+
+33. A college conducted a survey to explore the academic interests and achievements of its students. It asked students to place checks beside the numbers of all the statements that were true of them. Statement #1 was "I was on the honor roll last term," statement #2 was "I belong to an academic club, such as the math club or the Spanish club," and statement #3 was "I am majoring in at least two subjects." Out of a sample of 100 students, 28 checked #1, 26 checked #2, and 14 checked #3, 8 checked both #1 and #2, 4 checked both #1 and #3, 3 checked both #2 and #3, and 2 checked all three statements.
+   a. How many students checked at least one of the statements?
+   b. How many students checked none of the statements?
+   c. Let H be the set of students who checked #1, C the set of students who checked #2, and D the set of students who checked #3. Fill in the numbers for all eight regions of the diagram below.
+   d. How many students checked #1 and #2 but not #3?
+   e. How many students checked #2 and #3 but not #1?
+   f. How many students checked #2 but neither of the other two?
+
+34. A study was done to determine the efficacy of three different drugs—A, B, and C—in relieving headache pain. Over the period covered by the study, 50 subjects were given the chance to use all three drugs. The following results were obtained:
+   - 21 reported relief from drug A.
+   - 21 reported relief from drug B.
+   - 31 reported relief from drug C.
+   - 9 reported relief from both drugs A and B.
+   - 14 reported relief from both drugs A and C.
+   - 15 reported relief from both drugs B and C.
+   - 41 reported relief from at least one of the drugs.
+   Note that some of the 21 subjects who reported relief from drug A may also have reported relief from drugs B or C. A similar occurrence may be true for the other data.
+   a. How many people got relief from none of the drugs?
+   b. How many people got relief from all three drugs?
+   c. Let A be the set of all subjects who got relief from drug A, B the set of all subjects who got relief from drug B, and C the set of all subjects who got relief from drug C. Fill in the numbers for all eight regions of the diagram below.
+   d. How many subjects got relief from A only?
+
+35. An interesting use of the inclusion/exclusion rule is to check survey numbers for consistency. For example, suppose a public opinion polltaker reports that out of a national sample of 1,200 adults, 675 are married, 682 are from 20 to 30 years old, 684 are female, 195 are married and are from 20 to 30 years old, 467 are married females, 318 are females from 20 to 30 years old, and 165 are married females from 20 to 30 years old. Are the polltaker's figures consistent? Could they have occurred as a result of an actual sample survey?
+
+36. Fill in the reasons for each step below. If A and B are sets in a finite universe U, then
+   N(A ∩ B) = N(U) - N((A ∩ B)^c)
+   = N(U) - N(A^c ∪ B^c)
+   = N(U) - (N(A^c) + N(B^c) - N(A^c ∩ B^c))
+
+37. How many positive integers less than 1,000 have no common factors with 1,000?
+
+38. How many permutations of abcde are there in which the first character is a, b, or c and the last character is c, d, or e?
+
+39. How many integers from 1 through 999,999 contain each of the digits 1, 2, and 3 at least once? (Hint: For each i = 1, 2, and 3, let Ai be the set of all integers from 1 through 999,999 that do not contain the digit i.)
+
+40. Use the inclusion/exclusion principle to prove the following: If n = pq, where p and q are distinct prime numbers, then φ(n) = (p-1)(q-1).
+
+41. Use the inclusion/exclusion principle to prove the following: If n = pqr, where p, q, and r are distinct prime numbers, then φ(n) = (p-1)(q-1)(r-1).
+
+42. A gambler decides to play successive games of blackjack until he loses three times in a row. (Thus the gambler could play five games by losing the first, winning the second, and losing the final three or by winning the first two and losing the final three. These possibilities can be symbolized as LWLLL and WWLLL.) Let gn be the number of ways the gambler can play n games.
+   a. Find g3, g4, and g5.
+   b. Find g6.
+   c. Find a recurrence relation for g3, g4, g5, . . .
+
+43. A derangement of the set {1, 2, . . . , n} is a permutation that moves every element of the set away from its "natural" position. Thus 21 is a derangement of {1, 2}, and 231 and 312 are derangements of {1, 2, 3}. For each positive integer n, let dn be the number of derangements of the set {1, 2, . . . , n}.
+   a. Find d1, d2, and d3.
+   b. Find d4.
+   c. Find a recurrence relation for d1, d2, d3, . . .
+
+44. Note that a product x1x2x3 may be parenthesized in two different ways: (x1x2)x3 and x1(x2x3). Similarly, there are several different ways to parenthesize x1x2x3x4. Two such ways are (x1x2)(x3x4) and x1((x2x3)x4). Let Pn be the number of different ways to parenthesize the product x1x2 . . . xn. Show that if P1 = 1, then
+   Pn = ∑_{k=1}^{n-1} Pk Pn-k for all integers n ≥ 2.
+   (It turns out that the sequence P1, P2, P3, . . . is the same as the sequence of Catalan numbers: Pn = Cn-1 for all integers n ≥ 1. See Example 5.6.4.)
+
+45. Use mathematical induction to prove Theorem 9.3.1.
+
+46. Prove the inclusion/exclusion rule for two sets A and B by showing that A ∪ B can be partitioned into A ∩ B, A - (A ∩ B), and B - (A ∩ B), and then using the addition and difference rules.
+
+47. Prove the inclusion/exclusion rule for three sets.
+
+48. Use mathematical induction to prove the general inclusion/exclusion rule:
+   If A1, A2, . . . , An are finite sets, then
+   N(A1 ∪ A2 ∪ · · · ∪ An) = ∑_{1≤i≤n} N(Ai) - ∑_{1≤i<j≤n} N(Ai ∩ Aj) + ∑_{1≤i<j<k≤n} N(Ai ∩ Aj ∩ Ak) - · · · + (-1)^{n+1} N(A1 ∩ A2 ∩ · · · ∩ An).
+
+49. A circular disk is cut into n distinct sectors, each shaped like a piece of pie and all meeting at the center point of the disk. Each sector is to be painted red, green, yellow, or blue in such a way that no two adjacent sectors are painted the same color. Let Sn be the number of ways to paint the disk.
+   a. Find a recurrence relation for Sk in terms of Sk-1 and Sk-2 for each integer k ≥ 4.
+   b. Find an explicit formula for Sn for n ≥ 2.
