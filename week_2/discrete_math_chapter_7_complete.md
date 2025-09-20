@@ -12,223 +12,198 @@ This chapter explores the mathematical concept of functions - one of the most fu
 
 **Page 411**
 
-> The desire to economize time and mental effort in arithmetical computations, and to eliminate human liability to error is probably as old as the science of arithmetic itself.
-> — Howard Aiken (designer of the Harvard Mark I computer), 1964
+> The theory that has had the greatest development in recent times is without any doubt the theory of functions. — Vito Volterra, 1888
 
-In this chapter we give a careful mathematical definition of the term function, and we explain how functions model many phenomena in computer science and other disciplines. We also establish terminology and notation that occur in discussions of functions throughout mathematics and computer science, and we develop skill in using the terminology and notation correctly.
+As used in ordinary language, the word function indicates dependence of one varying quantity on another. If your teacher tells you that your grade in a course will be a function of your performance on the exams, you interpret this to mean that the teacher has some rule for translating exam scores into grades. To each collection of exam scores there corresponds a certain grade.
 
-In Section 7.1 we use an arrow diagram to illustrate how to transform the word function into a mathematical object. We then give a formal definition of function in terms of Cartesian products and show how to use it to prove various results about specific functions. In Section 7.2 we define one-to-one and onto and show how to prove that functions do or do not have these properties. We apply the properties of one-to-one and onto to define the inverse of a function in Section 7.3 and to explore composition of functions and its properties. Finally, in Section 7.4, we discuss the meaning of the phrase "the number of elements in a set," and we discover that this simple sounding concept leads to surprising and important results about infinite sets and the nature of computability.
+In Section 1.3 we defined a function as a certain type of relation. In this chapter we focus on the more dynamic way functions are used in mathematics. The following is a restatement of the definition of function that includes additional terminology associated with the concept.
 
 ### Definition: Function
 
-Let X and Y be nonempty sets. A **function** f from X to Y, denoted f : X → Y, is a relation from X to Y that satisfies the following two properties:
+A function f from a set X to a set Y, denoted f : X → Y, is a relation from X, the domain, to Y, the co-domain, that satisfies two properties:
 
-1. **Every element of X is related to some element of Y.**
-2. **No element of X is related to more than one element of Y.**
+1. **Every element in X is related to some element in Y.**
+2. **No element in X is related to more than one element in Y.**
 
-In other words, a function f from X to Y is a relation from X to Y such that:
-- ∀x ∈ X, ∃y ∈ Y such that (x, y) ∈ f
-- ∀x ∈ X and ∀y, z ∈ Y, if (x, y) ∈ f and (x, z) ∈ f then y = z
+Thus, given any element x in X, there is a unique element in Y that is related to x by f. If we call this element y, then we say that "f sends x to y" or "f maps x to y" and write x → y or f : x → y. The unique element to which f sends x is denoted f(x) and is called:
+
+- f of x, or
+- the output of f for the input x, or
+- the value of f at x, or
+- the image of x under f.
+
+The set of all values of f taken together is called the range of f or the image of X under f. Symbolically,
+range of f = image of X under f = {y ∈ Y | y = f(x), for some x in X}.
+
+Given an element y in Y, there may exist elements in X with y as their image. If f(x) = y, then x is called a preimage of y or an inverse image of y. The set of all inverse images of y is called the inverse image of y. Symbolically,
+the inverse image of y = {x ∈ X | f(x) = y}.
+
+**Caution!** Use f(x) to refer to the value of the function f at x. Generally avoid using f(x) to refer to the function f itself.
+
+In some mathematical contexts, the notation f(x) is used to refer both to the value of f at x and to the function f itself. Because using the notation this way can lead to confusion, we avoid it whenever possible. In this book, unless explicitly stated otherwise, the symbol f(x) always refers to the value of the function f at x and not to the function f itself.
+
+The concept of function was developed over a period of centuries. A definition similar to that given above was first formulated for sets of numbers by the German mathematician Lejeune Dirichlet in 1837.
 
 **Page 412**
 
-When we write y = f(x), we say:
-- "y is the value of f at x"
-- "y is the image of x under f"
-- "y is the output of f for the input x"
-- "f maps x to y"
-- "f transforms x into y"
-- "f sends x to y"
-
-A function f from X to Y assigns to each element x ∈ X a unique element y ∈ Y. The element y is denoted f(x), read "f of x." Symbolically we write:
-
-```
-x ↦ f(x)    or    f: x ↦ y
-```
-
-### Domain, Co-domain, and Range
-
-**Definition:** Let f: X → Y be a function.
-- The set X is called the **domain** of f
-- The set Y is called the **co-domain** of f
-- The set of all values of the function is called the **range** of f:
-  ```
-  range of f = {y ∈ Y | y = f(x) for some x ∈ X}
-  ```
-
 ### Arrow Diagrams
+
+Recall from Section 1.3 that if X and Y are finite sets, you can define a function f from X to Y by drawing an arrow diagram. You make a list of elements in X and a list of elements in Y, and draw an arrow from each element in X to the corresponding element in Y, as shown in Figure 7.1.1.
+
+```
+X         f         Y
+x1 ------------> y1
+x2 ------------> y2
+x3 ------------> y3
+x4 ------------> y4
+               y5
+```
+
+**This arrow diagram does define a function because**
+1. Every element of X has an arrow coming out of it.
+2. No element of X has two arrows coming out of it that point to two different elements of Y.
 
 **Page 413**
 
-An **arrow diagram** is a visual representation of a function where:
-- The domain X and co-domain Y are represented as ovals
-- Each element of X has exactly one arrow pointing to an element of Y
-- Multiple elements of X may point to the same element of Y
-- Some elements of Y may have no arrows pointing to them
+### Example 7.1.1 Functions and Nonfunctions
 
-### Example 7.1.1: Functions and Relations Given as Sets of Ordered Pairs
+Which of the arrow diagrams in Figure 7.1.2 define functions from X = {a, b, c} to Y = {1, 2, 3, 4}?
 
-Let X = {a, b, c} and Y = {1, 2, 3, 4}. Define:
-- f = {(a, 2), (b, 4), (c, 2)}
-- g = {(a, 2), (b, 3), (c, 4)}
+```
+(a)
+X         Y
+a ----> 1
+b       2
+c ----> 3
+       4
 
-a. Is f a function from X to Y? Yes - every element of X appears exactly once as a first element.
-b. Is g a function from X to Y? Yes - every element of X appears exactly once as a first element.
+(b)
+X         Y
+a ----> 1
+b ----> 2
+c ----> 2
+   ----> 3
+       4
 
-### Example 7.1.2: Functions and Relations Given by Directed Graphs
+(c)
+X         Y
+a ----> 1
+b ----> 2
+c ----> 3
+       4
+```
+
+**Solution**
+
+Only (c) defines a function. In (a) there is an element of X, namely b, that is not sent to any element of Y; that is, there is no arrow coming out of b. And in (b) the element c is not sent to a unique element of Y; that is, there are two arrows coming out of c, one pointing to 2 and the other to 3.
+
+### Example 7.1.2 A Function Defined by an Arrow Diagram
+
+Let X = {a, b, c} and Y = {1, 2, 3, 4}. Define a function f from X to Y by the arrow diagram in Figure 7.1.3.
+
+```
+X         f         Y
+a ----> 1
+b ----> 2
+c ----> 3
+       4
+```
+
+a. Write the domain and co-domain of f.
+b. Find f(a), f(b), and f(c).
+c. What is the range of f?
+d. Is c an inverse image of 2? Is b an inverse image of 3?
+e. Find the inverse images of 2, 4, and 1.
+f. Represent f as a set of ordered pairs.
+
+**Solution**
+a. domain of f = {a, b, c}, co-domain of f = {1, 2, 3, 4}
+b. f(a) = 1, f(b) = 2, f(c) = 3
+c. range of f = {1, 2, 3}
+d. No, No
+e. inverse image of 2 = {b}, inverse image of 4 = ∅, inverse image of 1 = {a}
+f. {(a, 1), (b, 2), (c, 3)}
+
+In Example 7.1.2 there are no arrows pointing to the 4. This illustrates the fact that although each element of the domain of a function must have an arrow pointing out from it, there can be elements of the co-domain to which no arrows point. Note also that each element of Y has at most one arrow pointing to it.
 
 **Page 414**
 
-Is the relation represented by each directed graph a function?
+### Theorem 7.1.1 A Test for Function Equality
 
-a. Domain = {a, b, c}, Co-domain = {x, y, z}
-   If element b has two outgoing arrows (to y and z): NOT a function
+If F: X → Y and G: X → Y are functions, then F = G if, and only if, F(x) = G(x) for all x ∈ X.
 
-b. Domain = {a, b, c}, Co-domain = {v, w, x, y, z}
-   If each element has exactly one outgoing arrow: YES, it's a function
+**Proof:**
+Suppose F: X → Y and G: X → Y are functions, that is, F and G are binary relations from X to Y that satisfy the two additional function properties. Then F and G are subsets of X × Y, and for (x, y) to be in F means that y is the unique element related to x by F, which we denote as F(x). Similarly, for (x, y) to be in G means that y is the unique element related to x by G, which we denote as G(x).
 
-### Function Machines
+Now suppose that F(x) = G(x) for all x ∈ X. Then if x is any element of X,
+(x, y) ∈ F ⇔ y = F(x) ⇔ y = G(x) ⇔ (x, y) ∈ G
+because F(x) = G(x)
+
+So F and G consist of exactly the same elements and hence F = G.
+
+Conversely, if F = G, then for all x ∈ X,
+y = F(x) ⇔ (x, y) ∈ F ⇔ (x, y) ∈ G ⇔ y = G(x)
+Thus, since both F(x) and G(x) equal y, we have that F(x) = G(x).
 
 **Page 415**
 
-A function can be thought of as a machine that takes an input x and produces a unique output f(x):
+### Example 7.1.3 Equality of Functions
 
-```
-Input: x → [Function Machine f] → Output: f(x)
-```
-
-### Example 7.1.3: Equality of Functions
-
-Let f: R → R and g: R → R be defined by:
-```
-f(x) = |x|    for all x ∈ R
-
-g(x) = { x     if x ≥ 0
-       { -x    if x < 0
-```
+a. Let J3 = {0, 1, 2}, and define functions f and g from J3 to J3 as follows: For all x in J3,
+f(x) = (x² + x + 1) mod 3 and g(x) = (x + 2)² mod 3.
 
 Does f = g?
 
-**Solution:** Yes. For all x ∈ R:
-- If x ≥ 0: g(x) = x = |x| = f(x)
-- If x < 0: g(x) = -x = |x| = f(x)
+b. Let F: R → R and G: R → R be functions. Define new functions F + G: R → R and G + F: R → R as follows: For all x ∈ R,
+(F + G)(x) = F(x) + G(x) and (G + F)(x) = G(x) + F(x).
 
-Therefore f(x) = g(x) for all x ∈ R, so f = g.
+Does F + G = G + F?
 
-### Example 7.1.4: The Identity Function
+**Solution**
+a. Yes, the table of values shows that f(x) = g(x) for all x in J3.
+
+| x | x² + x + 1 | f(x) = (x² + x + 1) mod 3 | (x + 2)² | g(x) = (x + 2)² mod 3 |
+|---|------------|----------------------------|----------|------------------------|
+| 0 | 1          | 1                          | 4        | 1                      |
+| 1 | 3          | 0                          | 9        | 0                      |
+| 2 | 7          | 1                          | 16       | 1                      |
+
+b. Again the answer is yes. For all real numbers x,
+(F + G)(x) = F(x) + G(x) = G(x) + F(x) = (G + F)(x)
+by the commutative law for addition of real numbers.
 
 **Page 416**
 
-The **identity function** on a set X, denoted I_X, is defined by:
-```
-I_X(x) = x    for all x ∈ X
-```
+### Examples of Functions
 
-For example, if X = {1, 2, 3}:
-```
-I_X(1) = 1, I_X(2) = 2, I_X(3) = 3
-```
+The following examples illustrate some of the wide variety of different types of functions.
 
-### Sequences as Functions
+### Example 7.1.4 The Identity Function on a Set
 
-A sequence is a function whose domain is either:
-- The set {1, 2, 3, ..., n} for some n ∈ Z⁺
-- The set Z⁺ of all positive integers
+Given a set X, define a function I_X from X to X by
+I_X(x) = x for all x in X.
 
-We write a_n instead of f(n) for the value of the sequence at n.
+The function I_X is called the identity function on X because it sends each element of X to the element that is identical to it. Thus the identity function can be pictured as a machine that sends each piece of input directly to the output chute without changing it in any way.
 
-### Example 7.1.5: Functions Defined by Formulas
+Let X be any set and suppose that a_i_k_j and φ(z) are elements of X. Find I_X(a_i_k_j) and I_X(φ(z)).
+
+**Solution** Whatever is input to the identity function comes out unchanged, so I_X(a_i_k_j) = a_i_k_j and I_X(φ(z)) = φ(z).
+
+### Example 7.1.5 Sequences
+
+The formal definition of sequences specifies that an infinite sequence is a function defined on the set of integers that are greater than or equal to a particular integer. For example, the sequence denoted
+1, -1/2, 1/3, -1/4, 1/5, ..., (-1)ⁿ/(n+1), ...
+
+can be thought of as the function f from the nonnegative integers to the real numbers that associates 0 → 1, 1 → -1/2, 2 → 1/3, 3 → -1/4, 4 → 1/5, and, in general, n → (-1)ⁿ/(n+1).
+
+In other words, f: Z_nonneg → R is the function defined as follows:
+Send each integer n ≥ 0 to f(n) = (-1)ⁿ/(n+1).
+
+In fact, there are many functions that can be used to define a given sequence. For instance, express the sequence above as a function from the set of positive integers to the set of real numbers.
+
+**Solution** Define g: Z⁺ → R by g(n) = (-1)ⁿ⁺¹/n for each n ∈ Z⁺. Then g(1) = 1, g(2) = -1/2, g(3) = 1/3 and in general g(n+1) = (-1)ⁿ⁺²/(n+1) = (-1)ⁿ/(n+1) = f(n).
 
 **Page 417**
-
-Define f: R → R by the formula:
-```
-f(x) = x² - 2x + 1
-```
-
-Then:
-- f(0) = 0² - 2(0) + 1 = 1
-- f(1) = 1² - 2(1) + 1 = 0
-- f(2) = 2² - 2(2) + 1 = 1
-- f(-1) = (-1)² - 2(-1) + 1 = 4
-
-### Example 7.1.6: Functions Defined on Subsets of R
-
-The function g: R - {1} → R defined by:
-```
-g(x) = x/(x-1)
-```
-
-is well-defined because x ≠ 1 for all x in the domain.
-
-### Functions Acting on Sets
-
-**Page 418**
-
-If f: X → Y and A ⊆ X, then:
-```
-f(A) = {y ∈ Y | y = f(x) for some x ∈ A}
-```
-
-This is called the **image of A under f**.
-
-### Example 7.1.7: The Image of a Set
-
-Let f: {1, 2, 3, 4, 5} → {a, b, c, d} be defined by:
-```
-f(1) = c, f(2) = b, f(3) = a, f(4) = d, f(5) = c
-```
-
-Find f({1, 3, 5}).
-
-**Solution:**
-```
-f({1, 3, 5}) = {f(1), f(3), f(5)} = {c, a, c} = {a, c}
-```
-
-### Boolean Functions
-
-**Page 419**
-
-A **Boolean function** is a function whose co-domain is {0, 1}.
-
-### Example 7.1.8: A Boolean Function
-
-Define f: {0, 1}³ → {0, 1} by:
-```
-f(x₁, x₂, x₃) = (x₁ + x₂ + x₃) mod 2
-```
-
-This function outputs 1 if an odd number of inputs are 1, and 0 otherwise.
-
-### Checking Whether a Function Is Well-Defined
-
-**Page 420**
-
-To prove a function is well-defined, show:
-1. Every element of the domain is assigned a value
-2. No element of the domain is assigned more than one value
-
-For functions defined by formulas, this often means checking that the formula doesn't involve division by zero or other undefined operations.
-
-### Example 7.1.9: A Function That Is Not Well-Defined
-
-Attempting to define h: R → R by h(x) = 1/x fails because h(0) is undefined.
-
-To fix this, we could define h: R - {0} → R by h(x) = 1/x.
-
----
-
-## 7.2 One-to-One and Onto, Inverse Functions
-
-**Page 421**
-
-> I never did very well in math — I could never seem to persuade the teacher that I hadn't meant my answers literally.
-> — Calvin Trillin
-
-Imagine you are the manager of a company that has four employees—Alanis, Ben, Camilla, and Damon—and four jobs to fill. Suppose that Alanis and Ben can fill job 1, Camilla and Damon can fill job 2, Alanis and Damon can fill job 3, and Ben and Camilla can fill job 4.
-
-**Page 422**
 
 ### One-to-One Functions
 
@@ -397,568 +372,452 @@ Let f: X → Y and g: Y → Z be functions with the range of f a subset of the d
 
 **Page 432**
 
-### Example 7.3.1: Composition of Functions Defined by Formulas
+### Example 7.1.11 A Boolean Function
 
-Let f: Z → Z be defined by f(n) = n² and g: Z → Z be defined by g(n) = n + 1.
-Find (g ∘ f) and (f ∘ g).
+Consider the three-place Boolean function defined from the set of all 3-tuples of 0's and 1's to {0, 1} as follows: For each triple (x₁, x₂, x₃) of 0's and 1's,
+f(x₁, x₂, x₃) = (x₁ + x₂ + x₃) mod 2.
 
-**Solution:**
+Describe f using an input/output table.
+
+**Solution**
+f(1, 1, 1) = (1 + 1 + 1) mod 2 = 3 mod 2 = 1
+f(1, 1, 0) = (1 + 1 + 0) mod 2 = 2 mod 2 = 0
+
+The rest of the values of f can be calculated similarly to obtain the following table.
+
 ```
-(g ∘ f)(n) = g(f(n)) = g(n²) = n² + 1
-(f ∘ g)(n) = f(g(n)) = f(n + 1) = (n + 1)²
+Input   | Output
+x₁ x₂ x₃ | (x₁ + x₂ + x₃) mod 2
+---------|-------------------
+1  1  1  | 1
+1  1  0  | 0
+1  0  1  | 0
+1  0  0  | 1
+0  1  1  | 0
+0  1  0  | 1
+0  0  1  | 1
+0  0  0  | 0
 ```
 
-Note that g ∘ f ≠ f ∘ g (composition is not commutative).
+### Checking Whether a Function Is Well Defined
 
-### Example 7.3.2: Composition with the Identity Function
+It can sometimes happen that what appears to be a function defined by a rule is not really a function at all. To give an example, suppose we wrote, "Define a function f: R → R by specifying that for all real numbers x, f(x) is the real number y such that x² + y² = 1."
 
-**Page 433**
+There are two distinct reasons why this description does not define a function. For almost all values of x, either (1) there is no y that satisfies the given equation or (2) there are two different values of y that satisfy the equation. For instance, when x = 2, there is no real number y such that 2² + y² = 1, and when x = 0, both y = -1 and y = 1 satisfy the equation 0² + y² = 1. In general, we say that a "function" is not well defined if it fails to satisfy at least one of the requirements for being a function.
 
-**Theorem:** If f: X → Y and I_X is the identity on X and I_Y is the identity on Y, then:
+**Page 423**
+
+### Example 7.1.12 A Function That Is Not Well Defined
+
+Recall that Q represents the set of all rational numbers. Suppose you read that a function f: Q → Z is to be defined by the formula
+f(m/n) = m for all integers m and n with n ≠ 0.
+
+That is, the integer associated by f to the number m/n is m. Is f well defined? Why?
+
+**Solution**
+The function f is not well defined. The reason is that fractions have more than one representation as quotients of integers. For instance, 1/2 = 3/6. Now if f were a function, then the definition of a function would imply that f(1/2) = f(3/6) since 1/2 = 3/6. But applying the formula for f, you find that
+f(1/2) = 1 and f(3/6) = 3,
+and so f(1/2) ≠ f(3/6).
+
+This contradiction shows that f is not well defined and, therefore, is not a function.
+
+**Note** that the phrase well-defined function is actually redundant; for a function to be well defined really means that it is worthy of being called a function.
+
+**Page 424**
+
+### Functions Acting on Sets
+
+Given a function from a set X to a set Y, you can consider the set of images in Y of all the elements in a subset of X and the set of inverse images in X of all the elements in a subset of Y.
+
+### Definition: Functions Acting on Sets
+
+If f: X → Y is a function and A ⊆ X and C ⊆ Y, then
+f(A) = {y ∈ Y | y = f(x) for some x in A}
+and
+f⁻¹(C) = {x ∈ X | f(x) ∈ C}.
+
+f(A) is called the image of A, and f⁻¹(C) is called the inverse image of C.
+
+**Note** For y ∈ Y, f⁻¹(y) = f⁻¹({y}).
+
+### Example 7.1.13 The Action of a Function on Subsets of a Set
+
+Let X = {1, 2, 3, 4} and Y = {a, b, c, d, e}, and define F: X → Y by the following arrow diagram:
 ```
-f ∘ I_X = f    and    I_Y ∘ f = f
+1 ----> a
+2 ----> b
+3 ----> d
+4 ----> b
+       c
+       e
 ```
 
-**Proof:** For all x ∈ X:
-```
-(f ∘ I_X)(x) = f(I_X(x)) = f(x)
-(I_Y ∘ f)(x) = I_Y(f(x)) = f(x)
-```
+Let A = {1, 4}, C = {a, b}, and D = {c, e}. Find F(A), F(X), F⁻¹(C), and F⁻¹(D).
 
-### Theorem 7.3.1: Composition of One-to-One Functions
+**Solution**
+F(A) = {a, b}
+F(X) = {a, b, d}
+F⁻¹(C) = {1, 2, 4}
+F⁻¹(D) = ∅
 
-If f: X → Y and g: Y → Z are both one-to-one, then g ∘ f is one-to-one.
+**Page 425**
+
+### Example 7.1.14 Interaction of a Function with Union
+
+Let X and Y be sets, let F be a function from X to Y, and let A and B be any subsets of X. Prove that F(A ∪ B) ⊆ F(A) ∪ F(B).
+
+**Solution**
+The fact that X, Y, F, A, and B were formally introduced prior to the word "Prove" allows you to regard their existence and relationships as part of your background knowledge. Thus to prove that F(A ∪ B) ⊆ F(A) ∪ F(B), you only need show that if y is any element in F(A ∪ B), then y is an element of F(A) ∪ F(B).
 
 **Proof:**
-Suppose (g ∘ f)(x₁) = (g ∘ f)(x₂) for some x₁, x₂ ∈ X.
-Then g(f(x₁)) = g(f(x₂)).
-Since g is one-to-one, f(x₁) = f(x₂).
-Since f is one-to-one, x₁ = x₂.
-Therefore g ∘ f is one-to-one. ■
+Suppose y ∈ F(A ∪ B). [We must show that y ∈ F(A) ∪ F(B).] By definition of function, y = F(x) for some x ∈ A ∪ B. By definition of union, x ∈ A or x ∈ B.
 
-**Page 434**
+**Case 1**, x ∈ A: In this case, y = F(x) for some x in A. Hence y ∈ F(A), and so by definition of union, y ∈ F(A) ∪ F(B).
 
-### Theorem 7.3.2: Composition of Onto Functions
+**Case 2**, x ∈ B: In this case, y = F(x) for some x in B. Hence y ∈ F(B), and so by definition of union, y ∈ F(A) ∪ F(B).
 
-If f: X → Y and g: Y → Z are both onto, then g ∘ f is onto.
+Thus in either case y ∈ F(A) ∪ F(B) [as was to be shown].
 
-**Proof:**
-Let z ∈ Z be arbitrary.
-Since g is onto, there exists y ∈ Y such that g(y) = z.
-Since f is onto, there exists x ∈ X such that f(x) = y.
-Therefore (g ∘ f)(x) = g(f(x)) = g(y) = z.
-Thus g ∘ f is onto. ■
-
-### Inverse Functions
-
-**Page 435**
-
-**Definition:** Let f: X → Y be a bijection. The **inverse function** of f, denoted f⁻¹: Y → X, is defined by:
-
-```
-f⁻¹(y) = x ⟺ f(x) = y
-```
-
-### Theorem 7.3.3: Properties of Inverse Functions
-
-If f: X → Y is a bijection with inverse f⁻¹: Y → X, then:
-1. f⁻¹ ∘ f = I_X
-2. f ∘ f⁻¹ = I_Y
-
-**Proof:**
-1. For all x ∈ X: (f⁻¹ ∘ f)(x) = f⁻¹(f(x)) = x = I_X(x)
-2. For all y ∈ Y: (f ∘ f⁻¹)(y) = f(f⁻¹(y)) = y = I_Y(y) ■
-
-### Example 7.3.3: Finding an Inverse Function
-
-**Page 436**
-
-Define f: R → R by f(x) = 4x - 1. Find f⁻¹.
-
-**Solution:**
-Let y = f(x) = 4x - 1. Solve for x:
-```
-y = 4x - 1
-y + 1 = 4x
-x = (y + 1)/4
-```
-Therefore f⁻¹(y) = (y + 1)/4.
-
-Verify:
-- (f⁻¹ ∘ f)(x) = f⁻¹(4x - 1) = ((4x - 1) + 1)/4 = x ✓
-- (f ∘ f⁻¹)(y) = f((y + 1)/4) = 4((y + 1)/4) - 1 = y ✓
-
-### One-to-One Correspondences
-
-**Page 437**
-
-**Definition:** A function f: X → Y is a **one-to-one correspondence** if:
-1. f is one-to-one
-2. f is onto
-
-This is equivalent to saying f is a bijection.
-
-### Example 7.3.4: Showing Functions are Inverses
-
-Let f: R⁺ → R⁺ be defined by f(x) = x² and g: R⁺ → R⁺ be defined by g(x) = √x.
-Show that g = f⁻¹.
-
-**Solution:**
-For all x ∈ R⁺:
-- (g ∘ f)(x) = g(x²) = √(x²) = x
-- (f ∘ g)(x) = f(√x) = (√x)² = x
-
-Therefore g = f⁻¹. ■
-
-### Theorem 7.3.4: The Inverse of a Composition
-
-**Page 438**
-
-If f: X → Y and g: Y → Z are both bijections, then:
-```
-(g ∘ f)⁻¹ = f⁻¹ ∘ g⁻¹
-```
-
-**Proof:** We show that (f⁻¹ ∘ g⁻¹) ∘ (g ∘ f) = I_X:
-```
-(f⁻¹ ∘ g⁻¹) ∘ (g ∘ f) = f⁻¹ ∘ (g⁻¹ ∘ g) ∘ f
-                        = f⁻¹ ∘ I_Y ∘ f
-                        = f⁻¹ ∘ f
-                        = I_X
-```
-
-### Example 7.3.5: Composition of Functions on Finite Sets
-
-**Page 439**
-
-Let X = {1, 2, 3}, Y = {a, b, c, d}, and Z = {α, β, γ}.
-Define f: X → Y and g: Y → Z by:
-```
-f(1) = b, f(2) = d, f(3) = a
-g(a) = β, g(b) = β, g(c) = α, g(d) = γ
-```
-
-Find g ∘ f.
-
-**Solution:**
-```
-(g ∘ f)(1) = g(f(1)) = g(b) = β
-(g ∘ f)(2) = g(f(2)) = g(d) = γ
-(g ∘ f)(3) = g(f(3)) = g(a) = β
-```
-
-### Associativity of Function Composition
-
-**Page 440**
-
-### Theorem 7.3.5: Associativity of Composition
-
-If f: W → X, g: X → Y, and h: Y → Z, then:
-```
-h ∘ (g ∘ f) = (h ∘ g) ∘ f
-```
-
-**Proof:** For all w ∈ W:
-```
-[h ∘ (g ∘ f)](w) = h((g ∘ f)(w)) = h(g(f(w)))
-[(h ∘ g) ∘ f](w) = (h ∘ g)(f(w)) = h(g(f(w)))
-```
-Therefore h ∘ (g ∘ f) = (h ∘ g) ∘ f. ■
+Exercise 38 asks you to prove the opposite containment from the one in example 7.1.14. Taken together, the example and the solution to the exercise establish the full equality that F(A ∪ B) = F(A) ∪ F(B).
 
 ---
 
-## 7.4 Cardinality with Applications to Computability
+### Test Yourself
 
-**Page 441**
+Answers to Test Yourself questions are located at the end of each section.
 
-> Without mathematics, there's nothing you can do. Everything around you is mathematics.
-> — Shakuntala Devi
-
-### Introduction to Cardinality
-
-The cardinality of a set is, roughly speaking, the "number of elements" in the set. For finite sets, this is straightforward. For infinite sets, the concept becomes more subtle and leads to surprising results.
-
-### Definition: Finite Set
-
-A set A is **finite** if, and only if, it is the empty set or there is a one-to-one correspondence from {1, 2, 3, ..., n} to A for some positive integer n.
-
-The integer n is called the **cardinality** of A, denoted |A| = n.
-
-### Definition: Same Cardinality
-
-**Page 442**
-
-Sets A and B have the **same cardinality** if, and only if, there is a one-to-one correspondence from A to B.
-
-We write |A| = |B|.
-
-### Properties of Cardinality
-
-**Theorem 7.4.1:** The "has the same cardinality as" relation is:
-1. **Reflexive:** For any set A, |A| = |A|
-2. **Symmetric:** For any sets A and B, if |A| = |B| then |B| = |A|
-3. **Transitive:** For any sets A, B, and C, if |A| = |B| and |B| = |C| then |A| = |C|
-
-### Definition: Countable and Uncountable Sets
-
-**Page 443**
-
-A set is **countably infinite** if it has the same cardinality as Z⁺ (the positive integers).
-
-A set is **countable** if it is finite or countably infinite.
-
-A set is **uncountable** if it is not countable.
-
-### Example 7.4.1: The Set of Even Positive Integers Is Countably Infinite
-
-**Page 444**
-
-Show that the set E = {2, 4, 6, 8, ...} of even positive integers is countably infinite.
-
-**Solution:** Define f: Z⁺ → E by f(n) = 2n.
-- f is one-to-one: If f(n₁) = f(n₂), then 2n₁ = 2n₂, so n₁ = n₂.
-- f is onto: For any 2k ∈ E, we have f(k) = 2k.
-
-Therefore E is countably infinite. ■
-
-### Example 7.4.2: The Set of All Integers Is Countably Infinite
-
-**Page 445**
-
-Show that Z (all integers) is countably infinite.
-
-**Solution:** List the integers as: 0, 1, -1, 2, -2, 3, -3, ...
-
-Define f: Z⁺ → Z by:
-```
-f(n) = { n/2        if n is even
-       { -(n-1)/2   if n is odd
-```
-
-This gives: f(1) = 0, f(2) = 1, f(3) = -1, f(4) = 2, f(5) = -2, ...
-
-f is a one-to-one correspondence, so Z is countably infinite. ■
-
-### Theorem 7.4.2: The Set of Positive Rational Numbers Is Countable
-
-**Page 446-447**
-
-**Proof:** Arrange the positive rational numbers in a grid:
-
-```
-1/1  2/1  3/1  4/1  5/1  ...
-1/2  2/2  3/2  4/2  5/2  ...
-1/3  2/3  3/3  4/3  5/3  ...
-1/4  2/4  3/4  4/4  5/4  ...
-...
-```
-
-Count them diagonally, skipping duplicates:
-1/1, 1/2, 2/1, 3/1, 1/3, 1/4, 2/3, 3/2, 4/1, ...
-
-This creates a one-to-one correspondence with Z⁺. ■
-
-### Cantor's Theorem: The Real Numbers Are Uncountable
-
-**Page 448-449**
-
-**Theorem 7.4.3 (Cantor, 1874):** The set of real numbers between 0 and 1 is uncountable.
-
-**Proof (by contradiction using diagonalization):**
-
-Suppose the real numbers between 0 and 1 can be listed:
-```
-r₁ = 0.a₁₁a₁₂a₁₃...
-r₂ = 0.a₂₁a₂₂a₂₃...
-r₃ = 0.a₃₁a₃₂a₃₃...
-...
-```
-
-Construct a new number d = 0.d₁d₂d₃... where:
-```
-dᵢ = { 5 if aᵢᵢ ≠ 5
-     { 6 if aᵢᵢ = 5
-```
-
-Then d differs from rᵢ in the i-th decimal place for every i, so d is not in the list.
-This contradiction shows the set is uncountable. ■
-
-### Consequences
-
-**Page 450**
-
-**Corollary 7.4.4:** The set of all real numbers R is uncountable.
-
-**Proof:** The interval (0, 1) is uncountable and is a subset of R. Any set containing an uncountable subset must itself be uncountable. ■
-
-**Theorem 7.4.5:** Any subset of a countable set is countable.
-
-**Theorem 7.4.6:** Any set with an uncountable subset is uncountable.
+1. Given a function f from a set X to a set Y, f(x) is _____.
+2. Given a function f from a set X to a set Y, if f(x) = y, then y is called _____ or _____ or _____.
+3. Given a function f from a set X to a set Y, the range of f (or the image of X under f) is _____.
+4. Given a function f from a set X to a set Y, if f(x) = y, then x is called _____ or _____.
+5. Given a function f from a set X to a set Y, if y ∈ Y, then f⁻¹(y) = _____ and is called _____.
+6. Given functions f and g from a set X to a set Y, f = g if, and only if, _____.
+7. Given positive real numbers x and b with b ≠ 1, log_b x = _____.
+8. Given a function f from a set X to a set Y and a subset A of X, f(A) = _____.
+9. Given a function f from a set X to a set Y and a subset C of Y, f⁻¹(C) = _____.
 
 ---
 
-## 7.4 (continued) Cardinality with Applications to Computability
+### Exercise Set 7.1
 
-**Page 451**
-
-### Hilbert's Grand Hotel
-
-David Hilbert illustrated properties of infinite sets with a thought experiment about a hotel with infinitely many rooms.
-
-**Paradox 1:** Even though every room is occupied, we can always accommodate one more guest by moving each guest from room n to room n+1.
-
-**Paradox 2:** We can accommodate infinitely many new guests by moving each guest from room n to room 2n, leaving all odd-numbered rooms vacant.
-
-### The Schröder-Bernstein Theorem
-
-**Page 452**
-
-**Theorem (Schröder-Bernstein):** If there exists a one-to-one function from A to B and a one-to-one function from B to A, then A and B have the same cardinality.
-
-This theorem allows us to prove sets have the same cardinality without explicitly constructing a bijection.
-
-### Example 7.4.3: Cardinality of Intervals
-
-Show that the intervals (0, 1) and (0, 2) have the same cardinality.
-
-**Solution:** Define f: (0, 1) → (0, 2) by f(x) = 2x.
-- f is one-to-one: If 2x₁ = 2x₂, then x₁ = x₂
-- f is onto: For any y ∈ (0, 2), let x = y/2 ∈ (0, 1), then f(x) = y
-
-Therefore |(0, 1)| = |(0, 2)|. ■
-
-### Example 7.4.4: The Cardinality of the Real Line
-
-**Page 453**
-
-Show that the interval (0, 1) has the same cardinality as R (all real numbers).
-
-**Solution:** Define f: (0, 1) → R by:
-```
-f(x) = tan(π(x - 1/2))
-```
-
-This maps (0, 1) bijectively onto R:
-- As x → 0⁺, f(x) → -∞
-- As x → 1⁻, f(x) → +∞
-- f is continuous and strictly increasing
-
-Therefore |(0, 1)| = |R|. ■
-
-### The Continuum Hypothesis
-
-**Page 454**
-
-**Definition:** A set has cardinality ℵ₀ (aleph-null) if it is countably infinite.
-
-**Definition:** A set has cardinality c (the continuum) if it has the same cardinality as R.
-
-**The Continuum Hypothesis (CH):** There is no set whose cardinality is strictly between ℵ₀ and c.
-
-Kurt Gödel (1940) and Paul Cohen (1963) proved that CH is independent of the standard axioms of set theory (ZFC).
-
-### Power Sets and Cardinality
-
-**Page 455**
-
-**Theorem 7.4.7 (Cantor's Theorem):** For any set A, |A| < |P(A)| where P(A) is the power set of A.
-
-**Proof:**
-1. The function f: A → P(A) defined by f(a) = {a} is one-to-one, so |A| ≤ |P(A)|.
-
-2. Suppose g: A → P(A) is any function. Define:
+1. Let X = {1, 3, 5} and Y = {s, t, u, v}. Define f: X → Y by the following arrow diagram.
    ```
-   B = {x ∈ A | x ∉ g(x)}
+   X         f         Y
+   1 ----> s
+   3 ----> t
+   5 ----> u
+           v
    ```
+   a. Write the domain of f and the co-domain of f.
+   b. Find f(1), f(3), and f(5).
+   c. What is the range of f?
+   d. Is 3 an inverse image of s? Is 1 an inverse image of u?
+   e. What is the inverse image of s? of u? of v?
+   f. Represent f as a set of ordered pairs.
 
-   If B = g(a) for some a ∈ A, then:
-   - If a ∈ B, then a ∉ g(a) = B (contradiction)
-   - If a ∉ B = g(a), then a ∈ B (contradiction)
+2. Let X = {1, 3, 5} and Y = {a, b, c, d}. Define g: X → Y by the following arrow diagram.
+   ```
+   X         g         Y
+   1 ----> a
+   3 ----> b
+   5 ----> c
+           d
+   ```
+   a. Write the domain of g and the co-domain of g.
+   b. Find g(1), g(3), and g(5).
+   c. What is the range of g?
+   d. Is 3 an inverse image of a? Is 1 an inverse image of b?
+   e. What is the inverse image of b? of c?
+   f. Represent g as a set of ordered pairs.
 
-   Therefore g is not onto, so no function from A to P(A) is onto.
-   Thus |A| < |P(A)|. ■
+3. Indicate whether the statements in parts (a)–(d) are true or false. Justify your answers.
+   a. If two elements in the domain of a function are equal, then their images in the co-domain are equal.
+   b. If two elements in the co-domain of a function are equal, then their preimages in the domain are also equal.
+   c. A function can have the same output for more than one input.
+   d. A function can have the same input for more than one output.
 
-### The Hierarchy of Infinities
+4. a. Find all functions from X = {a, b} to Y = {u, v}.
+   b. Find all functions from X = {a, b, c} to Y = {u}.
+   c. Find all functions from X = {a, b, c} to Y = {u, v}.
 
-**Page 456**
+5. Let I_Z be the identity function defined on the set of all integers, and suppose that e, b_i, K(t), and u_k_j all represent integers. Find
+   a. I_Z(e)
+   b. I_Z(b_i)
+   c. I_Z(K(t))
+   d. I_Z(u_k_j)
 
-Cantor's theorem implies an infinite hierarchy of infinite cardinalities:
-```
-|ℕ| < |P(ℕ)| < |P(P(ℕ))| < |P(P(P(ℕ)))| < ...
-```
+6. Find functions defined on the set of nonnegative integers that define the sequences whose first six terms are given below.
+   a. 1, -1/2, 1/3, -1/4, 1/5, -1/6
+   b. 0, -2, 4, -6, 8, -10
 
-We have:
-- |ℕ| = ℵ₀
-- |P(ℕ)| = 2^ℵ₀ = c (the cardinality of the continuum)
-- |P(P(ℕ))| = 2^c
-- And so on...
+7. Let A = {1, 2, 3, 4, 5} and define a function F: P(A) → Z as follows: For all sets X in P(A),
+   F(X) = 0 if X has an even number of elements
+         1 if X has an odd number of elements
 
-### Applications to Computability
+   Find the following:
+   a. F({1, 3, 4})
+   b. F(∅)
+   c. F({2, 3})
+   d. F({2, 3, 4, 5})
 
-**Page 457**
+8. Let J_5 = {0, 1, 2, 3, 4}, and define a function F: J_5 → J_5 as follows: For each x ∈ J_5, F(x) = (x³ + 2x + 4) mod 5.
+   Find the following:
+   a. F(0)
+   b. F(1)
+   c. F(2)
+   d. F(3)
+   e. F(4)
 
-### Example 7.4.5: The Set of Computer Programs Is Countable
+9. Define a function S: Z⁺ → Z⁺ as follows: For each positive integer n, S(n) = the sum of the positive divisors of n.
+   Find the following:
+   a. S(1)
+   b. S(15)
+   c. S(17)
+   d. S(5)
+   e. S(18)
+   f. S(21)
 
-**Theorem:** The set of all computer programs in any programming language is countable.
+10. Let D be the set of all finite subsets of positive integers. Define a function T: Z⁺ → D as follows: For each positive integer n, T(n) = the set of positive divisors of n.
+    Find the following:
+    a. T(1)
+    b. T(15)
+    c. T(17)
+    d. T(5)
+    e. T(18)
+    f. T(21)
 
-**Proof:**
-Every program is a finite string of characters from a finite alphabet.
-- Let Sₙ = set of all programs of length n
-- Each Sₙ is finite
-- The set of all programs = ⋃_{n=1}^∞ Sₙ
-- A countable union of finite sets is countable
+11. Define F: Z × Z → Z × Z as follows: For all ordered pairs (a, b) of integers, F(a, b) = (2a + 1, 3b - 2).
+    Find the following:
+    a. F(4, 4)
+    b. F(2, 1)
+    c. F(3, 2)
+    d. F(1, 5)
 
-Therefore the set of all programs is countable. ■
+12. Define G: J_5 × J_5 → J_5 × J_5 as follows: For all (a, b) ∈ J_5 × J_5, G(a, b) = ((2a + 1) mod 5, (3b - 2) mod 5).
+    Find the following:
+    a. G(4, 4)
+    b. G(2, 1)
+    c. G(3, 2)
+    d. G(1, 5)
 
-### Example 7.4.6: Existence of Non-Computable Functions
+13. Let J_5 = {0, 1, 2, 3, 4}, and define functions f: J_5 → J_5 and g: J_5 → J_5 as follows: For each x ∈ J_5, f(x) = (x + 4)² mod 5 and g(x) = (x² + 3x + 1) mod 5. Is f = g? Explain.
 
-**Page 458**
+14. Let J_5 = {0, 1, 2, 3, 4}, and define functions h: J_5 → J_5 and k: J_5 → J_5 as follows: For each x ∈ J_5, h(x) = (x + 3)³ mod 5 and k(x) = (x³ + 4x² + 2x + 2) mod 5. Is h = k? Explain.
 
-**Theorem:** There exist functions from ℕ to {0, 1} that are not computable by any algorithm.
+15. Let F and G be functions from the set of all real numbers to itself. Define the product functions F · G: R → R and G · F: R → R as follows: For all x ∈ R,
+    (F · G)(x) = F(x) · G(x)
+    (G · F)(x) = G(x) · F(x)
+    Does F · G = G · F? Explain.
 
-**Proof:**
-- The set of all functions from ℕ to {0, 1} has cardinality 2^ℵ₀ (uncountable)
-- The set of all computer programs is countable (cardinality ℵ₀)
-- Since ℵ₀ < 2^ℵ₀, there are more functions than programs
-- Therefore, there exist functions that no program can compute. ■
+16. Let F and G be functions from the set of all real numbers to itself. Define new functions F - G: R → R and G - F: R → R as follows: For all x ∈ R,
+    (F - G)(x) = F(x) - G(x)
+    (G - F)(x) = G(x) - F(x)
+    Does F - G = G - F? Explain.
 
-### The Halting Problem
+17. Use the definition of logarithm to fill in the blanks below.
+    a. log₂ 8 = 3 because _____.
+    b. log₅ 25 = 2 because _____.
+    c. log₄ 4 = 1 because _____.
+    d. log₃(3ⁿ) = n because _____.
+    e. log₄ 1 = 0 because _____.
 
-**Page 459**
+18. Find exact values for each of the following quantities. Do not use a calculator.
+    a. log₃ 81
+    b. log₂ 1024
+    c. log₃ 27
+    d. log₂(1/8)
+    e. log₁₀ 10
+    f. log₃(1/27)
+    g. log₂(2ᵏ)
 
-**Definition:** The **halting problem** asks whether there exists an algorithm that can determine, for any program P and input I, whether P halts when run on input I.
+19. Use the definition of logarithm to prove that for any positive real number b with b ≠ 1, log_b b = 1.
 
-**Theorem (Turing, 1936):** The halting problem is undecidable - no algorithm can solve it.
+20. Use the definition of logarithm to prove that for any positive real number b with b ≠ 1, log_b 1 = 0.
 
-**Proof sketch:**
-Suppose algorithm HALT(P, I) returns true if program P halts on input I.
-Consider the program:
-```
-DIAGONAL(P):
-    if HALT(P, P):
-        loop forever
-    else:
-        halt
-```
+21. If b is any positive real number with b ≠ 1 and x is any real number, b⁻ˣ is defined as follows: b⁻ˣ = 1/bˣ. Use this definition and the definition of logarithm to prove that log_b(1/u) = -log_b(u) for all positive real numbers u and b, with b ≠ 1.
 
-What does DIAGONAL(DIAGONAL) do?
-- If it halts, then HALT(DIAGONAL, DIAGONAL) = true, so it loops forever
-- If it loops forever, then HALT(DIAGONAL, DIAGONAL) = false, so it halts
+22. Use the unique factorization for the integers theorem (Section 4.3) and the definition of logarithm to prove that log₃(7) is irrational.
 
-This contradiction shows HALT cannot exist. ■
+23. If b and y are positive real numbers such that log_b y = 3, what is log_{1/b}(y)? Why?
 
-### Example 7.4.7: Countability and Database Theory
+24. If b and y are positive real numbers such that log_b y = 2, what is log_{b²}(y)? Why?
 
-**Page 460**
+25. Let A = {2, 3, 5} and B = {x, y}. Let p₁ and p₂ be the projections of A × B onto the first and second coordinates. That is, for each pair (a, b) ∈ A × B, p₁(a, b) = a and p₂(a, b) = b.
+    a. Find p₁(2, y) and p₁(5, x). What is the range of p₁?
+    b. Find p₂(2, y) and p₂(5, x). What is the range of p₂?
 
-In database theory, we often need to know whether certain sets of queries or data structures are countable or uncountable.
+26. Observe that mod and div can be defined as functions from Z_nonneg × Z⁺ to Z. For each ordered pair (n, d) consisting of a nonnegative integer n and a positive integer d, let
+    mod(n, d) = n mod d (the nonnegative remainder obtained when n is divided by d).
+    div(n, d) = n div d (the integer quotient obtained when n is divided by d).
 
-**Example:** The set of all SQL queries is countable (each query is a finite string).
+    Find each of the following:
+    a. mod(67, 10) and div(67, 10)
+    b. mod(59, 8) and div(59, 8)
+    c. mod(30, 5) and div(30, 5)
 
-**Example:** The set of all possible database states over an infinite domain is uncountable.
+27. Let S be the set of all strings of a's and b's.
+    a. Define f: S → Z as follows: For each string s in S,
+       f(s) = the number of b's to the left of the left-most a in s, or 0 if s contains no a's.
+       Find f(aba), f(bbab) and f(b). What is the range of f?
+    b. Define g: S → S as follows: For each string s in S,
+       g(s) = the string obtained by writing the characters of s in reverse order.
+       Find g(aba), g(bbab), and g(b). What is the range of g?
 
-This has implications for query optimization and database design - we can enumerate all possible queries but not all possible database states.
+28. Consider the coding and decoding functions E and D defined in Example 7.1.9.
+    a. Find E(0110) and D(111111000111).
+    b. Find E(1010) and D(000000111111).
+
+29. Consider the Hamming distance function defined in Example 7.1.10.
+    a. Find H(10101, 00011)
+    b. Find H(00110, 10111)
+
+30. Draw arrow diagrams for the Boolean functions defined by the following input/output tables.
+    a.
+    ```
+    Input | Output
+    P  Q  R | S
+    --------|----
+    1  1  1 | 1
+    1  1  0 | 1
+    1  0  1 | 0
+    1  0  0 | 0
+    0  1  1 | 1
+    0  1  0 | 0
+    0  0  1 | 0
+    0  0  0 | 0
+    ```
+    b.
+    ```
+    Input | Output
+    P  Q  R | S
+    --------|----
+    1  1  1 | 1
+    1  1  0 | 0
+    1  0  1 | 1
+    1  0  0 | 1
+    0  1  1 | 0
+    0  1  0 | 1
+    0  0  1 | 0
+    0  0  0 | 1
+    ```
+
+31. Fill in the following table to show the values of all possible two-place Boolean functions.
+    | Input | f1 f2 f3 f4 f5 f6 f7 f8 f9 f10 f11 f12 f13 f14 f15 f16 |
+    |-------|--------------------------------------------------|
+    | 1 1   |                                                  |
+    | 1 0   |                                                  |
+    | 0 1   |                                                  |
+    | 0 0   |                                                  |
+
+32. Consider the three-place Boolean function f defined by the following rule: For each triple (x₁, x₂, x₃) of 0's and 1's,
+    f(x₁, x₂, x₃) = (4x₁ + 3x₂ + 2x₃) mod 2.
+    a. Find f(1, 1, 1) and f(0, 0, 1).
+    b. Describe f using an input/output table.
+
+33. Student A tries to define a function g: Q → Z by the rule
+    g(m/n) = m - n, for all integers m and n with n ≠ 0.
+    Student B claims that g is not well defined. Justify student B's claim.
+
+34. Student C tries to define a function h: Q → Q by the rule
+    h(m/n) = m²/n, for all integers m and n with n ≠ 0.
+    Student D claims that h is not well defined. Justify student D's claim.
+
+35. Let J_5 = {0, 1, 2, 3, 4}. Then J_5 - {0} = {1, 2, 3, 4}. Student A tries to define a function R: J_5 - {0} → J_5 - {0} as follows: For each x ∈ J_5 - {0},
+    R(x) is the number y so that (x · y) mod 5 = 1.
+    Student B claims that R is not well defined. Who is right: student A or student B? Justify your answer.
+
+36. Let J_4 = {0, 1, 2, 3}. Then J_4 - {0} = {1, 2, 3}. Student C tries to define a function S: J_4 - {0} → J_4 - {0} as follows: For each x ∈ J_4 - {0},
+    S(x) is the number y so that (x · y) mod 4 = 1.
+    Student F claims that S is not well defined. Who is right: student C or student F? Justify your answer.
+
+37. On certain computers the integer data type goes from -2,147,483,648 through 2,147,483,647. Let S be the set of all integers from -2,147,483,648 through 2,147,483,647. Try to define a function f: S → S by the rule f(n) = n² for each n in S. Is f well defined? Why?
+
+38. Let X = {a, b, c} and Y = {r, s, t, u, v, w}. Define f: X → Y as follows: f(a) = v, f(b) = v, and f(c) = t.
+    a. Draw an arrow diagram for f.
+    b. Let A = {a, b}, C = {t}, D = {u, v}, and E = {r, s}. Find f(A), f(X), f⁻¹(C), f⁻¹(D), f⁻¹(E), and f⁻¹(Y).
+
+39. Let X = {1, 2, 3, 4} and Y = {a, b, c, d, e}. Define g: X → Y as follows: g(1) = a, g(2) = a, g(3) = a, and g(4) = d.
+    a. Draw an arrow diagram for g.
+    b. Let A = {2, 3}, C = {a}, and D = {b, c}. Find g(A), g(X), g⁻¹(C), g⁻¹(D), and g⁻¹(Y).
+
+40. Let X and Y be sets, let A and B be any subsets of X, and let F be a function from X to Y. Fill in the blanks in the following proof that F(A) ∪ F(B) ⊆ F(A ∪ B).
+    **Proof:** Let y be any element in F(A) ∪ F(B). [We must show that y is in F(A ∪ B).] By definition of union, (a) ___.
+    **Case 1**, y ∈ F(A): In this case, by definition of F(A), y = F(x) for (b) ___ x ∈ A. Since A ⊆ A ∪ B, it follows from the definition of union that x ∈ (c) ___. Hence, y = F(x) for some x ∈ A ∪ B, and thus, by definition of F(A ∪ B), y ∈ (d) ___.
+    **Case 2**, y ∈ F(B): In this case, by definition of F(B), (e) ___ x ∈ B. Since B ⊆ A ∪ B it follows from the definition of union that (f) ___.
+    Therefore, regardless of whether y ∈ F(A) or y ∈ F(B), we have that y ∈ F(A ∪ B) [as was to be shown].
+
+41-49. Let X and Y be sets, let A and B be any subsets of X, and let C and D be any subsets of Y. Determine which of the properties are true for all functions F from X to Y and which are false for at least one function F from X to Y. Justify your answers.
+    41. If A ⊆ B then F(A) ⊆ F(B).
+    42. F(A ∩ B) ⊆ F(A) ∩ F(B)
+    43. F(A) ∩ F(B) ⊆ F(A ∩ B)
+    44. For all subsets A and B of X, F(A - B) = F(A) - F(B).
+    45. For all subsets C and D of Y, if C ⊆ D, then F⁻¹(C) ⊆ F⁻¹(D).
+    46. For all subsets C and D of Y, F⁻¹(C ∪ D) = F⁻¹(C) ∪ F⁻¹(D).
+    47. For all subsets C and D of Y, F⁻¹(C ∩ D) = F⁻¹(C) ∩ F⁻¹(D).
+    48. For all subsets C and D of Y, F⁻¹(C - D) = F⁻¹(C) - F⁻¹(D).
+    49. F(F⁻¹(C)) ⊆ C
+
+50. Given a set S and a subset A, the characteristic function of A, denoted χ_A, is the function defined from S to Z with the property that for all u ∈ S,
+    χ_A(u) = 1 if u ∈ A
+           0 if u ∉ A.
+    Show that each of the following holds for all subsets A and B of S and all u ∈ S.
+    a. χ_A∩B(u) = χ_A(u) · χ_B(u)
+    b. χ_A∪B(u) = χ_A(u) + χ_B(u) - χ_A(u) · χ_B(u)
+
+51-53. Each of exercises 51–53 refers to the Euler phi function, denoted φ, which is defined as follows: For each integer n ≥ 1, φ(n) is the number of positive integers less than or equal to n that have no common factors with n except ±1. For example, φ(10) = 4 because there are four positive integers less than or equal to 10 that have no common factors with 10 except ±1; namely, 1, 3, 7, and 9.
+
+51. Find each of the following:
+    a. φ(15)
+    b. φ(2)
+    c. φ(5)
+    d. φ(12)
+    e. φ(11)
+    f. φ(1)
+
+52. Prove that if p is a prime number and n is an integer with n ≥ 1, then φ(pⁿ) = pⁿ - pⁿ⁻¹.
+
+53. Prove that there are infinitely many integers n for which φ(n) is a perfect square.
 
 ---
 
-## Summary of Chapter 7
+**Answers for Test Yourself**
 
-**Page 461-470**
+1. the unique output element in Y that is related to x by f
+2. the value of f at x; the image of x under f; the output of f for the input x
+3. the set of all y in Y such that f(x) = y for some x in X
+4. an inverse image of y under f; a preimage of y
+5. {x ∈ X | f(x) = y}; the inverse image of y
+6. f(x) = g(x) for all x ∈ X
+7. the exponent to which b must be raised to obtain x (Or: the real number y such that x = b^y)
+8. {y ∈ Y | y = f(x) for some x ∈ A} (Or: {f(x) | x ∈ A})
+9. {x ∈ X | f(x) ∈ C}
 
-### Key Concepts
+## 7.2 One-to-One and Onto, Inverse Functions
 
-**Functions:**
-- A function f: X → Y assigns to each element x ∈ X exactly one element y ∈ Y
-- Domain, co-domain, and range
-- Functions as sets of ordered pairs
-- Function composition
+**Page 397**
 
-**Special Types of Functions:**
-- One-to-one (injective): Different inputs give different outputs
-- Onto (surjective): Every element of the co-domain is mapped to
-- Bijection: Both one-to-one and onto
-- Inverse functions exist for bijections
+> Don't accept a statement just because it is printed. — Anna Pell Wheeler, 1883–1966
 
-**Cardinality:**
-- Finite sets have cardinality n for some n ∈ ℕ
-- Countably infinite sets have the same cardinality as ℕ
-- Uncountable sets (like ℝ) are "larger" than countable sets
-- Cantor's diagonalization argument
-- The hierarchy of infinities
+In this section we discuss two important properties that functions may satisfy: the property of being one-to-one and the property of being onto. Functions that satisfy both properties are called one-to-one correspondences or one-to-one onto functions. When a function is a one-to-one correspondence, the elements of its domain and co-domain match up perfectly, and we can define an inverse function from the co-domain to the domain that "undoes" the action of the function.
 
-**Applications:**
-- Hash functions and collision handling
-- The pigeonhole principle
-- Computability and the existence of non-computable functions
-- The halting problem
+### One-to-One Functions
 
-### Important Theorems
+In Section 7.1 we noted that a function may send several elements of its domain to the same element of its co-domain. In terms of arrow diagrams, this means that two or more arrows that start in the domain can point to the same element in the co-domain. On the other hand, if no two arrows that start in the domain point to the same element of the co-domain then the function is called one-to-one or injective. For a one-to-one function, each element of the range is the image of at most one element of the domain.
 
-1. **Composition preserves properties:**
-   - The composition of one-to-one functions is one-to-one
-   - The composition of onto functions is onto
-   - The composition of bijections is a bijection
+### Definition: One-to-One Function
 
-2. **Cardinality results:**
-   - ℚ is countable
-   - ℝ is uncountable
-   - For any set A, |A| < |P(A)|
-   - Any subset of a countable set is countable
+Let F be a function from a set X to a set Y. F is one-to-one (or injective) if, and only if, for all elements x₁ and x₂ in X,
+if F(x₁) = F(x₂), then x₁ = x₂,
+or, equivalently,
+if x₁ ≠ x₂, then F(x₁) ≠ F(x₂).
 
-3. **Computability results:**
-   - The set of all programs is countable
-   - The set of all functions ℕ → {0, 1} is uncountable
-   - Therefore, non-computable functions exist
-   - The halting problem is undecidable
+Symbolically,
+F: X → Y is one-to-one ⇔ ∀x₁, x₂ ∈ X, if F(x₁) = F(x₂) then x₁ = x₂.
 
-### Problem-Solving Strategies
+To obtain a precise statement of what it means for a function not to be one-to-one, take the negation of one of the equivalent versions of the definition above. Thus:
 
-**To prove a function is one-to-one:**
-- Assume f(x₁) = f(x₂) and show x₁ = x₂
-- Or show the contrapositive: if x₁ ≠ x₂ then f(x₁) ≠ f(x₂)
+A function F: X → Y is not one-to-one ⇔ ∃ elements x₁ and x₂ in X with F(x₁) = F(x₂) and x₁ ≠ x₂.
 
-**To prove a function is onto:**
-- Given arbitrary y in the co-domain, find x in the domain such that f(x) = y
-- Often involves solving the equation f(x) = y for x
+That is, if elements x₁ and x₂ can be found that have the same function value but are not equal, then F is not one-to-one.
 
-**To find an inverse function:**
-1. Verify the function is a bijection
-2. Set y = f(x) and solve for x in terms of y
-3. The inverse is f⁻¹(y) = [expression for x]
-
-**To prove a set is countable:**
-- Find a bijection with ℕ (or a subset of ℕ)
-- Or show it's a subset of a known countable set
-- Or express it as a countable union of finite sets
-
-**To prove a set is uncountable:**
-- Use Cantor's diagonalization
-- Or show it contains an uncountable subset
-- Or show there's a bijection with a known uncountable set
-
-### Exercises and Applications
-
-Throughout this chapter, we've seen applications to:
-- Computer science (hash functions, computability)
-- Database theory (query languages, data structures)
-- Cryptography (one-way functions)
-- Algorithm analysis (pigeonhole principle)
-- Pure mathematics (set theory, analysis)
-
-The concepts of functions and cardinality form the foundation for much of discrete mathematics and theoretical computer science. Understanding these ideas is essential for advanced study in algorithms, complexity theory, database systems, and mathematical logic.
-
-### Historical Notes
-
-- Georg Cantor (1845-1918): Developed the theory of infinite sets and cardinality
-- David Hilbert (1862-1943): Hilbert's Hotel paradox, formalization of mathematics
-- Alan Turing (1912-1954): Proved the undecidability of the halting problem
-- Kurt Gödel (1906-1978): Incompleteness theorems, work on the continuum hypothesis
-- Paul Cohen (1934-2007): Proved independence of the continuum hypothesis
-
-These mathematicians' work on functions and cardinality has profoundly influenced our understanding of computation, infinity, and the foundations of mathematics itself.
-
----
-
-## End of Chapter 7
-
-This completes Chapter 7 on Functions. The chapter has covered fundamental concepts about functions, their properties, composition, inverses, and the deep theory of cardinality with its surprising applications to computability. These concepts form the mathematical foundation for understanding algorithms, data structures, databases, and the theoretical limits of computation.
+In terms of arrow diagrams, a one-to-one function can be thought of as a function that separates points. That is, it takes distinct points of the domain to distinct points of the co-domain. A function that is not one-to-one fails to separate points. That is, at least two points of the domain are taken to the same point of the co-domain. This is illustrated in Figure 7.2.1 on the next page.
