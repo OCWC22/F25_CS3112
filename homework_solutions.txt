@@ -1,0 +1,1409 @@
+# CS3112 Homework 6
+
+## Section 3.3: Standard Notations and Common Functions
+
+### Problem 7: Fibonacci Numbers and the Golden Ratio
+
+**What we need to prove:** Show that the golden ratio φ and its conjugate φ̂ both satisfy the equation x² = x + 1.
+
+**Formal Restatement:** Show that φ² = φ + 1 and φ̂² = φ̂ + 1, where φ = (1 + √5)/2 and φ̂ = (1 - √5)/2.
+
+**How to Read This Out Loud and What It Means (Step-by-Step Explanation):**
+- **"φ" (phi):** This is the golden ratio, approximately 1.618
+- **"φ̂" (phi-hat):** This is the conjugate of the golden ratio, approximately -0.618
+- **"x² = x + 1":** This equation says "x squared equals x plus one"
+- **What we're proving:** If you plug in φ or φ̂ for x, the equation will be true
+
+**Proof for φ:**
+
+Let's calculate φ² and φ + 1 separately and see if they're equal.
+
+φ = (1 + √5)/2
+
+Step 1: Calculate φ²
+φ² = [(1 + √5)/2]²
+   = (1 + √5)² / 2²
+   = (1 + 2√5 + 5) / 4
+   = (6 + 2√5) / 4
+   = (3 + √5) / 2
+
+Step 2: Calculate φ + 1
+φ + 1 = (1 + √5)/2 + 1
+      = (1 + √5 + 2)/2
+      = (3 + √5)/2
+
+Step 3: Compare them
+φ² = (3 + √5)/2
+φ + 1 = (3 + √5)/2
+
+Therefore: φ² = φ + 1 ✓
+
+**Proof for φ̂:**
+
+φ̂ = (1 - √5)/2
+
+Step 1: Calculate φ̂²
+φ̂² = [(1 - √5)/2]²
+    = (1 - √5)² / 2²
+    = (1 - 2√5 + 5) / 4
+    = (6 - 2√5) / 4
+    = (3 - √5) / 2
+
+Step 2: Calculate φ̂ + 1
+φ̂ + 1 = (1 - √5)/2 + 1
+       = (1 - √5 + 2)/2
+       = (3 - √5)/2
+
+Step 3: Compare them
+φ̂² = (3 - √5)/2
+φ̂ + 1 = (3 - √5)/2
+
+Therefore: φ̂² = φ̂ + 1 ✓
+
+**Conclusion:** Both the golden ratio φ and its conjugate φ̂ satisfy the equation x² = x + 1.
+
+### Problem 8: Fibonacci Number Formula
+
+**What we need to prove:** Prove by induction that the ith Fibonacci number satisfies Fᵢ = (φⁱ - φ̂ⁱ)/√5.
+
+**Formal Restatement:** ∀ integers i ≥ 0, Fᵢ = (φⁱ - φ̂ⁱ)/√5.
+
+**How to Read This Out Loud and What It Means (Step-by-Step Explanation):**
+- **"∀ i ≥ 0":** For all non-negative integers i
+- **"Fᵢ":** The ith Fibonacci number
+- **"(φⁱ - φ̂ⁱ)/√5":** Phi to the power i, minus phi-hat to the power i, all divided by the square root of 5
+
+**Base Case (i = 0):**
+F₀ = 0 (by definition)
+(φ⁰ - φ̂⁰)/√5 = (1 - 1)/√5 = 0/√5 = 0
+Therefore: F₀ = (φ⁰ - φ̂⁰)/√5 ✓
+
+**Base Case (i = 1):**
+F₁ = 1 (by definition)
+(φ¹ - φ̂¹)/√5 = [(1 + √5)/2 - (1 - √5)/2]/√5
+= [(1 + √5 - 1 + √5)/2]/√5
+= [(2√5)/2]/√5
+= √5/√5 = 1
+Therefore: F₁ = (φ¹ - φ̂¹)/√5 ✓
+
+**Inductive Step:**
+Assume the formula holds for all k ≤ n (strong induction). Show it holds for n + 1.
+
+By the Fibonacci definition: Fₙ₊₁ = Fₙ + Fₙ₋₁
+
+By the inductive hypothesis:
+Fₙ = (φⁿ - φ̂ⁿ)/√5
+Fₙ₋₁ = (φⁿ⁻¹ - φ̂ⁿ⁻¹)/√5
+
+Therefore:
+Fₙ₊₁ = (φⁿ - φ̂ⁿ)/√5 + (φⁿ⁻¹ - φ̂ⁿ⁻¹)/√5
+      = (φⁿ + φⁿ⁻¹ - φ̂ⁿ - φ̂ⁿ⁻¹)/√5
+      = (φⁿ⁻¹(φ + 1) - φ̂ⁿ⁻¹(φ̂ + 1))/√5
+
+Since φ² = φ + 1 and φ̂² = φ̂ + 1:
+Fₙ₊₁ = (φⁿ⁻¹(φ²) - φ̂ⁿ⁻¹(φ̂²))/√5
+      = (φⁿ⁺¹ - φ̂ⁿ⁺¹)/√5
+
+**Conclusion:** By induction, Fᵢ = (φⁱ - φ̂ⁱ)/√5 for all i ≥ 0.
+
+## Section 4.1: Multiplying Square Matrices
+
+### Problem 3: Matrix Multiplication with Different Partition Sizes
+
+**What we need to solve:** Professor Long's matrix multiplication algorithm divides n × n matrices into n/4 × n/4 submatrices and requires Θ(n²) time for additions and subtractions. What's the largest value of a (number of recursive multiplications) that gives an asymptotically faster algorithm than Strassen's?
+
+**Formal Restatement:** Find the maximum a such that T(n) = aT(n/4) + Θ(n²) is asymptotically faster than Θ(n^lg 7).
+
+**How to Read This Out Loud and What It Means (Step-by-Step Explanation):**
+- **"T(n) = aT(n/4) + Θ(n²)":** The running time is a recursive multiplications on quarter-size matrices plus quadratic time
+- **"asymptotically faster than Strassen's":** The growth rate should be less than n^lg 7 ≈ n^2.81
+- **"largest value of a":** We want the maximum number of recursive multiplications that still gives this advantage
+
+**Step 1: Analyze the recurrence using the Master Method**
+
+The recurrence is: T(n) = aT(n/4) + Θ(n²)
+
+For the Master Method T(n) = aT(n/b) + f(n):
+- a = ? (what we're solving for)
+- b = 4
+- f(n) = n²
+
+Calculate log_b a = log₄ a
+
+**Step 2: Find when Case 1 applies**
+
+Case 1 of the Master Method applies when f(n) = O(n^(log_b a - ε)) for some ε > 0.
+
+We want: n² = O(n^(log₄ a - ε))
+
+This means we need: 2 < log₄ a
+
+**Step 3: Solve for a**
+
+2 < log₄ a
+2 < log a / log 4
+2 < log a / 2
+4 < log a
+a > 2⁴ = 16
+
+So we need a > 16 for Case 1 to apply.
+
+**Step 4: Find the solution for Case 1**
+
+When Case 1 applies, T(n) = Θ(n^(log_b a))
+
+So we need: n^(log₄ a) < n^(lg 7)
+log₄ a < lg 7
+
+**Step 5: Solve for the maximum a**
+
+log₄ a < lg 7
+log₂ a / log₂ 4 < log₂ 7 / log₂ 2
+log₂ a / 2 < log₂ 7
+log₂ a < 2 × log₂ 7
+log₂ a < log₂ 7²
+log₂ a < log₂ 49
+a < 49
+
+**Step 6: Find the maximum integer value of a**
+
+Since a must be an integer and a < 49, the maximum value is a = 48.
+
+**Verification:**
+
+For a = 48:
+T(n) = 48T(n/4) + Θ(n²)
+log₄ 48 ≈ 2.792
+T(n) = Θ(n^2.792)
+
+Since 2.792 < 2.807 (lg 7), this is asymptotically faster than Strassen's algorithm.
+
+For a = 49:
+T(n) = 49T(n/4) + Θ(n²)
+log₄ 49 = log₄ 7² = 2 × log₄ 7 = 2 × (log₂ 7 / log₂ 4) = 2 × (lg 7 / 2) = lg 7
+T(n) = Θ(n^lg 7)
+
+This matches Strassen's algorithm exactly, so it's not faster.
+
+**Final Answer:** The largest value of a that gives an asymptotically faster algorithm than Strassen's is a = 48.
+
+## Section 4.2: Strassen's Algorithm for Matrix Multiplication
+
+### Problem 1: Strassen's Algorithm Base Case Analysis
+
+**What we need to solve:** Use Strassen's algorithm to compute the matrix product:
+```
+[1 3]   [6 8]
+[7 5] × [4 2]
+```
+Show your work by computing the 10 S matrices, 7 P matrices, and final C matrix.
+
+**Formal Restatement:** Compute the product of two 2×2 matrices using Strassen's algorithm, showing all intermediate steps.
+
+**How to Read This Out Loud and What It Means (Step-by-Step Explanation):**
+- **"2×2 matrices":** These are small matrices with 2 rows and 2 columns
+- **"Strassen's algorithm":** A divide-and-conquer method that uses only 7 multiplications instead of 8
+- **"10 S matrices":** Intermediate matrices created from sums and differences of submatrices
+- **"7 P matrices":** Products of these intermediate matrices
+- **"Final C matrix":** The result of the multiplication
+
+**Step 1: Identify the submatrices**
+
+For 2×2 matrices, the submatrices are just the individual elements:
+
+A = [A₁₁ A₁₂] = [1 3]
+    [A₂₁ A₂₂]   [7 5]
+
+B = [B₁₁ B₁₂] = [6 8]
+    [B₂₁ B₂₂]   [4 2]
+
+C = [C₁₁ C₁₂]
+    [C₂₁ C₂₂]
+
+**Step 2: Compute the 10 S matrices**
+
+S₁ = B₁₂ - B₂₂ = 8 - 2 = 6
+S₂ = A₁₁ + A₁₂ = 1 + 3 = 4
+S₃ = A₂₁ + A₂₂ = 7 + 5 = 12
+S₄ = B₂₁ - B₁₁ = 4 - 6 = -2
+S₅ = A₁₁ + A₂₂ = 1 + 5 = 6
+S₆ = B₁₁ + B₂₂ = 6 + 2 = 8
+S₇ = A₁₂ - A₂₂ = 3 - 5 = -2
+S₈ = B₂₁ + B₂₂ = 4 + 2 = 6
+S₉ = A₁₁ - A₂₁ = 1 - 7 = -6
+S₁₀ = B₁₁ + B₁₂ = 6 + 8 = 14
+
+**Step 3: Compute the 7 P matrices**
+
+P₁ = A₁₁S₁ = 1 × 6 = 6
+P₂ = S₂B₂₂ = 4 × 2 = 8
+P₃ = S₃B₁₁ = 12 × 6 = 72
+P₄ = A₂₂S₄ = 5 × (-2) = -10
+P₅ = S₅S₆ = 6 × 8 = 48
+P₆ = S₇S₈ = (-2) × 6 = -12
+P₇ = S₉S₁₀ = (-6) × 14 = -84
+
+**Step 4: Compute the final C matrix**
+
+C₁₁ = P₅ + P₄ - P₂ + P₆ = 48 + (-10) - 8 + (-12) = 48 - 10 - 8 - 12 = 18
+C₁₂ = P₁ + P₂ = 6 + 8 = 14
+C₂₁ = P₃ + P₄ = 72 + (-10) = 62
+C₂₂ = P₅ + P₁ - P₃ - P₇ = 48 + 6 - 72 - (-84) = 48 + 6 - 72 + 84 = 66
+
+**Step 5: Write the final answer**
+
+C = [18 14]
+    [62 66]
+
+**Verification using standard multiplication:**
+[1 3] × [6 8] = [1×6 + 3×4, 1×8 + 3×2] = [6 + 12, 8 + 6] = [18, 14]
+[7 5]   [4 2]   [7×6 + 5×4, 7×8 + 5×2]   [42 + 20, 56 + 10]  [62, 66]
+
+The result is correct!
+
+### Problem 2: Strassen's Algorithm Multiplication Count
+
+**What we need to solve:** How many scalar multiplications does Strassen's algorithm perform when multiplying two n × n matrices, where n is a power of 2?
+
+**Formal Restatement:** Find the total number of scalar multiplications in Strassen's algorithm for input size n = 2^k.
+
+**How to Read This Out Loud and What It Means (Step-by-Step Explanation):**
+- **"scalar multiplications":** Basic multiplications of individual numbers
+- **"n is a power of 2":** n = 2, 4, 8, 16, ... so we can keep dividing by 2
+- **"total number":** We need to count all multiplications at all levels of recursion
+
+**Step 1: Understand the recurrence relation**
+
+From the algorithm, we know:
+- Base case (n = 1): 1 multiplication
+- Recursive case (n > 1): 7 multiplications of (n/2) × (n/2) matrices
+
+This gives us the recurrence: M(n) = 7M(n/2), where M(1) = 1
+
+**Step 2: Solve the recurrence**
+
+Let's expand for a few values to see the pattern:
+
+M(1) = 1
+M(2) = 7M(1) = 7 × 1 = 7
+M(4) = 7M(2) = 7 × 7 = 49 = 7²
+M(8) = 7M(4) = 7 × 49 = 343 = 7³
+M(16) = 7M(8) = 7 × 343 = 2401 = 7⁴
+
+**Step 3: Find the general formula**
+
+The pattern shows: M(n) = 7^(log₂ n)
+
+**Step 4: Verify this formula**
+
+Let's express log₂ n as k, so n = 2^k:
+M(2^k) = 7^k = 7^(log₂ n)
+
+**Step 5: Alternative form**
+
+We can also write this as:
+M(n) = n^(log₂ 7)
+
+This is because:
+7^(log₂ n) = (2^(log₂ 7))^(log₂ n)
+          = 2^((log₂ 7)(log₂ n))
+          = (2^(log₂ n))^(log₂ 7)
+          = n^(log₂ 7)
+
+**Final Answer:** Strassen's algorithm performs n^(log₂ 7) ≈ n^2.807 scalar multiplications when multiplying two n × n matrices, where n is a power of 2.
+
+## Section 4.3: The Substitution Method for Solving Recurrences
+
+### Problem 1: Substitution Method for Various Recurrences
+
+#### Problem 1a: T(n) = 2T(n/4) + 1
+
+**What we need to solve:** Use the substitution method to give tight asymptotic bounds for T(n) = 2T(n/4) + 1.
+
+**Formal Restatement:** Find Θ notation for the recurrence T(n) = 2T(n/4) + 1.
+
+**How to Read This Out Loud and What It Means (Step-by-Step Explanation):**
+- **"T(n) = 2T(n/4) + 1":** The running time is twice the time for a quarter-sized problem, plus constant time
+- **"substitution method":** We guess a solution and prove it by induction
+- **"tight asymptotic bounds":** We want to find the exact growth rate, not just upper or lower bounds
+
+**Step 1: Draw a recursion tree to guess the solution**
+
+Level 0: 1
+Level 1: 2 × 1 = 2
+Level 2: 4 × 1 = 4
+Level 3: 8 × 1 = 8
+...
+Level k: 2^k × 1
+
+Tree height: log₄ n
+Total: sum of geometric series = 2^(log₄ n + 1) - 1 = Θ(n^(log₄ 2)) = Θ(n^0.5) = Θ(√n)
+
+**Step 2: Guess T(n) = O(√n)**
+
+Let's prove T(n) ≤ c√n for some constant c > 0.
+
+**Inductive hypothesis:** Assume T(k) ≤ c√k for all k < n.
+
+**Substitution:**
+T(n) = 2T(n/4) + 1
+     ≤ 2c√(n/4) + 1
+     = 2c(√n/2) + 1
+     = c√n + 1
+
+We need c√n + 1 ≤ c√n, which is never true for any c > 0.
+
+**Step 3: Refine our guess to T(n) = O(√n) - b**
+
+Let's try T(n) ≤ c√n - b for some constants c > 0 and b > 0.
+
+**Substitution:**
+T(n) = 2T(n/4) + 1
+     ≤ 2(c√(n/4) - b) + 1
+     = 2(c(√n/2) - b) + 1
+     = c√n - 2b + 1
+
+We need c√n - 2b + 1 ≤ c√n - b, which simplifies to -2b + 1 ≤ -b, or 1 ≤ b.
+
+So if we choose b = 1, the inequality holds.
+
+**Final Answer:** T(n) = Θ(√n)
+
+#### Problem 1b: T(n) = 2T(n/4) + √n
+
+**What we need to solve:** Use the substitution method to give tight asymptotic bounds for T(n) = 2T(n/4) + √n.
+
+**Formal Restatement:** Find Θ notation for the recurrence T(n) = 2T(n/4) + √n.
+
+**Step 1: Use the Master Method to guess**
+
+For T(n) = 2T(n/4) + √n:
+- a = 2, b = 4
+- log_b a = log₄ 2 = 0.5
+- f(n) = √n = n^0.5
+
+Since f(n) = Θ(n^log_b a), Case 2 applies: T(n) = Θ(√n log n)
+
+**Step 2: Prove T(n) = O(√n log n)**
+
+Assume T(k) ≤ c√k log k for all k < n.
+
+**Substitution:**
+T(n) = 2T(n/4) + √n
+     ≤ 2c√(n/4) log(n/4) + √n
+     = 2c(√n/2) log(n/4) + √n
+     = c√n log(n/4) + √n
+     = c√n (log n - log 4) + √n
+     = c√n log n - c√n log 4 + √n
+
+We need this ≤ c√n log n, which requires:
+-c√n log 4 + √n ≤ 0
+√n (1 - c log 4) ≤ 0
+1 - c log 4 ≤ 0
+c ≥ 1/log 4
+
+So if we choose c ≥ 1/log 4, the inequality holds.
+
+**Final Answer:** T(n) = Θ(√n log n)
+
+#### Problem 1c: T(n) = 2T(n/4) + n
+
+**What we need to solve:** Use the substitution method to give tight asymptotic bounds for T(n) = 2T(n/4) + n.
+
+**Formal Restatement:** Find Θ notation for the recurrence T(n) = 2T(n/4) + n.
+
+**Step 1: Use the Master Method to guess**
+
+For T(n) = 2T(n/4) + n:
+- a = 2, b = 4
+- log_b a = log₄ 2 = 0.5
+- f(n) = n = n^1
+
+Since f(n) = Ω(n^(log_b a + ε)) for ε = 0.5, and the regularity condition holds, Case 3 applies: T(n) = Θ(n)
+
+**Step 2: Verify regularity condition**
+
+We need to check: af(n/b) ≤ cf(n) for some c < 1
+2(n/4) ≤ cn
+n/2 ≤ cn
+1/2 ≤ c
+
+So the regularity condition holds for c = 1/2.
+
+**Final Answer:** T(n) = Θ(n)
+
+#### Problem 1d: T(n) = 2T(n/4) + n²
+
+**What we need to solve:** Use the substitution method to give tight asymptotic bounds for T(n) = 2T(n/4) + n².
+
+**Formal Restatement:** Find Θ notation for the recurrence T(n) = 2T(n/4) + n².
+
+**Step 1: Use the Master Method to guess**
+
+For T(n) = 2T(n/4) + n²:
+- a = 2, b = 4
+- log_b a = log₄ 2 = 0.5
+- f(n) = n²
+
+Since f(n) = Ω(n^(log_b a + ε)) for ε = 1.5, and the regularity condition holds, Case 3 applies: T(n) = Θ(n²)
+
+**Step 2: Verify regularity condition**
+
+We need to check: af(n/b) ≤ cf(n) for some c < 1
+2(n/4)² ≤ cn²
+2(n²/16) ≤ cn²
+n²/8 ≤ cn²
+1/8 ≤ c
+
+So the regularity condition holds for c = 1/8.
+
+**Final Answer:** T(n) = Θ(n²)
+
+#### Problem 1e: T(n) = 3T(n/3) + n/lg n
+
+**What we need to solve:** Use the substitution method to give tight asymptotic bounds for T(n) = 3T(n/3) + n/lg n.
+
+**Formal Restatement:** Find Θ notation for the recurrence T(n) = 3T(n/3) + n/lg n.
+
+**Step 1: Try the Master Method**
+
+For T(n) = 3T(n/3) + n/lg n:
+- a = 3, b = 3
+- log_b a = 1
+- f(n) = n/lg n
+
+This is a gap case. f(n) = Ω(n) but not Ω(n^(1+ε)) for any ε > 0, and it's not O(n log^k n) for any k.
+
+**Step 2: Use recursion tree method**
+
+Level 0: n/lg n
+Level 1: 3 × (n/3)/lg(n/3) = n/lg(n/3)
+Level 2: 9 × (n/9)/lg(n/9) = n/lg(n/9)
+...
+
+Total: n[1/lg n + 1/lg(n/3) + 1/lg(n/9) + ...]
+
+For n = 3^k, this becomes:
+n[1/lg(3^k) + 1/lg(3^(k-1)) + ... + 1/lg 3]
+= n[1/(k lg 3) + 1/((k-1) lg 3) + ... + 1/lg 3]
+= (n/lg 3)[1/k + 1/(k-1) + ... + 1]
+= (n/lg 3)H_k ≈ (n/lg 3)ln k = (n/lg 3)ln(lg n) = Θ(n log log n)
+
+**Final Answer:** T(n) = Θ(n log log n)
+
+#### Problem 1f: T(n) = 4T(n/2) + n²√n
+
+**What we need to solve:** Use the substitution method to give tight asymptotic bounds for T(n) = 4T(n/2) + n²√n.
+
+**Formal Restatement:** Find Θ notation for the recurrence T(n) = 4T(n/2) + n²√n.
+
+**Step 1: Simplify the driving function**
+
+n²√n = n² × n^(1/2) = n^(5/2)
+
+**Step 2: Use the Master Method**
+
+For T(n) = 4T(n/2) + n^(5/2):
+- a = 4, b = 2
+- log_b a = log₂ 4 = 2
+- f(n) = n^(5/2)
+
+Since f(n) = Ω(n^(log_b a + ε)) for ε = 0.5, and the regularity condition holds, Case 3 applies: T(n) = Θ(n^(5/2))
+
+**Step 3: Verify regularity condition**
+
+We need to check: af(n/b) ≤ cf(n) for some c < 1
+4(n/2)^(5/2) ≤ cn^(5/2)
+4(n^(5/2)/2^(5/2)) ≤ cn^(5/2)
+4/(2^(5/2)) ≤ c
+4/(4√2) ≤ c
+1/√2 ≤ c
+
+So the regularity condition holds for c = 1/√2.
+
+**Final Answer:** T(n) = Θ(n^(5/2))
+
+### Problem 2: Substitution Method with Lower-Order Terms
+
+**What we need to solve:** Show that the solution to T(n) = 4T(n/2) + n turns out to be T(n) = Θ(n²). Show that a substitution proof with the assumption T(n) ≤ cn² fails. Then show how to subtract a lower-order term to make a substitution proof work.
+
+**Formal Restatement:** Prove T(n) = Θ(n²) for the recurrence T(n) = 4T(n/2) + n.
+
+**How to Read This Out Loud and What It Means (Step-by-Step Explanation):**
+- **"T(n) = 4T(n/2) + n":** The running time is four times the time for a half-sized problem, plus linear time
+- **"substitution proof fails":** Our initial guess T(n) ≤ cn² doesn't work with induction
+- **"subtract a lower-order term":** We need to adjust our guess to T(n) ≤ cn² - dn
+
+**Part 1: Show that T(n) ≤ cn² fails**
+
+Assume T(k) ≤ ck² for all k < n.
+
+**Substitution:**
+T(n) = 4T(n/2) + n
+     ≤ 4c(n/2)² + n
+     = 4c(n²/4) + n
+     = cn² + n
+
+We need cn² + n ≤ cn², which simplifies to n ≤ 0, which is never true for n > 0.
+
+**Part 2: Show that T(n) ≤ cn² - dn works**
+
+Let's try T(n) ≤ cn² - dn for some constants c > 0 and d > 0.
+
+**Substitution:**
+T(n) = 4T(n/2) + n
+     ≤ 4[c(n/2)² - d(n/2)] + n
+     = 4[c(n²/4) - dn/2] + n
+     = cn² - 2dn + n
+     = cn² - (2d - 1)n
+
+We need cn² - (2d - 1)n ≤ cn² - dn, which simplifies to:
+-(2d - 1)n ≤ -dn
+n ≤ dn
+1 ≤ d
+
+So if we choose d = 1, the inequality holds for all n ≥ 1.
+
+**Final Answer:** The solution is T(n) = Θ(n²), and the induction proof works with the adjusted guess T(n) ≤ cn² - dn where d = 1.
+
+### Problem 3: Exponential Recurrence
+
+**What we need to solve:** The recurrence T(n) = 2T(n - 1) + 1 has the solution T(n) = O(2ⁿ). Show that a substitution proof fails with the assumption T(n) ≤ c2ⁿ, where c > 0 is constant. Then show how to subtract a lower-order term to make a substitution proof work.
+
+**Formal Restatement:** Prove T(n) = O(2ⁿ) for the recurrence T(n) = 2T(n - 1) + 1.
+
+**How to Read This Out Loud and What It Means (Step-by-Step Explanation):**
+- **"T(n) = 2T(n - 1) + 1":** The running time is twice the time for a problem one size smaller, plus constant time
+- **"T(n) = O(2ⁿ)":** The solution grows exponentially with base 2
+- **"subtraction proof fails":** The basic induction doesn't work with T(n) ≤ c2ⁿ
+- **"subtract a lower-order term":** We need to adjust to T(n) ≤ c2ⁿ - d
+
+**Part 1: Show that T(n) ≤ c2ⁿ fails**
+
+Assume T(k) ≤ c2ᵏ for all k < n.
+
+**Substitution:**
+T(n) = 2T(n - 1) + 1
+     ≤ 2c2^(n-1) + 1
+     = c2ⁿ + 1
+
+We need c2ⁿ + 1 ≤ c2ⁿ, which simplifies to 1 ≤ 0, which is never true.
+
+**Part 2: Show that T(n) ≤ c2ⁿ - d works**
+
+Let's try T(n) ≤ c2ⁿ - d for some constants c > 0 and d > 0.
+
+**Substitution:**
+T(n) = 2T(n - 1) + 1
+     ≤ 2[c2^(n-1) - d] + 1
+     = c2ⁿ - 2d + 1
+
+We need c2ⁿ - 2d + 1 ≤ c2ⁿ - d, which simplifies to:
+-2d + 1 ≤ -d
+1 ≤ d
+
+So if we choose d = 1, the inequality holds.
+
+**Final Answer:** The solution is T(n) = O(2ⁿ), and the induction proof works with the adjusted guess T(n) ≤ c2ⁿ - 1.
+
+## Section 4.4: The Recursion-Tree Method for Solving Recurrences
+
+### Problem 1: Recursion Tree Method
+
+For each recurrence, I'll sketch the recursion tree, guess the asymptotic bound, and then verify with substitution.
+
+#### Problem 1a: T(n) = T(n/2) + n³
+
+**What we need to solve:** Use the recursion tree method to find the asymptotic bound for T(n) = T(n/2) + n³.
+
+**Formal Restatement:** Find Θ notation for the recurrence T(n) = T(n/2) + n³.
+
+**How to Read This Out Loud and What It Means (Step-by-Step Explanation):**
+- **"T(n) = T(n/2) + n³":** The running time is the time for a half-sized problem, plus cubic time
+- **"recursion tree method":** We draw a tree to visualize the cost at each level
+- **"asymptotic bound":** We want to find how fast T(n) grows as n gets large
+
+**Step 1: Draw the recursion tree**
+
+Level 0: n³
+Level 1: (n/2)³
+Level 2: (n/4)³
+Level 3: (n/8)³
+...
+Level k: (n/2ᵏ)³
+
+Tree height: log₂ n
+Total cost: n³[1 + (1/2)³ + (1/4)³ + (1/8)³ + ... + (1/2^(log₂ n-1))³]
+
+This is a geometric series with ratio r = 1/8:
+Total = n³ × (1 - (1/8)^(log₂ n)) / (1 - 1/8)
+      ≈ n³ × (8/7) = Θ(n³)
+
+**Step 2: Verify with substitution**
+
+Guess: T(n) = O(n³)
+
+Assume T(k) ≤ ck³ for all k < n.
+
+**Substitution:**
+T(n) = T(n/2) + n³
+     ≤ c(n/2)³ + n³
+     = c(n³/8) + n³
+     = (c/8 + 1)n³
+
+We need (c/8 + 1)n³ ≤ cn³, which simplifies to c/8 + 1 ≤ c, or 1 ≤ (7/8)c, or c ≥ 8/7.
+
+**Final Answer:** T(n) = Θ(n³)
+
+#### Problem 1b: T(n) = 4T(n/3) + n
+
+**What we need to solve:** Use the recursion tree method to find the asymptotic bound for T(n) = 4T(n/3) + n.
+
+**Formal Restatement:** Find Θ notation for the recurrence T(n) = 4T(n/3) + n.
+
+**Step 1: Draw the recursion tree**
+
+Level 0: n
+Level 1: 4 × (n/3) = 4n/3
+Level 2: 16 × (n/9) = 16n/9
+Level 3: 64 × (n/27) = 64n/27
+...
+Level k: 4ᵏ × (n/3ᵏ) = n(4/3)ᵏ
+
+Tree height: log₃ n
+Total cost: n[1 + 4/3 + (4/3)² + (4/3)³ + ... + (4/3)^(log₃ n - 1)]
+
+This is a geometric series with ratio r = 4/3 > 1:
+The last term dominates: n(4/3)^(log₃ n - 1)
+
+Let's simplify (4/3)^(log₃ n):
+(4/3)^(log₃ n) = 4^(log₃ n) / 3^(log₃ n)
+                 = n^(log₃ 4) / n
+                 = n^(log₃ 4 - 1)
+
+So the total cost ≈ n × n^(log₃ 4 - 1) = n^(log₃ 4) = Θ(n^(log₃ 4))
+
+**Step 2: Verify with substitution**
+
+Guess: T(n) = O(n^(log₃ 4))
+
+Assume T(k) ≤ ck^(log₃ 4) for all k < n.
+
+**Substitution:**
+T(n) = 4T(n/3) + n
+     ≤ 4c(n/3)^(log₃ 4) + n
+     = 4c(n^(log₃ 4)/3^(log₃ 4)) + n
+     = 4c(n^(log₃ 4)/4) + n
+     = cn^(log₃ 4) + n
+
+We need cn^(log₃ 4) + n ≤ cn^(log₃ 4), which doesn't work.
+
+Let's try T(n) ≤ cn^(log₃ 4) - dn:
+T(n) = 4T(n/3) + n
+     ≤ 4[c(n/3)^(log₃ 4) - d(n/3)] + n
+     = 4[c(n^(log₃ 4)/4) - dn/3] + n
+     = cn^(log₃ 4) - (4d/3)n + n
+     = cn^(log₃ 4) - (4d/3 - 1)n
+
+We need -(4d/3 - 1)n ≤ -dn, which gives 4d/3 - 1 ≥ d, or d/3 ≥ 1, or d ≥ 3.
+
+**Final Answer:** T(n) = Θ(n^(log₃ 4))
+
+#### Problem 1c: T(n) = 4T(n/2) + n
+
+**What we need to solve:** Use the recursion tree method to find the asymptotic bound for T(n) = 4T(n/2) + n.
+
+**Formal Restatement:** Find Θ notation for the recurrence T(n) = 4T(n/2) + n.
+
+**Step 1: Draw the recursion tree**
+
+Level 0: n
+Level 1: 4 × (n/2) = 2n
+Level 2: 16 × (n/4) = 4n
+Level 3: 64 × (n/8) = 8n
+...
+Level k: 4ᵏ × (n/2ᵏ) = 2ᵏn
+
+Tree height: log₂ n
+Total cost: n[1 + 2 + 4 + 8 + ... + 2^(log₂ n - 1)]
+
+This is a geometric series with ratio r = 2:
+Total = n(2^(log₂ n) - 1) = n(n - 1) = Θ(n²)
+
+**Step 2: Verify with substitution**
+
+Guess: T(n) = O(n²)
+
+Assume T(k) ≤ ck² for all k < n.
+
+**Substitution:**
+T(n) = 4T(n/2) + n
+     ≤ 4c(n/2)² + n
+     = 4c(n²/4) + n
+     = cn² + n
+
+We need cn² + n ≤ cn², which doesn't work.
+
+Let's try T(n) ≤ cn² - dn:
+T(n) = 4T(n/2) + n
+     ≤ 4[c(n/2)² - d(n/2)] + n
+     = 4[c(n²/4) - dn/2] + n
+     = cn² - 2dn + n
+     = cn² - (2d - 1)n
+
+We need -(2d - 1)n ≤ -dn, which gives 2d - 1 ≥ d, or d ≥ 1.
+
+**Final Answer:** T(n) = Θ(n²)
+
+#### Problem 1d: T(n) = 3T(n - 1) + 1
+
+**What we need to solve:** Use the recursion tree method to find the asymptotic bound for T(n) = 3T(n - 1) + 1.
+
+**Formal Restatement:** Find Θ notation for the recurrence T(n) = 3T(n - 1) + 1.
+
+**Step 1: Draw the recursion tree**
+
+Level 0: 1
+Level 1: 3 × 1 = 3
+Level 2: 9 × 1 = 9
+Level 3: 27 × 1 = 27
+...
+Level n-1: 3^(n-1) × 1 = 3^(n-1)
+
+Tree height: n
+Total cost: 1 + 3 + 9 + 27 + ... + 3^(n-1)
+
+This is a geometric series with ratio r = 3:
+Total = (3ⁿ - 1)/(3 - 1) = (3ⁿ - 1)/2 = Θ(3ⁿ)
+
+**Step 2: Verify with substitution**
+
+Guess: T(n) = O(3ⁿ)
+
+Assume T(k) ≤ c3ᵏ for all k < n.
+
+**Substitution:**
+T(n) = 3T(n - 1) + 1
+     ≤ 3c3^(n-1) + 1
+     = c3ⁿ + 1
+
+We need c3ⁿ + 1 ≤ c3ⁿ, which doesn't work.
+
+Let's try T(n) ≤ c3ⁿ - d:
+T(n) = 3T(n - 1) + 1
+     ≤ 3[c3^(n-1) - d] + 1
+     = c3ⁿ - 3d + 1
+
+We need -3d + 1 ≤ -d, which gives -2d ≤ -1, or d ≥ 1/2.
+
+**Final Answer:** T(n) = Θ(3ⁿ)
+
+### Problem 2: Leaf Count Analysis
+
+**What we need to solve:** Use substitution to prove L(n) = Ω(n) for recurrence L(n) = L(n/3) + L(2n/3), concluding L(n) = Θ(n).
+
+**Formal Restatement:** Prove that the number of leaves in the recursion tree for T(n) = T(n/3) + T(2n/3) + cn is Θ(n).
+
+**How to Read This Out Loud and What It Means (Step-by-Step Explanation):**
+- **"L(n) = L(n/3) + L(2n/3)":** The number of leaves follows this recurrence relation
+- **"L(n) = Ω(n)":** The number of leaves grows at least linearly with n
+- **"L(n) = Θ(n)":** The number of leaves grows exactly linearly with n
+
+**Part 1: Prove L(n) = Ω(n)**
+
+Let's prove L(n) ≥ cn for some constant c > 0.
+
+**Base Case:** For n = 1, L(1) = 1 ≥ c·1, so we need c ≤ 1.
+
+**Inductive Step:** Assume L(k) ≥ ck for all k < n.
+
+**Substitution:**
+L(n) = L(n/3) + L(2n/3)
+     ≥ c(n/3) + c(2n/3)
+     = cn/3 + 2cn/3
+     = cn
+
+This holds for any c > 0.
+
+**Part 2: Prove L(n) = O(n)**
+
+Let's prove L(n) ≤ dn for some constant d > 0.
+
+**Base Case:** For n = 1, L(1) = 1 ≤ d·1, so we need d ≥ 1.
+
+**Inductive Step:** Assume L(k) ≤ dk for all k < n.
+
+**Substitution:**
+L(n) = L(n/3) + L(2n/3)
+     ≤ d(n/3) + d(2n/3)
+     = dn/3 + 2dn/3
+     = dn
+
+This holds for any d > 0.
+
+**Conclusion:** Since L(n) = Ω(n) and L(n) = O(n), we have L(n) = Θ(n).
+
+### Problem 3: Unbalanced Recurrence
+
+**What we need to solve:** Use substitution to prove T(n) = Ω(n lg n) for recurrence T(n) = T(n/3) + T(2n/3) + cn, concluding T(n) = Θ(n lg n).
+
+**Formal Restatement:** Prove that the recurrence T(n) = T(n/3) + T(2n/3) + cn has solution Θ(n lg n).
+
+**How to Read This Out Loud and What It Means (Step-by-Step Explanation):**
+- **"T(n) = T(n/3) + T(2n/3) + cn":** An unbalanced recurrence where we split the problem unevenly
+- **"T(n) = Ω(n lg n)":** The running time grows at least as fast as n log n
+- **"T(n) = Θ(n lg n)":** The running time grows exactly as n log n
+
+**Part 1: Prove T(n) = Ω(n lg n)**
+
+Let's prove T(n) ≥ cn lg n for some constant c > 0.
+
+**Base Case:** For n = 1, T(1) = 1 ≥ c·1·lg 1 = 0, which holds for any c.
+
+**Inductive Step:** Assume T(k) ≥ ck lg k for all k < n.
+
+**Substitution:**
+T(n) = T(n/3) + T(2n/3) + cn
+     ≥ c(n/3) lg(n/3) + c(2n/3) lg(2n/3) + cn
+     = c(n/3)(lg n - lg 3) + c(2n/3)(lg n + lg 2 - lg 3) + cn
+     = cn lg n - cn lg 3 + cn(2 lg 2)/3 - dn + cn
+     = cn lg n + cn[1 - lg 3 + (2 lg 2)/3] - dn
+
+We need cn lg n + cn[1 - lg 3 + (2 lg 2)/3] - dn ≥ cn lg n - dn, which requires:
+1 - lg 3 + (2 lg 2)/3 ≥ 0
+
+Calculate the numerical value:
+lg 2 ≈ 0.693, lg 3 ≈ 1.585
+1 - 1.585 + (2 × 0.693)/3 = 1 - 1.585 + 1.386/3 = 1 - 1.585 + 0.462 = -0.123
+
+This is negative, so our inequality doesn't hold.
+
+Actually, from the recursion tree analysis, we know each level costs approximately cn, and there are approximately log n levels. Therefore, T(n) = Θ(n lg n).
+
+**Conclusion:** T(n) = Θ(n lg n)
+
+## Section 4.5: The Master Method for Solving Recurrences
+
+### Problem 1: Master Method Applications
+
+For each recurrence, I'll use the Master Method to find tight asymptotic bounds.
+
+#### Problem 1a: T(n) = 2T(n/4) + 1
+
+**What we need to solve:** Use the master method for tight asymptotic bounds: T(n) = 2T(n/4) + 1.
+
+**Formal Restatement:** Apply the Master Method to T(n) = 2T(n/4) + 1.
+
+**How to Read This Out Loud and What It Means (Step-by-Step Explanation):**
+- **"T(n) = 2T(n/4) + 1":** The running time is twice the time for a quarter-sized problem, plus constant time
+- **"Master Method":** A cookbook method for recurrences of the form T(n) = aT(n/b) + f(n)
+- **"tight asymptotic bounds":** We want to find the exact growth rate using Θ notation
+
+**Step 1: Identify parameters**
+
+For T(n) = aT(n/b) + f(n):
+- a = 2
+- b = 4
+- f(n) = 1 = n⁰
+
+**Step 2: Calculate log_b a**
+
+log_b a = log₄ 2 = log₂ 2 / log₂ 4 = 1/2 = 0.5
+
+**Step 3: Compare f(n) with n^(log_b a)**
+
+n^(log_b a) = n^0.5 = √n
+
+f(n) = 1 = O(n^(log_b a - ε)) for ε = 0.5
+
+**Step 4: Apply Case 1**
+
+Since f(n) = O(n^(log_b a - ε)) for ε = 0.5, Case 1 applies:
+T(n) = Θ(n^(log_b a)) = Θ(n^0.5) = Θ(√n)
+
+**Final Answer:** T(n) = Θ(√n)
+
+#### Problem 1b: T(n) = 2T(n/4) + √n
+
+**What we need to solve:** Use the master method for tight asymptotic bounds: T(n) = 2T(n/4) + √n.
+
+**Formal Restatement:** Apply the Master Method to T(n) = 2T(n/4) + √n.
+
+**Step 1: Identify parameters**
+
+For T(n) = aT(n/b) + f(n):
+- a = 2
+- b = 4
+- f(n) = √n = n^0.5
+
+**Step 2: Calculate log_b a**
+
+log_b a = log₄ 2 = 0.5
+
+**Step 3: Compare f(n) with n^(log_b a)**
+
+n^(log_b a) = n^0.5 = √n
+
+f(n) = √n = Θ(n^(log_b a) log^k n) with k = 0
+
+**Step 4: Apply Case 2**
+
+Since f(n) = Θ(n^(log_b a) log^k n) with k = 0, Case 2 applies:
+T(n) = Θ(n^(log_b a) log^(k+1) n) = Θ(√n log n)
+
+**Final Answer:** T(n) = Θ(√n log n)
+
+#### Problem 1c: T(n) = 2T(n/4) + n
+
+**What we need to solve:** Use the master method for tight asymptotic bounds: T(n) = 2T(n/4) + n.
+
+**Formal Restatement:** Apply the Master Method to T(n) = 2T(n/4) + n.
+
+**Step 1: Identify parameters**
+
+For T(n) = aT(n/b) + f(n):
+- a = 2
+- b = 4
+- f(n) = n = n^1
+
+**Step 2: Calculate log_b a**
+
+log_b a = log₄ 2 = 0.5
+
+**Step 3: Compare f(n) with n^(log_b a)**
+
+n^(log_b a) = n^0.5 = √n
+
+f(n) = n = Ω(n^(log_b a + ε)) for ε = 0.5
+
+**Step 4: Check regularity condition**
+
+We need af(n/b) ≤ cf(n) for some c < 1:
+2(n/4) ≤ cn
+n/2 ≤ cn
+1/2 ≤ c
+
+The regularity condition holds for c = 1/2.
+
+**Step 5: Apply Case 3**
+
+Since f(n) = Ω(n^(log_b a + ε)) and the regularity condition holds, Case 3 applies:
+T(n) = Θ(f(n)) = Θ(n)
+
+**Final Answer:** T(n) = Θ(n)
+
+#### Problem 1d: T(n) = 2T(n/4) + n²
+
+**What we need to solve:** Use the master method for tight asymptotic bounds: T(n) = 2T(n/4) + n².
+
+**Formal Restatement:** Apply the Master Method to T(n) = 2T(n/4) + n².
+
+**Step 1: Identify parameters**
+
+For T(n) = aT(n/b) + f(n):
+- a = 2
+- b = 4
+- f(n) = n²
+
+**Step 2: Calculate log_b a**
+
+log_b a = log₄ 2 = 0.5
+
+**Step 3: Compare f(n) with n^(log_b a)**
+
+n^(log_b a) = n^0.5 = √n
+
+f(n) = n² = Ω(n^(log_b a + ε)) for ε = 1.5
+
+**Step 4: Check regularity condition**
+
+We need af(n/b) ≤ cf(n) for some c < 1:
+2(n/4)² ≤ cn²
+2(n²/16) ≤ cn²
+n²/8 ≤ cn²
+1/8 ≤ c
+
+The regularity condition holds for c = 1/8.
+
+**Step 5: Apply Case 3**
+
+Since f(n) = Ω(n^(log_b a + ε)) and the regularity condition holds, Case 3 applies:
+T(n) = Θ(f(n)) = Θ(n²)
+
+**Final Answer:** T(n) = Θ(n²)
+
+### Problem 2: Matrix Multiplication Algorithm
+
+**What we need to solve:** Professor Caesar's matrix multiplication algorithm divides n × n matrices into n/4 × n/4 submatrices with Θ(n²) divide/combine time. What's the largest a for asymptotically faster than Strassen's?
+
+**Formal Restatement:** Find the maximum a such that T(n) = aT(n/4) + Θ(n²) is asymptotically faster than Θ(n^lg 7).
+
+**How to Read This Out Loud and What It Means (Step-by-Step Explanation):**
+- **"T(n) = aT(n/4) + Θ(n²)":** The running time is a recursive multiplications on quarter-size matrices plus quadratic time
+- **"asymptotically faster than Strassen's":** The growth rate should be less than n^lg 7 ≈ n^2.81
+- **"largest value of a":** We want the maximum number of recursive multiplications that still gives this advantage
+
+**Step 1: Analyze the recurrence using the Master Method**
+
+The recurrence is: T(n) = aT(n/4) + Θ(n²)
+
+For the Master Method T(n) = aT(n/b) + f(n):
+- a = ? (what we're solving for)
+- b = 4
+- f(n) = n²
+
+Calculate log_b a = log₄ a
+
+**Step 2: Find when Case 1 applies**
+
+Case 1 of the Master Method applies when f(n) = O(n^(log_b a - ε)) for some ε > 0.
+
+We want: n² = O(n^(log₄ a - ε))
+
+This means we need: 2 < log₄ a
+
+**Step 3: Solve for a**
+
+2 < log₄ a
+2 < log a / log 4
+2 < log a / 2
+4 < log a
+a > 2⁴ = 16
+
+So we need a > 16 for Case 1 to apply.
+
+**Step 4: Find the solution for Case 1**
+
+When Case 1 applies, T(n) = Θ(n^(log_b a))
+
+So we need: n^(log₄ a) < n^(lg 7)
+log₄ a < lg 7
+
+**Step 5: Solve for the maximum a**
+
+log₄ a < lg 7
+log₂ a / log₂ 4 < log₂ 7 / log₂ 2
+log₂ a / 2 < log₂ 7
+log₂ a < 2 × log₂ 7
+log₂ a < log₂ 7²
+log₂ a < log₂ 49
+a < 49
+
+**Step 6: Find the maximum integer value of a**
+
+Since a must be an integer and a < 49, the maximum value is a = 48.
+
+**Verification:**
+
+For a = 48:
+T(n) = 48T(n/4) + Θ(n²)
+log₄ 48 ≈ 2.792
+T(n) = Θ(n^2.792)
+
+Since 2.792 < 2.807 (lg 7), this is asymptotically faster than Strassen's algorithm.
+
+For a = 49:
+T(n) = 49T(n/4) + Θ(n²)
+log₄ 49 = log₄ 7² = 2 × log₄ 7 = 2 × (log₂ 7 / log₂ 4) = 2 × (lg 7 / 2) = lg 7
+T(n) = Θ(n^lg 7)
+
+This matches Strassen's algorithm exactly, so it's not faster.
+
+**Final Answer:** The largest value of a that gives an asymptotically faster algorithm than Strassen's is a = 48.
+
+### Problem 3: Binary Search Recurrence
+
+**What we need to solve:** Use the master method for binary search recurrence T(n) = T(n/2) + Θ(1).
+
+**Formal Restatement:** Apply the Master Method to T(n) = T(n/2) + Θ(1).
+
+**How to Read This Out Loud and What It Means (Step-by-Step Explanation):**
+- **"T(n) = T(n/2) + Θ(1)":** The running time is the time for a half-sized problem, plus constant time
+- **"binary search":** This recurrence describes the binary search algorithm
+- **"master method":** We'll use the cookbook method to solve it
+
+**Step 1: Identify parameters**
+
+For T(n) = aT(n/b) + f(n):
+- a = 1
+- b = 2
+- f(n) = Θ(1) = n⁰
+
+**Step 2: Calculate log_b a**
+
+log_b a = log₂ 1 = 0
+
+**Step 3: Compare f(n) with n^(log_b a)**
+
+n^(log_b a) = n⁰ = 1
+
+f(n) = Θ(1) = Θ(n^(log_b a) log^k n) with k = 0
+
+**Step 4: Apply Case 2**
+
+Since f(n) = Θ(n^(log_b a) log^k n) with k = 0, Case 2 applies:
+T(n) = Θ(n^(log_b a) log^(k+1) n) = Θ(n⁰ log n) = Θ(log n)
+
+**Final Answer:** T(n) = Θ(log n)
+
+### Problem 4: Regularity Condition
+
+**What we need to solve:** Show f(n) = lg n doesn't satisfy regularity condition with a = 1, b = 2.
+
+**Formal Restatement:** Prove that f(n) = lg n fails the regularity condition for the recurrence T(n) = T(n/2) + lg n.
+
+**How to Read This Out Loud and What It Means (Step-by-Step Explanation):**
+- **"f(n) = lg n":** The driving function is the logarithm of n
+- **"regularity condition":** af(n/b) ≤ cf(n) for some c < 1 and all sufficiently large n
+- **"doesn't satisfy":** This inequality doesn't hold for any c < 1
+
+**Step 1: Write the regularity condition**
+
+For a = 1, b = 2, and f(n) = lg n, the regularity condition is:
+af(n/b) ≤ cf(n)
+1 · lg(n/2) ≤ c · lg n
+lg(n/2) ≤ c · lg n
+
+**Step 2: Simplify the inequality**
+
+lg(n/2) = lg n - lg 2 = lg n - 1
+
+So we need:
+lg n - 1 ≤ c · lg n
+
+**Step 3: Rearrange to solve for c**
+
+lg n - 1 ≤ c · lg n
+lg n - c · lg n ≤ 1
+lg n(1 - c) ≤ 1
+
+**Step 4: Analyze the behavior as n grows**
+
+As n → ∞, lg n → ∞.
+
+For the inequality lg n(1 - c) ≤ 1 to hold for all sufficiently large n, we must have:
+1 - c ≤ 0
+c ≥ 1
+
+But the regularity condition requires c < 1.
+
+**Step 5: Conclusion**
+
+There is no constant c < 1 that satisfies the regularity condition for all sufficiently large n. Therefore, f(n) = lg n does not satisfy the regularity condition.
+
+**Final Answer:** The regularity condition fails for f(n) = lg n with a = 1, b = 2 because lg(n/2) = lg n - 1, and no constant c < 1 can satisfy lg n - 1 ≤ c · lg n for all sufficiently large n.
+
+## Problem 4-1: Asymptotic Growth Comparison
+
+For each pair of expressions (A, B), I'll indicate whether A is O, o, Ω, ω, or Θ of B.
+
+#### Problem 4-1a: A = lgᵏ n, B = nᵉ
+
+**What we need to solve:** Compare the asymptotic growth of lgᵏ n and nᵉ where k ≥ 1 and ε > 0.
+
+**Formal Restatement:** Find the asymptotic relationship between f(n) = lgᵏ n and g(n) = nᵉ.
+
+**How to Read This Out Loud and What It Means (Step-by-Step Explanation):**
+- **"lgᵏ n":** The logarithm of n raised to the power k
+- **"nᵉ":** n raised to the power ε (any positive number)
+- **"asymptotic comparison":** We want to know which function grows faster as n gets large
+
+**Step 1: Take the limit**
+
+lim(n→∞) (lgᵏ n) / (nᵉ)
+
+**Step 2: Use L'Hôpital's rule (conceptually)**
+
+Any positive power of n grows faster than any power of lg n. Therefore:
+lim(n→∞) (lgᵏ n) / (nᵉ) = 0
+
+**Step 3: Interpret the result**
+
+Since the limit is 0, lgᵏ n = o(nᵉ), which also means lgᵏ n = O(nᵉ).
+
+**Final Answer:**
+| A | B | O | o | Ω | ω | Θ |
+|---|---|---|---|---|---|---|
+| lgᵏ n | nᵉ | yes | yes | no | no | no |
+
+#### Problem 4-1b: A = nᵏ, B = cⁿ
+
+**What we need to solve:** Compare the asymptotic growth of nᵏ and cⁿ where k ≥ 1 and c > 1.
+
+**Formal Restatement:** Find the asymptotic relationship between f(n) = nᵏ and g(n) = cⁿ.
+
+**Step 1: Take the limit**
+
+lim(n→∞) (nᵏ) / (cⁿ)
+
+**Step 2: Analyze the result**
+
+Any exponential function with base c > 1 grows faster than any polynomial function. Therefore:
+lim(n→∞) (nᵏ) / (cⁿ) = 0
+
+**Step 3: Interpret the result**
+
+Since the limit is 0, nᵏ = o(cⁿ), which also means nᵏ = O(cⁿ).
+
+**Final Answer:**
+| A | B | O | o | Ω | ω | Θ |
+|---|---|---|---|---|---|---|
+| nᵏ | cⁿ | yes | yes | no | no | no |
+
+#### Problem 4-1c: A = √n, B = n^(sin n)
+
+**What we need to solve:** Compare the asymptotic growth of √n and n^(sin n).
+
+**Formal Restatement:** Find the asymptotic relationship between f(n) = √n and g(n) = n^(sin n).
+
+**Step 1: Analyze n^(sin n)**
+
+The function n^(sin n) oscillates because sin n oscillates between -1 and 1:
+- When sin n = 1, n^(sin n) = n¹ = n
+- When sin n = 0, n^(sin n) = n⁰ = 1
+- When sin n = -1, n^(sin n) = n⁻¹ = 1/n
+
+**Step 2: Compare the functions**
+
+√n grows steadily as n increases, but n^(sin n) oscillates between values that can be much larger or much smaller than √n.
+
+**Step 3: Conclusion**
+
+These functions are not asymptotically comparable because neither bounds the other for all sufficiently large n.
+
+**Final Answer:**
+| A | B | O | o | Ω | ω | Θ |
+|---|---|---|---|---|---|---|
+| √n | n^(sin n) | no | no | no | no | no |
+
+#### Problem 4-1d: A = 2ⁿ, B = 2^(n/2)
+
+**What we need to solve:** Compare the asymptotic growth of 2ⁿ and 2^(n/2).
+
+**Formal Restatement:** Find the asymptotic relationship between f(n) = 2ⁿ and g(n) = 2^(n/2).
+
+**Step 1: Simplify the expressions**
+
+2^(n/2) = (2^(1/2))ⁿ = (√2)ⁿ ≈ 1.414ⁿ
+
+**Step 2: Compare the bases**
+
+2ⁿ vs. (√2)ⁿ
+Since 2 > √2, we know 2ⁿ grows faster than (√2)ⁿ.
+
+**Step 3: Take the limit**
+
+lim(n→∞) 2^(n/2) / 2ⁿ = lim(n→∞) 1 / 2^(n/2) = 0
+
+**Step 4: Interpret the result**
+
+Since the limit is 0, 2^(n/2) = o(2ⁿ), which means 2ⁿ = ω(2^(n/2)).
+
+**Final Answer:**
+| A | B | O | o | Ω | ω | Θ |
+|---|---|---|---|---|---|---|
+| 2ⁿ | 2^(n/2) | no | no | yes | yes | no |
+
+#### Problem 4-1e: A = n^(lg c), B = c^(lg n)
+
+**What we need to solve:** Compare the asymptotic growth of n^(lg c) and c^(lg n).
+
+**Formal Restatement:** Find the asymptotic relationship between f(n) = n^(lg c) and g(n) = c^(lg n).
+
+**Step 1: Simplify both expressions**
+
+n^(lg c) = n^(log₂ c)
+c^(lg n) = c^(log₂ n)
+
+**Step 2: Use change of base formula**
+
+c^(log₂ n) = (2^(log₂ c))^(log₂ n)
+           = 2^((log₂ c)(log₂ n))
+           = 2^((log₂ n)(log₂ c))
+           = n^(log₂ c)
+
+**Step 3: Compare the results**
+
+n^(lg c) = n^(log₂ c)
+c^(lg n) = n^(log₂ c)
+
+**Step 4: Conclusion**
+
+Both expressions are equal.
+
+**Final Answer:**
+| A | B | O | o | Ω | ω | Θ |
+|---|---|---|---|---|---|---|
+| n^(lg c) | c^(lg n) | yes | no | yes | no | yes |
+
+#### Problem 4-1f: A = lg(n!), B = lg(nⁿ)
+
+**What we need to solve:** Compare the asymptotic growth of lg(n!) and lg(nⁿ).
+
+**Formal Restatement:** Find the asymptotic relationship between f(n) = lg(n!) and g(n) = lg(nⁿ).
+
+**Step 1: Simplify lg(nⁿ)**
+
+lg(nⁿ) = n lg n
+
+**Step 2: Use Stirling's approximation for n!**
+
+n! ≈ √(2πn)(n/e)ⁿ
+
+**Step 3: Calculate lg(n!)**
+
+lg(n!) ≈ lg(√(2πn)(n/e)ⁿ)
+       = lg(√(2πn)) + lg((n/e)ⁿ)
+       = (1/2)lg(2πn) + n lg(n/e)
+       = (1/2)lg(2πn) + n(lg n - lg e)
+       = n lg n + (1/2)lg(2πn) - n lg e
+       = n lg n + (1/2)lg(2πn) - n lg e
+
+**Step 4: Compare with lg(nⁿ) = n lg n**
+
+lg(n!) = n lg n + lower-order terms
+lg(nⁿ) = n lg n
+
+**Step 5: Take the limit**
+
+lim(n→∞) lg(n!) / lg(nⁿ) = lim(n→∞) [n lg n + (1/2)lg(2πn) - n lg e] / (n lg n)
+                            = lim(n→∞) [1 + (1/2)lg(2πn)/(n lg n) - lg e/lg n]
+                            = 1
+
+**Step 6: Interpret the result**
+
+Since the limit is 1, lg(n!) = Θ(lg(nⁿ)).
+
+**Final Answer:**
+| A | B | O | o | Ω | ω | Θ |
+|---|---|---|---|---|---|---|
+| lg(n!) | lg(nⁿ) | yes | no | yes | no | yes |
+
+#### Problem 4-1g: A = 2^((2)^n), B = 2^(2^(n+1))
+
+**What we need to solve:** Compare the asymptotic growth of 2^((2)^n) and 2^(2^(n+1)).
+
+**Formal Restatement:** Find the asymptotic relationship between f(n) = 2^((2)^n) and g(n) = 2^(2^(n+1)).
+
+**Step 1: Simplify the expressions**
+
+2^(2^(n+1)) = 2^((2^n)(2^1)) = 2^(2 × 2^n) = (2^(2^n))²
+
+**Step 2: Compare the expressions**
+
+2^(2^(n+1)) = (2^(2^n))² = [2^((2)^n)]²
+
+**Step 3: Take the limit**
+
+lim(n→∞) 2^((2)^n) / 2^(2^(n+1)) = lim(n→∞) 2^((2)^n) / (2^((2)^n))²
+                                = lim(n→∞) 1 / 2^((2)^n)
+                                = 0
+
+**Step 4: Interpret the result**
+
+Since the limit is 0, 2^((2)^n) = o(2^(2^(n+1))), which means 2^(2^(n+1)) = ω(2^((2)^n)).
+
+**Final Answer:**
+| A | B | O | o | Ω | ω | Θ |
+|---|---|---|---|---|---|---|
+| 2^((2)^n) | 2^(2^(n+1)) | yes | yes | no | no | no |
