@@ -905,62 +905,545 @@ or, equivalently,
 
 P(n, r) = n!/(n - r)!    [second version].
 
-A formal proof of this theorem uses mathematical induction and is based on the multiplication rule. The idea of the proof is the following.
+---
 
-Suppose a set of n elements is given. Formation of an r-permutation can be thought of as an r-step process. Step 1 is to choose the element to be first. Since the set has n elements, there are n ways to perform step 1. Step 2 is to choose the element to be second. Since the element chosen in step 1 is no longer available, there are n - 1 ways to perform step 2. Step 3 is to choose the element to be third. Since neither of the two elements chosen in the first two steps is available, there are n - 2 choices for step 3. This process is repeated r times, as shown on the next page.
+## 9.3 Counting Elements of Disjoint Sets: The Addition Rule
 
-Copyright 2010 Cengage Learning. All Rights Reserved. May not be copied, scanned, or duplicated, in whole or in part. Due to electronic rights, some third party content may be suppressed from the eBook and/or eChapter(s).
-Editorial review has deemed that any suppressed content does not materially affect the overall learning experience. Cengage Learning reserves the right to remove additional content at any time if subsequent rights restrictions require it.
+**Pages 568-582**
+
+The whole of science is nothing more than a refinement of everyday thinking.
+— Albert Einstein, 1879–1955
+
+In the last section we discussed counting problems that can be solved using possibility trees. In this section we look at counting problems that can be solved by counting the number of elements in the union of two sets, the difference of two sets, or the intersection of two sets.
+
+The basic rule underlying the calculation of the number of elements in a union or difference or intersection is the addition rule. This rule states that the number of elements in a union of mutually disjoint finite sets equals the sum of the number of elements in each of the component sets.
+
+### Theorem 9.3.1 The Addition Rule
+
+Suppose a finite set A equals the union of k distinct mutually disjoint subsets A₁, A₂, ..., Aₖ. Then
+N(A) = N(A₁) + N(A₂) + · · · + N(Aₖ).
+
+A formal proof of this theorem uses mathematical induction and is left to the exercises.
+
+### Example 9.3.1 Counting Passwords with Three or Fewer Letters
+
+A computer access password consists of from one to three letters chosen from the 26 in the alphabet with repetitions allowed. How many different passwords are possible?
+
+**Solution**
+
+The set of all passwords can be partitioned into subsets consisting of those of length 1, those of length 2, and those of length 3 as shown in Figure 9.3.1.
+
+```
+Set of All Passwords of Length ≤ 3
+
+passwords
+of length 1
+
+passwords
+of length 2
+
+passwords
+of length 3
+```
+
+By the addition rule, the total number of passwords equals the number of passwords of length 1, plus the number of passwords of length 2, plus the number of passwords of length 3. Now the
+- number of passwords of length 1 = 26 because there are 26 letters in the alphabet
+- number of passwords of length 2 = 26² because forming such a word can be thought of as a two-step process in which there are 26 ways to perform each step
+- number of passwords of length 3 = 26³ because forming such a word can be thought of as a three-step process in which there are 26 ways to perform each step.
+
+Hence the total number of passwords = 26 + 26² + 26³ = 18,278.
+
+### Example 9.3.2 Counting the Number of Integers Divisible by 5
+
+How many three-digit integers (integers from 100 to 999 inclusive) are divisible by 5?
+
+**Solution**
+
+One solution to this problem was discussed in Example 9.1.4. Another approach uses the addition rule. Integers that are divisible by 5 end either in 5 or in 0. Thus the set of all three-digit integers that are divisible by 5 can be split into two mutually disjoint subsets A₁ and A₂ as shown in Figure 9.3.2.
+
+```
+Three-Digit Integers That Are Divisible by 5
+
+three-digit integers
+that end in 0
+
+three-digit integers
+that end in 5
+
+A₁
+A₂
+
+A₁ ∪ A₂ = the set of all three-digit integers
+that are divisible by 5
+A₁ ∩ A₂ = ∅
+```
+
+Now there are as many three-digit integers that end in 0 as there are possible choices for the left-most and middle digits (because the right-most digit must be a 0). As illustrated below, there are nine choices for the left-most digit (the digits 1 through 9) and ten choices for the middle digit (the digits 0 through 9). Hence N(A₁) = 9 · 10 = 90.
+
+```
+↑
+9 choices
+1, 2, 3, 4, 5, 6, 7, 8, 9
+
+↑
+10 choices
+0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+
+↑
+number ends in 0
+```
+
+Similar reasoning (using 5 instead of 0) shows that N(A₂) = 90 also. So
+```
+the number of
+[three-digit integers] = N(A₁) + N(A₂) = 90 + 90 = 180.
+that are divisible by 5
+```
 
 ---
 
-## -- Page 562 --
+## The Difference Rule
 
-534 Chapter 9 Counting and Probability
+An important consequence of the addition rule is the fact that if the number of elements in a set A and the number in a subset B of A are both known, then the number of elements that are in A and not in B can be computed.
+
+### Theorem 9.3.2 The Difference Rule
+
+If A is a finite set and B is a subset of A, then
+N(A - B) = N(A) - N(B).
+
+The difference rule is illustrated in Figure 9.3.3.
 
 ```
-Pool of available
-elements: x₁, x₂, . . . , xₙ
+A (n elements)
 
-Position 1    n choices
+B (k elements)
 
-Position 2    n - 1 choices
-
-Position 3    n - 2 choices
-
-...
-
-Position r    n - (r - 1) choices
+A – B (n – k elements)
 ```
 
-The number of ways to perform each successive step is one less than the number of ways to perform the preceding step. Step r is to choose the element to be rth. At the point just before step r is performed, r - 1 elements have already been chosen, and so there are
-n - (r - 1) = n - r + 1
-left to choose from. Hence there are n - r + 1 ways to perform step r. It follows by the multiplication rule that the number of ways to form an r-permutation is
-P(n, r) = n(n - 1)(n - 2) · · · (n - r + 1).
+The difference rule holds for the following reason: If B is a subset of A, then the two sets B and A - B have no elements in common and B ∪ (A - B) = A. Hence, by the addition rule,
+N(B) + N(A - B) = N(A).
+Subtracting N(B) from both sides gives the equation
+N(A - B) = N(A) - N(B).
 
-Note that
-n(n - 1)(n - 2) · · · (n - r + 1)(n - r)(n - r - 1) · · · 3·2·1
-n!
-= ------------------------------------------------------
-(n - r)!                    (n - r)(n - r - 1) · · · 3·2·1
-= n(n - 1)(n - 2) · · · (n - r + 1).
+### Example 9.3.3 Counting PINs with Repeated Symbols
 
-Thus the formula can be written as
-P(n, r) = n!/(n - r)!.
+The PINs discussed in Examples 9.2.2 and 9.2.4 are made from exactly four symbols chosen from the 26 letters of the alphabet and the ten digits, with repetitions allowed.
 
-The second version of the formula is easier to remember. When you actually use it, however, first substitute the values of n and r and then immediately cancel the numerical value of (n - r)! from the numerator and denominator. Because factorials become so large so fast, direct use of the second version of the formula without cancellation can overload your calculator's capacity for exact arithmetic even when n and r are quite small. For instance, if n = 15 and r = 2, then
-n!/(n - r)! = 15!/13! = 1,307,674,368,000/6,227,020,800 = 210.
+a. How many PINs contain repeated symbols?
+b. If all PINs are equally likely, what is the probability that a randomly chosen PIN contains a repeated symbol?
 
-But if you cancel (n - r)! = 13! from numerator and denominator before multiplying out, you obtain
-n!/(n - r)! = 15!/13! = 15·14·13!/13! = 15·14 = 210.
+**Solution**
 
-In fact, many scientific calculators allow you to compute P(n, r) simply by entering the values of n and r and pressing a key or making a menu choice. Alternative notations for P(n, r) that you may see in your calculator manual are nPr, Pn,r and nPr.
+a. According to Example 9.2.2, there are 36⁴ = 1,679,616 PINs when repetition is allowed, and by Example 9.2.4, there are 1,413,720 PINs when repetition is not allowed. Thus, by the difference rule, there are
+1,679,616 - 1,413,720 = 265,896
+PINs that contain at least one repeated symbol.
 
-### Example 9.2.10 Evaluating r-Permutations
+b. By Example 9.2.2 there are 1,679,616 PINs in all, and by part (a) 265,896 of these contain at least one repeated symbol. Thus, by the equally likely probability formula,
+the probability that a randomly chosen PIN contains a repeated symbol is 265,896/1,679,616 ≈ 0.158 = 15.8%.
 
-a. Evaluate P(5, 2).
-b. How many 4-permutations are there of a set of seven objects?
-c. How many 5-permutations are there of a set of five objects?
+An alternative solution to Example 9.3.3(b) is based on the observation that if S is the set of all PINs and A is the set of all PINs with no repeated symbol, then S - A is the set of all PINs with at least one repeated symbol. It follows that
+P(S - A) = N(S - A)/N(S) by definition of probability in the equally likely case
+= [N(S) - N(A)]/N(S) by the difference rule
+= N(S)/N(S) - N(A)/N(S) by the laws of fractions
+= 1 - P(A) by definition of probability in the equally likely case
+≈ 1 - 0.842 by Example 9.2.4
+≈ 0.158 = 15.8%
 
-Copyright 2010 Cengage Learning. All Rights Reserved. May not be copied, scanned, or duplicated, in whole or in part. Due to electronic rights, some third party content may be suppressed from the eBook and/or eChapter(s).
-Editorial review has deemed that any suppressed content does not materially affect the overall learning experience. Cengage Learning reserves the right to remove additional content at any time if subsequent rights restrictions require it.
+This solution illustrates a more general property of probabilities: that the probability of the complement of an event is obtained by subtracting the probability of the event from the number 1. In Section 9.8 we derive this formula from the axioms for probability.
+
+### Formula for the Probability of the Complement of an Event
+
+If S is a finite sample space and A is an event in S, then
+P(Aᶜ) = 1 - P(A).
+
+### Example 9.3.4 Number of Python Identifiers of Eight or Fewer Characters
+
+In the computer language Python, identifiers must start with one of 53 symbols: either one of the 52 letters of the upper- and lower-case Roman alphabet or an underscore (_). The initial character may stand alone, or it may be followed by any number of additional characters chosen from a set of 63 symbols: the 53 symbols allowed as an initial character plus the ten digits. Certain keywords, however, such as and, if, print, and so forth, are set aside and may not be used as identifiers. In one implementation of Python there are 31 such reserved keywords, none of which has more than eight characters. How many Python identifiers are there that are less than or equal to eight characters in length?
+
+**Solution**
+
+The set of all Python identifiers with eight or fewer characters can be partitioned into eight subsets—identifiers of length 1, identifiers of length 2, and so on—as shown in Figure 9.3.4. The reserved words have various lengths (all less than or equal to 8), so the set of reserved words is shown overlapping the various subsets.
+
+```
+Set of Python Identifiers with Eight or Fewer Characters
+length
+1
+
+length
+2
+
+length
+3
+
+length
+4
+
+length
+5
+
+length
+6
+
+length
+7
+
+length
+8
+
+Reserved words
+```
+
+According to the rules for creating Python identifiers, there are
+- 53 potential identifiers of length 1 because there are 53 choices for the first character
+- 53·63 potential identifiers of length 2 because the first character can be any one of 53 symbols, and the second character can be any one of 63 symbols
+- 53·63² potential identifiers of length 3 because the first character can be any one of 53 symbols, and each of the next two characters can be any one of 63 symbols
+- ...
+- 53·63⁷ potential identifiers of length 8 because the first character can be any one of 53 symbols, and each of the next seven characters can be any one of 63 symbols.
+
+Thus, by the addition rule, the number of potential Python identifiers with eight or fewer characters is
+53 + 53·63 + 53·63² + 53·63³ + 53·63⁴ + 53·63⁵ + 53·63⁶ + 53·63⁷
+= 53[(63⁸ - 1)/(63 - 1)] = 212,133,167,002,880.
+
+Now 31 of these potential identifiers are reserved, so by the difference rule, the actual number of Python identifiers with eight or fewer characters is
+212,133,167,002,880 - 31 = 212,133,167,002,849.
+
+### Example 9.3.5 Internet Addresses
+
+In order to communicate effectively, each computer in a network needs a distinguishing name called an address. For the Internet this address is currently a 32-bit number called the Internet Protocol (IP) address (although 128-bit addresses are being phased in to accommodate the growth of the Internet). For technical reasons some computers have more than one address, whereas other sets of computers, which use the Internet only sporadically, may share a pool of addresses that are assigned on a temporary basis. Like telephone numbers, IP addresses are divided into parts: one, the network ID, specifies the local network to which a given computer belongs, and the other, the host ID, specifies the particular computer.
+
+An example of an IP address is 10001100 11000000 00100000 10001000, where the 32 bits have been divided into four groups of 8 for easier reading. To make the reading even easier, IP addresses are normally written as "dotted decimals," in which each group of 8 bits is converted into a decimal number between 0 and 255. For instance, the IP address above converts into 140.192.32.136.
+
+In order to accommodate the various sizes of the local networks connected through the Internet, the network IDs are divided into several classes, the most important of which are called A, B, and C. In every class, a host ID may not consist of either all 0's or all 1's.
+
+Class A network IDs are used for very large local networks. The left-most bit is set to 0, and the left-most 8 bits give the full network ID. The remaining 24 bits are used for individual host IDs. However, neither 00000000 nor 01111111 is allowed as a network ID for a class A IP address.
+
+```
+Network ID       Host ID
+Class A: 0
+```
+
+Class B network IDs are used for medium to large local networks. The two left-most bits are set to 10, and the left-most 16 bits give the full network ID. The remaining 16 bits are used for individual host IDs.
+
+```
+Network ID          Host ID
+Class B: 1 0
+```
+
+Class C network IDs are used for small local networks. The three left-most bits are set to 110, and the left-most 24 bits give the full network ID. The remaining 8 bits are used for individual host IDs.
+
+```
+Network ID               Host ID
+Class C: 1 1 0
+```
+
+a. Check that the dotted decimal form of 10001100 11000000 00100000 10001000 is 140.192.32.136.
+b. How many Class B networks can there be?
+c. What is the dotted decimal form of the IP address for a computer in a Class B network?
+d. How many host IDs can there be for a Class B network?
+
+**Solution**
+
+a. 10001100 = 1·2⁷ + 1·2³ + 1·2² = 128 + 8 + 4 = 140
+   11000000 = 1·2⁷ + 1·2⁶ = 128 + 64 = 192
+   00100000 = 1·2⁵ = 32
+   10001000 = 1·2⁷ + 1·2³ = 128 + 8 = 136
+
+b. The network ID for a Class B network consists of 16 bits and begins with 10. Because there are two choices for each of the remaining 14 positions (either 0 or 1), the total number of possible network IDs is 2¹⁴, or 16,384.
+
+c. The network ID part of a Class B IP address goes from
+   10000000 00000000 to 10111111 11111111.
+   As dotted decimals, these numbers range from 128.0 to 191.255 because 10000000₂ = 128₁₀, 00000000₂ = 0₁₀, 10111111₂ = 191₁₀, and 11111111₂ = 255₁₀. Thus the dotted decimal form of the IP address of a computer in a Class B network is w.x.y.z, where 128 ≤ w ≤ 191, 0 ≤ x ≤ 255, 0 ≤ y ≤ 255, and 0 ≤ z ≤ 255. However, y and z are not allowed both to be 0 or both to be 255 because host IDs may not consist of either all 0's or all 1's.
+
+d. For a class B network, 16 bits are used for host IDs. Having two choices (either 0 or 1) for each of 16 positions gives a potential total of 2¹⁶, or 65,536, host IDs. But because two of these are not allowed (all 0's and all 1's), the total number of host IDs is 65,534.
+
+---
+
+## The Inclusion/Exclusion Rule
+
+The addition rule says how many elements are in a union of sets if the sets are mutually disjoint. Now consider the question of how to determine the number of elements in a union of sets when some of the sets overlap. For simplicity, begin by looking at a union of two sets A and B, as shown in Figure 9.3.5.
+
+```
+A       B        A       B        A       B
+```
+
+First observe that the number of elements in A ∪ B varies according to the number of elements the two sets have in common. If A and B have no elements in common, then N(A ∪ B) = N(A) + N(B). If A and B coincide, then N(A ∪ B) = N(A). Thus any general formula for N(A ∪ B) must contain a reference to the number of elements the two sets have in common, N(A ∩ B), as well as to N(A) and N(B).
+
+The simplest way to derive a formula for N(A ∪ B) is to reason as follows: The number N(A) counts the elements that are in A and not in B and also the elements that are in both A and B. Similarly, the number N(B) counts the elements that are in B and not in A and also the elements that are in both A and B. Hence when the two numbers N(A) and N(B) are added, the elements that are in both A and B are counted twice. To get an accurate count of the elements in A ∪ B, it is necessary to subtract the number of elements that are in both A and B. Because these are the elements in A ∩ B,
+N(A ∪ B) = N(A) + N(B) - N(A ∩ B).
+
+A similar analysis gives a formula for the number of elements in a union of three sets, as shown in Theorem 9.3.3.
+
+### Theorem 9.3.3 The Inclusion/Exclusion Rule for Two or Three Sets
+
+If A, B, and C are any finite sets, then
+N(A ∪ B) = N(A) + N(B) - N(A ∩ B)
+and
+N(A ∪ B ∪ C) = N(A) + N(B) + N(C) - N(A ∩ B) - N(A ∩ C) - N(B ∩ C) + N(A ∩ B ∩ C).
+
+It can be shown using mathematical induction (see exercise 48 at the end of this section) that formulas analogous to those of Theorem 9.3.3 hold for unions of any finite number of sets.
+
+### Example 9.3.6 Counting Elements of a General Union
+
+a. How many integers from 1 through 1,000 are multiples of 3 or multiples of 5?
+b. How many integers from 1 through 1,000 are neither multiples of 3 nor multiples of 5?
+
+**Solution**
+
+a. Let A = the set of all integers from 1 through 1,000 that are multiples of 3.
+   Let B = the set of all integers from 1 through 1,000 that are multiples of 5.
+   Then
+   A ∪ B = the set of all integers from 1 through 1,000 that are multiples of 3 or multiples of 5
+   and
+   A ∩ B = the set of all integers from 1 through 1,000 that are multiples of both 3 and 5
+          = the set of all integers from 1 through 1,000 that are multiples of 15.
+
+   [Now calculate N(A), N(B), and N(A ∩ B) and use the inclusion/exclusion rule to solve for N(A ∪ B).]
+
+   Because every third integer from 3 through 999 is a multiple of 3, each can be represented in the form 3k, for some integer k from 1 through 333. Hence there are 333 multiples of 3 from 1 through 1,000, and so N(A) = 333.
+
+```
+1   2   3   4   5   6   ...   996   997   998   999
+        ↑   ↑         ↑           ↑
+      3·1  3·2       3·332      3·333
+```
+
+   Similarly, each multiple of 5 from 1 through 1,000 has the form 5k, for some integer k from 1 through 200.
+
+```
+1   2   3   4   5   6   7   8   9   10   ...   995   996   997   998   999   1,000
+        ↑   ↑         ↑           ↑
+      5·1  5·2       5·199      5·200
+```
+
+   Thus there are 200 multiples of 5 from 1 through 1,000 and N(B) = 200.
+
+   Finally, each multiple of 15 from 1 through 1,000 has the form 15k, for some integer k from 1 through 66 (since 990 = 66·15).
+
+```
+1   2   ...   15   ...   30   ...   975   ...   990   ...   999   1,000
+              ↑          ↑          ↑           ↑
+            15·1      15·2      15·65      15·66
+```
+
+   Hence there are 66 multiples of 15 from 1 through 1,000, and N(A ∩ B) = 66.
+
+   It follows by the inclusion/exclusion rule that
+   N(A ∪ B) = N(A) + N(B) - N(A ∩ B)
+             = 333 + 200 - 66
+             = 467.
+   Thus, 467 integers from 1 through 1,000 are multiples of 3 or multiples of 5.
+
+b. There are 1,000 integers from 1 through 1,000, and by part (a), 467 of these are multiples of 3 or multiples of 5. Thus, by the set difference rule, there are 1,000 - 467 = 533 that are neither multiples of 3 nor multiples of 5.
+
+Note that the solution to part (b) of Example 9.3.6 hid a use of De Morgan's law. The number of elements that are neither in A nor in B is N(Aᶜ ∩ Bᶜ), and by De Morgan's law, Aᶜ ∩ Bᶜ = (A ∪ B)ᶜ. So N((A ∪ B)ᶜ) was then calculated using the set difference rule: N((A ∪ B)ᶜ) = N(U) - N(A ∪ B), where the universe U was the set of all integers from 1 through 1,000. Exercises 37-39 at the end of this section explore this technique further.
+
+### Example 9.3.7 Counting the Number of Elements in an Intersection
+
+A professor in a discrete mathematics class passes out a form asking students to check all the mathematics and computer science courses they have recently taken. The finding is that out of a total of 50 students in the class,
+- 30 took precalculus;
+- 16 took both precalculus and Java;
+- 18 took calculus;
+- 8 took both calculus and Java;
+- 26 took Java;
+- 47 took at least one of the three courses.
+- 9 took both precalculus and calculus;
+
+Note that when we write "30 students took precalculus," we mean that the total number of students who took precalculus is 30, and we allow for the possibility that some of these students may have taken one or both of the other courses. If we want to say that 30 students took precalculus only (and not either of the other courses), we will say so explicitly.
+
+a. How many students did not take any of the three courses?
+b. How many students took all three courses?
+c. How many students took precalculus and calculus but not Java? How many students took precalculus but neither calculus nor Java?
+
+**Solution**
+
+a. By the difference rule, the number of students who did not take any of the three courses equals the number in the class minus the number who took at least one course. Thus the number of students who did not take any of the three courses is 50 - 47 = 3.
+
+b. Let P = the set of students who took precalculus
+   C = the set of students who took calculus
+   J = the set of students who took Java.
+
+   Then, by the inclusion/exclusion rule,
+   N(P ∪ C ∪ J) = N(P) + N(C) + N(J) - N(P ∩ C) - N(P ∩ J) - N(C ∩ J) + N(P ∩ C ∩ J)
+
+   Substituting known values, we get
+   47 = 30 + 26 + 18 - 9 - 16 - 8 + N(P ∩ C ∩ J).
+
+   Solving for N(P ∩ C ∩ J) gives
+   N(P ∩ C ∩ J) = 6.
+
+   Hence there are six students who took all three courses. In general, if you know any seven of the eight terms in the inclusion/exclusion formula for three sets, you can solve for the eighth term.
+
+c. To answer the questions of part (c), look at the diagram in Figure 9.3.6.
+
+```
+The number of
+students who
+took all three
+courses
+The number of
+students who
+took both
+precalcules and
+calcules
+but not Java
+
+P
+
+J
+11
+10
+3
+6
+8
+2
+7
+C
+3
+```
+
+Since N(P ∩ C ∩ J) = 6, put the number 6 inside the innermost region. Then work outward to find the numbers of students represented by the other regions of the diagram. For example, since nine students took both precalculus and calculus and six took all three courses, 9 - 6 = 3 students took precalculus and calculus but not Java.
+
+Similarly, since 16 students took precalculus and Java and six took all three courses, 16 - 6 = 10 students took precalculus and Java but not calculus.
+
+Now the total number of students who took precalculus is 30. Of these 30, three also took calculus but not Java, ten took Java but not calculus, and six took both calculus and Java. That leaves 11 students who took precalculus but neither of the other two courses.
+
+A similar analysis can be used to fill in the numbers for the other regions of the diagram.
+
+---
+
+## Test Yourself
+
+1. The addition rule says that if a finite set A equals the union of k distinct mutually disjoint subsets A₁, A₂, ..., Aₖ, then _____.
+2. The difference rule says that if A is a finite set and B is a subset of A, then _____.
+3. If S is a finite sample space and A is an event in S, then the probability of Aᶜ equals _____.
+4. The inclusion/exclusion rule for two sets says that if A and B are any finite sets, then _____.
+5. The inclusion/exclusion rule for three sets says that if A, B, and C are any finite sets, then _____.
+
+---
+
+## Exercise Set 9.3
+
+1. a. How many bit strings consist of from one through four digits? (Strings of different lengths are considered distinct. Thus 10 and 0010 are distinct strings.)
+   b. How many bit strings consist of from five through eight digits?
+
+2. a. How many strings of hexadecimal digits consist of from one through three digits? (Recall that hexadecimal numbers are constructed using the 16 digits 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, F.)
+   b. How many strings of hexadecimal digits consist of from two through five digits?
+
+3. a. How many integers from 1 through 999 do not have any repeated digits?
+   b. How many integers from 1 through 999 have at least one repeated digit?
+   c. What is the probability that an integer chosen at random from 1 through 999 has at least one repeated digit?
+
+4. How many arrangements in a row of no more than three letters can be formed using the letters of the word NETWORK (with no repetitions allowed)?
+
+5. a. How many five-digit integers (integers from 10,000 through 99,999) are divisible by 5?
+   b. What is the probability that a five-digit integer chosen at random is divisible by 5?
+
+6. In a certain state, license plates consist of from zero to three letters followed by from zero to four digits, with the provision, however, that a blank plate is not allowed.
+   a. How many different license plates can the state produce?
+   b. Suppose 85 letter combinations are not allowed because of their potential for giving offense. How many different license plates can the state produce?
+
+7. In another state, all license plates consist of from four to six symbols chosen from the 26 letters of the alphabet together with the ten digits 0-9.
+   a. How many license plates are possible if repetition of symbols is allowed?
+   b. How many license plates do not contain any repeated symbol?
+   c. How many license plates have at least one repeated symbol?
+   d. What is the probability that a license plate chosen at random has a repeated symbol?
+
+8. At a certain company, passwords must be from 3-5 symbols long and composed of the 26 letters of the alphabet, the ten digits 0-9, and the 14 symbols !,@,#,$,%,^,&,*,(,),-,+,{, and }.
+   a. How many passwords are possible if repetition of symbols is allowed?
+   b. How many passwords contain no repeated symbols?
+   c. How many passwords have at least one repeated symbol?
+   d. What is the probability that a password chosen at random has a repeated symbol?
+
+9. a. Consider the following algorithm segment:
+   ```
+   for i := 1 to 4
+     for j := 1 to i
+       [Statements in body of inner loop.
+        None contain branching statements
+        that lead outside the loop.]
+     next j
+   next i
+   ```
+   How many times will the inner loop be iterated when the algorithm is implemented and run?
+
+   b. Let n be a positive integer, and consider the following algorithm segment:
+   ```
+   for i := 1 to n
+     for j := 1 to i
+       [Statements in body of inner loop.
+        None contain branching statements
+        that lead outside the loop.]
+     next j
+   next i
+   ```
+   How many times will the inner loop be iterated when the algorithm is implemented and run?
+
+10. a. How many ways can the letters of the word QUICK be arranged in a row?
+    b. How many ways can the letters of the word QUICK be arranged in a row if the Q and the U must remain next to each other in the order QU?
+    c. How many ways can the letters of the word QUICK be arranged in a row if the letters QU must remain together but may be in either the order QU or the order UQ?
+
+11. a. How many ways can the letters of the word THEORY be arranged in a row?
+    b. How many ways can the letters of the word THEORY be arranged in a row if T and H must remain next to each other as either TH or HT?
+
+12. A group of eight people are attending the movies together.
+    a. Two of the eight insist on sitting side-by-side. In how many ways can the eight be seated together in a row?
+    b. Two of the people do not like each other and do not want to sit side-by-side. Now how many ways can the eight be seated together in a row?
+
+13. An early compiler recognized variable names according to the following rules: Numeric variable names had to begin with a letter, and then the letter could be followed by another letter or a digit or by nothing at all. String variable names had to begin with the symbol $ followed by a letter, which could then be followed by another letter or a digit or by nothing at all. How many distinct variable names were recognized by this compiler?
+
+14. a. If any seven digits could be used to form a telephone number, how many seven-digit telephone numbers would not have any repeated digits?
+    b. How many seven-digit telephone numbers would have at least one repeated digit?
+    c. What is the probability that a randomly chosen seven-digit telephone number would have at least one repeated digit?
+
+15. a. How many strings of four hexadecimal digits do not have any repeated digits?
+    b. How many strings of four hexadecimal digits have at least one repeated digit?
+    c. What is the probability that a randomly chosen string of four hexadecimal digits has at least one repeated digit?
+
+16. Just as the difference rule gives rise to a formula for the probability of the complement of an event, so the addition and inclusion/exclusion rules give rise to formulas for the probability of the union of mutually disjoint events and for a general union of (not necessarily mutually exclusive) events.
+    a. Prove that for mutually disjoint events A and B, P(A ∪ B) = P(A) + P(B).
+    b. Prove that for any events A and B, P(A ∪ B) = P(A) + P(B) - P(A ∩ B).
+
+17. a. How many integers from 1 through 1,000 are multiples of 4 or multiples of 7?
+    b. Suppose an integer from 1 through 1,000 is chosen at random. Use the result of part (a) to find the probability that the integer is a multiple of 4 or a multiple of 7.
+    c. How many integers from 1 through 1,000 are neither multiples of 4 nor multiples of 7?
+
+18. a. How many integers from 1 through 1,000 are multiples of 2 or multiples of 9?
+    b. Suppose an integer from 1 through 1,000 is chosen at random. Use the result of part (a) to find the probability that the integer is a multiple of 2 or a multiple of 9.
+    c. How many integers from 1 through 1,000 are neither multiples of 2 nor multiples of 9?
+
+19. A college conducted a survey to explore the academic interests and achievements of its students. It asked students to place checks beside the numbers of all the statements that were true of them. Statement #1 was "I was on the honor roll last term," statement #2 was "I belong to an academic club, such as the math club or the Spanish club," and statement #3 was "I am majoring in at least two subjects." Out of a sample of 100 students, 28 checked #1, 26 checked #2, and 14 checked #3, 8 checked both #1 and #2, 4 checked both #1 and #3, 3 checked both #2 and #3, and 2 checked all three statements.
+    a. How many students checked at least one of the statements?
+    b. How many students checked none of the statements?
+    c. Let H be the set of students who checked #1, C the set of students who checked #2, and D the set of students who checked #3. Fill in the numbers for all eight regions of the diagram below.
+
+    d. How many students checked #1 and #2 but not #3?
+    e. How many students checked #2 and #3 but not #1?
+    f. How many students checked #2 but neither of the other two?
+
+20. A study was done to determine the efficacy of three different drugs—A, B, and C—in relieving headache pain. Over the period covered by the study, 50 subjects were given the chance to use all three drugs. The following results were obtained:
+    - 21 reported relief from drug A.
+    - 21 reported relief from drug B.
+    - 31 reported relief from drug C.
+    - 9 reported relief from both drugs A and B.
+    - 14 reported relief from both drugs A and C.
+    - 15 reported relief from both drugs B and C.
+    - 41 reported relief from at least one of the drugs.
+
+    Note that some of the 21 subjects who reported relief from drug A may also have reported relief from drugs B or C. A similar occurrence may be true for the other data.
+
+    a. How many people got relief from none of the drugs?
+    b. How many people got relief from all three drugs?
+    c. Let A be the set of all subjects who got relief from drug A, B the set of all subjects who got relief from drug B, and C the set of all subjects who got relief from drug C. Fill in the numbers for all eight regions of the diagram below.
+
+    d. How many subjects got relief from A only?
+
+---
+
+## Answers for Test Yourself
+
+1. the number of elements in A equals N(A₁) + N(A₂) + · · · + N(Aₖ)
+2. the number of elements in A - B is the difference between the number of elements in A and the number of elements in B, that is, N(A - B) = N(A) - N(B)
+3. 1 - P(A)
+4. N(A ∪ B) = N(A) + N(B) - N(A ∩ B)
+5. N(A ∪ B ∪ C) = N(A) + N(B) + N(C) - N(A ∩ B) - N(A ∩ C) - N(B ∩ C) + N(A ∩ B ∩ C)
