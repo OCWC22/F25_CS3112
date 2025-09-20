@@ -389,27 +389,84 @@ R ∩ S = {(x, y) ∈ A × B | (x, y) ∈ R and (x, y) ∈ S}.
 
 > Mathematics is the tool specially suited for dealing with abstract concepts of any kind and there is no limit to its power in this ﬁeld. — P. A. M. Dirac, 1902–1984
 
+-- Page 477 --
+## 8.2 Reﬂexivity, Symmetry, and Transitivity
+
+> Mathematics is the tool specially suited for dealing with abstract concepts of any kind and there is no limit to its power in this ﬁeld. — P. A. M. Dirac, 1902–1984
+
 Let A = {2, 3, 4, 6, 7, 9} and deﬁne a relation R on A as follows: For all x, y ∈ A,
 ```
 x R y ⇔ 3 | (x − y).
 ```
 
-Define a relation L from R to R as follows: For all real numbers x and y,
+Then 2 R 2 because 2 − 2 = 0, and 3 | 0. Similarly, 3 R 3, 4 R 4, 6 R 6, 7 R 7, and 9 R 9. Also 6 R 3 because 6 − 3 = 3, and 3 | 3. And 3 R 6 because 3 − 6 = −(6 − 3) = −3, and 3 | (−3). Similarly, 3 R 9, 9 R 3, 6 R 9, 9 R 6, 4 R 7, and 7 R 4. Thus the directed graph for R has the appearance shown below:
+
 ```
-x L y ⇔ x < y.
+2 ⟷ 3
+    ↑↓
+4   9
+↑↓
+7 ⟷ 6
 ```
 
-a. Is 57 L 53?
-b. Is (−17) L (−14)?
-c. Is 143 L 143?
-d. Is (−35) L 1?
-e. Draw the graph of L as a subset of the Cartesian plane R × R
+This graph has three important properties:
+1. Each point of the graph has an arrow looping around from it back to itself.
+2. In each case where there is an arrow going from one point to a second, there is an arrow going from the second point back to the ﬁrst.
+3. In each case where there is an arrow going from one point to a second and from the second point to a third, there is an arrow going from the ﬁrst point to the third. That is, there are no "incomplete directed triangles" in the graph.
+
+Properties (1), (2), and (3) correspond to properties of general relations called reﬂexivity, symmetry, and transitivity.
+
+**Page 478**
+
+### Deﬁnition
+Let R be a relation on a set A.
+1. R is **reﬂexive** if, and only if, for all x ∈ A, x R x.
+2. R is **symmetric** if, and only if, for all x, y ∈ A, if x R y then y R x.
+3. R is **transitive** if, and only if, for all x, y, z ∈ A, if x R y and y R z then x R z.
+
+Because of the equivalence of the expressions x R y and (x, y) ∈ R for all x and y in A, the reﬂexive, symmetric, and transitive properties can also be written as follows:
+
+1. R is reﬂexive ⇔ for all x in A, (x, x) ∈ R.
+2. R is symmetric ⇔ for all x and y in A, if (x, y) ∈ R then (y, x) ∈ R.
+3. R is transitive ⇔ for all x, y and z in A, if (x, y) ∈ R and (y, z) ∈ R then (x, z) ∈ R.
+
+In informal terms, properties (1)–(3) say the following:
+1. **Reﬂexive:** Each element is related to itself.
+2. **Symmetric:** If any one element is related to any other element, then the second element is related to the ﬁrst.
+3. **Transitive:** If any one element is related to a second and that second element is related to a third, then the ﬁrst element is related to the third.
+
+**Page 479**
+
+Note that the deﬁnitions of reﬂexivity, symmetry, and transitivity are universal statements. This means that to prove a relation has one of the properties, you use either the method of exhaustion or the method of generalizing from the generic particular.
+
+Now consider what it means for a relation not to have one of the properties deﬁned previously. Recall that the negation of a universal statement is existential. Hence if R is a relation on a set A, then
+
+1. R is not reﬂexive ⇔ there is an element x in A such that x R̸ x [that is, such that (x, x) ∉ R].
+2. R is not symmetric ⇔ there are elements x and y in A such that x R y but y R̸ x [that is, such that (x, y) ∈ R but (y, x) ∉ R].
+3. R is not transitive ⇔ there are elements x, y and z in A such that x R y and y R z but x R̸ z [that is, such that (x, y) ∈ R and (y, z) ∈ R but (x, z) ∉ R].
+
+It follows that you can show that a relation does not have one of the properties by ﬁnding a counterexample.
+
+### Example 8.2.1: Properties of Relations on Finite Sets
+
+Let A = {0, 1, 2, 3} and deﬁne relations R, S, and T on A as follows:
+```
+R = {(0, 0), (0, 1), (0, 3), (1, 0), (1, 1), (2, 2), (3, 0), (3, 3)},
+S = {(0, 0), (0, 2), (0, 3), (2, 3)},
+T = {(0, 1), (2, 3)}.
+```
+
+a. Is R reﬂexive? symmetric? transitive?
+b. Is S reﬂexive? symmetric? transitive?
+c. Is T reﬂexive? symmetric? transitive?
 
 **Solution:**
-a. No, 57 > 53
-b. Yes, −17 < −14
-c. No, 143 = 143
-d. Yes, −35 < 1
+
+a. **R is reﬂexive:** There is a loop at each point of the directed graph. This means that each element of A is related to itself, so R is reﬂexive.
+
+   **R is symmetric:** In each case where there is an arrow going from one point of the graph to a second, there is an arrow going from the second point back to the ﬁrst. This means that whenever one element of A is related by R to a second, then the second is related to the ﬁrst. Hence R is symmetric.
+
+   **R is not transitive:** There is an arrow going from 1 to 0 and an arrow going from 0 to 3, but there is no arrow going from 1 to 3. This means that there are elements of A—0, 1, and 3—such that 1 R 0 and 0 R 3 but 1 R̸ 3. Hence R is not transitive.
 e. For each value of x, all the points (x, y) with y > x are on the graph. So the graph consists of all the points above the line x = y.
 
 **Page 443**
@@ -630,11 +687,6 @@ Now consider what it means for a relation not to have one of the properties defi
 
 1. R is not reflexive ⇔ there is an element x in A such that x R̸ x [that is, such that (x, x) ∉ R].
 2. R is not symmetric ⇔ there are elements x and y in A such that x R y but y R̸ x [that is, such that (x, y) ∈ R but (y, x) ∉ R].
-3. R is not transitive ⇔ there are elements x, y and z in A such that x R y and y R z but x R̸ z [that is, such that (x, y) ∈ R and (y, z) ∈ R but (x, z) ∉ R].
-
-It follows that you can show that a relation does not have one of the properties by finding a counterexample.
-
-### Example 8.2.1: Properties of Relations on Finite Sets
 
 Let A = {0, 1, 2, 3} and define relations R, S, and T on A as follows:
 ```
@@ -827,6 +879,151 @@ Since there are arrows going from 0 to 1 and from 1 to 2, R^t must have an arrow
 {(0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3)}.
 ```
 But this relation is transitive; hence it equals R^t.
+
+### Example 8.2.5: Transitive Closure of a Relation
+
+Let A = {0, 1, 2, 3} and consider the relation R defined on A as follows:
+```
+R = {(0, 1), (1, 2), (2, 3)}.
+```
+Find the transitive closure of R.
+
+**Solution:**
+
+Every ordered pair in R is in R^t, so
+```
+{(0, 1), (1, 2), (2, 3)} ⊆ R^t.
+```
+
+Thus the directed graph of R contains the arrows shown below:
+```
+0 → 1 → 2 → 3
+```
+
+Since there are arrows going from 0 to 1 and from 1 to 2, R^t must have an arrow going from 0 to 2. Hence (0, 2) ∈ R^t. Then (0, 2) ∈ R^t and (2, 3) ∈ R^t, so since R^t is transitive, (0, 3) ∈ R^t. Also, since (1, 2) ∈ R^t and (2, 3) ∈ R^t, then (1, 3) ∈ R^t. Thus R^t contains at least the following ordered pairs:
+```
+{(0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3)}.
+```
+But this relation is transitive; hence it equals R^t. Note that the directed graph of R^t is as shown below:
+```
+0 → 1 → 2 → 3
+│   │   │
+│   └───┘
+└───────┘
+```
+
+**Test Yourself**
+
+1. For a relation R on a set A to be reflexive means that _____.
+2. For a relation R on a set A to be symmetric means that _____.
+3. For a relation R on a set A to be transitive means that _____.
+4. To show that a relation R on an infinite set A is reflexive, you suppose that _____ and you show that _____.
+5. To show that a relation R on an infinite set A is symmetric, you suppose that _____ and you show that _____.
+6. To show that a relation R on an infinite set A is transitive, you suppose that _____ and you show that _____.
+7. To show that a relation R on a set A is not reflexive, you _____.
+8. To show that a relation R on a set A is not symmetric, you _____.
+9. To show that a relation R on a set A is not transitive, you _____.
+10. Given a relation R on a set A, the transitive closure of R is the relation R^t on A that satisfies the following three properties: _____, _____, and _____.
+
+**Exercise Set 8.2**
+
+In 1–8 a number of relations are defined on the set A = {0, 1, 2, 3}. For each relation:
+a. Draw the directed graph.
+b. Determine whether the relation is reflexive.
+c. Determine whether the relation is symmetric.
+d. Determine whether the relation is transitive.
+Give a counterexample in each case in which the relation does not satisfy one of the properties.
+
+1. R₁ = {(0, 0), (0, 1), (0, 3), (1, 1), (1, 0), (2, 3), (3, 3)}
+2. R₂ = {(0, 0), (0, 1), (1, 1), (1, 2), (2, 2), (2, 3)}
+3. R₃ = {(2, 3), (3, 2)}
+4. R₄ = {(1, 2), (2, 1), (1, 3), (3, 1)}
+5. R₅ = {(0, 0), (0, 1), (0, 2), (1, 2)}
+6. R₆ = {(0, 1), (0, 2)}
+7. R₇ = {(0, 3), (2, 3)}
+8. R₈ = {(0, 0), (1, 1)}
+
+In 9–33 determine whether the given relation is reflexive, symmetric, transitive, or none of these. Justify your answers.
+
+9. R is the "greater than or equal to" relation on the set of real numbers: For all x, y ∈ ℝ, x R y ⇔ x ≥ y.
+10. C is the circle relation on the set of real numbers: For all x, y ∈ ℝ, x C y ⇔ x² + y² = 1.
+11. D is the relation defined on ℝ as follows: For all x, y ∈ ℝ, x D y ⇔ xy ≥ 0.
+12. E is the congruence modulo 2 relation on ℤ: For all m, n ∈ ℤ, m E n ⇔ 2 | (m − n).
+13. F is the congruence modulo 5 relation on ℤ: For all m, n ∈ ℤ, m F n ⇔ 5 | (m − n).
+14. O is the relation defined on ℤ as follows: For all m, n ∈ ℤ, m O n ⇔ m − n is odd.
+15. D is the "divides" relation on ℤ⁺: For all positive integers m and n, m D n ⇔ m | n.
+16. A is the "absolute value" relation on ℝ: For all real numbers x and y, x A y ⇔ |x| = |y|.
+17. Recall that a prime number is an integer that is greater than 1 and has no positive integer divisors other than 1 and itself. (In particular, 1 is not prime.) A relation P is defined on ℤ as follows: For all m, n ∈ ℤ, m P n ⇔ ∃ a prime number p such that p | m and p | n.
+18. Define a relation Q on ℝ as follows: For all real numbers x and y, x Q y ⇔ x − y is rational.
+19. Define a relation I on ℝ as follows: For all real numbers x and y, x I y ⇔ x − y is irrational.
+20. Let X = {a, b, c} and P(X) be the power set of X (the set of all subsets of X). A relation E is defined on P(X) as follows: For all A, B ∈ P(X), A E B ⇔ the number of elements in A equals the number of elements in B.
+21. Let X = {a, b, c} and P(X) be the power set of X. A relation L is defined on P(X) as follows: For all A, B ∈ P(X), A L B ⇔ the number of elements in A is less than the number of elements in B.
+22. Let X = {a, b, c} and P(X) be the power set of X. A relation N is defined on P(X) as follows: For all A, B ∈ P(X), A N B ⇔ the number of elements in A is not equal to the number of elements in B.
+23. Let X be a nonempty set and P(X) the power set of X. Define the "subset" relation S on P(X) as follows: For all A, B ∈ P(X), A S B ⇔ A ⊆ B.
+24. Let X be a nonempty set and P(X) the power set of X. Define the "not equal to" relation U on P(X) as follows: For all A, B ∈ P(X), A U B ⇔ A ≠ B.
+25. Let A be the set of all strings of a's and b's of length 4. Define a relation R on A as follows: For all s, t ∈ A, s R t ⇔ s has the same first two characters as t.
+26. Let A be the set of all strings of 0's, 1's and 2's of length 4. Define a relation R on A as follows: For all s, t ∈ A, s R t ⇔ the sum of the characters in s equals the sum of the characters in t.
+27. Let A be the set of all English statements. A relation I is defined on A as follows: For all p, q ∈ A, p I q ⇔ p → q is true.
+28. Let A = ℝ × ℝ. A relation F is defined on A as follows: For all (x₁, y₁) and (x₂, y₂) in A, (x₁, y₁) F (x₂, y₂) ⇔ x₁ = x₂.
+29. Let A = ℝ × ℝ. A relation S is defined on A as follows: For all (x₁, y₁) and (x₂, y₂) in A, (x₁, y₁) S (x₂, y₂) ⇔ y₁ = y₂.
+30. Let A be the "punctured plane"; that is, A is the set of all points in the Cartesian plane except the origin (0, 0). A relation R is defined on A as follows: For all p₁ and p₂ in A, p₁ R p₂ ⇔ p₁ and p₂ lie on the same half line emanating from the origin.
+31. Let A be the set of people living in the world today. A relation R is defined on A as follows: For all p, q ∈ A, p R q ⇔ p lives within 100 miles of q.
+32. Let A be the set of all lines in the plane. A relation R is defined on A as follows: For all l₁ and l₂ in A, l₁ R l₂ ⇔ l₁ is parallel to l₂. (Assume that a line is parallel to itself.)
+33. Let A be the set of all lines in the plane. A relation R is defined on A as follows: For all l₁ and l₂ in A, l₁ R l₂ ⇔ l₁ is perpendicular to l₂.
+
+In 34–36, assume that R is a relation on a set A. Prove or disprove each statement.
+
+34. If R is reflexive, then R⁻¹ is reflexive.
+35. If R is symmetric, then R⁻¹ is symmetric.
+36. If R is transitive, then R⁻¹ is transitive.
+
+In 37–42, assume that R and S are relations on a set A. Prove or disprove each statement.
+
+37. If R and S are reflexive, is R ∩ S reflexive? Why?
+38. If R and S are symmetric, is R ∩ S symmetric? Why?
+39. If R and S are transitive, is R ∩ S transitive? Why?
+40. If R and S are reflexive, is R ∪ S reflexive? Why?
+41. If R and S are symmetric, is R ∪ S symmetric? Why?
+42. If R and S are transitive, is R ∪ S transitive? Why?
+
+In 43–50 the following definitions are used: A relation on a set A is defined to be
+- irreﬂexive if, and only if, for all x ∈ A, x R̸ x;
+- asymmetric if, and only if, for all x, y ∈ A, if x R y then y R̸ x;
+- intransitive if, and only if, for all x, y, z ∈ A, if x R y and y R z then x R̸ z.
+
+For each of the relations in the referenced exercise, determine whether the relation is irreﬂexive, asymmetric, intransitive, or none of these.
+
+43. Exercise 1
+44. Exercise 2
+45. Exercise 3
+46. Exercise 4
+47. Exercise 5
+48. Exercise 6
+49. Exercise 7
+50. Exercise 8
+
+In 51–53, R, S, and T are relations defined on A = {0, 1, 2, 3}.
+
+51. Let R = {(0, 1), (0, 2), (1, 1), (1, 3), (2, 2), (3, 0)}. Find R^t, the transitive closure of R.
+52. Let S = {(0, 0), (0, 3), (1, 0), (1, 2), (2, 0), (3, 2)}. Find S^t, the transitive closure of S.
+53. Let T = {(0, 2), (1, 0), (2, 3), (3, 1)}. Find T^t, the transitive closure of T.
+
+54. Write a computer algorithm to test whether a relation R defined on a finite set A is reflexive, where A = {a[1], a[2], ..., a[n]}.
+55. Write a computer algorithm to test whether a relation R defined on a finite set A is symmetric, where A = {a[1], a[2], ..., a[n]}.
+56. Write a computer algorithm to test whether a relation R defined on a finite set A is transitive, where A = {a[1], a[2], ..., a[n]}.
+
+**Answers for Test Yourself**
+
+1. for all x in A, x R x
+2. for all x and y in A, if x R y then y R x
+3. for all x, y, and z in A, if x R y and y R z then x R z
+4. x is any element of A; x R x
+5. x and y are any elements of A such that x R y; y R x
+6. x, y, and z are any elements of A such that x R y and y R z; x R z
+7. show that there is an element x in A such that x R̸ x
+8. show that there are elements x and y in A such that x R y but y R̸ x
+9. show that there are elements x, y, and z in A such that x R y and y R z but x R̸ z
+10. R^t is transitive; R ⊆ R^t; if S is any other transitive relation that contains R, then R^t ⊆ S
 
 **Page 459**
 
