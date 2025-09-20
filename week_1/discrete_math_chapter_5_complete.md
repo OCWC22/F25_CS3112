@@ -2423,3 +2423,288 @@ Use Theorem 5.7.2 to ﬁnd explicit formulas for the sequences deﬁned by the r
 1. iteration
 2. ﬁrst-order linear
 3. cⁿa₀ + d·(cⁿ − 1)/(c − 1)
+
+---
+
+## 5.7 Solving Recurrence Relations by Iteration
+
+**Pages 332-345**
+
+> The keener one's sense of logical deduction, the less often one makes hard and fast inferences. — Bertrand Russell, 1872–1970
+
+Suppose you have a sequence that satisfies a certain recurrence relation and initial conditions. It is often helpful to know an explicit formula for the sequence, especially if you need to compute terms that are far out in the sequence or if you want to investigate properties of the sequence as a whole. In this section we discuss a method for finding explicit formulas for certain types of recursively defined sequences. The method is called iteration, and it consists of repeatedly applying the recurrence relation to earlier and earlier terms until a pattern can be discerned. When a pattern is found, mathematical induction is often used to prove that the pattern is correct.
+
+The method of iteration is especially useful for solving recurrence relations that have the form
+aₙ = caₙ₋₁ + f(n)
+where c is a constant and f(n) is a function of n. The Fibonacci sequence satisfies a recurrence relation of this form with c = 1 and f(n) = aₙ₋₂, but since f(n) = aₙ₋₂ is not a function of n alone, the method of iteration cannot be applied directly to solve the Fibonacci recurrence relation.
+
+### Example 5.7.1: Finding an Explicit Formula
+
+Let's solve the recurrence relation: aₖ = aₖ₋₁ + 2, where k ≥ 1 and a₀ = 1.
+
+**Solution by iteration**:
+a₁ = a₀ + 2 = 1 + 2
+a₂ = a₁ + 2 = (1 + 2) + 2 = 1 + 2·2
+a₃ = a₂ + 2 = (1 + 2·2) + 2 = 1 + 3·2
+...
+aₙ = 1 + n·2
+
+**Verification**: We can verify this formula by mathematical induction.
+
+### Arithmetic Sequences
+
+**Definition**: A sequence {aₙ} is called an **arithmetic sequence** if, and only if, there is a constant d such that:
+aₙ = aₙ₋₁ + d for all integers n ≥ 1
+
+**Explicit formula**: aₙ = a₀ + nd
+
+### Example 5.7.2: Arithmetic Sequence
+
+A ball is dropped from a height of 10 meters. Each time it bounces, it reaches half its previous height. Let hₙ be the height after the nth bounce.
+
+**Recurrence relation**: hₙ = hₙ₋₁ - 5 (since it loses 5 meters each time)
+
+**Solution**: hₙ = 10 - 5n
+
+### Geometric Sequences
+
+**Definition**: A sequence {aₙ} is called a **geometric sequence** if, and only if, there is a constant r such that:
+aₙ = r·aₙ₋₁ for all integers n ≥ 1
+
+**Explicit formula**: aₙ = a₀·rⁿ
+
+### Example 5.7.3: Geometric Sequence
+
+Solve the recurrence relation: bₖ = 3bₖ₋₁, where k ≥ 1 and b₀ = 2.
+
+**Solution by iteration**:
+b₁ = 3b₀ = 3·2
+b₂ = 3b₁ = 3·3·2 = 3²·2
+b₃ = 3b₂ = 3·3²·2 = 3³·2
+...
+bₙ = 3ⁿ·2
+
+### Example 5.7.4: Compound Interest
+$
+If $1000 is invested at 5% annual interest compounded annually, what will be the amount after n years?
+
+**Recurrence relation**: Aₙ = 1.05Aₙ₋₁, where A₀ = 1000
+
+**Solution**: Aₙ = 1000·(1.05)ⁿ
+
+### Using Formulas to Simplify Solutions
+
+When solving recurrence relations by iteration, we often need to use known formulas to simplify the resulting expressions.
+
+#### Geometric Series Formula
+∑ᵢ₌₀ⁿ⁻¹ rⁱ = (1 - rⁿ)/(1 - r), for r ≠ 1
+
+#### Sum of First n Integers
+∑ᵢ₌₁ⁿ i = n(n+1)/2
+
+### Example 5.7.5: Tower of Hanoi Explicit Formula
+
+For the Tower of Hanoi problem with n disks:
+Hₙ = 2Hₙ₋₁ + 1, with H₁ = 1
+
+**Solution by iteration**:
+H₁ = 1
+H₂ = 2H₁ + 1 = 2·1 + 1 = 3
+H₃ = 2H₂ + 1 = 2·3 + 1 = 7
+H₄ = 2H₃ + 1 = 2·7 + 1 = 15
+
+By iteration:
+Hₙ = 2Hₙ₋₁ + 1
+= 2(2Hₙ₋₂ + 1) + 1 = 2²Hₙ₋₂ + 2 + 1
+= 2²(2Hₙ₋₃ + 1) + 2 + 1 = 2³Hₙ₋₃ + 2² + 2 + 1
+...
+= 2ⁿ⁻¹H₁ + 2ⁿ⁻² + 2ⁿ⁻³ + ... + 2 + 1
+= 2ⁿ⁻¹ + 2ⁿ⁻² + ... + 2 + 1
+= 2ⁿ - 1 (using the geometric series formula)
+
+### Example 5.7.6: Using Sum of First n Integers
+
+Solve the recurrence relation: sₖ = sₖ₋₁ + k, where k ≥ 1 and s₀ = 0.
+
+**Solution by iteration**:
+s₁ = s₀ + 1 = 0 + 1 = 1
+s₂ = s₁ + 2 = 1 + 2 = 3
+s₃ = s₂ + 3 = 3 + 3 = 6
+s₄ = s₃ + 4 = 6 + 4 = 10
+
+By iteration:
+sₙ = sₙ₋₁ + n
+= sₙ₋₂ + (n-1) + n
+= sₙ₋₃ + (n-2) + (n-1) + n
+...
+= s₀ + 1 + 2 + 3 + ... + n
+= 0 + 1 + 2 + 3 + ... + n
+= n(n+1)/2 (using the sum of first n integers formula)
+
+### Verification by Mathematical Induction
+
+### Example 5.7.7: Mathematical Induction Verification
+
+Let's verify that the formula sₙ = n(n+1)/2 satisfies the recurrence relation sₖ = sₖ₋₁ + k.
+
+**Proof by mathematical induction**:
+
+**Base case (n = 0)**:
+s₀ = 0(0+1)/2 = 0 ✓
+
+**Inductive step**: Assume the formula holds for n = k, i.e., sₖ = k(k+1)/2.
+We need to show it holds for n = k + 1.
+
+sₖ₊₁ = sₖ + (k + 1) [by the recurrence relation]
+= k(k+1)/2 + (k + 1) [by the inductive hypothesis]
+= (k+1)(k/2 + 1) = (k+1)(k+2)/2 ✓
+
+Therefore, by mathematical induction, the formula holds for all n ≥ 0.
+
+### Discovering Incorrect Formulas
+
+### Example 5.7.8: Discovering an Incorrect Formula
+
+Suppose we observe the following sequence:
+1, 3, 6, 10, 15, 21, ...
+
+We might guess that the formula is aₙ = n² - n + 1.
+
+**Testing the formula**:
+- For n = 1: 1² - 1 + 1 = 1 ✓
+- For n = 2: 2² - 2 + 1 = 3 ✓
+- For n = 3: 3² - 3 + 1 = 7 ✗ (should be 6)
+
+The formula is incorrect. The correct formula for this sequence (triangular numbers) is aₙ = n(n+1)/2.
+
+### Test Yourself
+
+1. **Question**: What is the explicit formula for the sequence defined by aₙ = 2aₙ₋₁ + 1 with a₀ = 0?
+   **Answer**: aₙ = 2ⁿ - 1
+
+2. **Question**: Is the sequence defined by aₙ = n² - 3n + 2 arithmetic?
+   **Answer**: No, because the difference between consecutive terms is not constant.
+
+3. **Question**: What type of sequence is defined by aₙ = 3·2ⁿ?
+   **Answer**: Geometric sequence with common ratio 2.
+
+### Exercises
+
+**Exercise Set 5.7**
+
+1. Find explicit formulas for the following sequences:
+   a) aₙ = aₙ₋₁ + 3, a₀ = 2
+   b) bₙ = 2bₙ₋₁, b₀ = 1
+   c) cₙ = cₙ₋₁ + n, c₀ = 0
+
+2. Verify by mathematical induction that the formula you found in exercise 1a is correct.
+
+3. Determine whether each sequence is arithmetic, geometric, or neither:
+   a) 2, 5, 8, 11, 14, ...
+   b) 3, 6, 12, 24, 48, ...
+   c) 1, 4, 9, 16, 25, ...
+
+4. Find the 10th term of each sequence:
+   a) aₙ = 3n + 2
+   b) bₙ = 2·3ⁿ
+   c) cₙ = n(n+1)/2
+
+5. Solve the recurrence relation: dₙ = 4dₙ₋₁ - 3dₙ₋₂, with d₀ = 1, d₁ = 2.
+
+6. A ball is dropped from a height of 20 meters. Each time it bounces, it reaches 80% of its previous height. Find the height after the 5th bounce.
+
+7. If $5000 is invested at 6% annual interest compounded annually, what will be the amount after 10 years?
+
+8. Find the sum of the first 100 positive integers using iteration.
+
+9. Verify by mathematical induction that the sum of the first n odd integers is n².
+
+10. A bacteria culture doubles every hour. If there are initially 100 bacteria, how many will there be after 6 hours?
+
+11. Solve the recurrence relation: eₙ = eₙ₋₁ + 2n, with e₀ = 0.
+
+12. Find the explicit formula for the Fibonacci sequence using iteration.
+
+13. A person climbs a staircase by taking either 1 or 2 steps at a time. Let aₙ be the number of ways to climb n steps. Find a recurrence relation and solve it.
+
+14. Verify by mathematical induction that 1² + 2² + ... + n² = n(n+1)(2n+1)/6.
+
+15. Find the explicit formula for the sequence defined by: fₙ = 3fₙ₋₁ - 2fₙ₋₂, with f₀ = 1, f₁ = 2.
+
+16. A company's revenue grows by 10% each year. If the revenue in year 0 is $1,000,000, what will it be in year 10?
+
+17. Solve the recurrence relation: gₙ = 2gₙ₋₁ + 3ⁿ, with g₀ = 1.
+
+18. Find the sum of the geometric series: 1 + 2 + 4 + 8 + ... + 2ⁿ.
+
+19. Verify by mathematical induction that 1·2 + 2·3 + 3·4 + ... + n(n+1) = n(n+1)(n+2)/3.
+
+20. A population grows according to the recurrence relation: Pₙ = 1.05Pₙ₋₁ + 1000, with P₀ = 10000. Find P₁₀.
+
+21. Find the explicit formula for: hₙ = hₙ₋₁ + n², with h₀ = 0.
+
+22. Solve the recurrence relation: iₙ = 4iₙ₋₁ - 4iₙ₋₂, with i₀ = 1, i₁ = 4.
+
+23. Verify by mathematical induction that the sum of the first n cubes is [n(n+1)/2]².
+
+24. A car depreciates by 20% each year. If it costs $30,000 new, what will it be worth after 5 years?
+
+25. Find the explicit formula for: jₙ = 3jₙ₋₁ + n, with j₀ = 1.
+
+26. Solve the recurrence relation: kₙ = kₙ₋₁ + kₙ₋₂ + kₙ₋₃, with k₀ = 1, k₁ = 1, k₂ = 2.
+
+27. Verify by mathematical induction that 1 + r + r² + ... + rⁿ = (1 - rⁿ⁺¹)/(1 - r) for r ≠ 1.
+
+28. A student saves $100 in the first month and increases savings by $50 each month. How much will they save in the 12th month?
+
+29. Find the explicit formula for: lₙ = 2lₙ₋₁ + n², with l₀ = 0.
+
+30. Solve the recurrence relation: mₙ = 3mₙ₋₁ - 2mₙ₋₂ + 2ⁿ, with m₀ = 1, m₁ = 4.
+
+31. Verify by mathematical induction that the number of subsets of a set with n elements is 2ⁿ.
+
+32. A radioactive substance decays by 10% each year. If there are initially 100 grams, how much will remain after 8 years?
+
+33. Find the explicit formula for: nₙ = nₙ₋₁ + 2n + 1, with n₀ = 0.
+
+34. Solve the recurrence relation: oₙ = 2oₙ₋₁ + 3oₙ₋₂, with o₀ = 1, o₁ = 2.
+
+35. Verify by mathematical induction that the sum of the first n even integers is n(n+1).
+
+36. A loan of $200,000 is taken at 4% annual interest. If $10,000 is paid each year, how many years will it take to pay off the loan?
+
+37. Find the explicit formula for: pₙ = 4pₙ₋₁ - 3pₙ₋₂ + 2ⁿ, with p₀ = 1, p₁ = 3.
+
+38. Solve the recurrence relation: qₙ = qₙ₋₁ + qₙ₋₂ + 2ⁿ, with q₀ = 1, q₁ = 1.
+
+39. Verify by mathematical induction that the product of the first n positive integers is n!.
+
+40. A snowball melts such that its radius decreases by 10% each hour. If the initial radius is 10 cm, what will it be after 5 hours?
+
+41. Find the explicit formula for: rₙ = 3rₙ₋₁ - 2rₙ₋₂ + n, with r₀ = 1, r₁ = 4.
+
+42. Solve the recurrence relation: sₙ = 2sₙ₋₁ + sₙ₋₂ - 2sₙ₋₃, with s₀ = 1, s₁ = 2, s₂ = 5.
+
+43. Verify by mathematical induction that the sum of the first n terms of an arithmetic sequence is n/2·(2a + (n-1)d).
+
+44. A population of rabbits doubles every month. If there are initially 10 rabbits, how many will there be after 1 year?
+
+45. Find the explicit formula for: tₙ = tₙ₋₁ + tₙ₋₂ + tₙ₋₃, with t₀ = 1, t₁ = 1, t₂ = 2.
+
+46. Solve the recurrence relation: uₙ = 4uₙ₋₁ - 6uₙ₋₂ + 4uₙ₋₃ - uₙ₋₄, with u₀ = 1, u₁ = 4, u₂ = 10, u₃ = 20.
+
+47. Verify by mathematical induction that the sum of the first n powers of 2 is 2ⁿ⁺¹ - 2.
+
+48. A company's profit grows by 15% each year. If the profit in year 0 is $100,000, what will it be in year 8?
+
+49. Find the explicit formula for: vₙ = 2vₙ₋₁ + 3vₙ₋₂ + 4vₙ₋₃, with v₀ = 1, v₁ = 2, v₂ = 5.
+
+50. Solve the recurrence relation: wₙ = 5wₙ₋₁ - 8wₙ₋₂ + 4wₙ₋₃, with w₀ = 1, w₁ = 3, w₂ = 9.
+
+51. Verify by mathematical induction that the sum of the first n terms of a geometric sequence is a₁(rⁿ - 1)/(r - 1) for r ≠ 1.
+
+52. A student's grade improves by 5% each test. If they scored 60 on the first test, what will they score on the 10th test?
+
+53. Find the explicit formula for: xₙ = 3xₙ₋₁ - 3xₙ₋₂ + xₙ₋₃ + n, with x₀ = 1, x₁ = 3, x₂ = 6.
+
+54. Solve the recurrence relation: yₙ = 6yₙ₋₁ - 11yₙ₋₂ + 6yₙ₋₃, with y₀ = 1, y₁ = 4, y₂ = 13.
