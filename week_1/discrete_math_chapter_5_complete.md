@@ -2217,217 +2217,6 @@ which equals the right-hand side.
 
 ## 5.7 Solving Recurrence Relations by Iteration
 
-The keener one's sense of logical deduction, the less often one makes hard and fast
-inferences. — Bertrand Russell, 1872–1970
-
-Suppose you have a sequence that satisﬁes a certain recurrence relation and initial
-conditions. It is often helpful to know an explicit formula for the sequence, especially if
-
-you need to compute terms that are far out in the sequence or if you want to investigate
-properties of the sequence as a whole. In this section we discuss a method for ﬁnding
-explicit formulas for certain types of recursively deﬁned sequences. The method is
-called iteration, and it consists of repeatedly applying the recurrence relation to
-earlier and earlier terms until a pattern can be discerned. When a pattern is found,
-mathematical induction is often used to prove that the pattern is correct.
-
-The method of iteration is especially useful for solving recurrence relations that
-have the form
-aₙ = caₙ₋₁ + f(n)
-where c is a constant and f(n) is a function of n. The Fibonacci sequence
-satisﬁes a recurrence relation of this form with c = 1 and f(n) = aₙ₋₂, but since
-f(n) = aₙ₋₂ is not a function of n alone, the method of iteration cannot be
-applied directly to solve the Fibonacci recurrence relation.
-
-To illustrate the method, let's ﬁnd an explicit formula for the Tower of Hanoi
-sequence. Recall that the Tower of Hanoi sequence m₁, m₂, m₃, . . . satisﬁes the
-recurrence relation
-mₖ = 2mₖ₋₁ + 1 for all integers k ≥ 2
-and the initial condition
-m₁ = 1.
-
-We want to ﬁnd an explicit formula for mₙ in terms of n only. Let's apply the
-recurrence relation repeatedly:
-
-mₙ = 2mₙ₋₁ + 1
-= 2(2mₙ₋₂ + 1) + 1
-= 2²mₙ₋₂ + 2 + 1
-= 2²(2mₙ₋₃ + 1) + 2 + 1
-= 2³mₙ₋₃ + 2² + 2 + 1
-= 2³(2mₙ₋₄ + 1) + 2² + 2 + 1
-= 2⁴mₙ₋₄ + 2³ + 2² + 2 + 1
-
-At this point we can see a pattern emerging. After i applications of the recurrence
-relation, we have
-mₙ = 2ⁱmₙ₋ᵢ + (2ⁱ⁻¹ + 2ⁱ⁻² + · · · + 2 + 1)
-
-When i = n − 1, this becomes
-mₙ = 2ⁿ⁻¹m₁ + (2ⁿ⁻² + 2ⁿ⁻³ + · · · + 2 + 1)
-
-But m₁ = 1, so
-mₙ = 2ⁿ⁻¹ + (2ⁿ⁻² + 2ⁿ⁻³ + · · · + 2 + 1)
-
-The quantity in parentheses is the sum of a geometric sequence, which we know how
-to compute from Section 5.2:
-2ⁿ⁻² + 2ⁿ⁻³ + · · · + 2 + 1 = 2ⁿ⁻¹ − 1
-
-Therefore,
-mₙ = 2ⁿ⁻¹ + (2ⁿ⁻¹ − 1) = 2ⁿ − 1
-
-This gives us the explicit formula
-mₙ = 2ⁿ − 1 for all integers n ≥ 1.
-
-To verify that this formula is correct, we can use mathematical induction.
-
-### Theorem 5.7.1
-
-For the Tower of Hanoi sequence deﬁned by:
-mₖ = 2mₖ₋₁ + 1 for all integers k ≥ 2
-m₁ = 1
-
-we have that mₙ = 2ⁿ − 1 for all integers n ≥ 1.
-
-**Proof (by mathematical induction):**
-
-Let P(n) be the property that mₙ = 2ⁿ − 1.
-
-**Show that P(1) is true:**
-m₁ = 1 (by the initial condition)
-2¹ − 1 = 2 − 1 = 1
-So P(1) is true.
-
-**Show that for all integers k ≥ 1, if P(k) is true then P(k + 1) is also true:**
-
-Suppose that for some k ≥ 1, mₖ = 2ᵏ − 1. [This is the inductive hypothesis.]
-
-We must show that mₖ₊₁ = 2ᵏ⁺¹ − 1.
-
-By the recurrence relation:
-mₖ₊₁ = 2mₖ + 1
-= 2(2ᵏ − 1) + 1 (by the inductive hypothesis)
-= 2ᵏ⁺¹ − 2 + 1
-= 2ᵏ⁺¹ − 1
-
-So P(k + 1) is true.
-
-Therefore, by mathematical induction, mₙ = 2ⁿ − 1 for all integers n ≥ 1. [This is what was to be shown.] ■
-
-The method of iteration can also be used to solve recurrence relations of the form
-aₙ = caₙ₋₁ + d
-where c and d are constants. Such recurrence relations are called ﬁrst-order linear
-recurrence relations with constant coefﬁcients.
-
-### Example 5.7.1 Solving a First-Order Linear Recurrence Relation
-
-Find an explicit formula for the sequence deﬁned by:
-aₙ = 3aₙ₋₁ + 2 for all integers n ≥ 1
-a₀ = 1
-
-**Solution**
-
-We apply the recurrence relation repeatedly:
-
-aₙ = 3aₙ₋₁ + 2
-= 3(3aₙ₋₂ + 2) + 2
-= 3²aₙ₋₂ + 3·2 + 2
-= 3²(3aₙ₋₃ + 2) + 3·2 + 2
-= 3³aₙ₋₃ + 3²·2 + 3·2 + 2
-
-After i applications of the recurrence relation:
-aₙ = 3ⁱaₙ₋ᵢ + 2(3ⁱ⁻¹ + 3ⁱ⁻² + · · · + 3 + 1)
-
-When i = n, this becomes:
-aₙ = 3ⁿa₀ + 2(3ⁿ⁻¹ + 3ⁿ⁻² + · · · + 3 + 1)
-
-But a₀ = 1, so:
-aₙ = 3ⁿ + 2(3ⁿ⁻¹ + 3ⁿ⁻² + · · · + 3 + 1)
-
-The quantity in parentheses is the sum of a geometric sequence:
-3ⁿ⁻¹ + 3ⁿ⁻² + · · · + 3 + 1 = (3ⁿ − 1)/2
-
-Therefore:
-aₙ = 3ⁿ + 2·(3ⁿ − 1)/2 = 3ⁿ + 3ⁿ − 1 = 2·3ⁿ − 1
-
-This gives us the explicit formula:
-aₙ = 2·3ⁿ − 1 for all integers n ≥ 0.
-
-To verify this formula, we can use mathematical induction. (The details are left as an exercise.) ■
-
-The general form of the solution for recurrence relations of the form aₙ = caₙ₋₁ + d is:
-
-### Theorem 5.7.2 Solution of First-Order Linear Recurrence Relations
-
-If a sequence a₀, a₁, a₂, . . . satisﬁes the recurrence relation
-aₙ = caₙ₋₁ + d for all integers n ≥ 1
-where c and d are constants with c ≠ 1, and if a₀ is the initial value, then
-aₙ = cⁿa₀ + d·(cⁿ − 1)/(c − 1) for all integers n ≥ 0.
-
-**Proof:**
-The proof uses mathematical induction and follows the same pattern as the veriﬁcation in Example 5.7.1. (The details are left as an exercise.) ■
-
-### Example 5.7.2 Using the General Formula
-
-Use the general formula from Theorem 5.7.2 to ﬁnd an explicit formula for the sequence deﬁned by:
-aₙ = 4aₙ₋₁ + 5 for all integers n ≥ 1
-a₀ = 2
-
-**Solution**
-
-We have c = 4, d = 5, and a₀ = 2. Substituting into the formula:
-aₙ = 4ⁿ·2 + 5·(4ⁿ − 1)/(4 − 1)
-= 2·4ⁿ + (5/3)(4ⁿ − 1)
-= 2·4ⁿ + (5/3)·4ⁿ − 5/3
-= (11/3)·4ⁿ − 5/3
-
-Therefore, aₙ = (11/3)·4ⁿ − 5/3 for all integers n ≥ 0. ■
-
-### Test Yourself
-
-1. The method of _____ consists of repeatedly applying a recurrence relation to earlier and earlier terms until a pattern can be discerned.
-2. A recurrence relation of the form aₙ = caₙ₋₁ + d, where c and d are constants, is called a _____ recurrence relation.
-3. For a recurrence relation aₙ = caₙ₋₁ + d with c ≠ 1, the general solution is aₙ = _____.
-
-## Exercise Set 5.7
-
-Use the method of iteration to ﬁnd explicit formulas for the sequences deﬁned by the recurrence relations in 1–8.
-
-1. aₙ = 2aₙ₋₁ + 1 for all integers n ≥ 1, a₀ = 0
-2. aₙ = 3aₙ₋₁ + 2 for all integers n ≥ 1, a₀ = 1
-3. aₙ = 4aₙ₋₁ − 3 for all integers n ≥ 1, a₀ = 1
-4. aₙ = 5aₙ₋₁ + 4 for all integers n ≥ 1, a₀ = 0
-5. aₙ = aₙ₋₁ + 2n for all integers n ≥ 1, a₀ = 1
-6. aₙ = aₙ₋₁ + 3n + 1 for all integers n ≥ 1, a₀ = 0
-7. aₙ = 2aₙ₋₁ + n for all integers n ≥ 1, a₀ = 1
-8. aₙ = 3aₙ₋₁ + 2n for all integers n ≥ 1, a₀ = 0
-
-Use Theorem 5.7.2 to ﬁnd explicit formulas for the sequences deﬁned by the recurrence relations in 9–12.
-
-9. aₙ = 2aₙ₋₁ + 3 for all integers n ≥ 1, a₀ = 1
-10. aₙ = 3aₙ₋₁ + 4 for all integers n ≥ 1, a₀ = 2
-11. aₙ = 4aₙ₋₁ + 5 for all integers n ≥ 1, a₀ = 1
-12. aₙ = 5aₙ₋₁ + 6 for all integers n ≥ 1, a₀ = 0
-
-13. Prove Theorem 5.7.2 using mathematical induction.
-
-14. Verify the formula obtained in Example 5.7.1 using mathematical induction.
-
-15. A sequence is deﬁned recursively by aₙ = 2aₙ₋₁ for all integers n ≥ 1, with a₀ = 1.
-   a. Use the method of iteration to conjecture an explicit formula for aₙ.
-   b. Prove your conjecture using mathematical induction.
-
-16. A sequence is deﬁned recursively by aₙ = 3aₙ₋₁ + 1 for all integers n ≥ 1, with a₀ = 0.
-   a. Use the method of iteration to conjecture an explicit formula for aₙ.
-   b. Prove your conjecture using mathematical induction.
-
-## Answers for Test Yourself
-
-1. iteration
-2. ﬁrst-order linear
-3. cⁿa₀ + d·(cⁿ − 1)/(c − 1)
-
----
-
-## 5.7 Solving Recurrence Relations by Iteration
-
 **Pages 332-345**
 
 > The keener one's sense of logical deduction, the less often one makes hard and fast inferences. — Bertrand Russell, 1872–1970
@@ -2438,273 +2227,741 @@ The method of iteration is especially useful for solving recurrence relations th
 aₙ = caₙ₋₁ + f(n)
 where c is a constant and f(n) is a function of n. The Fibonacci sequence satisfies a recurrence relation of this form with c = 1 and f(n) = aₙ₋₂, but since f(n) = aₙ₋₂ is not a function of n alone, the method of iteration cannot be applied directly to solve the Fibonacci recurrence relation.
 
-### Example 5.7.1: Finding an Explicit Formula
+### Example 5.7.1 Finding an Explicit Formula
 
-Let's solve the recurrence relation: aₖ = aₖ₋₁ + 2, where k ≥ 1 and a₀ = 1.
+Let a₀, a₁, a₂, . . . be the sequence defined recursively as follows: For all integers k ≥ 1,
+(1) aₖ = aₖ₋₁ + 2    recurrence relation
+(2) a₀ = 1            initial condition.
 
-**Solution by iteration**:
+Use iteration to guess an explicit formula for the sequence.
+
+**Solution**
+
+Recall that to say
+aₖ = aₖ₋₁ + 2 for all integers k ≥ 1
+
+means
+a⬜ = a⬜₋₁ + 2
+
+no matter what positive integer is
+placed into the box ⬜.
+
+In particular,
+a₁ = a₀ + 2,
+a₂ = a₁ + 2,
+a₃ = a₂ + 2,
+and so forth. Now use the initial condition to begin a process of successive substitutions into these equations, not just of numbers (as was done in Section 5.6) but of numerical expressions.
+
+The reason for using numerical expressions rather than numbers is that in these problems you are seeking a numerical pattern that underlies a general formula. The secret of success is to leave most of the arithmetic undone. However, you do need to eliminate parentheses as you go from one step to the next. Otherwise, you will soon end up with a bewilderingly large nest of parentheses. Also, it is nearly always helpful to use shorthand notations for regrouping additions, subtractions, and multiplications of numbers that repeat. Thus, for instance, you would write
+
+5·2
+
+instead of 2 + 2 + 2 + 2 + 2
+
+and
+
+2⁵
+
+instead of 2 · 2 ·2 · 2· 2.
+
+Notice that you don't lose any information about the number patterns when you use these shorthand notations.
+
+Here's how the process works for the given sequence:
+a₀ = 1
+
+the initial condition
+
 a₁ = a₀ + 2 = 1 + 2
-a₂ = a₁ + 2 = (1 + 2) + 2 = 1 + 2·2
-a₃ = a₂ + 2 = (1 + 2·2) + 2 = 1 + 3·2
-...
-aₙ = 1 + n·2
 
-**Verification**: We can verify this formula by mathematical induction.
+by substitution
 
-### Arithmetic Sequences
+a₂ = a₁ + 2 = (1 + 2) + 2
 
-**Definition**: A sequence {aₙ} is called an **arithmetic sequence** if, and only if, there is a constant d such that:
-aₙ = aₙ₋₁ + d for all integers n ≥ 1
+= 1 + 2 + 2
 
-**Explicit formula**: aₙ = a₀ + nd
+eliminate parentheses
 
-### Example 5.7.2: Arithmetic Sequence
+a₃ = a₂ + 2 = (1 + 2 + 2) + 2
 
-A ball is dropped from a height of 10 meters. Each time it bounces, it reaches half its previous height. Let hₙ be the height after the nth bounce.
+= 1 + 2 + 2 + 2
 
-**Recurrence relation**: hₙ = hₙ₋₁ - 5 (since it loses 5 meters each time)
+eliminate parentheses again; write
+3 · 2 instead of 2 + 2 + 2?
 
-**Solution**: hₙ = 10 - 5n
+a₄ = a₃ + 2 = (1 + 2 + 2 + 2) + 2 = 1 + 2 + 2 + 2 + 2
 
-### Geometric Sequences
+Tip Do no
+arithmetic except
+• replace n · 1 and
+1 · n by n
+• reformat repeated
+numbers
+• get rid of
+parentheses
 
-**Definition**: A sequence {aₙ} is called a **geometric sequence** if, and only if, there is a constant r such that:
-aₙ = r·aₙ₋₁ for all integers n ≥ 1
+eliminate parentheses again;
+definitely write 4 · 2 instead of
+2 + 2 + 2 + 2—the length of the
+string of 2's is getting out of hand.
 
-**Explicit formula**: aₙ = a₀·rⁿ
+Since it appears helpful to use the shorthand k ·2 in place of 2 + 2 + · · · + 2 (k times),
+we do so, starting again from a₀.
+a₀ = 1
 
-### Example 5.7.3: Geometric Sequence
+= 1 + 0·2
 
-Solve the recurrence relation: bₖ = 3bₖ₋₁, where k ≥ 1 and b₀ = 2.
+the initial condition
 
-**Solution by iteration**:
-b₁ = 3b₀ = 3·2
-b₂ = 3b₁ = 3·3·2 = 3²·2
-b₃ = 3b₂ = 3·3²·2 = 3³·2
-...
-bₙ = 3ⁿ·2
+a₁ = a₀ + 2 = 1 + 2
 
-### Example 5.7.4: Compound Interest
-$
-If $1000 is invested at 5% annual interest compounded annually, what will be the amount after n years?
+= 1 + 1·2
 
-**Recurrence relation**: Aₙ = 1.05Aₙ₋₁, where A₀ = 1000
+by substitution
 
-**Solution**: Aₙ = 1000·(1.05)ⁿ
+a₂ = a₁ + 2 = (1 + 2) + 2
 
-### Using Formulas to Simplify Solutions
+= 1 + 2·2
 
-When solving recurrence relations by iteration, we often need to use known formulas to simplify the resulting expressions.
+a₃ = a₂ + 2 = (1 + 2 · 2) + 2 = 1 + 3 ·2
 
-#### Geometric Series Formula
-∑ᵢ₌₀ⁿ⁻¹ rⁱ = (1 - rⁿ)/(1 - r), for r ≠ 1
+Guess:
 
-#### Sum of First n Integers
-∑ᵢ₌₁ⁿ i = n(n+1)/2
+a₄ = a₃ + 2 = (1 + 3 · 2) + 2 = 1 + 4 ·2
 
-### Example 5.7.5: Tower of Hanoi Explicit Formula
+At this point it certainly seems likely that
+the general pattern is 1 + n · 2; check
+whether the next calculation supports this.
 
-For the Tower of Hanoi problem with n disks:
-Hₙ = 2Hₙ₋₁ + 1, with H₁ = 1
+a₅ = a₄ + 2 = (1 + 4 · 2) + 2 = 1 + 5 ·2
 
-**Solution by iteration**:
-H₁ = 1
-H₂ = 2H₁ + 1 = 2·1 + 1 = 3
-H₃ = 2H₂ + 1 = 2·3 + 1 = 7
-H₄ = 2H₃ + 1 = 2·7 + 1 = 15
+It does! So go ahead and write an answer.
+It's only a guess, after all.
 
-By iteration:
-Hₙ = 2Hₙ₋₁ + 1
-= 2(2Hₙ₋₂ + 1) + 1 = 2²Hₙ₋₂ + 2 + 1
-= 2²(2Hₙ₋₃ + 1) + 2 + 1 = 2³Hₙ₋₃ + 2² + 2 + 1
-...
-= 2ⁿ⁻¹H₁ + 2ⁿ⁻² + 2ⁿ⁻³ + ... + 2 + 1
-= 2ⁿ⁻¹ + 2ⁿ⁻² + ... + 2 + 1
-= 2ⁿ - 1 (using the geometric series formula)
+.
+.
+.
+aₙ = 1 + n · 2 = 1 + 2n
 
-### Example 5.7.6: Using Sum of First n Integers
+The answer obtained for this problem is just a guess. To be sure of the correctness of this guess, you will need to check it by mathematical induction. Later in this section, we will show how to do this.
 
-Solve the recurrence relation: sₖ = sₖ₋₁ + k, where k ≥ 1 and s₀ = 0.
+A sequence like the one in Example 5.7.1, in which each term equals the previous term plus a fixed constant, is called an arithmetic sequence. In the exercises at the end of this section you are asked to show that the nth term of an arithmetic sequence always equals the initial value of the sequence plus n times the fixed constant.
 
-**Solution by iteration**:
-s₁ = s₀ + 1 = 0 + 1 = 1
-s₂ = s₁ + 2 = 1 + 2 = 3
-s₃ = s₂ + 3 = 3 + 3 = 6
-s₄ = s₃ + 4 = 6 + 4 = 10
+### Definition
 
-By iteration:
-sₙ = sₙ₋₁ + n
-= sₙ₋₂ + (n-1) + n
-= sₙ₋₃ + (n-2) + (n-1) + n
-...
-= s₀ + 1 + 2 + 3 + ... + n
-= 0 + 1 + 2 + 3 + ... + n
-= n(n+1)/2 (using the sum of first n integers formula)
+A sequence a₀, a₁, a₂, . . . is called an arithmetic sequence if, and only if, there is a constant d such that
+aₖ = aₖ₋₁ + d
 
-### Verification by Mathematical Induction
+for all integers k ≥ 1.
 
-### Example 5.7.7: Mathematical Induction Verification
+It follows that,
 
-Let's verify that the formula sₙ = n(n+1)/2 satisfies the recurrence relation sₖ = sₖ₋₁ + k.
+aₙ = a₀ + dn
 
-**Proof by mathematical induction**:
+for all integers n ≥ 0.
 
-**Base case (n = 0)**:
-s₀ = 0(0+1)/2 = 0 ✓
+### Example 5.7.2 An Arithmetic Sequence
 
-**Inductive step**: Assume the formula holds for n = k, i.e., sₖ = k(k+1)/2.
-We need to show it holds for n = k + 1.
+Under the force of gravity, an object falling in a vacuum falls about 9.8 meters per second (m/sec) faster each second than it fell the second before. Thus, neglecting air resistance, a skydiver's speed upon leaving an airplane is approximately 9.8 m/sec one second after departure, 9.8 + 9.8 = 19.6 m/sec two seconds after departure, and so forth. If air resistance is neglected, how fast would the skydiver be falling 60 seconds after leaving the airplane?
 
-sₖ₊₁ = sₖ + (k + 1) [by the recurrence relation]
-= k(k+1)/2 + (k + 1) [by the inductive hypothesis]
-= (k+1)(k/2 + 1) = (k+1)(k+2)/2 ✓
+**Solution**
 
-Therefore, by mathematical induction, the formula holds for all n ≥ 0.
+Let sₙ be the skydiver's speed in m/sec n seconds after exiting the airplane if there were no air resistance. Thus s₀ is the initial speed, and since the diver would travel 9.8 m/sec faster each second than the second before,
+sₖ = sₖ₋₁ + 9.8 m/sec
 
-### Discovering Incorrect Formulas
+for all integers k ≥ 1.
 
-### Example 5.7.8: Discovering an Incorrect Formula
+It follows that s₀, s₁, s₂, . . . is an arithmetic sequence with a fixed constant of 9.8, and thus
+sₙ = s₀ + (9.8)n
 
-Suppose we observe the following sequence:
-1, 3, 6, 10, 15, 21, ...
+for each integer n ≥ 0.
 
-We might guess that the formula is aₙ = n² - n + 1.
+Hence sixty seconds after exiting and neglecting air resistance, the skydiver would travel at a speed of
+s₆₀ = 0 + (9.8)(60) = 588 m/sec.
 
-**Testing the formula**:
-- For n = 1: 1² - 1 + 1 = 1 ✓
-- For n = 2: 2² - 2 + 1 = 3 ✓
-- For n = 3: 3² - 3 + 1 = 7 ✗ (should be 6)
+Note that 588 m/sec is over half a kilometer per second or over a third of a mile per second, which is very fast for a human being to travel. Happily for the skydiver, taking air resistance into account cuts the speed considerably.
 
-The formula is incorrect. The correct formula for this sequence (triangular numbers) is aₙ = n(n+1)/2.
+In an arithmetic sequence, each term equals the previous term plus a fixed constant. In a geometric sequence, each term equals the previous term times a fixed constant. Geometric sequences arise in a large variety of applications, such as compound interest certain models of population growth, radioactive decay, and the number of operations needed to execute certain computer algorithms.
+
+### Example 5.7.3 The Explicit Formula for a Geometric Sequence
+
+Let r be a fixed nonzero constant, and suppose a sequence a₀, a₁, a₂, . . . is defined recursively as follows:
+aₖ = raₖ₋₁
+a₀ = a.
+
+for all integers k ≥ 1,
+
+Use iteration to guess an explicit formula for this sequence.
+
+**Solution**
+
+a₀ = a
+
+a₁ = ra₀ = ra
+
+a₂ = ra₁ = r(ra) = r²a
+
+a₃ = ra₂ = r(r²a) = r³a
+
+.
+.
+.
+Guess: aₙ = rⁿa
+
+In the exercises at the end of this section, you are asked to prove that this formula is correct.
+
+### Definition
+
+A sequence a₀, a₁, a₂, . . . is called a geometric sequence if, and only if, there is a constant r such that
+aₖ = raₖ₋₁
+
+for all integers k ≥ 1.
+
+It follows that,
+
+aₙ = a₀rⁿ
+
+for all integers n ≥ 0.
+
+### Example 5.7.4 A Geometric Sequence
+
+As shown in Example 5.6.7, if a bank pays interest at a rate of 4% per year compounded annually and Aₙ denotes the amount in the account at the end of year n, then Aₖ = (1.04)Aₖ₋₁, for all integers k ≥ 1, assuming no deposits or withdrawals during the year.
+
+Suppose the initial amount deposited is $100,000, and assume that no additional deposits or withdrawals are made.
+
+a. How much will the account be worth at the end of 21 years?
+b. In how many years will the account be worth $1,000,000?
+
+**Solution**
+
+a. A₀, A₁, A₂, . . . is a geometric sequence with initial value 100,000 and constant multiplier 1.04. Hence,
+Aₙ = $100,000·(1.04)ⁿ
+
+for all integers n ≥ 0.
+
+After 21 years, the amount in the account will be
+A₂₁ = $100,000·(1.04)²¹ ∼= $227,876.81.
+
+This is the same answer as that obtained in Example 5.6.7 but is computed much more easily (at least if a calculator with a powering key, such as ∧ or xʸ, is used).
+
+b. Let t be the number of years needed for the account to grow to $1,000,000. Then
+$1,000,000 = $100,000·(1.04)ᵗ.
+
+Dividing both sides by 100,000 gives
+10 = (1.04)ᵗ,
+
+and taking natural logarithms of both sides results in
+
+Note Properties of
+logarithms are reviewed
+in Section 7.2.
+
+ln(10) = ln(1.04)ᵗ.
+
+Then
+ln(10) ∼= t ln(1.04)
+
+because logᵦ(xᵃ) = a logᵦ(x)
+(see exercise 35 of Section 7.2)
+
+and so
+t ∼= ln(10)/ln(1.04) ∼= 58.7
+
+Hence the account will grow to $1,000,000 in approximately 58.7 years.
+
+An important property of a geometric sequence with constant multiplier greater than 1 is that its terms increase very rapidly in size as the subscripts get larger and larger. For instance, the first ten terms of a geometric sequence with a constant multiplier of 10 are
+1, 10, 10², 10³, 10⁴, 10⁵, 10⁶, 10⁷, 10⁸, 10⁹.
+
+Thus, by its tenth term, the sequence already has the value 10⁹ = 1,000,000,000 = 1 billion. The following box indicates some quantities that are approximately equal to certain powers of 10.
+
+10⁷ ∼= number of seconds in a year
+10⁹ ∼= number of bytes of memory in a personal computer
+
+10¹¹ ∼= number of neurons in a human brain
+10¹⁷ ∼= age of the universe in seconds (according to one theory)
+
+10³¹ ∼= number of seconds to process all possible positions of a checkers game if moves are processed at a rate of 1 per billionth of a second
+10⁸¹ ∼= number of atoms in the universe
+
+10¹¹¹ ∼= number of seconds to process all possible positions of a chess game if moves are processed at a rate of 1 per billionth of a second
+
+### Using Formulas to Simplify Solutions Obtained by Iteration
+
+Explicit formulas obtained by iteration can often be simplified by using formulas such as those developed in Section 5.2. For instance, according to the formula for the sum of a geometric sequence with initial term 1 (Theorem 5.2.3), for each real number r except r = 1,
+1 + r + r² + · · · + rⁿ = (rⁿ⁺¹ − 1)/(r − 1)
+
+for all integers n ≥ 0.
+
+And according to the formula for the sum of the first n integers (Theorem 5.2.2),
+1 + 2 + 3 + · · · + n = n(n + 1)/2
+
+for all integers n ≥ 1.
+
+### Example 5.7.5 An Explicit Formula for the Tower of Hanoi Sequence
+
+Recall that the Tower of Hanoi sequence m₁, m₂, m₃, . . . of Example 5.6.5 satisfies the recurrence relation
+mₖ = 2mₖ₋₁ + 1 for all integers k ≥ 2
+and has the initial condition
+m₁ = 1.
+
+Use iteration to guess an explicit formula for this sequence, and make use of a formula from Section 5.2 to simplify the answer.
+
+**Solution**
+
+By iteration
+m₁ = 1
+m₂ = 2m₁ + 1 = 2 · 1 + 1
+
+= 2¹ + 1,
+
+m₃ = 2m₂ + 1 = 2(2¹ + 1) + 1
+
+= 2² + 2 + 1,
+
+m₄ = 2m₃ + 1 = 2(2² + 2 + 1) + 1
+
+= 2³ + 2² + 2 + 1,
+
+m₅ = 2m₄ + 1 = 2(2³ + 2² + 2 + 1) + 1 = 2⁴ + 2³ + 2² + 2 + 1.
+
+These calculations show that each term up to m₅ is a sum of successive powers of 2, starting with 2⁰ = 1 and going up to 2ᵏ, where k is 1 less than the subscript of the term. The pattern would seem to continue to higher terms because each term is obtained from the preceding one by multiplying by 2 and adding 1; multiplying by 2 raises the exponent of each component of the sum by 1, and adding 1 adds back the 1 that was lost when the previous 1 was multiplied by 2. For instance, for n = 6,
+m₆ = 2m₅ + 1 = 2(2⁴ + 2³ + 2² + 2 + 1) + 1 = 2⁵ + 2⁴ + 2³ + 2² + 2 + 1.
+
+Thus it seems that, in general,
+mₙ = 2ⁿ⁻¹ + 2ⁿ⁻² + · · · + 2² + 2 + 1.
+
+By the formula for the sum of a geometric sequence (Theorem 5.2.3),
+2ⁿ⁻¹ + 2ⁿ⁻² + · · · + 2² + 2 + 1 = (2ⁿ − 1)/(2 − 1) = 2ⁿ − 1.
+
+Hence the explicit formula seems to be
+mₙ = 2ⁿ − 1 for all integers n ≥ 1.
+
+A common mistake people make when doing problems such as this is to misuse the laws of algebra. For instance, by the distributive law,
+a · (b + c) = a · b + a · c
+
+for all real numbers a, b, and c.
+
+Thus, in particular, for a = 2, b = 2, and c = 1,
+2 · (2 + 1) = 2 · 2 + 2 · 1 = 2² + 2.
+
+It follows that
+2 · (2 + 1) + 1 = (2² + 2) + 1 = 2² + 2 + 1.
+
+Caution!
+It is not true
+that
+
+2 · (2 + 1) + 1 = 2² + 1 + 1.
+This is crossed out
+because it is false.
+
+### Example 5.7.6 Using the Formula for the Sum of the First n Positive Integers
+
+Let Kₙ be the picture obtained by drawing n dots (which we call vertices) and joining each pair of vertices by a line segment (which we call an edge). (In Chapter 10 we discuss these objects in a more general context.) Then K₁, K₂, K₃, and K₄ are as follows:
+
+K₁    K₂    K₃    K₄
+
+Observe that K₅ may be obtained from K₄ by adding one vertex and drawing edges between this new vertex and all the vertices of K₄ (the old vertices). The reason this procedure gives the correct result is that each pair of old vertices is already joined by an edge, and adding the new edges joins each pair of vertices consisting of an old one and the new one.
+
+New vertex
+
+K₅
+
+Thus
+
+the number of edges of K₅ = 4 + the number of edges of K₄.
+
+By the same reasoning, for all integers k ≥ 2, the number of edges of Kₖ is k − 1 more than the number of edges of Kₖ₋₁. That is, if for each integer n ≥ 1
+sₙ = the number of edges of Kₙ,
+then
+sₖ = sₖ₋₁ + (k − 1) for all integers k ≥ 2.
+
+Note that s₁, is the number of edges in K₁, which is 0, and use iteration to find an explicit formula for s₁, s₂, s₃, . . . .
+
+**Solution**
+
+Because
+sₖ = sₖ₋₁ + (k − 1)
+
+and
+
+s₁ = 0
+
+then, in particular,
+
+s₂ = s₁ + 1 = 0 + 1
+
+s₃ = s₂ + 2 = (0 + 1) + 2 = 0 + 1 + 2
+
+s₄ = s₃ + 3 = (0 + 1 + 2) + 3 = 0 + 1 + 2 + 3
+
+s₅ = s₄ + 4 = (0 + 1 + 2 + 3) + 4 = 0 + 1 + 2 + 3 + 4
+
+.
+.
+.
+
+Guess:
+
+sₙ = 0 + 1 + 2 + · · · + (n − 1).
+
+But by Theorem 5.2.2,
+0 + 1 + 2 + 3 + · · · + (n − 1) = (n − 1)n/2.
+
+Hence it appears that
+sₙ = n(n − 1)/2.
+
+### Checking the Correctness of a Formula by Mathematical Induction
+
+As you can see from some of the previous examples, the process of solving a recurrence relation by iteration can involve complicated calculations. It is all too easy to make a mistake and come up with the wrong formula. That is why it is important to confirm your calculations by checking the correctness of your formula. The most common way to do this is to use mathematical induction.
+
+### Example 5.7.7 Using Mathematical Induction to Verify the Correctness of a Solution to a Recurrence Relation
+
+In Example 5.6.5 we obtained a formula for the Tower of Hanoi sequence. Use mathematical induction to show that this formula is correct.
+
+**Solution**
+
+What does it mean to show the correctness of a formula for a recursively defined sequence? Given a sequence of numbers that satisfies a certain recurrence relation and initial condition, your job is to show that each term of the sequence satisfies the proposed explicit formula. In this case, you need to prove the following statement:
+
+If m₁, m₂, m₃, . . . is the sequence defined by
+mₖ = 2mₖ₋₁ + 1 for all integers k ≥ 2, and
+m₁ = 1,
+then mₙ = 2ⁿ − 1 for all integers n ≥ 1.
+
+**Proof of Correctness:**
+
+Let m₁, m₂, m₃, . . . be the sequence defined by specifying that m₁ = 1 and mₖ = 2mₖ₊₁ + 1 for all integers k ≥ 2, and let the property P(n) be the equation
+mₙ = 2ⁿ − 1
+
+← P(n)
+
+We will use mathematical induction to prove that for all integers n ≥ 1, P(n) is true.
+
+**Show that P(1) is true:**
+To establish P(1), we must show that
+m₁ = 2¹ − 1.
+
+← P(1)
+
+But the left-hand side of P(1) is
+m₁ = 1
+
+by definition of m₁, m₂, m₃, . . .,
+
+and the right-hand side of P(1) is
+2¹ − 1 = 2 − 1 = 1.
+
+Thus the two sides of P(1) equal the same quantity, and hence P(1) is true.
+
+**Show that for all integers k ≥ 1, if P(k) is true then P (k + 1) is also true:**
+
+[Suppose that P(k) is true for a particular but arbitrarily chosen integer k ≥ 1. That is:]
+Suppose that k is any integer with k ≥ 1 such that
+mₖ = 2ᵏ − 1.
+
+← P(k)
+inductive hypothesis
+
+[We must show that P(k + 1) is true. That is:] We must show that
+mₖ₊₁ = 2ᵏ⁺¹ − 1.
+
+← P(k + 1)
+
+But the left-hand side of P(k + 1) is
+mₖ₊₁
+
+= 2m_(ₖ₊₁)₋₁ + 1
+
+by definition of m₁, m₂, m₃, . . .
+
+= 2mₖ + 1
+= 2(2ᵏ − 1) + 1
+
+by substitution from the inductive hypothesis
+
+= 2ᵏ⁺¹ − 2 + 1
+
+by the distributive law and the fact that 2 · 2ᵏ = 2ᵏ⁺¹
+
+= 2ᵏ⁺¹ − 1
+
+by basic algebra
+
+which equals the right-hand side of P(k + 1). [Since the basis and inductive steps have been proved, it follows by mathematical induction that the given formula holds for all integers n ≥ 1.]
+
+### Discovering That an Explicit Formula Is Incorrect
+
+The following example shows how the process of trying to verify a formula by mathematical induction may reveal a mistake.
+
+### Example 5.7.8 Using Verification by Mathematical Induction to Find a Mistake
+
+Let c₀, c₁, c₂, . . . be the sequence defined as follows:
+cₖ = 2cₖ₋₁ + k
+c₀ = 1.
+
+for all integers k ≥ 1,
+
+Suppose your calculations suggest that c₀, c₁, c₂, . . . satisfies the following explicit formula:
+cₙ = 2ⁿ + n
+
+for all integers n ≥ 0.
+
+Is this formula correct?
+
+**Solution**
+
+Start to prove the statement by mathematical induction and see what develops.
+
+The proposed formula passes the basis step of the inductive proof with no trouble, for on the one hand, c₀ = 1 by definition and on the other hand, 2⁰ + 0 = 1 + 0 = 1 also.
+
+In the inductive step, you suppose
+cₖ = 2ᵏ + k
+
+for some integer k ≥ 0
+
+This is the inductive hypothesis.
+
+and then you must show that
+cₖ₊₁ = 2ᵏ⁺¹ + (k + 1).
+
+To do this, you start with cₖ₊₁, substitute from the recurrence relation, and then use the inductive hypothesis as follows:
+cₖ₊₁ = 2cₖ + (k + 1)
+= 2(2ᵏ + k) + (k + 1)
+= 2ᵏ⁺¹ + 3k + 1
+
+by the recurrence relation
+by substitution from the inductive hypothesis
+by basic algebra
+
+To finish the verification, therefore, you need to show that
+2ᵏ⁺¹ + 3k + 1 = 2ᵏ⁺¹ + (k + 1).
+
+Now this equation is equivalent to
+2k = 0
+
+by subtracting 2ᵏ⁺¹ + k + 1 from both sides.
+
+which is equivalent to
+k = 0
+
+by dividing both sides by 2.
+
+But this is false since k may be any nonnegative integer.
+
+Observe that when k = 0, then k + 1 = 1, and
+c₁ = 2 · 1 + 1 = 3 and
+
+2¹ + 1 = 3.
+
+Thus the formula gives the correct value for c₁. However, when k = 1, then k + 1 = 2, and
+c₂ = 2 ·3 + 2 = 8
+
+whereas 2² + 2 = 4 + 2 = 6.
+
+So the formula does not give the correct value for c₂. Hence the sequence c₀, c₁, c₂, . . . does not satisfy the proposed formula.
+
+Once you have found a proposed formula to be false, you should look back at your calculations to see where you made a mistake, correct it, and try again.
 
 ### Test Yourself
 
-1. **Question**: What is the explicit formula for the sequence defined by aₙ = 2aₙ₋₁ + 1 with a₀ = 0?
-   **Answer**: aₙ = 2ⁿ - 1
+1. To use iteration to find an explicit formula for a recursively defined sequence, start with the _____ and use successive substitution into the _____ to look for a numerical pattern.
 
-2. **Question**: Is the sequence defined by aₙ = n² - 3n + 2 arithmetic?
-   **Answer**: No, because the difference between consecutive terms is not constant.
+2. At every step of the iteration process, it is important to eliminate _____.
 
-3. **Question**: What type of sequence is defined by aₙ = 3·2ⁿ?
-   **Answer**: Geometric sequence with common ratio 2.
+3. If a single number, say a, is added to itself k times in one of the steps of the iteration, replace the sum by the expression _____.
 
-### Exercises
+4. If a single number, say a, is multiplied by itself k times in one of the steps of the iteration, replace the product by the expression _____.
 
-**Exercise Set 5.7**
+5. A general arithmetic sequence a₀, a₁, a₂, . . . with initial value a₀ and fixed constant d satisfies the recurrence relation _____ and has the explicit formula _____.
 
-1. Find explicit formulas for the following sequences:
-   a) aₙ = aₙ₋₁ + 3, a₀ = 2
-   b) bₙ = 2bₙ₋₁, b₀ = 1
-   c) cₙ = cₙ₋₁ + n, c₀ = 0
+6. A general geometric sequence a₀, a₁, a₂, . . . with initial value a₀ and fixed constant r satisfies the recurrence relation _____ and has the explicit formula _____.
 
-2. Verify by mathematical induction that the formula you found in exercise 1a is correct.
+7. When an explicit formula for a recursively defined sequence has been obtained by iteration, its correctness can be checked by _____.
 
-3. Determine whether each sequence is arithmetic, geometric, or neither:
-   a) 2, 5, 8, 11, 14, ...
-   b) 3, 6, 12, 24, 48, ...
-   c) 1, 4, 9, 16, 25, ...
+### Exercise Set 5.7
 
-4. Find the 10th term of each sequence:
-   a) aₙ = 3n + 2
-   b) bₙ = 2·3ⁿ
-   c) cₙ = n(n+1)/2
+1. The formula
+n(n + 1)/2
+1 + 2 + 3 + · · · + n =
 
-5. Solve the recurrence relation: dₙ = 4dₙ₋₁ - 3dₙ₋₂, with d₀ = 1, d₁ = 2.
+is true for all integers n ≥ 1. Use this fact to solve each of the following problems:
+a. If k is an integer and k ≥ 2, find a formula for the expression 1 + 2 + 3 + · · · + (k − 1).
 
-6. A ball is dropped from a height of 20 meters. Each time it bounces, it reaches 80% of its previous height. Find the height after the 5th bounce.
+b. If n is an integer and n ≥ 1, find a formula for the expression 3 + 2 + 4 + 6 + 8 + · · · + 2n.
+c. If n is an integer and n ≥ 1, find a formula for the expression 3 + 3 · 2 + 3 · 3 + · · · + 3 · n + n.
 
-7. If $5000 is invested at 6% annual interest compounded annually, what will be the amount after 10 years?
+2. The formula
+1 + r + r² + · · · + rⁿ = (rⁿ⁺¹ − 1)/(r − 1)
 
-8. Find the sum of the first 100 positive integers using iteration.
+is true for all real numbers r except r = 1 and for all integers n ≥ 0. Use this fact to solve each of the following problems:
+a. If i is an integer and i ≥ 1, find a formula for the expression 1 + 2 + 2² + · · · + 2ⁱ⁻¹.
+b. If n is an integer and n ≥ 1, find a formula for the expression 3ⁿ⁻¹ + 3ⁿ⁻² + · · · + 3² + 3 + 1.
+c. If n is an integer and n ≥ 2, find a formula for the expression 2ⁿ + 2ⁿ⁻² · 3 + 2ⁿ⁻³ · 3 + · · · + 2² · 3 + 2 · 3 + 3
+d. If n is an integer and n ≥ 1, find a formula for the expression
+2ⁿ − 2ⁿ⁻¹ + 2ⁿ⁻² − 2ⁿ⁻³ + · · · + (−1)ⁿ⁻¹ · 2 + (−1)ⁿ.
 
-9. Verify by mathematical induction that the sum of the first n odd integers is n².
+In each of 3–15 a sequence is defined recursively. Use iteration to guess an explicit formula for the sequence. Use the formulas from Section 5.2 to simplify your answers whenever possible.
 
-10. A bacteria culture doubles every hour. If there are initially 100 bacteria, how many will there be after 6 hours?
+3. aₖ = kaₖ₋₁, for all integers k ≥ 1
+a₀ = 1
+4. bₖ = bₖ₋₁/(1 + bₖ₋₁), for all integers k ≥ 1
+b₀ = 1
+5. cₖ = 3cₖ₋₁ + 1, for all integers k ≥ 2
+c₁ = 1
+6. dₖ = 2dₖ₋₁ + 3, for all integers k ≥ 2
+d₁ = 2
+7. eₖ = 4eₖ₋₁ + 5, for all integers k ≥ 1
+e₀ = 2
+8. fₖ = fₖ₋₁ + 2ᵏ, for all integers k ≥ 2
+f₁ = 1
+9. gₖ = gₖ₋₁/(gₖ₋₁ + 2), for all integers k ≥ 2
+g₁ = 1
+10. hₖ = 2 − hₖ₋₁, for all integers k ≥ 1
+h₀ = 1
+11. pₖ = pₖ₋₁ + 2 · 3ᵏ
+p₁ = 2
+12. sₖ = sₖ₋₁ + 2ᵏ, for all integers k ≥ 1
+s₀ = 3
+13. tₖ = tₖ₋₁ + 3ᵏ + 1, for all integers k ≥ 1
+t₀ = 0
+14. xₖ = 3xₖ₋₁ + k, for all integers k ≥ 2
+x₁ = 1
+15. yₖ = yₖ₋₁ + k², for all integers k ≥ 2
+y₁ = 1
 
-11. Solve the recurrence relation: eₙ = eₙ₋₁ + 2n, with e₀ = 0.
+16. Solve the recurrence relation obtained as the answer to exercise 18(c) of Section 5.6.
 
-12. Find the explicit formula for the Fibonacci sequence using iteration.
+17. Solve the recurrence relation obtained as the answer to exercise 21(c) of Section 5.6.
 
-13. A person climbs a staircase by taking either 1 or 2 steps at a time. Let aₙ be the number of ways to climb n steps. Find a recurrence relation and solve it.
+18. Suppose d is a fixed constant and a₀, a₁, a₂, . . . is a sequence that satisfies the recurrence relation aₖ = aₖ₋₁ + d, for all integers k ≥ 1. Use mathematical induction to prove that aₙ = a₀ + nd, for all integers n ≥ 0.
 
-14. Verify by mathematical induction that 1² + 2² + ... + n² = n(n+1)(2n+1)/6.
+19. A worker is promised a bonus if he can increase his productivity by 2 units a day every day for a period of 30 days. If on day 0 he produces 170 units, how many units must he produce on day 30 to qualify for the bonus?
 
-15. Find the explicit formula for the sequence defined by: fₙ = 3fₙ₋₁ - 2fₙ₋₂, with f₀ = 1, f₁ = 2.
+20. A runner targets herself to improve her time on a certain course by 3 seconds a day. If on day 0 she runs the course in 3 minutes, how fast must she run it on day 14 to stay on target?
 
-16. A company's revenue grows by 10% each year. If the revenue in year 0 is $1,000,000, what will it be in year 10?
+21. Suppose r is a fixed constant and a₀, a₁, a₂ . . . is a sequence that satisfies the recurrence relation aₖ = raₖ₋₁, for all integers k ≥ 1 and a₀ = a. Use mathematical induction to prove that aₙ = arⁿ, for all integers n ≥ 0.
 
-17. Solve the recurrence relation: gₙ = 2gₙ₋₁ + 3ⁿ, with g₀ = 1.
+22. As shown in Example 5.6.8, if a bank pays interest at a rate of i compounded m times a year, then the amount of money Pₖ at the end of k time periods (where one time period = 1/mth of a year) satisfies the recurrence relation
+Pₖ = [1 + (i/m)]Pₖ₋₁ with initial condition P₀ = the initial amount deposited. Find an explicit formula for Pₙ.
 
-18. Find the sum of the geometric series: 1 + 2 + 4 + 8 + ... + 2ⁿ.
+23. Suppose the population of a country increases at a steady rate of 3% per year. If the population is 50 million at a certain time, what will it be 25 years later?
 
-19. Verify by mathematical induction that 1·2 + 2·3 + 3·4 + ... + n(n+1) = n(n+1)(n+2)/3.
+24. A chain letter works as follows: One person sends a copy of the letter to five friends, each of whom sends a copy to five friends, each of whom sends a copy to five friends, and so forth. How many people will have received copies of the letter after the twentieth repetition of this process, assuming no person receives more than one copy?
 
-20. A population grows according to the recurrence relation: Pₙ = 1.05Pₙ₋₁ + 1000, with P₀ = 10000. Find P₁₀.
+25. A certain computer algorithm executes twice as many operations when it is run with an input of size k as when it is run with an input of size k − 1 (where k is an integer that is greater than 1). When the algorithm is run with an input of size 1, it executes seven operations. How many operations does it execute when it is run with an input of size 25?
 
-21. Find the explicit formula for: hₙ = hₙ₋₁ + n², with h₀ = 0.
+26. A person saving for retirement makes an initial deposit of $1,000 to a bank account earning interest at a rate of 3% per year compounded monthly, and each month she adds an additional $200 to the account.
+a. For each nonnegative integer n, let Aₙ be the amount in the account at the end of n months. Find a recurrence relation relating Aₖ to Aₖ₋₁.
+b. Use iteration to find an explicit formula for Aₙ.
+c. Use mathematical induction to prove the correctness of the formula you obtained in part (b).
+d. How much will the account be worth at the end of 20 years? At the end of 40 years?
+e. In how many years will the account be worth $10,000?
 
-22. Solve the recurrence relation: iₙ = 4iₙ₋₁ - 4iₙ₋₂, with i₀ = 1, i₁ = 4.
+27. A person borrows $3,000 on a bank credit card at a nominal rate of 18% per year, which is actually charged at a rate of 1.5% per month.
+a. What is the annual percentage rate (APR) for the card? (See Example 5.6.8 for a definition of APR.)
+b. Assume that the person does not place any additional charges on the card and pays the bank $150 each month to pay off the loan. Let Bₙ be the balance owed on the card after n months. Find an explicit formula for Bₙ.
+c. How long will be required to pay off the debt?
+d. What is the total amount of money the person will have paid for the loan?
 
-23. Verify by mathematical induction that the sum of the first n cubes is [n(n+1)/2]².
+In 28–42 use mathematical induction to verify the correctness of the formula you obtained in the referenced exercise.
 
-24. A car depreciates by 20% each year. If it costs $30,000 new, what will it be worth after 5 years?
+28. Exercise 3
+29. Exercise 4
+30. Exercise 5
+31. Exercise 6
+32. Exercise 7
+33. Exercise 8
+34. Exercise 9
+35. Exercise 10
+36. Exercise 11
+37. Exercise 12
+38. Exercise 13
+39. Exercise 14
+40. Exercise 15
+41. Exercise 16
+42. Exercise 17
 
-25. Find the explicit formula for: jₙ = 3jₙ₋₁ + n, with j₀ = 1.
+In each of 43–49 a sequence is defined recursively. (a) Use iteration to guess an explicit formula for the sequence. (b) Use strong mathematical induction to verify that the formula of part (a) is correct.
 
-26. Solve the recurrence relation: kₙ = kₙ₋₁ + kₙ₋₂ + kₙ₋₃, with k₀ = 1, k₁ = 1, k₂ = 2.
+43. aₖ = 2aₖ₋₁/(2aₖ₋₁ − 1), for all integers k ≥ 1
+a₀ = 2
 
-27. Verify by mathematical induction that 1 + r + r² + ... + rⁿ = (1 - rⁿ⁺¹)/(1 - r) for r ≠ 1.
+44. bₖ = 2/bₖ₋₁, for all integers k ≥ 2
+b₁ = 1
 
-28. A student saves $100 in the first month and increases savings by $50 each month. How much will they save in the 12th month?
+45. vₖ = v⌊ₖ/₂⌋ + v⌈ₖ/₂⌉ + 2, for all integers k ≥ 2,
+v₁ = 1.
 
-29. Find the explicit formula for: lₙ = 2lₙ₋₁ + n², with l₀ = 0.
+46. sₖ = 2sₖ₋₂, for all integers k ≥ 2,
+s₀ = 1, s₁ = 2.
 
-30. Solve the recurrence relation: mₙ = 3mₙ₋₁ - 2mₙ₋₂ + 2ⁿ, with m₀ = 1, m₁ = 4.
+47. tₖ = k − tₖ₋₁, for all integers k ≥ 1,
+t₀ = 0.
 
-31. Verify by mathematical induction that the number of subsets of a set with n elements is 2ⁿ.
+48. wₖ = wₖ₋₂ + k, for all integers k ≥ 3,
+w₁ = 1, w₂ = 2.
 
-32. A radioactive substance decays by 10% each year. If there are initially 100 grams, how much will remain after 8 years?
+49. uₖ = uₖ₋₂ · uₖ₋₁, for all integers k ≥ 2,
+u₀ = u₁ = 2.
 
-33. Find the explicit formula for: nₙ = nₙ₋₁ + 2n + 1, with n₀ = 0.
+In 50 and 51 determine whether the given recursively defined sequence satisfies the explicit formula aₙ = (n − 1)², for all integers n ≥ 1.
 
-34. Solve the recurrence relation: oₙ = 2oₙ₋₁ + 3oₙ₋₂, with o₀ = 1, o₁ = 2.
+50. aₖ = 2aₖ₋₁ + k − 1, for all integers k ≥ 2
+a₁ = 0
+51. aₖ = (aₖ₋₁ + 1)², for all integers k ≥ 2
+a₁ = 0
 
-35. Verify by mathematical induction that the sum of the first n even integers is n(n+1).
+52. A single line divides a plane into two regions. Two lines (by crossing) can divide a plane into four regions; three lines can divide it into seven regions (see the figure). Let Pₙ be the maximum number of regions into which n lines divide a plane, where n is a positive integer.
 
-36. A loan of $200,000 is taken at 4% annual interest. If $10,000 is paid each year, how many years will it take to pay off the loan?
+7
+6
 
-37. Find the explicit formula for: pₙ = 4pₙ₋₁ - 3pₙ₋₂ + 2ⁿ, with p₀ = 1, p₁ = 3.
+3
+5
+1
+4
+2
 
-38. Solve the recurrence relation: qₙ = qₙ₋₁ + qₙ₋₂ + 2ⁿ, with q₀ = 1, q₁ = 1.
+Line 3
 
-39. Verify by mathematical induction that the product of the first n positive integers is n!.
+Line 2
 
-40. A snowball melts such that its radius decreases by 10% each hour. If the initial radius is 10 cm, what will it be after 5 hours?
+Line 1
 
-41. Find the explicit formula for: rₙ = 3rₙ₋₁ - 2rₙ₋₂ + n, with r₀ = 1, r₁ = 4.
+a. Derive a recurrence relation for Pₖ in terms of Pₖ₋₁, for all integers k ≥ 2.
+b. Use iteration to guess an explicit formula for Pₙ.
 
-42. Solve the recurrence relation: sₙ = 2sₙ₋₁ + sₙ₋₂ - 2sₙ₋₃, with s₀ = 1, s₁ = 2, s₂ = 5.
+53. Compute
+[1 1]
+[0 1]ⁿ
 
-43. Verify by mathematical induction that the sum of the first n terms of an arithmetic sequence is n/2·(2a + (n-1)d).
+for small values of n (up to about 5 or 6). Conjecture explicit formulas for the entries in this matrix, and prove your conjecture using mathematical induction.
 
-44. A population of rabbits doubles every month. If there are initially 10 rabbits, how many will there be after 1 year?
+54. In economics the behavior of an economy from one period to another is often modeled by recurrence relations. Let Yₖ be the income in period k and Cₖ be the consumption in period k. In one economic model, income in any period is assumed to be the sum of consumption in that period plus investment and government expenditures (which are assumed to be constant from period to period), and consumption in each period is assumed to be a linear function of the income of the preceding period. That is,
+Yₖ = Cₖ + E
 
-45. Find the explicit formula for: tₙ = tₙ₋₁ + tₙ₋₂ + tₙ₋₃, with t₀ = 1, t₁ = 1, t₂ = 2.
+Cₖ = c + mYₖ₋₁
 
-46. Solve the recurrence relation: uₙ = 4uₙ₋₁ - 6uₙ₋₂ + 4uₙ₋₃ - uₙ₋₄, with u₀ = 1, u₁ = 4, u₂ = 10, u₃ = 20.
+where E is the sum of investment
+plus government expenditures
+where c and m are constants.
 
-47. Verify by mathematical induction that the sum of the first n powers of 2 is 2ⁿ⁺¹ - 2.
+Substituting the second equation into the first gives
+Yₖ = E + c + mYₖ₋₁.
 
-48. A company's profit grows by 15% each year. If the profit in year 0 is $100,000, what will it be in year 8?
+a. Use iteration on the above recurrence relation to obtain
+Yₙ = (E + c)((mⁿ − 1)/(m − 1)) + mⁿY₀
 
-49. Find the explicit formula for: vₙ = 2vₙ₋₁ + 3vₙ₋₂ + 4vₙ₋₃, with v₀ = 1, v₁ = 2, v₂ = 5.
+for all integers n≥1.
+b. (For students who have studied calculus) Show that if 0 < m < 1, then limₙ→∞ Yₙ = (E + c)/(1 − m).
 
-50. Solve the recurrence relation: wₙ = 5wₙ₋₁ - 8wₙ₋₂ + 4wₙ₋₃, with w₀ = 1, w₁ = 3, w₂ = 9.
+### Answers for Test Yourself
 
-51. Verify by mathematical induction that the sum of the first n terms of a geometric sequence is a₁(rⁿ - 1)/(r - 1) for r ≠ 1.
+1. initial conditions; recurrence relation
+2. parentheses
+3. k·a
+4. aᵏ
+5. aₖ = aₖ₋₁ + d; aₙ = a₀ + dn
+6. aₖ = raₖ₋₁; aₙ = a₀rⁿ
+7. mathematical induction
 
-52. A student's grade improves by 5% each test. If they scored 60 on the first test, what will they score on the 10th test?
-
-53. Find the explicit formula for: xₙ = 3xₙ₋₁ - 3xₙ₋₂ + xₙ₋₃ + n, with x₀ = 1, x₁ = 3, x₂ = 6.
-
-54. Solve the recurrence relation: yₙ = 6yₙ₋₁ - 11yₙ₋₂ + 6yₙ₋₃, with y₀ = 1, y₁ = 4, y₂ = 13.
+---
