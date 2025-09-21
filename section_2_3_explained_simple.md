@@ -29,14 +29,27 @@
 
 ---
 
-## 📚 Exercise 2.3-4: The Merge Sort Proof
+## 📚 Exercise 2.3-4: Mathematical Induction Proof
 
-### The Problem (from your screenshot):
-You need to prove using mathematical induction that when n ≥ 2 is a power of 2, the recurrence:
-- T(n) = 2 when n = 2
-- T(n) = 2T(n/2) + n when n > 2
+### The Problem (Made Simple):
+**"Prove that merge sort takes n log n time when n is a power of 2"**
 
-Has the solution: **T(n) = n lg n**
+### What This Actually Means in Plain English:
+
+**Formal Statement:** Prove that T(n) = n log n when n = 2^k for k ≥ 1, where:
+- T(2) = 2 (base case: sorting 2 items takes 2 operations)
+- T(n) = 2T(n/2) + n (recursive case: sort two halves + merge them)
+
+**How to Say This Out Loud:** "We need to prove that the time to sort n items using merge sort equals n times log base 2 of n, when n is exactly 2, 4, 8, 16, etc."
+
+**What This Means Step-by-Step:**
+1. **"T(n)"** = Total time to sort n items
+2. **"n log n"** = n multiplied by log base 2 of n
+3. **"Power of 2"** = n = 2, 4, 8, 16, 32, 64, etc.
+4. **"Prove"** = Show this is always true using mathematical induction
+
+### Why We Care:
+If we can prove this, we know merge sort is much faster than insertion sort (which takes n² time)
 
 ### 📊 THE VISUAL STORY OF MERGE SORT
 
@@ -132,35 +145,57 @@ n = 32: Levels = 5,  Work = 32 × 5 = 160
 See the pattern? Work = n × lg(n)
 ```
 
-### 📝 THE INDUCTION PROOF (SIMPLIFIED FOR CEO)
+### 📝 THE INDUCTION PROOF (EXPLAINED FOR BEGINNERS)
 
-#### We Need to Prove: T(n) = n lg n
+#### Mathematical Induction: The Domino Effect
 
-**Base Case (n = 2):**
-```
-T(2) = 2 (given in problem)
-n lg n = 2 × lg(2) = 2 × 1 = 2 ✓
-```
+**What is Mathematical Induction?**
+It's like lining up dominos:
+1. Knock over the first domino (base case)
+2. Prove that if any domino falls, the next one will fall too (inductive step)
+3. Therefore, ALL dominos will fall!
 
-**The Domino Effect:**
-1. If it works for n = 2^k
-2. Then it works for n = 2^(k+1)
+#### Step 1: Base Case (First Domino)
 
-**Proof:**
-```
-Start:    T(2^k) = 2^k × k         (assume this works)
-Double:   T(2^(k+1)) = 2T(2^k) + 2^(k+1)
-Substitute: = 2(2^k × k) + 2^(k+1)
-           = 2^(k+1) × k + 2^(k+1)
-           = 2^(k+1) × (k + 1)
-           = n lg n ✓
-```
+**We need to check:** Does T(2) = 2 log 2 work?
 
-**What This Means:**
-Like dominos falling, if it works for 2, it works for 4.
-If it works for 4, it works for 8.
-If it works for 8, it works for 16.
-And so on... FOREVER!
+**Calculation:**
+- Left side: T(2) = 2 (given in the problem)
+- Right side: 2 × log₂(2) = 2 × 1 = 2
+- Result: 2 = 2 ✓ **IT WORKS!**
+
+**What this proves:** The formula works for n = 2
+
+#### Step 2: Inductive Step (Domino Chain Reaction)
+
+**Assume:** T(2ᵏ) = 2ᵏ × k (this domino falls)
+**Prove:** T(2ᵏ⁺¹) = 2ᵏ⁺¹ × (k+1) (next domino falls)
+
+**The Proof Step-by-Step:**
+
+1. **Start with the recurrence:** T(2ᵏ⁺¹) = 2T(2ᵏ) + 2ᵏ⁺¹
+   - This means: Time to sort 2ᵏ⁺¹ items = 2 × (time to sort 2ᵏ items) + 2ᵏ⁺¹
+
+2. **Use our assumption:** Replace T(2ᵏ) with 2ᵏ × k
+   - T(2ᵏ⁺¹) = 2 × (2ᵏ × k) + 2ᵏ⁺¹
+
+3. **Simplify:** 2 × 2ᵏ = 2ᵏ⁺¹
+   - T(2ᵏ⁺¹) = 2ᵏ⁺¹ × k + 2ᵏ⁺¹
+
+4. **Factor out 2ᵏ⁺¹:**
+   - T(2ᵏ⁺¹) = 2ᵏ⁺¹ × (k + 1)
+
+5. **But k + 1 = log₂(2ᵏ⁺¹):**
+   - T(2ᵏ⁺¹) = 2ᵏ⁺¹ × log₂(2ᵏ⁺¹) = n log n ✓
+
+#### What This Means in Plain English:
+
+- **Base Case:** We proved it works for 2 items
+- **Inductive Step:** We proved that IF it works for any size, it works for double that size
+- **Conclusion:** Therefore, it works for 2, 4, 8, 16, 32, ... forever!
+
+**Example Chain:**
+- Works for 2 ✓ → Therefore works for 4 ✓ → Therefore works for 8 ✓ → Therefore works for 16 ✓ → ...
 
 ### 🏆 MERGE SORT vs INSERTION SORT: THE BUSINESS IMPACT
 
@@ -185,142 +220,437 @@ And so on... FOREVER!
 
 ## 📚 Exercise 2.3-5: Recursive Insertion Sort
 
-### The Algorithm:
+### The Problem (Made Simple):
+**"Write insertion sort as a recursive algorithm and find its running time"**
+
+### What This Actually Means in Plain English:
+
+**Formal Statement:** Design a recursive version of insertion sort and give a recurrence for its worst-case running time.
+
+**How to Say This Out Loud:** "Instead of using loops to sort, use the 'call itself' approach, and figure out how long it takes in the worst case."
+
+**What This Means Step-by-Step:**
+1. **"Recursive version"** = The function calls itself with smaller problems
+2. **"Insertion sort"** = The sorting method where you insert each element in its correct place
+3. **"Worst-case running time"** = How long it takes when the input is hardest to sort
+4. **"Recurrence"** = A formula that relates the time for size n to time for smaller sizes
+
+### Why We Care:
+To understand that just making something recursive doesn't necessarily make it faster!
+
+### The Algorithm Explained Simply:
+
+**Regular Insertion Sort (What You Already Know):**
+```python
+def insertion_sort(arr):
+    for i in range(1, len(arr)):           # For each element starting from 2nd
+        key = arr[i]                       # Pull it out
+        j = i-1                            # Look at elements before it
+        while j >= 0 and arr[j] > key:    # Shift bigger elements right
+            arr[j+1] = arr[j]
+            j -= 1
+        arr[j+1] = key                    # Insert in correct spot
+```
+
+**Recursive Insertion Sort (New Version):**
 ```python
 def recursive_insertion_sort(arr, n):
-    # Base case: array of size 1 is sorted
+    # Base Case: If array has 0 or 1 elements, it's already sorted
     if n <= 1:
         return
 
-    # Sort first n-1 elements
-    recursive_insertion_sort(arr, n-1)
+    # Recursive Step: Sort first n-1 elements, then insert the nth
+    recursive_insertion_sort(arr, n-1)    # Sort everything except last element
 
-    # Insert the last element in correct position
-    last = arr[n-1]
-    j = n-2
-    while j >= 0 and arr[j] > last:
-        arr[j+1] = arr[j]
+    # Now insert the last element in the correct position
+    last_element = arr[n-1]               # The element we need to insert
+    j = n-2                               # Start from element before last
+
+    # Shift elements bigger than last_element to the right
+    while j >= 0 and arr[j] > last_element:
+        arr[j+1] = arr[j]                 # Shift right
         j -= 1
-    arr[j+1] = last
+
+    arr[j+1] = last_element               # Insert in correct spot
 ```
 
-### How It Works:
+### How It Works - Step by Step Example:
+
+**Sort [5, 2, 4, 1, 3] recursively:**
+
 ```
-Sort [5,2,3,1]:
+Level 4: Sort [5, 2, 4, 1, 3]
+         ↳ Sort [5, 2, 4, 1] first, then insert 3
 
-Step 1: Sort [5] → [5] (base case)
-Step 2: Sort [5,2] → Insert 2 into [5] → [2,5]
-Step 3: Sort [5,2,3] → Insert 3 into [2,5] → [2,3,5]
-Step 4: Sort [5,2,3,1] → Insert 1 into [2,3,5] → [1,2,3,5]
+Level 3: Sort [5, 2, 4, 1]
+         ↳ Sort [5, 2, 4] first, then insert 1
+
+Level 2: Sort [5, 2, 4]
+         ↳ Sort [5, 2] first, then insert 4
+
+Level 1: Sort [5, 2]
+         ↳ Sort [5] first, then insert 2
+
+Level 0: Sort [5]
+         ↳ Already sorted (base case)
+
+Now go back up:
+Level 0: [5] (sorted)
+Level 1: Insert 2 into [5] → [2, 5]
+Level 2: Insert 4 into [2, 5] → [2, 4, 5]
+Level 3: Insert 1 into [2, 4, 5] → [1, 2, 4, 5]
+Level 4: Insert 3 into [1, 2, 4, 5] → [1, 2, 3, 4, 5] ✓
 ```
 
-### The Recurrence:
-**T(n) = T(n-1) + n**
+### Finding the Running Time (Recurrence Relation):
 
-Why?
-- T(n-1) = Time to sort first n-1 elements
-- n = Time to insert the last element (worst case: shift all elements)
+**What Happens in the Worst Case?**
+The worst case is when the array is in reverse order, like [5, 4, 3, 2, 1]
 
-### Solving It:
+**Time Analysis:**
+- **Base Case:** T(1) = 1 (constant time)
+- **Recursive Case:** T(n) = T(n-1) + n
+
+**Why T(n) = T(n-1) + n?**
+- **T(n-1)** = Time to recursively sort the first n-1 elements
+- **+ n** = Time to insert the nth element (in worst case, we compare and shift all n-1 elements)
+
+### Solving the Recurrence:
+
+**Method: Unfolding the Recurrence**
+
 ```
 T(n) = T(n-1) + n
-     = T(n-2) + (n-1) + n
-     = T(n-3) + (n-2) + (n-1) + n
+     = [T(n-2) + (n-1)] + n         = T(n-2) + (n-1) + n
+     = [T(n-3) + (n-2)] + (n-1) + n = T(n-3) + (n-2) + (n-1) + n
+     = ...
+     = T(1) + 2 + 3 + ... + (n-2) + (n-1) + n
      = 1 + 2 + 3 + ... + n
      = n(n+1)/2
      = Θ(n²)
 ```
 
-**Bottom line:** Still O(n²), just like regular insertion sort!
+**What This Means:**
+- The running time is quadratic (n squared)
+- This is the SAME as regular insertion sort!
+- Making it recursive didn't help the speed
+
+### Visual Comparison of Time:
+
+| n | Regular Insertion Sort | Recursive Insertion Sort |
+|---|------------------------|--------------------------|
+| 10 | 55 operations | 55 operations |
+| 100 | 5,050 operations | 5,050 operations |
+| 1000 | 500,500 operations | 500,500 operations |
+
+**Key Insight:** The structure (recursive vs iterative) doesn't change the fundamental complexity. Both are O(n²) because both might need to shift every element for every insertion.
 
 ---
 
 ## 📚 Exercise 2.3-6: Binary Search
 
-### The Algorithm:
+### The Problem (Made Simple):
+**"Write binary search and prove it takes log n time"**
+
+### What This Actually Means in Plain English:
+
+**Formal Statement:** Write pseudocode for binary search (iterative or recursive) and argue that its worst-case running time is Θ(log n).
+
+**How to Say This Out Loud:** "Create an algorithm that finds things in a sorted array by repeatedly cutting the search area in half, and show why it's super fast."
+
+**What This Means Step-by-Step:**
+1. **"Binary search"** = A search method that always looks at the middle element first
+2. **"Sorted array"** = The array must be in order (smallest to largest)
+3. **"Worst-case running time"** = Maximum time it could possibly take
+4. **"Θ(log n)"** = Logarithmic time - extremely fast!
+
+### Why We Care:
+Binary search is one of the most important and efficient algorithms in computer science. It's the difference between searching through a phone book page by page vs. using the index!
+
+### The Algorithm Explained Simply:
+
+**What Binary Search Does:**
+Imagine you're looking for "Smith" in a phone book:
+1. **DON'T** start at page 1 and go through every page
+2. **DO** open to the middle, see if you're before or after "Smith"
+3. If "Smith" comes after your current page, throw away the first half
+4. If "Smith" comes before your current page, throw away the second half
+5. Repeat with the remaining pages until you find "Smith"
+
+**Two Versions: Iterative and Recursive**
+
+**Version 1: Iterative Binary Search (Using a Loop)**
 ```python
-def binary_search(arr, target):
-    left, right = 0, len(arr) - 1
+def binary_search_iterative(arr, target):
+    left = 0                           # Start of search area
+    right = len(arr) - 1               # End of search area
 
-    while left <= right:
-        mid = (left + right) // 2
+    while left <= right:               # While search area exists
+        mid = (left + right) // 2       # Find middle element
 
-        if arr[mid] == target:
+        if arr[mid] == target:          # Found it!
             return mid
-        elif arr[mid] < target:
-            left = mid + 1  # Search right half
-        else:
-            right = mid - 1  # Search left half
+        elif arr[mid] < target:         # Target is in right half
+            left = mid + 1              # Search right half
+        else:                           # Target is in left half
+            right = mid - 1             # Search left half
 
-    return -1  # Not found
+    return -1                          # Not found
 ```
 
-### Visual Example:
+**Version 2: Recursive Binary Search (Function Calls Itself)**
+```python
+def binary_search_recursive(arr, left, right, target):
+    if left > right:                   # Base case: search area empty
+        return -1
+
+    mid = (left + right) // 2           # Find middle element
+
+    if arr[mid] == target:              # Found it!
+        return mid
+    elif arr[mid] < target:             # Search right half
+        return binary_search_recursive(arr, mid + 1, right, target)
+    else:                               # Search left half
+        return binary_search_recursive(arr, left, mid - 1, target)
 ```
-Find 7 in [1,3,5,7,9,11,13,15]:
 
-Step 1: Check middle (8 elements) → arr[3]=7? YES! Found!
+### How It Works - Step by Step Example:
 
-But if we were looking for 14:
-Step 1: mid=7, arr[3]=7 < 14 → Search right [9,11,13,15]
-Step 2: mid=11, arr[5]=11 < 14 → Search right [13,15]
-Step 3: mid=13, arr[6]=13 < 14 → Search right [15]
-Step 4: mid=15, arr[7]=15 > 14 → Not found
+**Find 14 in [2, 5, 8, 12, 16, 23, 38, 56]:**
 
-4 steps for 8 elements = lg(8) = 3 (plus 1 for final check)
+```
+Step 1: Search [2, 5, 8, 12, 16, 23, 38, 56]
+        Check middle: arr[3] = 12
+        12 < 14, so search right half: [16, 23, 38, 56]
+
+Step 2: Search [16, 23, 38, 56]
+        Check middle: arr[5] = 23
+        23 > 14, so search left half: [16]
+
+Step 3: Search [16]
+        Check middle: arr[4] = 16
+        16 > 14, so search left half: [] (empty)
+
+Step 4: Search [] (empty) → Not found!
 ```
 
-### Why It's O(lg n):
-Each comparison cuts the search space in HALF:
-- 1000 elements → 500 → 250 → 125 → 63 → 32 → 16 → 8 → 4 → 2 → 1
-- That's about 10 steps for 1000 elements
-- lg(1000) ≈ 10 ✓
+**Another Example - Find 23:**
+```
+Step 1: [2, 5, 8, 12, 16, 23, 38, 56], mid=12 < 23 → Search right: [16, 23, 38, 56]
+Step 2: [16, 23, 38, 56], mid=23 == 23 → FOUND! ✓
+```
+
+### Why It's So Fast - The Math Behind It:
+
+**The Pattern:**
+- **1 element:** 1 comparison
+- **2 elements:** 2 comparisons (worst case)
+- **4 elements:** 3 comparisons (worst case)
+- **8 elements:** 4 comparisons (worst case)
+- **16 elements:** 5 comparisons (worst case)
+- **n elements:** log₂(n) + 1 comparisons
+
+**Visual Proof:**
+```
+Size: 16 → Search halves: 16 → 8 → 4 → 2 → 1 (5 steps = log₂16 + 1)
+Size: 32 → Search halves: 32 → 16 → 8 → 4 → 2 → 1 (6 steps = log₂32 + 1)
+Size: 64 → Search halves: 64 → 32 → 16 → 8 → 4 → 2 → 1 (7 steps = log₂64 + 1)
+```
+
+### Real-World Impact:
+
+**Searching 1 Million Items:**
+- **Linear Search (checking each one):** Up to 1,000,000 comparisons
+- **Binary Search:** Only about 20 comparisons!
+
+**Time Comparison:**
+If each comparison takes 1 millisecond:
+- Linear search: Up to 16 minutes
+- Binary search: 0.02 seconds (20 milliseconds)
+
+**That's 48,000 times faster!**
+
+### The Recurrence Relation:
+
+**For the recursive version:**
+```
+T(n) = T(n/2) + 1
+```
+
+**What this means:**
+- **T(n/2)** = Time to search half the array
+- **+ 1** = Time for one comparison
+- **Solution:** T(n) = log₂(n) + 1 = Θ(log n)
+
+### Why Binary Search is So Important:
+
+1. **Efficiency:** It's exponentially faster than linear search
+2. **Versatility:** Used in countless applications (databases, games, operating systems)
+3. **Foundation:** Teaches the "divide and conquer" paradigm
+4. **Practical:** Easy to implement and debug
+
+**Key Insight:** The requirement that the array must be sorted is worth it if you're going to search many times. Sort once (n log n), then search many times (log n each)!
 
 ---
 
 ## 📚 Exercise 2.3-7: Can Binary Search Fix Insertion Sort?
 
-### The Question:
-"If we use binary search to find where to insert, does insertion sort become O(n lg n)?"
+### The Problem (Made Simple):
+**"If we use binary search in insertion sort, does it become fast like merge sort?"**
 
-### The Answer: NO! Here's Why:
+### What This Actually Means in Plain English:
 
+**Formal Statement:** The while loop of lines 5–7 of the INSERTION-SORT procedure uses a linear search to scan backward through the sorted subarray A[1:j-1]. What if insertion sort used a binary search instead of a linear search? Would that improve the overall worst-case running time of insertion sort to Θ(n lg n)?
+
+**How to Say This Out Loud:** "If we make the 'finding where to insert' part of insertion sort super fast using binary search, does the whole algorithm become fast?"
+
+**What This Means Step-by-Step:**
+1. **"Binary search"** = The fast search method that cuts the search area in half each time
+2. **"Linear search"** = The slow method that checks each element one by one
+3. **"Insertion sort"** = The sorting algorithm that builds a sorted array one element at a time
+4. **"Θ(n lg n)"** = The fast running time of algorithms like merge sort
+
+### Why We Care:
+This question tests whether we understand the REAL bottleneck in insertion sort. Is it finding where to insert, or is it something else?
+
+### The Idea (What We're Testing):
+
+**Regular Insertion Sort:**
+```python
+for i in range(1, len(arr)):
+    key = arr[i]
+    j = i-1
+    # SLOW PART: Search backwards one by one
+    while j >= 0 and arr[j] > key:
+        arr[j+1] = arr[j]    # Shift element right
+        j -= 1
+    arr[j+1] = key
+```
+
+**Modified Insertion Sort with Binary Search:**
 ```python
 def insertion_sort_with_binary_search(arr):
     for i in range(1, len(arr)):
         key = arr[i]
 
-        # FAST: Find position using binary search - O(lg n)
-        position = binary_search_position(arr, 0, i-1, key)
+        # FAST PART: Use binary search to find insertion position
+        position = binary_search_find_position(arr, 0, i-1, key)
 
-        # SLOW: Shift elements to make room - O(n)
+        # SLOW PART: Shift elements to make room
         for j in range(i-1, position-1, -1):
             arr[j+1] = arr[j]
 
         arr[position] = key
 ```
 
-### The Problem Visualized:
+### The Binary Search Helper Function:
+```python
+def binary_search_find_position(arr, left, right, key):
+    while left <= right:
+        mid = (left + right) // 2
+        if arr[mid] == key:
+            return mid + 1  # Insert after duplicates
+        elif arr[mid] < key:
+            left = mid + 1
+        else:
+            right = mid - 1
+    return left  # Return the position where key should be inserted
 ```
-Insert 1 into [2,3,4,5,6,7,8]:
 
-Binary search finds position 0 quickly (3 comparisons)
-BUT then we need to shift EVERYTHING:
-[2,3,4,5,6,7,8,_] → [2,3,4,5,6,7,_,8] → [2,3,4,5,6,_,7,8] → ...
-→ [_,2,3,4,5,6,7,8] → [1,2,3,4,5,6,7,8]
+### The Critical Question: Does This Help?
 
-That's 7 shifts! Even though finding took only 3 steps.
+**Let's Break Down What Happens:**
+
+**Step 1: Finding Where to Insert**
+- **Old way (linear search):** Check up to i elements → O(i) time
+- **New way (binary search):** Check log₂(i) elements → O(log i) time
+- **Improvement:** HUGE! From O(i) to O(log i)
+
+**Step 2: Making Room for the New Element**
+- **Old way:** Shift elements while searching → O(i) time
+- **New way:** Shift elements AFTER finding position → O(i) time
+- **Improvement:** NONE! Still O(i) time
+
+### The Problem Visualized:
+
+**Insert 1 into [2, 3, 4, 5, 6, 7, 8]:**
+
+```
+Step 1: Find where to insert 1 using binary search
+Compare with middle (arr[3]=5): 5 > 1 → Search left [2,3,4]
+Compare with middle (arr[1]=3): 3 > 1 → Search left [2]
+Compare with middle (arr[0]=2): 2 > 1 → Search left []
+Found! Insert at position 0
+(3 comparisons total - very fast!)
+
+Step 2: Shift all elements to make room
+[2,3,4,5,6,7,8,_] → Shift 8 right
+[2,3,4,5,6,7,_,8] → Shift 7 right
+[2,3,4,5,6,_,7,8] → Shift 6 right
+[2,3,4,5,_,6,7,8] → Shift 5 right
+[2,3,4,_,5,6,7,8] → Shift 4 right
+[2,3,_,4,5,6,7,8] → Shift 3 right
+[2,_,3,4,5,6,7,8] → Shift 2 right
+[_,2,3,4,5,6,7,8] → Insert 1
+[1,2,3,4,5,6,7,8]
+
+(7 shifts required - very slow!)
 ```
 
 ### Time Analysis:
-- Finding position: O(lg n) ✓ Fast!
-- Shifting elements: O(n) ✗ Still slow!
-- Total for n elements: O(n²) ✗ No improvement!
 
-### The Lesson:
-**The bottleneck isn't FINDING where to put the element, it's MOVING elements to make room.**
+**For Each Element:**
+- **Finding position:** O(log i) ✓ Much better!
+- **Shifting elements:** O(i) ✗ Still the same!
 
-It's like knowing exactly where to park your car (fast) but still having to wait for all other cars to move (slow).
+**Total Time for All Elements:**
+```
+Total Time = Σ[i=1 to n] (O(log i) + O(i))
+          = Σ[i=1 to n] O(log i) + Σ[i=1 to n] O(i)
+          = O(n log n) + O(n²)
+          = O(n²)
+```
+
+**The Mathematical Reality:**
+- Finding positions: O(n log n) total
+- Shifting elements: O(n²) total
+- **Winner:** The O(n²) term dominates!
+
+### The Parking Lot Analogy:
+
+**Regular Insertion Sort:**
+- Drive around the parking lot looking for a spot (searching)
+- When you find an empty spot, park immediately (no shifting)
+
+**Modified Insertion Sort:**
+- Use GPS to instantly find the best empty spot (binary search)
+- But then you have to wait for ALL other cars to move out of your way (shifting)
+
+**The Problem:** Finding the spot is fast, but making room is still slow!
+
+### The Real-World Lesson:
+
+**Sometimes improving one part of an algorithm doesn't help the overall performance because the bottleneck is elsewhere.**
+
+In insertion sort:
+- **Finding where to insert:** Was O(n²), now O(n log n) ✓ Improved!
+- **Shifting elements:** Still O(n²) ✗ Unchanged!
+- **Overall:** Still O(n²) ✗ No improvement!
+
+### When Would This Actually Help?
+
+**Scenario:** When comparisons are VERY expensive but shifts are cheap
+- **Comparing long strings** (each comparison takes milliseconds)
+- **Moving simple integers** (each shift takes nanoseconds)
+- **Database records with complex comparison logic**
+
+In these cases, reducing comparisons from O(n²) to O(n log n) might provide practical speedups, even though the theoretical complexity remains O(n²).
+
+### Final Answer:
+
+**NO, binary search does NOT improve insertion sort to Θ(n log n).**
+
+**Why:** The bottleneck in insertion sort isn't finding where to insert—it's shifting elements to make room. Binary search makes the search faster, but the shifting still dominates the running time, keeping it at Θ(n²).
 
 ---
 
