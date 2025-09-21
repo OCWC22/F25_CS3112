@@ -55,12 +55,13 @@ For sequence bᵢ = (i-1)/i:
 
 #### Problem 1a: aₖ = 10 + k, for all integers k ≥ 1
 
-**Formal Restatement:** Compute the first four terms of the sequence aₖ where each term is 10 plus its position number.
+**Formal Restatement:** Compute the first four terms of the sequence aₖ where each term equals 10 plus its position number.
 
 **How to Read This Out Loud and What It Means (Step-by-Step Explanation):**
 - **"aₖ = 10 + k":** The k-th term of the sequence equals 10 plus k
 - **"for all integers k ≥ 1":** We start counting from position 1
 - **"first four terms":** We need to calculate terms for positions 1, 2, 3, and 4
+- **What this means:** For each position, just add 10 to the position number
 
 **Step-by-Step Solution:**
 - When k = 1: a₁ = 10 + 1 = 11
@@ -104,6 +105,81 @@ For sequence bᵢ = (i-1)/i:
 - When i = 4: c₄ = (-1)⁴/(3·4) = 1/12
 
 **Final Answer:** The first four terms are: -1/3, 1/6, -1/9, 1/12.
+
+#### Problem 1c: cᵢ = (-1)ⁱ/(3·i), for all integers i ≥ 1
+
+**Formal Restatement:** Compute the first four terms of the sequence cᵢ where each term is (-1) raised to the i-th power, divided by (3 times i).
+
+**How to Read This Out Loud and What It Means (Step-by-Step Explanation):**
+- **"cᵢ = (-1)ⁱ/(3·i)":** The i-th term alternates in sign and gets smaller as i increases
+- **"(-1)ⁱ":** This means the sign alternates: negative for odd i, positive for even i
+- **"for all integers i ≥ 1":** We start counting from position 1
+- **"first four terms":** We need to calculate terms for positions 1, 2, 3, and 4
+- **What this means:** For odd positions, the term is negative; for even positions, it's positive
+
+**Step-by-Step Solution:**
+- When i = 1: c₁ = (-1)¹/(3·1) = -1/3
+- When i = 2: c₂ = (-1)²/(3·2) = 1/6
+- When i = 3: c₃ = (-1)³/(3·3) = -1/9
+- When i = 4: c₄ = (-1)⁴/(3·4) = 1/12
+
+**Final Answer:** The first four terms are: -1/3, 1/6, -1/9, 1/12.
+
+#### Problem 1d: dₘ = 1 + (1/2)ᵐ for all integers m ≥ 0
+
+**Formal Restatement:** Compute the first four terms of the sequence dₘ where each term equals 1 plus (1/2) raised to the m-th power.
+
+**How to Read This Out Loud and What It Means (Step-by-Step Explanation):**
+- **"dₘ = 1 + (1/2)ᵐ":** The m-th term equals 1 plus (1/2) to the power of m
+- **"for all integers m ≥ 0":** We start counting from position 0 (not 1!)
+- **"first four terms":** We need to calculate terms for positions 0, 1, 2, and 3
+- **What this means:** Each term is 1 plus a fraction that gets smaller as m increases
+
+**Step-by-Step Solution:**
+- When m = 0: d₀ = 1 + (1/2)⁰ = 1 + 1 = 2
+- When m = 1: d₁ = 1 + (1/2)¹ = 1 + 1/2 = 3/2
+- When m = 2: d₂ = 1 + (1/2)² = 1 + 1/4 = 5/4
+- When m = 3: d₃ = 1 + (1/2)³ = 1 + 1/8 = 9/8
+
+**Final Answer:** The first four terms are: 2, 3/2, 5/4, 9/8.
+
+#### Problem 1e: eₙ = ⌊n/2⌋ × 2, for all integers n ≥ 2
+
+**Formal Restatement:** Compute the first four terms of the sequence eₙ where each term equals the floor of (n divided by 2), multiplied by 2.
+
+**How to Read This Out Loud and What It Means (Step-by-Step Explanation):**
+- **"eₙ = ⌊n/2⌋ × 2":** The n-th term equals the floor of n/2, then multiplied by 2
+- **"⌊n/2⌋":** This means "floor of n/2" - round down to the nearest integer after dividing by 2
+- **"for all integers n ≥ 2":** We start counting from position 2 (not 1!)
+- **"first four terms":** We need to calculate terms for positions 2, 3, 4, and 5
+- **What this means:** This effectively rounds n down to the nearest even number
+
+**Step-by-Step Solution:**
+- When n = 2: e₂ = ⌊2/2⌋ × 2 = ⌊1⌋ × 2 = 1 × 2 = 2
+- When n = 3: e₃ = ⌊3/2⌋ × 2 = ⌊1.5⌋ × 2 = 1 × 2 = 2
+- When n = 4: e₄ = ⌊4/2⌋ × 2 = ⌊2⌋ × 2 = 2 × 2 = 4
+- When n = 5: e₅ = ⌊5/2⌋ × 2 = ⌊2.5⌋ × 2 = 2 × 2 = 4
+
+**Final Answer:** The first four terms are: 2, 2, 4, 4.
+
+#### Problem 1f: fₙ = ⌊n/4⌋ for all integers n ≥ 1
+
+**Formal Restatement:** Compute the first four terms of the sequence fₙ where each term equals the floor of (n divided by 4).
+
+**How to Read This Out Loud and What It Means (Step-by-Step Explanation):**
+- **"fₙ = ⌊n/4⌋":** The n-th term equals the floor of n/4
+- **"⌊n/4⌋":** This means "floor of n/4" - round down to the nearest integer after dividing by 4
+- **"for all integers n ≥ 1":** We start counting from position 1
+- **"first four terms":** We need to calculate terms for positions 1, 2, 3, and 4
+- **What this means:** This counts how many complete groups of 4 fit into each number
+
+**Step-by-Step Solution:**
+- When n = 1: f₁ = ⌊1/4⌋ = ⌊0.25⌋ = 0
+- When n = 2: f₂ = ⌊2/4⌋ = ⌊0.5⌋ = 0
+- When n = 3: f₃ = ⌊3/4⌋ = ⌊0.75⌋ = 0
+- When n = 4: f₄ = ⌊4/4⌋ = ⌊1⌋ = 1
+
+**Final Answer:** The first four terms are: 0, 0, 0, 1.
 
 ---
 
