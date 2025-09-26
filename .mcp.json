@@ -1,11 +1,9 @@
 {
   "mcpServers": {
     "pdf-reader-mcp": {
-      "command": "python",
-      "args": [
-        "tools/pdf_reader_mcp.py"
-      ],
-      "name": "PDF Reader"
+      "command": "docker",
+      "args": ["run", "-i", "--rm", "-v", "$PWD:/pdfs", "trafflux/pdf-reader-mcp"],
+      "name": "PDF Reader (Docker)"
     }
   }
-}
+} 
