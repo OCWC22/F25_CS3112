@@ -74,7 +74,13 @@ Use the master method to show that the solution to the binary-search recurrence 
 4.5-4
 Consider the function (f(n)=\lg n). Argue that although (f(n/2) < f(n)), the regularity condition (af(n/b)\le cf(n)) with (a=1) and (b=2) does not hold for any constant (c<1). Argue further that for any (\epsilon>0), the condition in case 3 that (f(n)=\Omega(n^{\log_b a + \epsilon})) does not hold.
 
-Problem 4-1 (a–g)
-I don't see Problem 4-1 in the provided screenshots, so I can't extract its subparts (a–g) verbatim. If you upload that page, I'll add it to this list immediately.
+Problem 4-1: Recurrence examples
+Give asymptotically tight upper and lower bounds for T(n) in each of the following algorithmic recurrences. Justify your answers.
 
-If you want, I can turn this into a printable worksheet (one problem per page with space to work), or start solving any subset (e.g., Section 4.5 by Master Theorem) step-by-step.
+a. T(n) = 2T(n/2) + n³
+b. T(n) = T(8n/11) + n
+c. T(n) = 16T(n/4) + n²
+d. T(n) = 4T(n/2) + n² lg n
+e. T(n) = 8T(n/3) + n²
+f. T(n) = 7T(n/2) + n² lg n
+g. T(n) = 2T(n/4) + √n
