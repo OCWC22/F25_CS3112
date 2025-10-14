@@ -4,7 +4,7 @@ Exercises
 5.2-1
 In HIRE-ASSISTANT, assuming that the candidates are presented in a
 random  order,  what  is  the  probability  that  you  hire  exactly  one  time?
-What is the probability that you hire exactly n times?www.konkur.inTelegram: @uni_k
+What is the probability that you hire exactly n times?
 5.2-2
 In HIRE-ASSISTANT, assuming that the candidates are presented in a
 random order, what is the probability that you hire exactly twice?
