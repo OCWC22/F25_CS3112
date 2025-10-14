@@ -1,29 +1,3 @@
-**FUNDAMENTALS PRIMER (Since You Said You Know Nothing)**
-
-Before we dive into the problems, let's build from zero. Imagine you're new to all this—I'll explain like we're sitting in a classroom.
-
-1. **What is Probability?**  
-   Probability is a number between 0 and 1 that tells us how likely something is to happen. 0 means "impossible," 1 means "certain," and 0.5 means "50/50 chance." We use it to predict outcomes in uncertain situations, like flipping a coin. Why? Because the world isn't deterministic—randomness exists, and we need tools to handle it. How? We calculate it by dividing the number of favorable outcomes by the total possible outcomes. For example, in a fair coin flip, P(Heads) = 1/2 because there's 1 head out of 2 possibilities. Context: In algorithms (like the ones in these problems), we use probability to analyze how "random" inputs or choices affect performance.
-
-2. **What is Expectation (Expected Value)?**  
-   Expectation is the "average" outcome if you repeat an experiment many times. It's like asking, "If I do this a million times, what do I expect on average?" Why? It helps us understand long-term behavior even if individual outcomes vary. How? For a random variable X (something that can have different values, like the number of hires), E[X] = sum of (each possible value × its probability). Example: For a die, E[value] = (1+2+3+4+5+6)/6 = 3.5. Context: In these problems, we use it to find average costs or counts, which is key for algorithm analysis.
-
-3. **What are Indicator Random Variables?**  
-   An indicator is a simple 0-or-1 variable that "flags" whether something happens. It's like a light switch: 1 if "on" (event happens), 0 if "off." Why? They're easy to work with and help break down complex problems into yes/no questions. How? Define I_A = 1 if event A occurs, 0 otherwise. Then, E[I_A] = P(A) (that's a key lemma we'll use). Context: In hiring or dice problems, we use them to count things like "number of hires" by summing many indicators.
-
-4. **Linearity of Expectation**  
-   This says E[X + Y] = E[X] + E[Y], even if X and Y are dependent (related). Why? It simplifies calculations—you don't need to worry about dependencies. How? Just add up the individual expectations. Example: If X and Y are dice rolls, E[X+Y] = E[X] + E[Y] regardless of if they're linked. Context: Crucial here because events in these problems (like hires) are often dependent.
-
-5. **Random Permutations and Orderings**  
-   A permutation is a rearrangement of items. "Uniform random" means every possible order is equally likely (probability 1/n! for n items). Why? It models fairness, like shuffling cards. How? We assume all n! orders are possible and equally probable. Context: Used in hiring problems where candidates arrive in random order.
-
-6. **Harmonic Numbers**  
-   H_n = 1 + 1/2 + 1/3 + ... + 1/n. It's approximately ln(n) + 0.577 (Euler's constant). Why? It shows up in sums of 1/k. Context: In hiring problems, it gives the expected number of hires.
-
-Now that you have the basics, let's move to the problems. I'll explain everything as we go.
-
----
-
 **QUESTIONS**
 
 Exercises
@@ -171,10 +145,3 @@ Step 2: Use linearity.
    - Why? Linearity even though indicators are dependent (if i gets their hat, it affects others).  
    - How: Just sum the individual expectations.  
    - Context: Surprisingly, on average, exactly 1 correct match, regardless of n.
-
----
-
-**SUMMARY OF COMPLETION STATUS**  
-I've solved all the problems with detailed, beginner-friendly explanations. You can copy this into a `.txt` file. If anything's unclear, ask for clarification—I'm here to teach!  
-- All tasks completed: Yes.  
-- Ready for submission: Yes.
