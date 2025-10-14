@@ -1,0 +1,180 @@
+**FUNDAMENTALS PRIMER (Since You Said You Know Nothing)**
+
+Before we dive into the problems, let's build from zero. Imagine you're new to all this—I'll explain like we're sitting in a classroom.
+
+1. **What is Probability?**  
+   Probability is a number between 0 and 1 that tells us how likely something is to happen. 0 means "impossible," 1 means "certain," and 0.5 means "50/50 chance." We use it to predict outcomes in uncertain situations, like flipping a coin. Why? Because the world isn't deterministic—randomness exists, and we need tools to handle it. How? We calculate it by dividing the number of favorable outcomes by the total possible outcomes. For example, in a fair coin flip, P(Heads) = 1/2 because there's 1 head out of 2 possibilities. Context: In algorithms (like the ones in these problems), we use probability to analyze how "random" inputs or choices affect performance.
+
+2. **What is Expectation (Expected Value)?**  
+   Expectation is the "average" outcome if you repeat an experiment many times. It's like asking, "If I do this a million times, what do I expect on average?" Why? It helps us understand long-term behavior even if individual outcomes vary. How? For a random variable X (something that can have different values, like the number of hires), E[X] = sum of (each possible value × its probability). Example: For a die, E[value] = (1+2+3+4+5+6)/6 = 3.5. Context: In these problems, we use it to find average costs or counts, which is key for algorithm analysis.
+
+3. **What are Indicator Random Variables?**  
+   An indicator is a simple 0-or-1 variable that "flags" whether something happens. It's like a light switch: 1 if "on" (event happens), 0 if "off." Why? They're easy to work with and help break down complex problems into yes/no questions. How? Define I_A = 1 if event A occurs, 0 otherwise. Then, E[I_A] = P(A) (that's a key lemma we'll use). Context: In hiring or dice problems, we use them to count things like "number of hires" by summing many indicators.
+
+4. **Linearity of Expectation**  
+   This says E[X + Y] = E[X] + E[Y], even if X and Y are dependent (related). Why? It simplifies calculations—you don't need to worry about dependencies. How? Just add up the individual expectations. Example: If X and Y are dice rolls, E[X+Y] = E[X] + E[Y] regardless of if they're linked. Context: Crucial here because events in these problems (like hires) are often dependent.
+
+5. **Random Permutations and Orderings**  
+   A permutation is a rearrangement of items. "Uniform random" means every possible order is equally likely (probability 1/n! for n items). Why? It models fairness, like shuffling cards. How? We assume all n! orders are possible and equally probable. Context: Used in hiring problems where candidates arrive in random order.
+
+6. **Harmonic Numbers**  
+   H_n = 1 + 1/2 + 1/3 + ... + 1/n. It's approximately ln(n) + 0.577 (Euler's constant). Why? It shows up in sums of 1/k. Context: In hiring problems, it gives the expected number of hires.
+
+Now that you have the basics, let's move to the problems. I'll explain everything as we go.
+
+---
+
+**QUESTIONS**
+
+Exercises
+5.2-1
+In HIRE-ASSISTANT, assuming that the candidates are presented in a
+random  order,  what  is  the  probability  that  you  hire  exactly  one  time?
+What is the probability that you hire exactly n times?www.konkur.inTelegram: @uni_k
+5.2-2
+In HIRE-ASSISTANT, assuming that the candidates are presented in a
+random order, what is the probability that you hire exactly twice?
+5.2-3
+Use  indicator  random  variables  to  compute  the  expected  value  of  the
+sum of n dice.
+5.2-4
+This  exercise  asks  you  to  (partly)  verify  that  linearity  of  expectation
+holds even if the random variables are not independent. Consider two 6-
+sided dice that are rolled independently. What is the expected value of
+the  sum?  Now  consider  the  case  where  the  first  die  is  rolled  normally
+and then the second die is set equal to the value shown on the first die.
+What is the expected value of the sum? Now consider the case where the
+first die is rolled normally and the second die is set equal to 7 minus the
+value of the first die. What is the expected value of the sum?
+5.2-5
+Use indicator random variables to solve the following problem, which is
+known as the hat-check problem. Each of n customers gives a hat to a
+hat-check  person  at  a  restaurant.  The  hat-check  person  gives  the  hats
+back to the customers in a random order. What is the expected number
+of customers who get back their own hat?
+
+---
+
+**SOLUTIONS**
+
+**Solution to 5.2-1: Probability of hiring exactly one time or exactly n times**
+
+Step 0: Understand the setup (context and basics).  
+   - We're analyzing the HIRE-ASSISTANT algorithm, where n candidates arrive in a random order (every permutation is equally likely, probability 1/n!).  
+   - The algorithm: We always hire the first candidate (no "best" yet). Then, for each later candidate, we hire them only if they're better than all previous ones (the current best-so-far).  
+   - Why random order? It makes the input distribution uniform, so we can use probability. How? We assume all orders are possible and equally likely.  
+   - What we're finding: Exact probabilities for hiring k times, where k=1 or k=n.  
+   - Fundamentals reminder: Probability = favorable outcomes / total outcomes. For hiring, it depends on where the best candidate is.
+
+Step 1: Probability of exactly one hire (k=1).  
+   - This happens only if the very best candidate is first, and no one else is better (but since they're the best, no one after is better).  
+   - Why? The first hire is automatic. We only hire again if someone surpasses the current best. If the best is first, no one surpasses them.  
+   - How to calculate: In a random order, the best candidate can be in any of the n positions, each with probability 1/n (by symmetry—every position is equally likely).  
+   - So, P(best is first) = 1/n.  
+   - Therefore, P(exactly one hire) = 1/n.  
+   - Context: This is the best-case scenario for the algorithm—minimal hires.
+
+Step 2: Probability of exactly n hires (k=n).  
+   - This happens if every candidate is better than all previous ones—i.e., they arrive in strictly increasing quality order (1st is best of first 1, 2nd is best of first 2, etc., up to nth being best of all).  
+   - Why? Each hire happens when the new candidate beats the current best-so-far. For n hires, every single one must beat the previous bests.  
+   - How to calculate: There's exactly 1 such "strictly increasing" order out of n! possible orders (the sorted order).  
+   - So, P(exactly n hires) = 1/n!.  
+   - Context: This is the worst-case scenario—maximum hires.
+
+**Solution to 5.2-2: Probability of hiring exactly twice**
+
+Step 0: Understand when exactly two hires happen.  
+   - Always hire the first candidate (hire #1).  
+   - Need exactly one more hire later, and no further hires.  
+   - Why only one more? If more than one additional hire, we'd have >2 hires. The additional hire must be the overall best, otherwise a later even-better candidate would cause a third hire.  
+   - Context: This is like finding where the best candidate is, but with conditions on earlier candidates.
+
+Step 1: Fix the position k of the overall best candidate (k from 2 to n).  
+   - P(best in position k) = 1/n (uniform random).  
+   - Among the first k-1 candidates, the first one must be the best of those k-1; otherwise, we'd hire someone else before k, leading to >2 hires.  
+   - Why? If the first isn't the best of the first k-1, then when we reach the best of those k-1 (who isn't first), we'd hire them as a second hire before k, and then k (the overall best) would be a third hire.  
+   - How: Given any set of k-1 candidates, each is equally likely to be the best of them, so P(first is best of first k-1) = 1/(k-1).  
+   - Context: We're conditioning on the best being at k, and ensuring no early hires disrupt the count.
+
+Step 2: Combine probabilities over all k.  
+   - For each k, joint P = (1/n) * (1/(k-1)).  
+   - Sum over k=2 to n: (1/n) * (1 + 1/2 + ... + 1/(n-1)) = (H_{n-1})/n, where H_{n-1} is the (n-1)th harmonic number.  
+   - Why sum? Because k can be any position except 1 (if k=1, best is first, only 1 hire).  
+   - How: Harmonic series H_m ≈ ln(m) + 0.577. Here, it's the sum of reciprocals.  
+   - Context: This gives the exact probability formula.
+
+**Solution to 5.2-3: Expected value of the sum of n dice using indicator variables**
+
+Step 0: Set up the problem.  
+   - We have n fair 6-sided dice. Each shows 1-6 with P=1/6. Sum S = sum of all dice values. Find E[S].  
+   - Why indicators? They break S into simple 0/1 flags for each possible value on each die.  
+   - How: For die i and value v (1-6), I_{i,v} = 1 if die i shows v, else 0. Then S = sum_i sum_v v * I_{i,v}.  
+   - Context: This models the sum as a weighted sum of indicators.
+
+Step 1: Find E[I_{i,v}].  
+   - Since fair die, P(die i shows v) = 1/6. By indicator lemma, E[I_{i,v}] = P = 1/6.  
+   - Why? The lemma says E[indicator] = probability of the event.  
+   - How: It's the same for every i and v.  
+   - Context: Independent of other dice.
+
+Step 2: Use linearity of expectation.  
+   - E[S] = E[sum_i sum_v v * I_{i,v}] = sum_i sum_v v * E[I_{i,v}] = sum_i sum_v v * (1/6).  
+   - Inner sum over v: (1/6)(1+2+3+4+5+6) = (1/6)*21 = 3.5 (expected value of one die).  
+   - Outer sum: n * 3.5.  
+   - Why linearity? It holds even with dependence (though here dice are independent).  
+   - How: Just add up the expectations.  
+   - Context: This gives the average sum without needing full probability distribution.
+
+**Solution to 5.2-4: Linearity of expectation with dependent dice**
+
+Step 0: Understand the scenarios.  
+   - Two 6-sided dice, each with values 1-6, P=1/6. Find E[sum] in different dependence cases.  
+   - Why? To show linearity holds even when dependent.  
+   - How: Calculate E[sum] directly in each case.  
+   - Context: Demonstrates a key property of expectation.
+
+Step 1: Scenario A: Independent dice.  
+   - Each has E=3.5. Sum = X+Y, E[sum] = 3.5 + 3.5 = 7.  
+   - Why? Independence doesn't matter for linearity.  
+   - How: Standard calculation.
+
+Step 2: Scenario B: Second die copies first.  
+   - Let X = first die. Second = X. Sum = X + X = 2X. E[sum] = 2 * E[X] = 2*3.5 = 7.  
+   - Why? Even fully dependent, expectation is the same.  
+   - How: E[2X] = 2E[X].  
+   - Context: Dependence doesn't break linearity.
+
+Step 3: Scenario C: Second = 7 - first.  
+   - X = first. Second = 7 - X. Sum = X + (7 - X) = 7 (constant). E[sum] = 7.  
+   - Why? Perfect negative dependence, but E[X] + E[7-X] = 3.5 + (7-3.5) = 7.  
+   - How: Linearity applies: E[sum] = E[X] + E[7-X].  
+   - Context: Shows linearity's power in dependent cases.
+
+**Solution to 5.2-5: Hat-check problem using indicator variables**
+
+Step 0: Set up the problem.  
+   - n customers give hats to a clerk, who returns them in uniform random order (each permutation equally likely).  
+   - Find expected number of customers who get their own hat back (X = number of correct matches).  
+   - Why indicators? X = sum of indicators for each customer getting their hat.  
+   - How: I_i = 1 if customer i gets own hat, else 0. X = sum I_i.  
+   - Context: Classic problem showing average matches in random assignment.
+
+Step 1: Find E[I_i].  
+   - In random permutation, any hat can go to any customer. P(customer i gets own hat) = 1/n (n equally likely positions for their hat).  
+   - So, E[I_i] = 1/n (by indicator lemma).  
+   - Why? Symmetric for each customer.  
+   - How: There are n! permutations, and in exactly n! / n = (n-1)! of them, customer i gets their hat (fix i's hat, permute the rest).  
+   - Context: Each customer is equally likely to get any hat.
+
+Step 2: Use linearity.  
+   - E[X] = sum E[I_i] = n * (1/n) = 1.  
+   - Why? Linearity even though indicators are dependent (if i gets their hat, it affects others).  
+   - How: Just sum the individual expectations.  
+   - Context: Surprisingly, on average, exactly 1 correct match, regardless of n.
+
+---
+
+**SUMMARY OF COMPLETION STATUS**  
+I've solved all the problems with detailed, beginner-friendly explanations. You can copy this into a `.txt` file. If anything's unclear, ask for clarification—I'm here to teach!  
+- All tasks completed: Yes.  
+- Ready for submission: Yes.
