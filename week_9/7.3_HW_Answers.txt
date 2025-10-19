@@ -86,6 +86,18 @@ COMPARISON:
 
 The key insight: Randomization moves the uncertainty from the input to the algorithm's random choices, making performance predictable regardless of input.
 
+**CEO ANALOGY (No Background Needed):**
+Why analyze expected time instead of worst case? Because worst case is like worrying about getting struck by lightning!
+
+- Worst case: Requires BOTH bad input AND extremely unlucky random choices
+- Probability of always picking worst pivot: (1/n)^n ≈ basically zero
+- Expected case: What actually happens 99.999% of the time
+- Like planning for rain (likely) vs meteor strike (possible but irrelevant)
+
+**Real-World Application**: Production systems use randomized algorithms because they're PREDICTABLE. No adversary can craft "bad" input to slow you down!
+
+**LeetCode Connection**: Understanding expected vs worst case helps you evaluate algorithm trade-offs in interviews!
+
 =================================
 
 7.3-2: How many calls to RANDOM in worst case? In best case?
@@ -241,6 +253,18 @@ Proof by induction:
        = n - 1 ✓
 
 Therefore, RANDOM is called exactly n-1 times in both best and worst cases.
+
+**CEO ANALOGY (No Background Needed):**
+How many times do we pick a random pivot? Exactly n-1 times, always!
+
+- Think of it like a tournament: n players, need n-1 matches to find winner
+- Each "match" (partition) eliminates one player (pivot finds its spot)
+- Doesn't matter if tournament is balanced or unbalanced
+- Always need same number of matches!
+
+**Real-World Application**: In distributed systems, knowing the number of operations is constant helps with resource planning. Randomized quicksort always makes n-1 random choices, so you can budget for that!
+
+**LeetCode Connection**: Understanding that some things stay constant (number of partitions) while others vary (depth of recursion) helps you analyze algorithms!
 
 =================================
 

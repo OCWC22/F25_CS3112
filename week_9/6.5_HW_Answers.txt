@@ -140,6 +140,19 @@ VERIFICATION:
 - 6 ≥ 1, 6 ≥ 2 ✓
 All heap properties satisfied!
 
+**CEO ANALOGY (No Background Needed):**
+EXTRACT-MAX is like the CEO retiring - you need to find the next CEO!
+
+- Current CEO (15) retires → goes to "hall of fame"
+- Last person in company (1) temporarily becomes CEO
+- But they're not qualified! So they "sink down" to their correct level
+- Keep comparing with direct reports, swapping with better performer
+- Eventually find the right new CEO (13)
+
+**Real-World Application**: In AI inference, priority queues manage which computation to run next. EXTRACT-MAX gets the highest-priority task. Used in GPUs to maximize throughput!
+
+**LeetCode Connection**: "Find Median from Data Stream" (LC 295) uses two heaps with extract-max/min operations. Master this, master that problem!
+
 =================================
 
 6.5-2: Illustrate MAX-HEAP-INSERT(A, 10) on A = 〈15, 13, 9, 5, 12, 8, 7, 4, 0, 6, 2, 1〉
@@ -270,6 +283,18 @@ VERIFICATION:
 - 10 ≥ 9, 10 ≥ 7 ✓
 - All other relationships maintained ✓
 
+**CEO ANALOGY (No Background Needed):**
+INSERT is like hiring a new employee - they start at the bottom and get promoted based on merit!
+
+- New hire (10) starts as intern (bottom of heap)
+- Compare with their manager: Better? Swap positions (promotion!)
+- Keep comparing and promoting until they find their level
+- Like climbing the corporate ladder based on performance
+
+**Real-World Application**: In network routers, INSERT adds new packets to priority queue. High-priority packets (video streaming) bubble up, low-priority (email) stay down. Ensures smooth video calls!
+
+**LeetCode Connection**: "Kth Largest Element in Stream" (LC 703) repeatedly inserts into heap. Understanding INSERT is key!
+
 =================================
 
 6.5-4: Write pseudocode for MAX-HEAP-DECREASE-KEY. What is the running time?
@@ -386,6 +411,18 @@ COMPARISON:
 - INCREASE-KEY: Bubbles UP toward root - O(lg n)
 - DECREASE-KEY: Bubbles DOWN toward leaves - O(lg n)
 - Both have same time complexity but opposite directions
+
+**CEO ANALOGY (No Background Needed):**
+DECREASE-KEY is like an employee getting demoted - they sink down to their new level.
+
+- Performance drops → demotion needed
+- Compare with team: Are they still better? If not, swap with best team member
+- Keep sinking until they find appropriate level
+- Opposite of promotion (INCREASE-KEY)
+
+**Real-World Application**: In Dijkstra's shortest path algorithm (used in GPS navigation), DECREASE-KEY updates distances as better routes are found. Critical for Google Maps!
+
+**LeetCode Connection**: "Network Delay Time" (LC 743) uses Dijkstra with DECREASE-KEY operations!
 
 =================================
 
@@ -576,6 +613,18 @@ We don't know in advance whether to bubble up or down, so we check:
 - If replacement > deleted: bubble UP (like INCREASE-KEY)
 - If replacement < deleted: bubble DOWN (like DECREASE-KEY)
 - If replacement = deleted: no change needed
+
+**CEO ANALOGY (No Background Needed):**
+DELETE is like an employee leaving the company - need to reorganize!
+
+- Employee at position x leaves
+- Last person in company takes their spot
+- Are they qualified? If better than old person → promote up. If worse → demote down
+- Reorganization happens automatically in O(log n) time!
+
+**Real-World Application**: In task schedulers, DELETE removes completed tasks from priority queue. Operating systems use this billions of times per second!
+
+**LeetCode Connection**: Understanding DELETE helps with "Design Twitter" (LC 355) and other design problems involving priority queues!
 
 =================================
 

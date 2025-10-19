@@ -92,6 +92,18 @@ The recurrence T(n) = T(n-1) + cn represents:
 - This is maximally unbalanced
 - Total work: c(n + (n-1) + (n-2) + ... + 2 + 1) = c·n(n+1)/2 = Θ(n²)
 
+**CEO ANALOGY (No Background Needed):**
+Worst case is like organizing a line where you always pick the shortest person as "middle" - terrible split!
+
+- Pick shortest (or tallest) every time
+- One side gets everyone, other side gets nobody
+- Have to repeat n times = O(n²)
+- Like peeling an onion one layer at a time instead of cutting in half
+
+**Real-World Application**: This is why databases DON'T use basic quicksort on indexed data (often sorted). They use randomized quicksort or other algorithms to avoid O(n²) disaster!
+
+**LeetCode Connection**: Understanding worst case helps you recognize when to use randomization or different algorithms!
+
 =================================
 
 7.2-2: What is the running time when all elements have the same value?
@@ -170,6 +182,17 @@ Use 3-way partitioning (Dutch National Flag):
 - Partition into: < pivot | = pivot | > pivot
 - Don't recurse on = pivot section
 - This makes all-equal case O(n)!
+
+**CEO ANALOGY (No Background Needed):**
+All elements equal? Like organizing people who all have same salary - quicksort gets confused!
+
+- Normal quicksort: Puts everyone on one side (terrible!)
+- Smart fix: Recognize they're all equal, skip them = O(n)
+- Like realizing everyone's the same and not bothering to sort
+
+**Real-World Application**: In data deduplication systems, recognizing duplicate data early saves massive time. Cloud storage uses this to avoid processing identical files!
+
+**LeetCode Connection**: "Sort Colors" (LC 75) is exactly this problem - 3-way partition! Understanding this solves it in one pass!
 
 =================================
 
@@ -274,6 +297,18 @@ WHY SORTED IS WORST:
 - Creates maximally unbalanced partition
 - No divide-and-conquer benefit
 
+**CEO ANALOGY (No Background Needed):**
+Sorted input is quicksort's nightmare - always picks worst pivot!
+
+- Like always picking the CEO to split company (everyone on one side)
+- Or always picking intern (everyone on other side)
+- Need to pick someone in the MIDDLE for good split
+- Solution: Pick randomly or use median-of-3
+
+**Real-World Application**: This is why production systems NEVER use basic quicksort on potentially sorted data. They randomize or use hybrid algorithms (introsort)!
+
+**LeetCode Connection**: When you see "sorted or nearly sorted" in problem, think carefully about algorithm choice!
+
 =================================
 
 7.2-5: Show minimum depth ≈ log₁/α n and maximum depth ≈ log₁/β n for α:β splits
@@ -364,6 +399,20 @@ For α = 1/10, β = 9/10:
 - Min depth = log₁₀ n ≈ 3.32 log₂ n
 - Max depth = log₁₀/₉ n ≈ 21.85 log₂ n
 - Both still O(log n) ✓
+
+**CEO ANALOGY (No Background Needed):**
+Even unbalanced splits are OK as long as they're CONSISTENTLY unbalanced!
+
+- 50-50 split: Perfect, depth = log₂ n
+- 25-75 split: Unbalanced but still good! Depth ≈ 2.4 log₂ n
+- 10-90 split: Very unbalanced but STILL O(log n)!
+- Key: As long as you're cutting SOME fraction off each time, you reach the bottom fast
+
+It's like cutting a pizza - even if you cut 1/4 vs 3/4 each time, you still run out of pizza quickly!
+
+**Real-World Application**: This is why quicksort works so well in practice - doesn't need perfect splits! Even mediocre pivot choices give O(n log n) performance.
+
+**LeetCode Connection**: Understanding this helps you recognize when "good enough" solutions are actually optimal!
 
 =================================
 

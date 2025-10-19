@@ -189,6 +189,18 @@ KEY OBSERVATIONS:
 - The heap portion shrinks from right to left
 - After n-1 iterations, array is fully sorted
 
+**CEO ANALOGY (No Background Needed):**
+Heapsort is like repeatedly promoting the best employee to a "hall of fame" (sorted section at the end).
+
+- Phase 1: Organize company into hierarchy (BUILD-MAX-HEAP)
+- Phase 2: Repeatedly "retire" the CEO (best person) to hall of fame
+- Each time CEO retires, next-best person becomes new CEO
+- Continue until everyone is in hall of fame (sorted!)
+
+**Real-World Application**: In database systems, heapsort is used when memory is limited (in-place sorting). Linux kernel uses heapsort for reliability - guaranteed O(n log n) even in worst case!
+
+**LeetCode Connection**: "Sort an Array" (LC 912) - heapsort is one solution. Understanding it helps you choose between sorting algorithms based on constraints!
+
 =================================
 
 6.4-3: Running time of HEAPSORT on already sorted arrays
@@ -270,6 +282,19 @@ WHY NO IMPROVEMENT?
   - Extract maximum n-1 times
   - Each extraction requires MAX-HEAPIFY: O(lg n)
   - Total: (n-1) × O(lg n) = O(n lg n)
+
+**CEO ANALOGY (No Background Needed):**
+Heapsort is like a machine that always takes the same time, regardless of input:
+
+- **Sorted input**: Still needs to reorganize into heap, then extract
+- **Random input**: Same process
+- **Reverse sorted**: Slightly easier to build heap, but extraction still takes same time
+
+It's like a factory assembly line - same speed whether parts come organized or messy!
+
+**Real-World Application**: In safety-critical systems (medical devices, aerospace), heapsort is preferred because performance is PREDICTABLE. No surprises = no crashes!
+
+**LeetCode Connection**: When problem says "must handle worst case efficiently", think heapsort! Unlike quicksort (can be O(n²)), heapsort is ALWAYS O(n log n).
 
 =================================
 
