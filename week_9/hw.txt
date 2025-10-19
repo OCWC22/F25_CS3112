@@ -1,0 +1,193 @@
+Section 6.1:     1, 2, 3, 4, 6, 7, 8
+Section 6.2:     1, 4, 5, 6 7
+Section 6.3:     1, 2, 3
+Section 6.4:     1, 3
+Section 6.5:     1, 2, 4, 8, 10
+
+Section 7.1:     1, 3, 4
+Section 7.2:     1, 2, 3, 5
+Section 7.3:     1, 2  
+
+Exercises
+6.1-1
+What are the minimum and maximum numbers of elements in a heap of
+height h?
+6.1-2
+Show that an n-element heap has height ⌊lg n⌋.
+6.1-3
+Show that in any subtree of a max-heap, the root of the subtree contains
+the largest value occurring anywhere in that subtree.
+6.1-4
+Where in a max-heap might the smallest element reside, assuming that
+all elements are distinct?
+6.1-5
+At which levels in a max-heap might the kth largest element reside, for 2
+≤ k ≤ ⌊n/2⌋, assuming that all elements are distinct?
+6.1-6
+Is an array that is in sorted order a min-heap?
+6.1-7
+Is the array with values 〈33, 19, 20, 15, 13, 10, 2, 13, 16, 12〉 a max-heap?www.konkur.inTelegram: @uni_k
+6.1-8
+Show that, with the array representation for storing an n-element heap,
+the leaves are the nodes indexed by ⌊n/2⌋ + 1, ⌊n/2⌋ + 2, ... , n.
+
+
+6.2-1
+Using  Figure  6.2  as  a  model,  illustrate  the  operation  of  MAX-
+HEAPIFY(A, 3) on the array A = 〈27, 17, 3, 16, 13, 10, 1, 5, 7, 12, 4, 8,
+9, 0〉
+6.2-4
+What  is  the  effect  of  calling  MAX-HEAPIFY(A, i)  when  the  element
+A[i] is larger than its children?
+6.2-5
+What  is  the  effect  of  calling  MAX-HEAPIFY(A,  i)  for  i  >  A.heap-
+size/2?
+6.2-6
+The  code  for  MAX-HEAPIFY  is  quite  efficient  in  terms  of  constant
+factors, except possibly for the recursive call in line 10, for which some
+compilers  might  produce  inefficient  code.  Write  an  efficient  MAX-
+HEAPIFY  that  uses  an  iterative  control  construct  (a  loop)  instead  of
+recursion.
+6.2-7
+Show that the worst-case running time of MAX-HEAPIFY on a heap
+of size n is Ω(lg n). (Hint: For a heap with n nodes, give node values that
+cause  MAX-HEAPIFY  to  be  called  recursively  at  every  node  on  a
+simple path from the root down to a leaf.)
+
+
+
+6.3-1
+Using Figure 6.3 as a model, illustrate the operation of BUILD-MAX-
+HEAP on the array A = 〈5, 3, 17, 10, 84, 19, 6, 22, 9〉.
+6.3-2
+Show that ⌈n/2h + 1⌉ ≥ 1/2 for 0 ≤ h ≤ ⌊lg n⌋.
+6.3-3
+Why  does  the  loop  index  i  in  line  2  of  BUILD-MAX-HEAP  decrease
+from ⌊n/2⌋ to 1 rather than increase from 1 to ⌊n/2⌋?
+
+
+6.4-1
+Using Figure 6.4 as a model, illustrate the operation of HEAPSORT on
+the array A = 〈5, 13, 2, 25, 7, 17, 20, 8, 4〉.
+
+6.4-3
+What is the running time of HEAPSORT on an array A of length n that
+is already sorted in increasing order? How about if the array is already
+sorted in decreasing order?
+
+
+
+6.5-1
+Suppose that the objects in a max-priority queue are just keys. Illustrate
+the operation of MAX-HEAP-EXTRACT-MAX on the heap A = 〈15,
+13, 9, 5, 12, 8, 7, 4, 0, 6, 2, 1〉.
+6.5-2
+Suppose that the objects in a max-priority queue are just keys. Illustrate
+the operation of MAX-HEAP-INSERT(A, 10) on the heap A = 〈15, 13,
+9, 5, 12, 8, 7, 4, 0, 6, 2, 1〉.
+
+
+6.5-4
+Write pseudocode for the procedure MAX-HEAP-DECREASE-KEY(A, x, k) in a max-heap.
+What is the running time of your procedure?
+
+Illustration:
+
+(a)
+          16
+        /    \
+      14      10
+     /  \     / \
+    8    7   9   3
+   / \
+  2   4   ← i
+
+(b)
+          16
+        /    \
+      14      10
+     /  \     / \
+    8    7   9   3
+   / \
+  2   15   ← i
+
+(c)
+          16
+        /    \
+      14      10
+     /  \     / \
+   15    7   9   3
+  / \
+ 2   8   1
+ ↑
+ i
+
+(d)
+          16
+        /    \
+      15      10
+     /  \     / \
+   14    7   9   3
+  / \
+ 2   8   1
+ ↑
+ i
+ Figure 6.5 The operation of MAX-HEAP-INCREASE-KEY. Only the key of each element in
+the priority queue is shown. The node indexed by i in each iteration is shown in blue. (a) The
+max-heap of Figure 6.4(a) with i indexing the node whose key is about to be increased. (b) This
+node has its key increased to 15. (c) After one iteration of the while loop of lines 5–7, the node
+and its parent have exchanged keys, and the index i moves up to the parent. (d) The max-heap
+after one more iteration of the while loop. At this point, A[PARENT(i)] ≥ A[i]. The max-heap
+property now holds and the procedure terminates
+
+6.5-8
+Each exchange operation on line 6 of MAX-HEAP-INCREASE-KEY
+typically  requires  three  assignments,  not  counting  the  updating  of  the
+mapping from objects to array indices. Show how to use the idea of the
+inner  loop  of  INSERTION-SORT  to  reduce  the  three  assignments  to
+just one assignment.
+
+6.5-10
+The operation MAX-HEAP-DELETE(A, x)  deletes  the  object  x  from
+max-heap A. Give an implementation of MAX-HEAP-DELETE for an
+n-element  max-heap  that  runs  in  O(lg  n)  time  plus  the  overhead  for
+mapping priority queue objects to array indices.
+
+
+7.1-1
+Using Figure 7.1 as a model, illustrate the operation of PARTITION on
+the array A = 〈13, 19, 9, 5, 12, 8, 7, 4, 21, 2, 6, 11
+⌊(p  +  r)/2⌋  when  all  elements  in  the  subarray  A[p  :  r]  have  the  same
+value.
+7.1-3
+Give  a  brief  argument  that  the  running  time  of  PARTITION  on  a
+subarray of size n is Θ(n).
+7.1-4
+Modify QUICKSORT to sort into monotonically decreasing order.
+
+7.2-1
+Use the substitution method to prove that the recurrence T (n) = T (n –
+1) + Θ(n) has the solution T (n) = Θ(n2), as claimed at the beginning of
+Section 7.2.
+7.2-2
+What is the running time of QUICKSORT when all elements of array A
+have the same value?
+7.2-3
+Show that the running time of QUICKSORT is Θ(n2) when the array A
+contains distinct elements and is sorted in decreasing order.
+
+7.2-5
+Suppose  that  the  splits  at  every  level  of  quicksort  are  in  the  constant
+proportion α to β, where α + β  =  1  and  0  <  α ≤ β  <  1.  Show  that  the
+minimum depth of a leaf in the recursion tree is approximately log1/α nwww.konkur.inTelegram: @uni_k
+and  that  the  maximum  depth  is  approximately  log1/β n.  (Don’t  worry
+about integer round-off.)
+
+
+7.3-1
+Why  do  we  analyze  the  expected  running  time  of  a  randomized
+algorithm and not its worst-case running time?
+7.3-2
+When RANDOMIZED-QUICKSORT runs, how many calls are made
+to  the  random-number  generator  RANDOM  in  the  worst  case?  How
+about in the best case? Give your answer in terms of Θ-notation
