@@ -1,0 +1,380 @@
+Homework Solutions: Section 7.1 - PARTITION Operation
+======================================================
+
+QUICKSORT BASICS - WHAT YOU NEED TO KNOW:
+- Divide-and-conquer sorting algorithm
+- Average case: O(n lg n), Worst case: O(n²)
+- Sorts in place with O(lg n) stack space
+- Key operation: PARTITION
+- Strategy: Pick pivot, partition around it, recurse on both sides
+
+PARTITION - THE HEART OF QUICKSORT:
+- Purpose: Rearrange array so all elements ≤ pivot are on left, all > pivot are on right
+- Returns: Final position of pivot
+- Time: Θ(n) - linear in subarray size
+- Key idea: Maintain invariant with two regions
+
+PSEUDOCODE:
+PARTITION(A, p, r):
+    pivot = A[r]           // Last element as pivot
+    i = p - 1              // Index of last element ≤ pivot
+    for j = p to r - 1:
+        if A[j] ≤ pivot:
+            i = i + 1
+            swap A[i] with A[j]
+    swap A[i + 1] with A[r]
+    return i + 1
+
+QUICKSORT(A, p, r):
+    if p < r:
+        q = PARTITION(A, p, r)
+        QUICKSORT(A, p, q - 1)
+        QUICKSORT(A, q + 1, r)
+
+INVARIANT DURING PARTITION:
+At the start of each iteration of the for loop:
+1. All elements in A[p..i] are ≤ pivot
+2. All elements in A[i+1..j-1] are > pivot
+3. A[r] = pivot
+
+=================================
+
+7.1-1: Illustrate PARTITION on A = 〈13, 19, 9, 5, 12, 8, 7, 4, 21, 2, 6, 11〉
+
+QUESTION RESTATED:
+Show step-by-step how PARTITION rearranges this array.
+
+INITIAL STATE:
+Array: [13, 19, 9, 5, 12, 8, 7, 4, 21, 2, 6, 11]
+Index:  1   2  3  4   5  6  7  8   9 10 11  12
+
+p = 1, r = 12
+pivot = A[12] = 11
+i = 0 (starts at p - 1)
+
+STEP-BY-STEP EXECUTION:
+
+ITERATION 1: j = 1
+- A[1] = 13
+- Is 13 ≤ 11? NO
+- No swap, i stays at 0
+- Array: [13, 19, 9, 5, 12, 8, 7, 4, 21, 2, 6, 11]
+         i=0  j=1
+
+ITERATION 2: j = 2
+- A[2] = 19
+- Is 19 ≤ 11? NO
+- No swap, i stays at 0
+- Array: [13, 19, 9, 5, 12, 8, 7, 4, 21, 2, 6, 11]
+         i=0      j=2
+
+ITERATION 3: j = 3
+- A[3] = 9
+- Is 9 ≤ 11? YES
+- i = 1
+- Swap A[1] ↔ A[3]: 13 ↔ 9
+- Array: [9, 19, 13, 5, 12, 8, 7, 4, 21, 2, 6, 11]
+         i=1      j=3
+
+ITERATION 4: j = 4
+- A[4] = 5
+- Is 5 ≤ 11? YES
+- i = 2
+- Swap A[2] ↔ A[4]: 19 ↔ 5
+- Array: [9, 5, 13, 19, 12, 8, 7, 4, 21, 2, 6, 11]
+             i=2  j=4
+
+ITERATION 5: j = 5
+- A[5] = 12
+- Is 12 ≤ 11? NO
+- No swap, i stays at 2
+- Array: [9, 5, 13, 19, 12, 8, 7, 4, 21, 2, 6, 11]
+             i=2      j=5
+
+ITERATION 6: j = 6
+- A[6] = 8
+- Is 8 ≤ 11? YES
+- i = 3
+- Swap A[3] ↔ A[6]: 13 ↔ 8
+- Array: [9, 5, 8, 19, 12, 13, 7, 4, 21, 2, 6, 11]
+                 i=3      j=6
+
+ITERATION 7: j = 7
+- A[7] = 7
+- Is 7 ≤ 11? YES
+- i = 4
+- Swap A[4] ↔ A[7]: 19 ↔ 7
+- Array: [9, 5, 8, 7, 12, 13, 19, 4, 21, 2, 6, 11]
+                    i=4      j=7
+
+ITERATION 8: j = 8
+- A[8] = 4
+- Is 4 ≤ 11? YES
+- i = 5
+- Swap A[5] ↔ A[8]: 12 ↔ 4
+- Array: [9, 5, 8, 7, 4, 13, 19, 12, 21, 2, 6, 11]
+                       i=5      j=8
+
+ITERATION 9: j = 9
+- A[9] = 21
+- Is 21 ≤ 11? NO
+- No swap, i stays at 5
+- Array: [9, 5, 8, 7, 4, 13, 19, 12, 21, 2, 6, 11]
+                       i=5          j=9
+
+ITERATION 10: j = 10
+- A[10] = 2
+- Is 2 ≤ 11? YES
+- i = 6
+- Swap A[6] ↔ A[10]: 13 ↔ 2
+- Array: [9, 5, 8, 7, 4, 2, 19, 12, 21, 13, 6, 11]
+                          i=6          j=10
+
+ITERATION 11: j = 11
+- A[11] = 6
+- Is 6 ≤ 11? YES
+- i = 7
+- Swap A[7] ↔ A[11]: 19 ↔ 6
+- Array: [9, 5, 8, 7, 4, 2, 6, 12, 21, 13, 19, 11]
+                             i=7          j=11
+
+FINAL STEP: Place pivot in correct position
+- i + 1 = 8
+- Swap A[8] ↔ A[12]: 12 ↔ 11
+- Array: [9, 5, 8, 7, 4, 2, 6, 11, 21, 13, 19, 12]
+                             ↑
+                          pivot at position 8
+
+ANSWER:
+Final array: [9, 5, 8, 7, 4, 2, 6, 11, 21, 13, 19, 12]
+Return value: q = 8
+
+VERIFICATION:
+- Elements A[1..7] = {9, 5, 8, 7, 4, 2, 6} are all ≤ 11 ✓
+- Element A[8] = 11 (pivot in correct position) ✓
+- Elements A[9..12] = {21, 13, 19, 12} are all > 11 ✓
+
+KEY INSIGHT:
+The partition divided the array into:
+- Left partition: [9, 5, 8, 7, 4, 2, 6] - all ≤ 11
+- Pivot: 11 at position 8
+- Right partition: [21, 13, 19, 12] - all > 11
+
+=================================
+
+7.1-3: Give a brief argument that PARTITION runs in Θ(n) time
+
+QUESTION RESTATED:
+Prove that PARTITION on a subarray of size n takes linear time.
+
+CONCEPT:
+Analyze the number of operations in PARTITION.
+
+STEP-BY-STEP PROOF:
+
+1) INITIALIZATION:
+   - pivot = A[r]: O(1)
+   - i = p - 1: O(1)
+   - Total: O(1)
+
+2) FOR LOOP:
+   - Runs from j = p to r - 1
+   - Number of iterations: (r - 1) - p + 1 = r - p = n - 1
+   - Each iteration:
+     * Comparison: A[j] ≤ pivot - O(1)
+     * Possibly increment i - O(1)
+     * Possibly swap - O(1)
+     * Total per iteration: O(1)
+   - Total for loop: (n - 1) × O(1) = O(n)
+
+3) FINAL SWAP:
+   - swap A[i + 1] with A[r]: O(1)
+
+4) TOTAL TIME:
+   - O(1) + O(n) + O(1) = O(n)
+
+5) LOWER BOUND:
+   - Must examine each element at least once
+   - Therefore Ω(n)
+
+6) CONCLUSION:
+   - Upper bound: O(n)
+   - Lower bound: Ω(n)
+   - Therefore: Θ(n)
+
+ANSWER:
+PARTITION runs in Θ(n) time because:
+1. It performs exactly n-1 comparisons (one for each element except pivot)
+2. Each comparison does O(1) work (compare, possibly swap)
+3. Total: (n-1) × O(1) = Θ(n)
+
+The algorithm must examine every element to determine which side of the pivot it belongs to, giving a lower bound of Ω(n). The for loop executes exactly n-1 times with constant work per iteration, giving an upper bound of O(n). Therefore, the running time is Θ(n).
+
+FORMAL ANALYSIS:
+Let n = r - p + 1 (size of subarray)
+- Comparisons: exactly n - 1
+- Swaps: at most n - 1
+- Other operations: constant
+- T(n) = c₁(n-1) + c₂ = Θ(n)
+
+=================================
+
+7.1-4: Modify QUICKSORT to sort into monotonically decreasing order
+
+QUESTION RESTATED:
+Change QUICKSORT to sort from largest to smallest instead of smallest to largest.
+
+CONCEPT:
+Two approaches:
+1. Modify PARTITION to put larger elements on left
+2. Keep PARTITION same, reverse the final result
+
+APPROACH 1: Modify PARTITION (Better)
+
+Change the comparison in PARTITION from ≤ to ≥:
+
+PARTITION-DECREASING(A, p, r):
+    pivot = A[r]
+    i = p - 1
+    for j = p to r - 1:
+        if A[j] ≥ pivot:    // Changed from ≤ to ≥
+            i = i + 1
+            swap A[i] with A[j]
+    swap A[i + 1] with A[r]
+    return i + 1
+
+QUICKSORT-DECREASING(A, p, r):
+    if p < r:
+        q = PARTITION-DECREASING(A, p, r)
+        QUICKSORT-DECREASING(A, p, q - 1)
+        QUICKSORT-DECREASING(A, q + 1, r)
+
+EXAMPLE:
+Array: [5, 2, 8, 3, 9, 1]
+pivot = 1
+
+Using ≥ comparison:
+- 5 ≥ 1? YES → swap to left partition
+- 2 ≥ 1? YES → swap to left partition
+- 8 ≥ 1? YES → swap to left partition
+- 3 ≥ 1? YES → swap to left partition
+- 9 ≥ 1? YES → swap to left partition
+
+Result: [5, 2, 8, 3, 9, 1] → all elements ≥ 1 on left
+After final swap: [5, 2, 8, 3, 1, 9]
+
+Recursively sort left and right, final result: [9, 8, 5, 3, 2, 1]
+
+APPROACH 2: Reverse at the end (Simpler but less efficient)
+
+QUICKSORT-DECREASING(A, p, r):
+    QUICKSORT(A, p, r)  // Sort in increasing order
+    REVERSE(A, p, r)    // Reverse the array
+
+REVERSE(A, p, r):
+    while p < r:
+        swap A[p] with A[r]
+        p = p + 1
+        r = r - 1
+
+APPROACH 3: Use MIN-PARTITION (Alternative)
+
+Instead of using the last element as pivot and putting smaller elements left:
+- Use last element as pivot
+- Put LARGER elements on left
+
+ANSWER:
+To sort in decreasing order, modify PARTITION to use ≥ instead of ≤:
+
+PARTITION-DECREASING(A, p, r):
+    pivot = A[r]
+    i = p - 1
+    for j = p to r - 1:
+        if A[j] ≥ pivot:    // Key change: ≥ instead of ≤
+            i = i + 1
+            swap A[i] with A[j]
+    swap A[i + 1] with A[r]
+    return i + 1
+
+This ensures that elements ≥ pivot are placed to the left, and elements < pivot are placed to the right, resulting in decreasing order after recursion.
+
+COMPARISON OF APPROACHES:
+1. Modify PARTITION: O(n lg n), sorts directly in decreasing order
+2. Reverse after sorting: O(n lg n) + O(n) = O(n lg n), but extra pass
+3. Both correct, approach 1 is more elegant
+
+=================================
+
+KEY TAKEAWAYS FOR MIDTERM:
+
+1. PARTITION ALGORITHM:
+   - Choose pivot (usually last element)
+   - Maintain two regions: ≤ pivot and > pivot
+   - Scan array once, swapping elements to correct region
+   - Place pivot in final position
+   - Return pivot index
+
+2. PARTITION INVARIANT:
+   At each iteration:
+   - A[p..i] contains elements ≤ pivot
+   - A[i+1..j-1] contains elements > pivot
+   - A[r] is the pivot
+   - A[j..r-1] are unprocessed
+
+3. TIME COMPLEXITY:
+   - PARTITION: Θ(n) - examines each element once
+   - QUICKSORT average: O(n lg n)
+   - QUICKSORT worst: O(n²)
+
+4. HOW PARTITION WORKS:
+   - i tracks boundary between ≤ and > regions
+   - j scans through array
+   - When A[j] ≤ pivot: increment i, swap A[i] with A[j]
+   - When A[j] > pivot: just move j forward
+   - Finally: swap pivot into position i+1
+
+5. PARTITION PROPERTIES:
+   - In-place: O(1) extra space
+   - Linear time: Θ(n)
+   - Not stable: relative order may change
+   - Deterministic: same input → same output
+
+6. QUICKSORT STRUCTURE:
+   - Divide: PARTITION into ≤ pivot and > pivot
+   - Conquer: Recursively sort both partitions
+   - Combine: Nothing (already in place)
+
+7. MODIFYING FOR DECREASING ORDER:
+   - Change ≤ to ≥ in PARTITION
+   - Or reverse array after sorting
+   - Both O(n lg n)
+
+8. WHY Θ(n) NOT O(n)?:
+   - Must examine every element (lower bound)
+   - Examines each element exactly once (upper bound)
+   - Therefore tight bound: Θ(n)
+
+9. PARTITION VARIATIONS:
+   - Lomuto partition: Uses last element as pivot (shown here)
+   - Hoare partition: Uses two pointers from both ends
+   - 3-way partition: Handles duplicate keys better
+
+10. COMMON MISTAKES:
+    - Forgetting to swap pivot at end
+    - Off-by-one errors with i and j
+    - Not maintaining invariant
+    - Forgetting base case (p < r)
+
+11. VISUALIZATION:
+    [≤ pivot | > pivot | unprocessed | pivot]
+     p...i    i+1..j-1   j...r-1      r
+     
+    After partition:
+    [≤ pivot | pivot | > pivot]
+     p...q-1    q      q+1...r
+
+12. WHEN PARTITION FINISHES:
+    - All elements in A[p..q-1] ≤ A[q]
+    - A[q] is in its final sorted position
+    - All elements in A[q+1..r] > A[q]
+    - Ready to recurse on both sides

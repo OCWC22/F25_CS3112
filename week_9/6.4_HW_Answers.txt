@@ -1,0 +1,332 @@
+Homework Solutions: Section 6.4 - HEAPSORT
+============================================
+
+HEAPSORT BASICS - WHAT YOU NEED TO KNOW:
+- Sorting algorithm using heap data structure
+- Time complexity: O(n lg n) in all cases (worst, average, best)
+- Space complexity: O(1) - sorts in place
+- NOT stable (relative order of equal elements may change)
+- Strategy: Build max-heap, then repeatedly extract maximum
+
+ALGORITHM:
+1. BUILD-MAX-HEAP(A) - O(n)
+2. For i = n downto 2:
+   - Swap A[1] with A[i] (move max to end)
+   - Decrease heap-size by 1
+   - MAX-HEAPIFY(A, 1) - restore heap property
+
+PSEUDOCODE:
+HEAPSORT(A):
+    BUILD-MAX-HEAP(A)
+    for i = A.length downto 2:
+        swap A[1] with A[i]
+        A.heap-size = A.heap-size - 1
+        MAX-HEAPIFY(A, 1)
+
+=================================
+
+6.4-1: Illustrate HEAPSORT on A = 〈5, 13, 2, 25, 7, 17, 20, 8, 4〉
+
+QUESTION RESTATED:
+Show step-by-step how HEAPSORT sorts this array.
+
+PHASE 1: BUILD-MAX-HEAP
+
+Initial array: [5, 13, 2, 25, 7, 17, 20, 8, 4]
+Index:          1   2  3   4  5   6   7  8  9
+
+Initial tree:
+       5
+      / \
+    13   2
+    / \  / \
+  25  7 17 20
+  / \
+ 8   4
+
+n = 9, ⌊9/2⌋ = 4, so heapify nodes 4, 3, 2, 1
+
+After BUILD-MAX-HEAP:
+      25
+     /  \
+   13    20
+   / \   / \
+  8   7 17  2
+ / \
+5   4
+
+Array: [25, 13, 20, 8, 7, 17, 2, 5, 4]
+
+PHASE 2: EXTRACT MAX AND HEAPIFY (n-1 times)
+
+ITERATION 1: i = 9
+- Swap A[1] ↔ A[9]: 25 ↔ 4
+- Array: [4, 13, 20, 8, 7, 17, 2, 5, | 25]
+- heap-size = 8
+- MAX-HEAPIFY(A, 1):
+
+Before heapify:
+      4
+     /  \
+   13    20
+   / \   / \
+  8   7 17  2
+ / 
+5
+
+After heapify:
+      20
+     /  \
+   13    17
+   / \   / \
+  8   7  4  2
+ / 
+5
+
+Array: [20, 13, 17, 8, 7, 4, 2, 5, | 25]
+
+ITERATION 2: i = 8
+- Swap A[1] ↔ A[8]: 20 ↔ 5
+- Array: [5, 13, 17, 8, 7, 4, 2, | 20, 25]
+- heap-size = 7
+- MAX-HEAPIFY(A, 1):
+
+After heapify:
+      17
+     /  \
+   13    5
+   / \   / \
+  8   7  4  2
+
+Array: [17, 13, 5, 8, 7, 4, 2, | 20, 25]
+
+ITERATION 3: i = 7
+- Swap A[1] ↔ A[7]: 17 ↔ 2
+- Array: [2, 13, 5, 8, 7, 4, | 17, 20, 25]
+- heap-size = 6
+- MAX-HEAPIFY(A, 1):
+
+After heapify:
+      13
+     /  \
+    8    5
+   / \   /
+  2   7  4
+
+Array: [13, 8, 5, 2, 7, 4, | 17, 20, 25]
+
+ITERATION 4: i = 6
+- Swap A[1] ↔ A[6]: 13 ↔ 4
+- Array: [4, 8, 5, 2, 7, | 13, 17, 20, 25]
+- heap-size = 5
+- MAX-HEAPIFY(A, 1):
+
+After heapify:
+      8
+     /  \
+    7    5
+   / \
+  2   4
+
+Array: [8, 7, 5, 2, 4, | 13, 17, 20, 25]
+
+ITERATION 5: i = 5
+- Swap A[1] ↔ A[5]: 8 ↔ 4
+- Array: [4, 7, 5, 2, | 8, 13, 17, 20, 25]
+- heap-size = 4
+- MAX-HEAPIFY(A, 1):
+
+After heapify:
+      7
+     /  \
+    4    5
+   /
+  2
+
+Array: [7, 4, 5, 2, | 8, 13, 17, 20, 25]
+
+ITERATION 6: i = 4
+- Swap A[1] ↔ A[4]: 7 ↔ 2
+- Array: [2, 4, 5, | 7, 8, 13, 17, 20, 25]
+- heap-size = 3
+- MAX-HEAPIFY(A, 1):
+
+After heapify:
+      5
+     /  \
+    4    2
+
+Array: [5, 4, 2, | 7, 8, 13, 17, 20, 25]
+
+ITERATION 7: i = 3
+- Swap A[1] ↔ A[3]: 5 ↔ 2
+- Array: [2, 4, | 5, 7, 8, 13, 17, 20, 25]
+- heap-size = 2
+- MAX-HEAPIFY(A, 1):
+
+After heapify:
+      4
+     /
+    2
+
+Array: [4, 2, | 5, 7, 8, 13, 17, 20, 25]
+
+ITERATION 8: i = 2
+- Swap A[1] ↔ A[2]: 4 ↔ 2
+- Array: [2, | 4, 5, 7, 8, 13, 17, 20, 25]
+- heap-size = 1
+- Done!
+
+FINAL SORTED ARRAY:
+[2, 4, 5, 7, 8, 13, 17, 20, 25]
+
+ANSWER:
+The array is sorted in ascending order: [2, 4, 5, 7, 8, 13, 17, 20, 25]
+
+KEY OBSERVATIONS:
+- Each iteration moves the current maximum to its final position
+- The sorted portion grows from right to left
+- The heap portion shrinks from right to left
+- After n-1 iterations, array is fully sorted
+
+=================================
+
+6.4-3: Running time of HEAPSORT on already sorted arrays
+
+QUESTION RESTATED:
+What is the time complexity when:
+a) Array is already sorted in increasing order?
+b) Array is already sorted in decreasing order?
+
+CONCEPT:
+Analyze each phase of HEAPSORT separately.
+
+CASE A: ARRAY SORTED IN INCREASING ORDER [1, 2, 3, 4, 5, ...]
+
+STEP-BY-STEP ANALYSIS:
+
+1) BUILD-MAX-HEAP PHASE:
+   - Input: [1, 2, 3, 4, 5, 6, 7, ...]
+   - This is a MIN-heap, not a max-heap!
+   - Every internal node violates max-heap property
+   - Must do extensive swapping
+   - Time: O(n) (same as any input)
+
+2) EXTRACTION PHASE:
+   - After building max-heap, largest element is at root
+   - Each MAX-HEAPIFY call takes O(lg n)
+   - Must do n-1 extractions
+   - Time: O(n lg n)
+
+3) TOTAL TIME: O(n) + O(n lg n) = O(n lg n)
+
+CASE B: ARRAY SORTED IN DECREASING ORDER [7, 6, 5, 4, 3, 2, 1]
+
+STEP-BY-STEP ANALYSIS:
+
+1) BUILD-MAX-HEAP PHASE:
+   - Input: [7, 6, 5, 4, 3, 2, 1]
+   - This is already very close to a max-heap!
+   - Tree structure:
+          7
+         / \
+        6   5
+       / \ / \
+      4  3 2  1
+   - Check: 7≥6, 7≥5, 6≥4, 6≥3, 5≥2, 5≥1 ✓
+   - Already a valid max-heap!
+   - Time: O(n) (but minimal work)
+
+2) EXTRACTION PHASE:
+   - Still need to extract n-1 times
+   - Each extraction: swap + heapify
+   - Each MAX-HEAPIFY: O(lg n)
+   - Time: O(n lg n)
+
+3) TOTAL TIME: O(n) + O(n lg n) = O(n lg n)
+
+ANSWER:
+Both cases have the same time complexity: Θ(n lg n)
+
+a) Increasing order: Θ(n lg n)
+   - BUILD-MAX-HEAP does O(n) work
+   - Extraction phase does O(n lg n) work
+   
+b) Decreasing order: Θ(n lg n)
+   - BUILD-MAX-HEAP does O(n) work (minimal swaps)
+   - Extraction phase does O(n lg n) work
+
+KEY INSIGHT:
+HEAPSORT always takes Θ(n lg n) time regardless of input order. This is both a strength (predictable performance) and a weakness (doesn't take advantage of partially sorted data like insertion sort does).
+
+COMPARISON WITH OTHER SORTS:
+- Insertion Sort on sorted array: O(n) - much better!
+- Insertion Sort on reverse sorted: O(n²) - much worse!
+- Heapsort on any input: O(n lg n) - consistent
+
+WHY NO IMPROVEMENT?
+- The extraction phase ALWAYS takes O(n lg n)
+- Even if BUILD-MAX-HEAP is fast, we still must:
+  - Extract maximum n-1 times
+  - Each extraction requires MAX-HEAPIFY: O(lg n)
+  - Total: (n-1) × O(lg n) = O(n lg n)
+
+=================================
+
+KEY TAKEAWAYS FOR MIDTERM:
+
+1. HEAPSORT ALGORITHM:
+   - Phase 1: BUILD-MAX-HEAP - O(n)
+   - Phase 2: Extract max n-1 times - O(n lg n)
+   - Total: O(n lg n)
+
+2. HOW IT WORKS:
+   - Build max-heap from unsorted array
+   - Repeatedly:
+     * Swap root (max) with last element
+     * Decrease heap size
+     * Restore heap property with MAX-HEAPIFY
+   - Sorted elements accumulate at end of array
+
+3. TIME COMPLEXITY:
+   - Best case: Θ(n lg n)
+   - Average case: Θ(n lg n)
+   - Worst case: Θ(n lg n)
+   - ALWAYS Θ(n lg n) - no variation!
+
+4. SPACE COMPLEXITY:
+   - O(1) auxiliary space
+   - Sorts in place
+   - Only needs constant extra memory
+
+5. STABILITY:
+   - NOT stable
+   - Equal elements may be reordered
+   - Example: [5a, 5b] might become [5b, 5a]
+
+6. ADVANTAGES:
+   - Guaranteed O(n lg n) - no worst case degradation
+   - In-place sorting - O(1) extra space
+   - No recursion stack needed (unlike quicksort)
+
+7. DISADVANTAGES:
+   - Not stable
+   - Doesn't adapt to partially sorted data
+   - Slower than quicksort in practice (worse cache performance)
+   - Always O(n lg n) even on sorted input
+
+8. COMPARISON:
+   - vs Quicksort: Heapsort has better worst case, quicksort faster average
+   - vs Mergesort: Heapsort uses O(1) space, mergesort is stable
+   - vs Insertion Sort: Heapsort better for large n, insertion better for small/sorted
+
+9. WHEN TO USE:
+   - Need guaranteed O(n lg n) performance
+   - Limited memory (in-place sorting)
+   - Don't need stability
+   - Worst-case performance matters more than average
+
+10. INVARIANT:
+    - After i iterations: A[i+1..n] is sorted
+    - A[1..i] is a valid max-heap
+    - All elements in A[1..i] ≤ all elements in A[i+1..n]

@@ -1,0 +1,439 @@
+Homework Solutions: Section 7.2 - Quicksort Performance Analysis
+==================================================================
+
+QUICKSORT PERFORMANCE - WHAT YOU NEED TO KNOW:
+- Best case: O(n lg n) - balanced partitions
+- Average case: O(n lg n) - random partitions
+- Worst case: O(n²) - unbalanced partitions
+- Space: O(lg n) average for recursion stack, O(n) worst case
+- Performance depends heavily on partition quality
+
+RECURRENCE RELATIONS:
+- Worst case: T(n) = T(n-1) + T(0) + Θ(n) = T(n-1) + Θ(n)
+- Best case: T(n) = 2T(n/2) + Θ(n)
+- Average case: T(n) = O(n lg n)
+
+=================================
+
+7.2-1: Use substitution method to prove T(n) = T(n-1) + Θ(n) has solution T(n) = Θ(n²)
+
+QUESTION RESTATED:
+Prove that the worst-case recurrence for quicksort solves to quadratic time.
+
+CONCEPT:
+Use mathematical induction with the substitution method.
+
+STEP-BY-STEP PROOF:
+
+STEP 1: Simplify the recurrence
+- T(n) = T(n-1) + Θ(n)
+- For analysis, use: T(n) = T(n-1) + cn for some constant c > 0
+
+STEP 2: Guess the solution
+- We guess: T(n) = O(n²)
+- More specifically: T(n) ≤ dn² for some constant d > 0
+
+STEP 3: Prove by induction
+
+Base case: T(1) = Θ(1)
+- Choose d large enough so that T(1) ≤ d(1)² = d
+- This is satisfied for sufficiently large d
+
+Inductive hypothesis:
+- Assume T(k) ≤ dk² for all k < n
+
+Inductive step:
+- Prove T(n) ≤ dn²
+
+T(n) = T(n-1) + cn
+     ≤ d(n-1)² + cn          [by inductive hypothesis]
+     = d(n² - 2n + 1) + cn
+     = dn² - 2dn + d + cn
+     = dn² - (2d - c)n + d
+
+For this to be ≤ dn², we need:
+     -(2d - c)n + d ≤ 0
+     d ≤ (2d - c)n
+     d ≤ 2dn - cn
+
+This holds for n ≥ 1 if we choose d ≥ c/2.
+
+Therefore: T(n) ≤ dn² = O(n²)
+
+STEP 4: Prove lower bound Ω(n²)
+
+Expand the recurrence:
+T(n) = T(n-1) + cn
+     = T(n-2) + c(n-1) + cn
+     = T(n-3) + c(n-2) + c(n-1) + cn
+     = ...
+     = T(1) + c(2 + 3 + ... + n)
+     = Θ(1) + c(n(n+1)/2 - 1)
+     = Θ(1) + c(n²/2 + n/2 - 1)
+     = Θ(n²)
+
+STEP 5: Combine bounds
+- Upper bound: O(n²)
+- Lower bound: Ω(n²)
+- Therefore: T(n) = Θ(n²) ✓
+
+ANSWER:
+By the substitution method:
+1. We guess T(n) = O(n²)
+2. Prove by induction: T(n) ≤ dn² for d ≥ c/2
+3. Expand recurrence to show T(n) = Θ(n²)
+4. Therefore, T(n) = Θ(n²)
+
+INTUITION:
+The recurrence T(n) = T(n-1) + cn represents:
+- Partition takes cn time
+- One subproblem has size n-1
+- Other subproblem has size 0
+- This is maximally unbalanced
+- Total work: c(n + (n-1) + (n-2) + ... + 2 + 1) = c·n(n+1)/2 = Θ(n²)
+
+=================================
+
+7.2-2: What is the running time when all elements have the same value?
+
+QUESTION RESTATED:
+Analyze quicksort's performance on an array where all elements are equal.
+
+CONCEPT:
+Trace through PARTITION when all elements equal the pivot.
+
+STEP-BY-STEP ANALYSIS:
+
+SCENARIO: Array [5, 5, 5, 5, 5, 5, 5, 5]
+
+PARTITION BEHAVIOR:
+- pivot = A[r] = 5
+- For each j from p to r-1:
+  * A[j] = 5
+  * Is 5 ≤ 5? YES
+  * Increment i and swap
+
+DETAILED TRACE:
+Initial: [5, 5, 5, 5, 5, 5, 5, 5], i = 0
+
+j=1: 5≤5? YES, i=1, swap A[1]↔A[1]: [5, 5, 5, 5, 5, 5, 5, 5]
+j=2: 5≤5? YES, i=2, swap A[2]↔A[2]: [5, 5, 5, 5, 5, 5, 5, 5]
+j=3: 5≤5? YES, i=3, swap A[3]↔A[3]: [5, 5, 5, 5, 5, 5, 5, 5]
+...
+j=7: 5≤5? YES, i=7, swap A[7]↔A[7]: [5, 5, 5, 5, 5, 5, 5, 5]
+
+Final swap: A[8]↔A[8]: [5, 5, 5, 5, 5, 5, 5, 5]
+Return q = 8
+
+PARTITION RESULT:
+- Left subarray: A[1..7] = [5, 5, 5, 5, 5, 5, 5] (size n-1)
+- Pivot: A[8] = 5
+- Right subarray: empty (size 0)
+
+This is the WORST CASE partition!
+
+RECURRENCE:
+T(n) = T(n-1) + T(0) + Θ(n)
+     = T(n-1) + Θ(n)
+
+This is the same recurrence as 7.2-1!
+
+SOLUTION:
+T(n) = Θ(n²)
+
+ANSWER:
+When all elements have the same value, quicksort runs in Θ(n²) time.
+
+EXPLANATION:
+- PARTITION always creates maximally unbalanced split: (n-1, 0)
+- All elements satisfy A[j] ≤ pivot, so all go to left partition
+- Recursion tree has height n
+- Level i does Θ(n-i) work
+- Total: Θ(n + (n-1) + (n-2) + ... + 1) = Θ(n²)
+
+RECURSION TREE:
+Level 0: n
+Level 1: n-1
+Level 2: n-2
+...
+Level n-1: 1
+Total: n(n+1)/2 = Θ(n²)
+
+WHY THIS HAPPENS:
+- Lomuto partition puts all elements ≤ pivot on left
+- When all equal, all go to one side
+- No balanced split
+- Degenerates to selection sort behavior
+
+FIX:
+Use 3-way partitioning (Dutch National Flag):
+- Partition into: < pivot | = pivot | > pivot
+- Don't recurse on = pivot section
+- This makes all-equal case O(n)!
+
+=================================
+
+7.2-3: Show running time is Θ(n²) when array is sorted in decreasing order
+
+QUESTION RESTATED:
+Prove that quicksort takes quadratic time on a reverse-sorted array.
+
+CONCEPT:
+Analyze partition behavior on decreasing array.
+
+STEP-BY-STEP ANALYSIS:
+
+SCENARIO: Array [9, 8, 7, 6, 5, 4, 3, 2, 1]
+
+FIRST PARTITION:
+- pivot = A[9] = 1
+- For each j from 1 to 8:
+  * A[j] ∈ {9, 8, 7, 6, 5, 4, 3, 2}
+  * Is A[j] ≤ 1? NO for all j
+  * i stays at 0
+  * No swaps occur
+
+Final swap: A[1] ↔ A[9]: 9 ↔ 1
+
+Result: [1, 8, 7, 6, 5, 4, 3, 2, 9]
+- Left: empty (size 0)
+- Pivot: 1 at position 1
+- Right: [8, 7, 6, 5, 4, 3, 2, 9] (size n-1)
+
+SECOND PARTITION (on right subarray):
+Array: [8, 7, 6, 5, 4, 3, 2, 9]
+- pivot = 9
+- All elements ≤ 9? YES
+- All go to left partition
+
+Result: [8, 7, 6, 5, 4, 3, 2, 9]
+- Left: [8, 7, 6, 5, 4, 3, 2] (size n-2)
+- Pivot: 9
+- Right: empty
+
+PATTERN:
+Every partition creates (0, n-1) or (n-1, 0) split!
+
+RECURRENCE:
+T(n) = T(n-1) + T(0) + Θ(n)
+     = T(n-1) + Θ(n)
+
+SOLUTION (from 7.2-1):
+T(n) = Θ(n²)
+
+FORMAL PROOF:
+
+CLAIM: On a decreasing array, PARTITION always creates maximally unbalanced split.
+
+PROOF:
+Consider array A[p..r] in decreasing order: A[p] > A[p+1] > ... > A[r]
+
+Case 1: pivot = A[r] (smallest element)
+- For all j ∈ [p, r-1]: A[j] > A[r]
+- No element satisfies A[j] ≤ pivot
+- All elements go to right partition
+- Split: (0, n-1)
+
+Case 2: After first partition, remaining elements still in decreasing order
+- Subproblem maintains decreasing property
+- Same unbalanced split occurs
+
+By induction: Every partition is maximally unbalanced.
+
+RECURSION TREE:
+                n
+               /
+             n-1
+             /
+           n-2
+           /
+         ...
+         /
+        1
+
+Height: n
+Work at level i: n - i
+Total work: Σ(i=0 to n-1) (n-i) = Σ(i=1 to n) i = n(n+1)/2 = Θ(n²)
+
+ANSWER:
+When the array is sorted in decreasing order, quicksort runs in Θ(n²) time because:
+1. The pivot (last element) is always the smallest
+2. All other elements are larger, creating (0, n-1) split
+3. This happens at every level of recursion
+4. Total work: n + (n-1) + (n-2) + ... + 1 = Θ(n²)
+
+COMPARISON WITH OTHER INPUTS:
+- Random array: O(n lg n) average
+- Sorted increasing: Θ(n²) worst case
+- Sorted decreasing: Θ(n²) worst case
+- All equal: Θ(n²) worst case
+
+WHY SORTED IS WORST:
+- Lomuto partition uses last element as pivot
+- In sorted array, last element is extreme (min or max)
+- Creates maximally unbalanced partition
+- No divide-and-conquer benefit
+
+=================================
+
+7.2-5: Show minimum depth ≈ log₁/α n and maximum depth ≈ log₁/β n for α:β splits
+
+QUESTION RESTATED:
+If every partition splits in constant proportion α:(1-α), find the minimum and maximum depths of the recursion tree.
+
+GIVEN:
+- Every split is α:β where α + β = 1 and 0 < α ≤ β < 1
+- This means α ≤ 1/2 ≤ β
+- Example: 1/4 : 3/4 split (α=1/4, β=3/4)
+
+CONCEPT:
+The recursion tree depth depends on which branch we follow.
+
+STEP-BY-STEP ANALYSIS:
+
+PARTITION BEHAVIOR:
+At each level, array of size n splits into:
+- Left subarray: size αn
+- Right subarray: size βn = (1-α)n
+
+MINIMUM DEPTH (shortest path to leaf):
+
+Follow the SMALLER subarray (size αn):
+- Level 0: n
+- Level 1: αn
+- Level 2: α²n
+- Level 3: α³n
+- ...
+- Level k: αᵏn
+
+Reach leaf when αᵏn = 1:
+- αᵏn = 1
+- αᵏ = 1/n
+- k log α = log(1/n)
+- k log α = -log n
+- k = -log n / log α
+- k = log n / log(1/α)
+- k = log₁/α n
+
+MINIMUM DEPTH = log₁/α n
+
+MAXIMUM DEPTH (longest path to leaf):
+
+Follow the LARGER subarray (size βn):
+- Level 0: n
+- Level 1: βn
+- Level 2: β²n
+- Level 3: β³n
+- ...
+- Level k: βᵏn
+
+Reach leaf when βᵏn = 1:
+- βᵏn = 1
+- βᵏ = 1/n
+- k log β = -log n
+- k = log n / log(1/β)
+- k = log₁/β n
+
+MAXIMUM DEPTH = log₁/β n
+
+EXAMPLE: α = 1/4, β = 3/4
+
+Minimum depth:
+- log₁/₀.₂₅ n = log₄ n = (log n)/(log 4) = (log n)/2 ≈ 0.5 log₂ n
+
+Maximum depth:
+- log₁/₀.₇₅ n = log₄/₃ n = (log n)/(log 4/3) ≈ 2.4 log₂ n
+
+ANSWER:
+For constant proportion splits α:(1-α):
+- Minimum depth: log₁/α n (following smaller subarray)
+- Maximum depth: log₁/β n = log₁/(₁₋α) n (following larger subarray)
+
+Both are O(log n), so even unbalanced constant-proportion splits give O(n log n) performance!
+
+KEY INSIGHT:
+As long as splits are in constant proportion (not dependent on n), the depth is O(log n). This is why average-case quicksort is O(n log n) even though partitions aren't perfectly balanced.
+
+VERIFICATION:
+For α = β = 1/2 (perfectly balanced):
+- Min depth = log₂ n
+- Max depth = log₂ n
+- Both equal, as expected ✓
+
+For α = 1/10, β = 9/10:
+- Min depth = log₁₀ n ≈ 3.32 log₂ n
+- Max depth = log₁₀/₉ n ≈ 21.85 log₂ n
+- Both still O(log n) ✓
+
+=================================
+
+KEY TAKEAWAYS FOR MIDTERM:
+
+1. WORST CASE: Θ(n²)
+   - Occurs when partitions are maximally unbalanced
+   - Examples: sorted array, reverse sorted, all equal
+   - Recurrence: T(n) = T(n-1) + Θ(n)
+   - Solution: T(n) = n + (n-1) + ... + 1 = Θ(n²)
+
+2. BEST CASE: Θ(n lg n)
+   - Occurs when partitions are perfectly balanced
+   - Recurrence: T(n) = 2T(n/2) + Θ(n)
+   - Solution: T(n) = Θ(n lg n) by Master Theorem
+
+3. AVERAGE CASE: Θ(n lg n)
+   - Random partitions give expected O(n lg n)
+   - Even 9:1 splits give O(n lg n)!
+   - Constant proportion splits → O(log n) depth
+
+4. WHY SORTED IS WORST:
+   - Pivot is always extreme value (min or max)
+   - Creates (0, n-1) or (n-1, 0) split
+   - No divide-and-conquer benefit
+   - Degenerates to selection sort
+
+5. ALL EQUAL ELEMENTS:
+   - Lomuto partition: Θ(n²)
+   - All elements go to one side
+   - Fix: Use 3-way partitioning
+
+6. SUBSTITUTION METHOD:
+   - Guess the solution form
+   - Prove by induction
+   - Show both upper and lower bounds
+   - Combine to get tight bound
+
+7. RECURSION TREE METHOD:
+   - Draw tree showing subproblem sizes
+   - Sum work at each level
+   - Multiply by tree height
+   - Total = (work per level) × (height)
+
+8. CONSTANT PROPORTION SPLITS:
+   - α:β split where α+β=1
+   - Min depth: log₁/α n
+   - Max depth: log₁/β n
+   - Both O(log n) → total O(n log n)
+
+9. COMPARISON:
+   - Mergesort: Always Θ(n lg n), stable, O(n) space
+   - Heapsort: Always Θ(n lg n), in-place, not stable
+   - Quicksort: Average O(n lg n), worst O(n²), in-place
+
+10. WHEN QUICKSORT FAILS:
+    - Already sorted data
+    - Reverse sorted data
+    - All elements equal
+    - Nearly sorted data
+    - Fix: Use randomized pivot or median-of-3
+
+11. RECURRENCE PATTERNS:
+    - T(n) = T(n-1) + Θ(n) → Θ(n²)
+    - T(n) = 2T(n/2) + Θ(n) → Θ(n lg n)
+    - T(n) = T(n/10) + T(9n/10) + Θ(n) → Θ(n lg n)
+
+12. PRACTICAL IMPLICATIONS:
+    - Don't use basic quicksort on sorted data
+    - Randomize pivot selection
+    - Use median-of-3 pivot
+    - Switch to insertion sort for small subarrays
+    - Use 3-way partition for duplicates

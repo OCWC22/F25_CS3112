@@ -1,0 +1,318 @@
+Homework Solutions: Section 6.3 - BUILD-MAX-HEAP
+==================================================
+
+BUILD-MAX-HEAP BASICS - WHAT YOU NEED TO KNOW:
+- Purpose: Convert an arbitrary array into a max-heap
+- Key insight: Leaves are already valid heaps (trivially)
+- Strategy: Work backwards from last internal node to root
+- Call MAX-HEAPIFY on each internal node
+- Time complexity: O(n) - surprisingly linear, not O(n lg n)!
+
+PSEUDOCODE:
+BUILD-MAX-HEAP(A):
+    A.heap-size = A.length
+    for i = ⌊A.length/2⌋ downto 1:
+        MAX-HEAPIFY(A, i)
+
+WHY START AT ⌊n/2⌋?
+- Nodes ⌊n/2⌋ + 1 to n are leaves (from 6.1-8)
+- Leaves are already valid heaps
+- Only need to heapify internal nodes: 1 to ⌊n/2⌋
+
+=================================
+
+6.3-1: Illustrate BUILD-MAX-HEAP on A = 〈5, 3, 17, 10, 84, 19, 6, 22, 9〉
+
+QUESTION RESTATED:
+Show step-by-step how BUILD-MAX-HEAP converts this array into a max-heap.
+
+INITIAL STATE:
+Array: [5, 3, 17, 10, 84, 19, 6, 22, 9]
+Index:  1  2   3   4   5   6  7   8  9
+
+Tree representation:
+         5
+       /   \
+      3     17
+     / \   / \
+   10  84 19  6
+   / \
+  22  9
+
+n = 9, so ⌊9/2⌋ = 4
+We'll call MAX-HEAPIFY on nodes 4, 3, 2, 1 (in that order)
+
+STEP-BY-STEP EXECUTION:
+
+ITERATION 1: i = 4, MAX-HEAPIFY(A, 4)
+- Node 4 has value 10
+- LEFT(4) = 8, value 22
+- RIGHT(4) = 9, value 9
+- Compare: 10 vs 22 vs 9
+- Largest = 22 (index 8)
+- Swap A[4] ↔ A[8]: 10 ↔ 22
+
+After iteration 1:
+         5
+       /   \
+      3     17
+     / \   / \
+   22  84 19  6
+   / \
+  10  9
+
+Array: [5, 3, 17, 22, 84, 19, 6, 10, 9]
+
+ITERATION 2: i = 3, MAX-HEAPIFY(A, 3)
+- Node 3 has value 17
+- LEFT(3) = 6, value 19
+- RIGHT(3) = 7, value 6
+- Compare: 17 vs 19 vs 6
+- Largest = 19 (index 6)
+- Swap A[3] ↔ A[6]: 17 ↔ 19
+
+After iteration 2:
+         5
+       /   \
+      3     19
+     / \   / \
+   22  84 17  6
+   / \
+  10  9
+
+Array: [5, 3, 19, 22, 84, 17, 6, 10, 9]
+
+ITERATION 3: i = 2, MAX-HEAPIFY(A, 2)
+- Node 2 has value 3
+- LEFT(2) = 4, value 22
+- RIGHT(2) = 5, value 84
+- Compare: 3 vs 22 vs 84
+- Largest = 84 (index 5)
+- Swap A[2] ↔ A[5]: 3 ↔ 84
+
+After first swap:
+         5
+       /   \
+     84     19
+     / \   / \
+   22   3 17  6
+   / \
+  10  9
+
+Array: [5, 84, 19, 22, 3, 17, 6, 10, 9]
+
+- Now recurse: MAX-HEAPIFY(A, 5)
+- Node 5 has value 3
+- LEFT(5) = 10 > 9, no left child
+- RIGHT(5) = 11 > 9, no right child
+- 3 is a leaf, done
+
+After iteration 3:
+         5
+       /   \
+     84     19
+     / \   / \
+   22   3 17  6
+   / \
+  10  9
+
+Array: [5, 84, 19, 22, 3, 17, 6, 10, 9]
+
+ITERATION 4: i = 1, MAX-HEAPIFY(A, 1)
+- Node 1 has value 5
+- LEFT(1) = 2, value 84
+- RIGHT(1) = 3, value 19
+- Compare: 5 vs 84 vs 19
+- Largest = 84 (index 2)
+- Swap A[1] ↔ A[2]: 5 ↔ 84
+
+After first swap:
+        84
+       /   \
+      5     19
+     / \   / \
+   22   3 17  6
+   / \
+  10  9
+
+Array: [84, 5, 19, 22, 3, 17, 6, 10, 9]
+
+- Now recurse: MAX-HEAPIFY(A, 2)
+- Node 2 has value 5
+- LEFT(2) = 4, value 22
+- RIGHT(2) = 5, value 3
+- Compare: 5 vs 22 vs 3
+- Largest = 22 (index 4)
+- Swap A[2] ↔ A[4]: 5 ↔ 22
+
+After second swap:
+        84
+       /   \
+     22     19
+     / \   / \
+    5   3 17  6
+   / \
+  10  9
+
+Array: [84, 22, 19, 5, 3, 17, 6, 10, 9]
+
+- Now recurse: MAX-HEAPIFY(A, 4)
+- Node 4 has value 5
+- LEFT(4) = 8, value 10
+- RIGHT(4) = 9, value 9
+- Compare: 5 vs 10 vs 9
+- Largest = 10 (index 8)
+- Swap A[4] ↔ A[8]: 5 ↔ 10
+
+FINAL MAX-HEAP:
+        84
+       /   \
+     22     19
+     / \   / \
+   10   3 17  6
+   / \
+  5   9
+
+Final Array: [84, 22, 19, 10, 3, 17, 6, 5, 9]
+
+ANSWER:
+The final max-heap is [84, 22, 19, 10, 3, 17, 6, 5, 9]
+
+VERIFICATION:
+- 84 ≥ 22, 84 ≥ 19 ✓
+- 22 ≥ 10, 22 ≥ 3 ✓
+- 19 ≥ 17, 19 ≥ 6 ✓
+- 10 ≥ 5, 10 ≥ 9 ✓
+All parent-child relationships satisfied!
+
+=================================
+
+6.3-2: Show that ⌈n/2^(h+1)⌉ ≥ 1/2 for 0 ≤ h ≤ ⌊lg n⌋
+
+QUESTION RESTATED:
+Prove this inequality involving the number of nodes at each height in a heap.
+
+CONTEXT:
+This is used in proving BUILD-MAX-HEAP is O(n). It shows that at least half the nodes are at the lowest level.
+
+STEP-BY-STEP PROOF:
+
+1) UNDERSTAND THE EXPRESSION:
+   - n/2^(h+1) represents the number of nodes at height h
+   - We need to show this is at least 1/2
+
+2) REWRITE THE INEQUALITY:
+   ⌈n/2^(h+1)⌉ ≥ 1/2
+   
+   Since ceiling of any positive number ≥ 1:
+   ⌈n/2^(h+1)⌉ ≥ 1 > 1/2 ✓
+
+3) ALTERNATIVE INTERPRETATION (if question meant to prove ≥ n/2):
+   For h = 0 (leaves):
+   - Number of leaves ≥ ⌈n/2⌉
+   - From 6.1-8: leaves are indices ⌊n/2⌋ + 1 to n
+   - Count = n - ⌊n/2⌋ = ⌈n/2⌉ ✓
+
+ANSWER:
+The ceiling of any positive fraction is at least 1, which is greater than 1/2. Therefore, ⌈n/2^(h+1)⌉ ≥ 1 > 1/2 for all valid heights.
+
+NOTE: This inequality is part of the proof that BUILD-MAX-HEAP runs in O(n) time, showing that most nodes are near the bottom of the tree where MAX-HEAPIFY is cheap.
+
+=================================
+
+6.3-3: Why does BUILD-MAX-HEAP decrease from ⌊n/2⌋ to 1 rather than increase from 1 to ⌊n/2⌋?
+
+QUESTION RESTATED:
+Why do we process nodes in reverse order (bottom-up) instead of top-down?
+
+CONCEPT:
+MAX-HEAPIFY assumes the subtrees are already heaps. We must ensure this invariant.
+
+STEP-BY-STEP REASONING:
+
+1) MAX-HEAPIFY PRECONDITION:
+   - Requires: LEFT(i) and RIGHT(i) are roots of valid max-heaps
+   - Ensures: Subtree rooted at i becomes a valid max-heap
+
+2) BOTTOM-UP APPROACH (⌊n/2⌋ downto 1):
+   - Start with leaves (already valid heaps)
+   - When we process node i, its children have already been processed
+   - Children are guaranteed to be roots of valid heaps
+   - MAX-HEAPIFY precondition is satisfied ✓
+
+3) TOP-DOWN APPROACH (1 to ⌊n/2⌋) - WRONG!:
+   - Start at root
+   - When we process node i, children haven't been processed yet
+   - Children might not be roots of valid heaps
+   - MAX-HEAPIFY precondition is VIOLATED ✗
+   - Would need to re-heapify multiple times
+
+EXAMPLE SHOWING WHY TOP-DOWN FAILS:
+Array: [1, 2, 3, 4, 5, 6, 7]
+
+Tree:
+     1
+    / \
+   2   3
+  / \ / \
+ 4  5 6  7
+
+If we go 1 → 2 → 3 → 4:
+- Process node 1: swap 1 with 3
+- Process node 2: swap 2 with 5
+- Process node 3: now 1 is at node 3, but we already processed it!
+- Would need to go back and re-process
+
+BOTTOM-UP (correct):
+- Process 4, 3, 2, 1
+- When we process 2, nodes 4 and 5 are already heaps
+- When we process 1, nodes 2 and 3 are already heaps
+- Each node processed exactly once
+
+ANSWER:
+We decrease from ⌊n/2⌋ to 1 (bottom-up) because MAX-HEAPIFY requires that the subtrees rooted at the children are already valid max-heaps. By processing nodes in reverse order, we ensure this precondition is met. Going top-down would violate this assumption and require multiple passes.
+
+KEY INSIGHT:
+Bottom-up ensures we build heaps from the leaves upward, so when we heapify a node, its children are already correct. This is essential for correctness and efficiency.
+
+=================================
+
+KEY TAKEAWAYS FOR MIDTERM:
+
+1. BUILD-MAX-HEAP ALGORITHM:
+   - Start at ⌊n/2⌋ (last internal node)
+   - Call MAX-HEAPIFY on each node going down to 1
+   - Bottom-up approach ensures correctness
+
+2. WHY BOTTOM-UP?:
+   - MAX-HEAPIFY assumes children are already heaps
+   - Processing bottom-up guarantees this
+   - Top-down would violate precondition
+
+3. TIME COMPLEXITY:
+   - Naive analysis: n/2 calls × O(lg n) = O(n lg n)
+   - Tight analysis: O(n) - most nodes are near bottom!
+   - Proof uses: Σ(h=0 to lg n) ⌈n/2^(h+1)⌉ × O(h)
+
+4. WHY O(n) NOT O(n lg n)?:
+   - Most nodes (≈n/2) are leaves: 0 work each
+   - Next level (≈n/4): O(1) work each
+   - Next level (≈n/8): O(2) work each
+   - Root (1 node): O(lg n) work
+   - Sum: n/2×0 + n/4×1 + n/8×2 + ... ≈ O(n)
+
+5. STARTING INDEX:
+   - Start at ⌊n/2⌋ because nodes > ⌊n/2⌋ are leaves
+   - Leaves are already valid heaps (no children)
+   - Only internal nodes need heapifying
+
+6. INVARIANT:
+   - After processing node i, all nodes i to n are roots of valid heaps
+   - Maintained by bottom-up processing
+   - Ensures correctness
+
+7. PRACTICAL EXAMPLE:
+   To build a heap from [5,3,17,10,84,19,6,22,9]:
+   - Process nodes 4,3,2,1 in that order
+   - Each MAX-HEAPIFY fixes one subtree
+   - Result: [84,22,19,10,3,17,6,5,9]

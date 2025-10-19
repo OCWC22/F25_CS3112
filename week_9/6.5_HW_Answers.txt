@@ -1,0 +1,645 @@
+Homework Solutions: Section 6.5 - Priority Queues
+===================================================
+
+PRIORITY QUEUE BASICS - WHAT YOU NEED TO KNOW:
+- Data structure that maintains a set of elements with priorities
+- Supports: INSERT, EXTRACT-MAX (or EXTRACT-MIN), INCREASE-KEY, DECREASE-KEY
+- Max-priority queue: Largest key has highest priority
+- Min-priority queue: Smallest key has highest priority
+- Heap is an excellent implementation: O(lg n) for all operations
+
+MAX-PRIORITY QUEUE OPERATIONS:
+1. INSERT(A, x): Add element x - O(lg n)
+2. MAXIMUM(A): Return max element - O(1)
+3. EXTRACT-MAX(A): Remove and return max - O(lg n)
+4. INCREASE-KEY(A, x, k): Increase x's key to k - O(lg n)
+
+=================================
+
+6.5-1: Illustrate MAX-HEAP-EXTRACT-MAX on A = 〈15, 13, 9, 5, 12, 8, 7, 4, 0, 6, 2, 1〉
+
+QUESTION RESTATED:
+Show step-by-step how to extract the maximum element from this max-heap.
+
+ALGORITHM:
+MAX-HEAP-EXTRACT-MAX(A):
+    if A.heap-size < 1:
+        error "heap underflow"
+    max = A[1]
+    A[1] = A[A.heap-size]
+    A.heap-size = A.heap-size - 1
+    MAX-HEAPIFY(A, 1)
+    return max
+
+INITIAL STATE:
+Array: [15, 13, 9, 5, 12, 8, 7, 4, 0, 6, 2, 1]
+Index:  1   2  3  4   5  6  7  8  9 10 11 12
+heap-size = 12
+
+Tree representation:
+           15
+         /    \
+       13      9
+      /  \    / \
+     5   12  8   7
+    / \  / \
+   4  0 6  2 1
+
+STEP-BY-STEP EXECUTION:
+
+STEP 1: Save the maximum
+- max = A[1] = 15
+
+STEP 2: Move last element to root
+- A[1] = A[12] = 1
+- Array: [1, 13, 9, 5, 12, 8, 7, 4, 0, 6, 2, 1]
+
+Tree after replacement:
+           1  ← Violates heap property!
+         /    \
+       13      9
+      /  \    / \
+     5   12  8   7
+    / \  / \
+   4  0 6  2
+
+STEP 3: Decrease heap size
+- heap-size = 11
+- Array: [1, 13, 9, 5, 12, 8, 7, 4, 0, 6, 2, | 1]
+         (heap portion)                      (extracted)
+
+STEP 4: MAX-HEAPIFY(A, 1) to restore heap property
+
+Call 1: MAX-HEAPIFY(A, 1)
+- i = 1, A[1] = 1
+- LEFT(1) = 2, A[2] = 13
+- RIGHT(1) = 3, A[3] = 9
+- Compare: 1 vs 13 vs 9
+- Largest = 13 (index 2)
+- Swap A[1] ↔ A[2]: 1 ↔ 13
+
+After swap:
+           13
+         /    \
+        1      9
+      /  \    / \
+     5   12  8   7
+    / \  /
+   4  0 6  2
+
+Array: [13, 1, 9, 5, 12, 8, 7, 4, 0, 6, 2]
+
+Call 2: MAX-HEAPIFY(A, 2)
+- i = 2, A[2] = 1
+- LEFT(2) = 4, A[4] = 5
+- RIGHT(2) = 5, A[5] = 12
+- Compare: 1 vs 5 vs 12
+- Largest = 12 (index 5)
+- Swap A[2] ↔ A[5]: 1 ↔ 12
+
+After swap:
+           13
+         /    \
+       12      9
+      /  \    / \
+     5    1  8   7
+    / \  /
+   4  0 6  2
+
+Array: [13, 12, 9, 5, 1, 8, 7, 4, 0, 6, 2]
+
+Call 3: MAX-HEAPIFY(A, 5)
+- i = 5, A[5] = 1
+- LEFT(5) = 10, A[10] = 6
+- RIGHT(5) = 11, A[11] = 2
+- Compare: 1 vs 6 vs 2
+- Largest = 6 (index 10)
+- Swap A[5] ↔ A[10]: 1 ↔ 6
+
+FINAL STATE:
+           13
+         /    \
+       12      9
+      /  \    / \
+     5    6  8   7
+    / \  /
+   4  0 1  2
+
+Final Array: [13, 12, 9, 5, 6, 8, 7, 4, 0, 1, 2]
+Returned value: 15
+
+ANSWER:
+- Extracted maximum: 15
+- Resulting heap: [13, 12, 9, 5, 6, 8, 7, 4, 0, 1, 2]
+
+VERIFICATION:
+- 13 ≥ 12, 13 ≥ 9 ✓
+- 12 ≥ 5, 12 ≥ 6 ✓
+- 9 ≥ 8, 9 ≥ 7 ✓
+- 5 ≥ 4, 5 ≥ 0 ✓
+- 6 ≥ 1, 6 ≥ 2 ✓
+All heap properties satisfied!
+
+=================================
+
+6.5-2: Illustrate MAX-HEAP-INSERT(A, 10) on A = 〈15, 13, 9, 5, 12, 8, 7, 4, 0, 6, 2, 1〉
+
+QUESTION RESTATED:
+Show step-by-step how to insert the value 10 into this max-heap.
+
+ALGORITHM:
+MAX-HEAP-INSERT(A, key):
+    A.heap-size = A.heap-size + 1
+    A[A.heap-size] = -∞
+    MAX-HEAP-INCREASE-KEY(A, A.heap-size, key)
+
+MAX-HEAP-INCREASE-KEY(A, i, key):
+    if key < A[i]:
+        error "new key is smaller than current key"
+    A[i] = key
+    while i > 1 and A[PARENT(i)] < A[i]:
+        swap A[i] with A[PARENT(i)]
+        i = PARENT(i)
+
+INITIAL STATE:
+Array: [15, 13, 9, 5, 12, 8, 7, 4, 0, 6, 2, 1]
+heap-size = 12
+
+Tree:
+           15
+         /    \
+       13      9
+      /  \    / \
+     5   12  8   7
+    / \  / \
+   4  0 6  2 1
+
+STEP-BY-STEP EXECUTION:
+
+STEP 1: Increase heap size
+- heap-size = 13
+- Add placeholder at end: A[13] = -∞
+- Array: [15, 13, 9, 5, 12, 8, 7, 4, 0, 6, 2, 1, -∞]
+
+Tree with new position:
+           15
+         /    \
+       13      9
+      /  \    / \
+     5   12  8   7
+    / \  / \ /
+   4  0 6  2 1 -∞ ← New position (index 13)
+
+STEP 2: Set A[13] = 10
+- A[13] = 10
+- Array: [15, 13, 9, 5, 12, 8, 7, 4, 0, 6, 2, 1, 10]
+
+Tree:
+           15
+         /    \
+       13      9
+      /  \    / \
+     5   12  8   7
+    / \  / \ /
+   4  0 6  2 1 10 ← i = 13
+
+STEP 3: "Bubble up" - Compare with parent and swap if needed
+
+Iteration 1:
+- i = 13, A[13] = 10
+- PARENT(13) = 6, A[6] = 8
+- Is A[6] < A[13]? Is 8 < 10? YES
+- Swap A[6] ↔ A[13]: 8 ↔ 10
+
+After swap:
+           15
+         /    \
+       13      9
+      /  \    / \
+     5   12  10  7
+    / \  / \ /
+   4  0 6  2 1 8
+
+Array: [15, 13, 9, 5, 12, 10, 7, 4, 0, 6, 2, 1, 8]
+- i = 6
+
+Iteration 2:
+- i = 6, A[6] = 10
+- PARENT(6) = 3, A[3] = 9
+- Is A[3] < A[6]? Is 9 < 10? YES
+- Swap A[3] ↔ A[6]: 9 ↔ 10
+
+After swap:
+           15
+         /    \
+       13      10
+      /  \    / \
+     5   12  9   7
+    / \  / \ /
+   4  0 6  2 1 8
+
+Array: [15, 13, 10, 5, 12, 9, 7, 4, 0, 6, 2, 1, 8]
+- i = 3
+
+Iteration 3:
+- i = 3, A[3] = 10
+- PARENT(3) = 1, A[1] = 15
+- Is A[1] < A[3]? Is 15 < 10? NO
+- Stop! Heap property satisfied
+
+FINAL STATE:
+           15
+         /    \
+       13      10
+      /  \    / \
+     5   12  9   7
+    / \  / \ /
+   4  0 6  2 1 8
+
+Final Array: [15, 13, 10, 5, 12, 9, 7, 4, 0, 6, 2, 1, 8]
+heap-size = 13
+
+ANSWER:
+After inserting 10, the heap is: [15, 13, 10, 5, 12, 9, 7, 4, 0, 6, 2, 1, 8]
+
+The element 10 "bubbled up" from position 13 → 6 → 3, swapping with smaller parents (8, then 9) until it found its correct position.
+
+VERIFICATION:
+- 15 ≥ 13, 15 ≥ 10 ✓
+- 13 ≥ 5, 13 ≥ 12 ✓
+- 10 ≥ 9, 10 ≥ 7 ✓
+- All other relationships maintained ✓
+
+=================================
+
+6.5-4: Write pseudocode for MAX-HEAP-DECREASE-KEY. What is the running time?
+
+QUESTION RESTATED:
+Create the opposite of INCREASE-KEY for a max-heap. Decrease a key and restore heap property.
+
+CONCEPT:
+When we DECREASE a key in a max-heap:
+- The node might become smaller than its children
+- Need to "bubble DOWN" (like MAX-HEAPIFY)
+- Opposite of INCREASE-KEY which bubbles UP
+
+PSEUDOCODE:
+
+MAX-HEAP-DECREASE-KEY(A, x, k):
+    if k > A[x]:
+        error "new key is larger than current key"
+    A[x] = k
+    MAX-HEAPIFY(A, x)
+
+ALTERNATIVE (explicit implementation without calling MAX-HEAPIFY):
+
+MAX-HEAP-DECREASE-KEY(A, x, k):
+    if k > A[x]:
+        error "new key is larger than current key"
+    A[x] = k
+    // Bubble down
+    while true:
+        l = LEFT(x)
+        r = RIGHT(x)
+        largest = x
+        
+        if l ≤ A.heap-size and A[l] > A[x]:
+            largest = l
+        if r ≤ A.heap-size and A[r] > A[largest]:
+            largest = r
+            
+        if largest == x:
+            break  // Heap property satisfied
+            
+        swap A[x] with A[largest]
+        x = largest
+
+STEP-BY-STEP EXPLANATION:
+
+1) Check validity: New key must be ≤ current key
+2) Update the key: A[x] = k
+3) Restore heap property by bubbling DOWN:
+   - Compare with children
+   - If smaller than a child, swap with LARGER child
+   - Repeat until node ≥ both children or reaches leaf
+
+EXAMPLE:
+Heap: [15, 13, 10, 5, 12, 9, 7, 4, 0, 6, 2, 1, 8]
+
+Decrease A[2] from 13 to 3:
+
+Initial:
+           15
+         /    \
+       13      10
+      /  \    / \
+     5   12  9   7
+    / \  / \ /
+   4  0 6  2 1 8
+
+After setting A[2] = 3:
+           15
+         /    \
+        3      10  ← Violates heap property!
+      /  \    / \
+     5   12  9   7
+    / \  / \ /
+   4  0 6  2 1 8
+
+Bubble down:
+- Compare 3 with children 5 and 12
+- Swap with 12 (larger child)
+
+           15
+         /    \
+       12      10
+      /  \    / \
+     5    3  9   7
+    / \  / \ /
+   4  0 6  2 1 8
+
+- Compare 3 with children 6 and 2
+- Swap with 6
+
+Final:
+           15
+         /    \
+       12      10
+      /  \    / \
+     5    6  9   7
+    / \  / \ /
+   4  0 3  2 1 8
+
+RUNNING TIME ANALYSIS:
+
+1) Validation check: O(1)
+2) Update key: O(1)
+3) Bubble down: O(h) where h is height
+   - In worst case, travels from node to leaf
+   - Height h = ⌊lg n⌋
+   - Therefore: O(lg n)
+
+ANSWER:
+Running time is O(lg n), where n is the number of elements in the heap.
+
+COMPARISON:
+- INCREASE-KEY: Bubbles UP toward root - O(lg n)
+- DECREASE-KEY: Bubbles DOWN toward leaves - O(lg n)
+- Both have same time complexity but opposite directions
+
+=================================
+
+6.5-8: Reduce three assignments to one in MAX-HEAP-INCREASE-KEY
+
+QUESTION RESTATED:
+The swap operation in INCREASE-KEY uses 3 assignments. Use insertion-sort technique to reduce to 1.
+
+CURRENT APPROACH (3 assignments per swap):
+while i > 1 and A[PARENT(i)] < A[i]:
+    temp = A[i]              // Assignment 1
+    A[i] = A[PARENT(i)]      // Assignment 2
+    A[PARENT(i)] = temp      // Assignment 3
+    i = PARENT(i)
+
+INSIGHT FROM INSERTION SORT:
+In insertion sort, we don't swap repeatedly. Instead:
+1. Save the value being inserted
+2. Shift elements to make room
+3. Place the value in final position (1 assignment)
+
+OPTIMIZED APPROACH:
+
+MAX-HEAP-INCREASE-KEY(A, i, key):
+    if key < A[i]:
+        error "new key is smaller than current key"
+    
+    // Save the new key value
+    value = key
+    
+    // Shift parents down while they're smaller than new key
+    while i > 1 and A[PARENT(i)] < value:
+        A[i] = A[PARENT(i)]  // Only 1 assignment per iteration!
+        i = PARENT(i)
+    
+    // Place the new key in final position
+    A[i] = value  // Final assignment
+
+STEP-BY-STEP EXAMPLE:
+Insert 15 into heap at position 9:
+
+Initial:
+           16
+         /    \
+       14      10
+      /  \     / \
+     8    7   9   3
+    / \
+   2   4  ← Position 9, increase to 15
+
+Traditional (3 assignments per swap):
+- Swap 4 and 8: temp=4, A[9]=8, A[4]=4 (3 assignments)
+- Swap 4 and 14: temp=4, A[4]=14, A[2]=4 (3 assignments)
+- Total: 6 assignments
+
+Optimized (1 assignment per iteration):
+- value = 15
+- i = 9: A[9] = A[4] = 8 (shift 8 down), i = 4
+- i = 4: A[4] = A[2] = 14 (shift 14 down), i = 2
+- i = 2: A[2] = value = 15 (place final value)
+- Total: 3 assignments
+
+ANSWER:
+By saving the new key value and shifting parents down (rather than swapping), we reduce from 3 assignments per iteration to 1 assignment per iteration, plus 1 final assignment.
+
+SAVINGS:
+- Old: 3k assignments (k = number of levels moved up)
+- New: k + 1 assignments
+- For k = 3: 9 assignments → 4 assignments (56% reduction!)
+
+=================================
+
+6.5-10: Implement MAX-HEAP-DELETE(A, x) in O(lg n) time
+
+QUESTION RESTATED:
+Delete an arbitrary element x from a max-heap in O(lg n) time.
+
+CONCEPT:
+Combine ideas from EXTRACT-MAX and INCREASE/DECREASE-KEY.
+
+STRATEGY:
+1. Replace element at position x with last element
+2. Decrease heap size
+3. Restore heap property (might need to bubble up OR down)
+
+PSEUDOCODE:
+
+MAX-HEAP-DELETE(A, x):
+    if x > A.heap-size:
+        error "index out of bounds"
+    
+    // Save the value being deleted
+    deleted_value = A[x]
+    
+    // Replace with last element
+    A[x] = A[A.heap-size]
+    A.heap-size = A.heap-size - 1
+    
+    // If we deleted the last element, we're done
+    if x > A.heap-size:
+        return deleted_value
+    
+    // Restore heap property
+    // The replacement might be larger or smaller than deleted value
+    if A[x] > deleted_value:
+        // Replacement is larger - might violate parent relationship
+        // Bubble UP
+        while x > 1 and A[PARENT(x)] < A[x]:
+            swap A[x] with A[PARENT(x)]
+            x = PARENT(x)
+    else:
+        // Replacement is smaller - might violate child relationship
+        // Bubble DOWN
+        MAX-HEAPIFY(A, x)
+    
+    return deleted_value
+
+STEP-BY-STEP EXAMPLE:
+Delete element at position 3 from:
+[16, 14, 10, 8, 7, 9, 3, 2, 4, 1]
+
+Initial tree:
+           16
+         /    \
+       14      10  ← Delete this (position 3)
+      /  \     / \
+     8    7   9   3
+    / \  /
+   2   4 1
+
+Step 1: Replace A[3] with A[10]
+- deleted_value = 10
+- A[3] = A[10] = 1
+- heap-size = 9
+
+After replacement:
+           16
+         /    \
+       14       1  ← Violates heap property!
+      /  \     / \
+     8    7   9   3
+    / \
+   2   4
+
+Step 2: Determine direction
+- A[3] = 1 < deleted_value = 10
+- Need to bubble DOWN
+
+Step 3: MAX-HEAPIFY(A, 3)
+- Compare 1 with 9 and 3
+- Swap with 9
+
+Final tree:
+           16
+         /    \
+       14       9
+      /  \     / \
+     8    7   1   3
+    / \
+   2   4
+
+Final array: [16, 14, 9, 8, 7, 1, 3, 2, 4]
+
+EXAMPLE 2: Delete element that needs to bubble UP
+Delete position 7 from: [16, 14, 10, 8, 7, 9, 3, 2, 4, 15]
+
+Replace A[7] = 3 with A[10] = 15:
+- A[7] = 15 > deleted_value = 3
+- Need to bubble UP
+- 15 > parent 10, so swap
+- Result: 15 moves up to position 3
+
+RUNNING TIME ANALYSIS:
+
+1) Replace with last element: O(1)
+2) Decrease heap size: O(1)
+3) Restore heap property:
+   - Either bubble UP: O(lg n)
+   - Or bubble DOWN: O(lg n)
+   - Only one direction needed
+4) Total: O(lg n)
+
+ANSWER:
+MAX-HEAP-DELETE runs in O(lg n) time by replacing the deleted element with the last element, then restoring the heap property by bubbling either up or down depending on whether the replacement is larger or smaller than the deleted value.
+
+KEY INSIGHT:
+We don't know in advance whether to bubble up or down, so we check:
+- If replacement > deleted: bubble UP (like INCREASE-KEY)
+- If replacement < deleted: bubble DOWN (like DECREASE-KEY)
+- If replacement = deleted: no change needed
+
+=================================
+
+KEY TAKEAWAYS FOR MIDTERM:
+
+1. PRIORITY QUEUE OPERATIONS:
+   - INSERT: Add element, bubble up - O(lg n)
+   - EXTRACT-MAX: Remove max, bubble down - O(lg n)
+   - INCREASE-KEY: Increase value, bubble up - O(lg n)
+   - DECREASE-KEY: Decrease value, bubble down - O(lg n)
+   - DELETE: Remove arbitrary element - O(lg n)
+   - MAXIMUM: Return max - O(1)
+
+2. EXTRACT-MAX ALGORITHM:
+   - Save max (at root)
+   - Replace root with last element
+   - Decrease heap size
+   - MAX-HEAPIFY to restore property
+   - Return saved max
+
+3. INSERT ALGORITHM:
+   - Increase heap size
+   - Add new element at end
+   - Bubble UP until heap property satisfied
+   - Compare with parent, swap if larger
+
+4. INCREASE-KEY:
+   - Bubbles UP toward root
+   - Swaps with parent if parent is smaller
+   - Stops when parent ≥ key or reaches root
+
+5. DECREASE-KEY:
+   - Bubbles DOWN toward leaves
+   - Swaps with LARGER child if key is smaller
+   - Stops when key ≥ children or reaches leaf
+
+6. DELETE:
+   - Replace with last element
+   - Decide: bubble up or down?
+   - Bubble up if replacement > deleted
+   - Bubble down if replacement < deleted
+
+7. OPTIMIZATION TRICK:
+   - Instead of swapping (3 assignments)
+   - Save value, shift elements, place once (k+1 assignments)
+   - Like insertion sort technique
+
+8. APPLICATIONS:
+   - Job scheduling (priority = urgency)
+   - Event simulation (priority = time)
+   - Dijkstra's algorithm (priority = distance)
+   - Huffman coding (priority = frequency)
+
+9. MAX vs MIN HEAP:
+   - Max-heap: EXTRACT-MAX, parent ≥ children
+   - Min-heap: EXTRACT-MIN, parent ≤ children
+   - Same algorithms, opposite comparisons
+
+10. TIME COMPLEXITIES SUMMARY:
+    - BUILD-HEAP: O(n)
+    - INSERT: O(lg n)
+    - EXTRACT-MAX: O(lg n)
+    - INCREASE-KEY: O(lg n)
+    - DECREASE-KEY: O(lg n)
+    - DELETE: O(lg n)
+    - MAXIMUM: O(1)
+    - HEAPIFY: O(lg n)

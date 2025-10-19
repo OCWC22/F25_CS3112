@@ -1,0 +1,283 @@
+Homework Solutions: Section 6.1 - Heap Fundamentals
+====================================================
+
+HEAP BASICS - WHAT YOU NEED TO KNOW:
+- A heap is a nearly complete binary tree stored in an array
+- Array index starts at 1 (not 0) in textbook notation
+- Parent of node i: PARENT(i) = floor(i/2)
+- Left child of node i: LEFT(i) = 2i
+- Right child of node i: RIGHT(i) = 2i + 1
+- MAX-HEAP property: Parent >= Children
+- MIN-HEAP property: Parent <= Children
+
+=================================
+
+6.1-1: What are the minimum and maximum numbers of elements in a heap of height h?
+
+QUESTION RESTATED:
+If a heap has height h (distance from root to deepest leaf), what's the smallest and largest number of nodes it can have?
+
+CONCEPT:
+- Height h means h levels below the root
+- A complete binary tree is "fullest" on the left
+- Minimum: Last level has only 1 node (leftmost)
+- Maximum: Last level is completely full
+
+STEP-BY-STEP:
+
+1) MINIMUM elements:
+   - All levels 0 to h-1 are full
+   - Level h has only 1 node
+   - Full levels: 2^0 + 2^1 + ... + 2^(h-1) = 2^h - 1
+   - Plus 1 node at level h
+   - Total: 2^h - 1 + 1 = 2^h
+
+2) MAXIMUM elements:
+   - All levels 0 to h are completely full
+   - Total: 2^0 + 2^1 + ... + 2^h = 2^(h+1) - 1
+
+ANSWER:
+- Minimum: 2^h elements
+- Maximum: 2^(h+1) - 1 elements
+
+EXAMPLE:
+Height h=2:
+- Min: 2^2 = 4 nodes (levels 0,1 full, level 2 has 1 node)
+- Max: 2^3 - 1 = 7 nodes (all levels full)
+
+=================================
+
+6.1-2: Show that an n-element heap has height floor(lg n).
+
+QUESTION RESTATED:
+Prove that if you have n elements in a heap, the height is floor(log₂ n).
+
+CONCEPT:
+Use the min/max relationship from 6.1-1 and solve for h.
+
+STEP-BY-STEP:
+
+1) From 6.1-1, we know:
+   2^h ≤ n ≤ 2^(h+1) - 1
+
+2) Focus on the left inequality:
+   2^h ≤ n
+   Take log₂ of both sides:
+   h ≤ log₂ n
+
+3) Focus on the right inequality:
+   n ≤ 2^(h+1) - 1
+   n < 2^(h+1)  (since n is integer)
+   Take log₂:
+   log₂ n < h + 1
+   log₂ n - 1 < h
+
+4) Combining:
+   log₂ n - 1 < h ≤ log₂ n
+   
+5) Since h is an integer, h = floor(log₂ n)
+
+ANSWER: h = ⌊lg n⌋
+
+EXAMPLE:
+- n = 10 elements
+- lg 10 ≈ 3.32
+- h = floor(3.32) = 3
+- Check: 2^3 = 8 ≤ 10 ≤ 15 = 2^4 - 1 ✓
+
+=================================
+
+6.1-3: Show that in any subtree of a max-heap, the root of the subtree contains the largest value.
+
+QUESTION RESTATED:
+Prove that in a max-heap, if you pick any node and look at the tree rooted at that node, that node has the maximum value in its subtree.
+
+CONCEPT:
+Use the max-heap property recursively.
+
+STEP-BY-STEP:
+
+1) MAX-HEAP PROPERTY:
+   For every node i: A[i] ≥ A[LEFT(i)] and A[i] ≥ A[RIGHT(i)]
+
+2) PROOF BY INDUCTION:
+   
+   Base case: A leaf node (no children)
+   - It's trivially the largest in its subtree (only element)
+   
+   Inductive step: Assume true for all subtrees of height < k
+   - Consider a subtree of height k with root r
+   - By max-heap property: r ≥ left child, r ≥ right child
+   - By induction: left child ≥ all nodes in left subtree
+   - By induction: right child ≥ all nodes in right subtree
+   - Therefore: r ≥ all nodes in its entire subtree
+
+ANSWER:
+The root of any subtree is the maximum element in that subtree, proven by the transitive application of the max-heap property.
+
+VISUAL EXAMPLE:
+       16
+      /  \
+     14   10
+    / \   / \
+   8   7 9   3
+   
+Subtree rooted at 14: {14, 8, 7}
+- 14 ≥ 8 and 14 ≥ 7 ✓
+- 14 is the max ✓
+
+=================================
+
+6.1-4: Where in a max-heap might the smallest element reside?
+
+QUESTION RESTATED:
+In a max-heap with all distinct elements, where could the minimum element be located?
+
+CONCEPT:
+Think about the heap property constraints. The smallest element has no children (otherwise it would violate the property).
+
+STEP-BY-STEP:
+
+1) The smallest element CANNOT be an internal node because:
+   - If it had children, it would need to be ≥ its children
+   - But it's the smallest, so no element can be smaller
+   - Contradiction unless it has no children
+
+2) Therefore, the smallest element MUST be a leaf
+
+3) Which leaves? From 6.1-8 (proven later):
+   - Leaves are at indices: ⌊n/2⌋ + 1, ⌊n/2⌋ + 2, ..., n
+
+ANSWER:
+The smallest element must reside in one of the leaves, which are the nodes indexed by ⌊n/2⌋ + 1 through n.
+
+EXAMPLE:
+Heap: [16, 14, 10, 8, 7, 9, 3, 2, 4, 1]
+- n = 10
+- Leaves: indices 6-10 → values {9, 3, 2, 4, 1}
+- Minimum is 1 at index 10 ✓
+
+=================================
+
+6.1-6: Is an array that is in sorted order a min-heap?
+
+QUESTION RESTATED:
+If you have a sorted array [1, 2, 3, 4, 5, ...], does it satisfy the min-heap property?
+
+CONCEPT:
+Check if PARENT(i) ≤ LEFT(i) and PARENT(i) ≤ RIGHT(i) for all nodes.
+
+STEP-BY-STEP:
+
+1) In a sorted array: A[i] ≤ A[i+1] for all i
+
+2) For any node i:
+   - PARENT(i) = floor(i/2)
+   - LEFT(i) = 2i
+   - RIGHT(i) = 2i + 1
+
+3) Check the relationship:
+   - Is A[floor(i/2)] ≤ A[2i]?
+   - Since floor(i/2) < 2i for all i ≥ 1
+   - And the array is sorted: A[floor(i/2)] ≤ A[2i] ✓
+   
+4) Same logic for right child
+
+ANSWER:
+YES, a sorted array (ascending order) is always a valid min-heap.
+
+EXAMPLE:
+Array: [1, 2, 3, 4, 5, 6, 7]
+Tree representation:
+       1
+      / \
+     2   3
+    / \ / \
+   4  5 6  7
+
+Check: 1≤2, 1≤3, 2≤4, 2≤5, 3≤6, 3≤7 ✓
+
+NOTE: A sorted array is NOT a max-heap!
+
+=================================
+
+6.1-7: Is the array 〈33, 19, 20, 15, 13, 10, 2, 13, 16, 12〉 a max-heap?
+
+QUESTION RESTATED:
+Check if this specific array satisfies the max-heap property.
+
+STEP-BY-STEP:
+
+1) Draw the tree:
+           33
+          /  \
+        19    20
+       / \    / \
+      15 13  10  2
+     / \ /
+    13 16 12
+
+2) Check each parent-child relationship:
+   - 33 ≥ 19? YES ✓
+   - 33 ≥ 20? YES ✓
+   - 19 ≥ 15? YES ✓
+   - 19 ≥ 13? YES ✓
+   - 20 ≥ 10? YES ✓
+   - 20 ≥ 2? YES ✓
+   - 15 ≥ 13? YES ✓
+   - 15 ≥ 16? NO! ✗
+
+3) VIOLATION FOUND:
+   - Node at index 4 has value 15
+   - Its right child at index 9 has value 16
+   - 15 < 16 violates max-heap property
+
+ANSWER:
+NO, this is NOT a max-heap because A[4] = 15 < A[9] = 16.
+
+=================================
+
+6.1-8: Show that the leaves are the nodes indexed by ⌊n/2⌋ + 1, ⌊n/2⌋ + 2, ..., n.
+
+QUESTION RESTATED:
+Prove that in an n-element heap, the second half of the array contains all the leaves.
+
+CONCEPT:
+A node is a leaf if it has no children. Use the child index formulas.
+
+STEP-BY-STEP:
+
+1) A node i is a leaf if:
+   - LEFT(i) = 2i > n (left child doesn't exist)
+   - This means i > n/2
+
+2) PROVE nodes ⌊n/2⌋ + 1 through n are leaves:
+   - For i > ⌊n/2⌋:
+   - LEFT(i) = 2i > 2⌊n/2⌋ ≥ n
+   - So these nodes have no left child → they are leaves ✓
+
+3) PROVE nodes 1 through ⌊n/2⌋ are NOT leaves:
+   - For i ≤ ⌊n/2⌋:
+   - LEFT(i) = 2i ≤ 2⌊n/2⌋ ≤ n
+   - So these nodes have at least a left child → not leaves ✓
+
+ANSWER:
+Leaves are exactly the nodes at indices ⌊n/2⌋ + 1, ⌊n/2⌋ + 2, ..., n.
+
+EXAMPLE:
+n = 10:
+- ⌊10/2⌋ = 5
+- Leaves: indices 6, 7, 8, 9, 10
+- Internal nodes: indices 1, 2, 3, 4, 5
+- Node 5: LEFT(5) = 10 ≤ 10 ✓ (has left child)
+- Node 6: LEFT(6) = 12 > 10 ✓ (no children, is leaf)
+
+=================================
+
+KEY TAKEAWAYS FOR MIDTERM:
+1. Heap height: h = ⌊lg n⌋
+2. Number of elements: 2^h ≤ n ≤ 2^(h+1) - 1
+3. Leaves are in second half: indices ⌊n/2⌋ + 1 to n
+4. Smallest element in max-heap: must be a leaf
+5. Sorted array IS a min-heap, NOT a max-heap
+6. To verify heap: check EVERY parent ≥ children (max-heap)

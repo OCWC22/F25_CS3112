@@ -1,0 +1,339 @@
+Homework Solutions: Section 7.3 - Randomized Quicksort
+=========================================================
+
+RANDOMIZED QUICKSORT - WHAT YOU NEED TO KNOW:
+- Modification: Choose pivot randomly instead of always using last element
+- Purpose: Avoid worst-case behavior on sorted/nearly sorted data
+- Expected time: O(n lg n) for ANY input (not just average input)
+- Worst case still O(n²), but extremely unlikely
+- Key idea: Randomization makes performance independent of input order
+
+ALGORITHM:
+RANDOMIZED-PARTITION(A, p, r):
+    i = RANDOM(p, r)           // Pick random index
+    swap A[i] with A[r]        // Move random element to end
+    return PARTITION(A, p, r)  // Use standard partition
+
+RANDOMIZED-QUICKSORT(A, p, r):
+    if p < r:
+        q = RANDOMIZED-PARTITION(A, p, r)
+        RANDOMIZED-QUICKSORT(A, p, q - 1)
+        RANDOMIZED-QUICKSORT(A, q + 1, r)
+
+=================================
+
+7.3-1: Why analyze expected running time instead of worst-case for randomized algorithms?
+
+QUESTION RESTATED:
+Why do we focus on expected (average) time rather than worst-case time for randomized quicksort?
+
+CONCEPT:
+Understand the difference between worst-case and expected running time in randomized algorithms.
+
+STEP-BY-STEP EXPLANATION:
+
+1) WORST-CASE RUNNING TIME:
+   - The maximum time over ALL possible inputs AND all random choices
+   - For randomized quicksort: Still Θ(n²)
+   - Occurs when random choices are extremely unlucky
+   - Example: Random pivot always picks smallest/largest element
+
+2) WHY WORST-CASE IS MISLEADING:
+   - Worst case requires BOTH:
+     * Adversarial input (e.g., sorted array)
+     * Extremely unlucky random choices (always pick bad pivot)
+   - Probability of worst case is vanishingly small
+   - For n=100, probability of always picking worst pivot ≈ (1/100)^100 ≈ 10^-200
+
+3) EXPECTED RUNNING TIME:
+   - Average over all random choices for a FIXED input
+   - For randomized quicksort: Θ(n lg n)
+   - Holds for EVERY input (sorted, random, reverse, etc.)
+   - Much more representative of actual performance
+
+4) KEY DIFFERENCE:
+   - Deterministic algorithm: Worst case depends on input
+   - Randomized algorithm: Expected time independent of input
+
+5) PRACTICAL IMPLICATIONS:
+   - Worst case is theoretically possible but practically irrelevant
+   - Expected case is what you'll actually observe
+   - Randomization protects against adversarial inputs
+
+ANALOGY:
+Imagine flipping a coin n times:
+- Worst case: All heads (or all tails)
+- Probability: (1/2)^n → extremely unlikely for large n
+- Expected case: About n/2 heads
+- We care about expected because worst case is too pessimistic
+
+ANSWER:
+We analyze expected running time for randomized algorithms because:
+
+1. **Worst case is misleading**: The worst-case Θ(n²) requires extremely unlikely random choices (probability ≈ 1/n! of always picking worst pivot)
+
+2. **Expected case is representative**: The expected O(n lg n) time occurs with high probability for ANY input
+
+3. **Input-independent performance**: Unlike deterministic quicksort where worst case depends on input order, randomized quicksort has O(n lg n) expected time regardless of input
+
+4. **Practical relevance**: The expected case reflects actual performance; the worst case is so unlikely it's practically irrelevant
+
+5. **Adversarial protection**: Randomization eliminates the ability to construct a "bad" input that consistently causes poor performance
+
+COMPARISON:
+- Deterministic quicksort: O(n lg n) average, Θ(n²) on sorted input
+- Randomized quicksort: O(n lg n) expected on ANY input, including sorted
+
+The key insight: Randomization moves the uncertainty from the input to the algorithm's random choices, making performance predictable regardless of input.
+
+=================================
+
+7.3-2: How many calls to RANDOM in worst case? In best case?
+
+QUESTION RESTATED:
+Count the number of times RANDOMIZED-QUICKSORT calls the random number generator in best and worst cases.
+
+CONCEPT:
+RANDOM is called once per partition, so count the number of partitions.
+
+STEP-BY-STEP ANALYSIS:
+
+UNDERSTANDING THE ALGORITHM:
+- RANDOMIZED-PARTITION calls RANDOM once
+- RANDOMIZED-QUICKSORT calls RANDOMIZED-PARTITION once per recursive call
+- Number of RANDOM calls = Number of partitions = Number of recursive calls
+
+COUNTING RECURSIVE CALLS:
+
+Each recursive call processes a subarray A[p..r]:
+- If p ≥ r: No partition, no RANDOM call (base case)
+- If p < r: One partition, one RANDOM call, then recurse on left and right
+
+KEY INSIGHT:
+Each element becomes a pivot exactly once during the entire sort!
+- When element becomes pivot, it's placed in final position
+- Never moved again
+- Never partitioned again
+
+Therefore: Number of partitions = Number of elements that become pivots
+
+WORST CASE:
+
+Worst case occurs when partitions are maximally unbalanced.
+
+Example: Always pick smallest element as pivot
+- n elements total
+- First partition: n elements → 1 pivot
+- Second partition: n-1 elements → 1 pivot
+- Third partition: n-2 elements → 1 pivot
+- ...
+- Last partition: 1 element → 1 pivot
+
+Total partitions: n + (n-1) + ... + 1?
+
+NO! This counts elements, not partitions.
+
+CORRECT COUNTING:
+- Partition array of size n: 1 call
+- Partition left (size 0): 0 calls
+- Partition right (size n-1): 1 call
+  - Partition right-left (size 0): 0 calls
+  - Partition right-right (size n-2): 1 call
+    - ...
+
+Pattern: 1 + 1 + 1 + ... (n-1 times) = n - 1
+
+ALTERNATIVE REASONING:
+- Start with n elements
+- Each partition reduces problem by 1 element (the pivot)
+- Need n-1 partitions to reduce to base case
+- Therefore: n-1 calls to RANDOM
+
+BEST CASE:
+
+Best case occurs when partitions are perfectly balanced.
+
+Recursion tree:
+                n
+              /   \
+            n/2   n/2
+           / \    / \
+         n/4 n/4 n/4 n/4
+         ...
+
+Number of nodes in tree = Number of partitions
+
+For perfectly balanced tree:
+- Height: lg n
+- Nodes at level i: 2^i
+- Total nodes: 2^0 + 2^1 + ... + 2^(lg n) = 2^(lg n + 1) - 1 = 2n - 1
+
+But wait, this includes leaves (base cases that don't partition).
+
+Internal nodes (actual partitions):
+- Total nodes: 2n - 1
+- Leaves: n
+- Internal nodes: (2n - 1) - n = n - 1
+
+So best case also has n - 1 partitions!
+
+GENERAL CASE:
+
+In ANY execution of quicksort on n elements:
+- Each element becomes a pivot exactly once
+- Each partition removes one element (the pivot) from further consideration
+- Need exactly n-1 partitions to sort n elements
+
+ANSWER:
+
+Both worst case and best case: **Θ(n-1) = Θ(n)** calls to RANDOM
+
+**Worst case**: Θ(n)
+- Maximally unbalanced partitions
+- Recursion tree is a chain of length n
+- n-1 internal nodes → n-1 partitions → n-1 RANDOM calls
+
+**Best case**: Θ(n)
+- Perfectly balanced partitions
+- Recursion tree has height lg n
+- n-1 internal nodes → n-1 partitions → n-1 RANDOM calls
+
+**Key insight**: The number of partitions is always n-1, regardless of how balanced they are. What changes between best and worst case is the DEPTH of recursion, not the NUMBER of partitions.
+
+VERIFICATION:
+
+Example: Array of 5 elements [5, 3, 8, 1, 9]
+
+Worst case (always pick smallest):
+1. Partition [5,3,8,1,9] → pivot 1
+2. Partition [5,3,8,9] → pivot 3
+3. Partition [5,8,9] → pivot 5
+4. Partition [8,9] → pivot 8
+Total: 4 = n-1 ✓
+
+Best case (perfectly balanced):
+1. Partition [5,3,8,1,9] → pivot 5
+2. Partition [3,1] → pivot 3
+3. Partition [8,9] → pivot 8
+4. Partition [1] → no partition (base case)
+5. Partition [9] → no partition (base case)
+Total partitions: 4 = n-1 ✓
+
+FORMAL PROOF:
+
+Let P(n) = number of partitions for array of size n
+
+Base case: P(1) = 0 (no partition needed)
+
+Recursive case: P(n) = 1 + P(k) + P(n-k-1)
+- 1 partition of the full array
+- P(k) partitions for left subarray of size k
+- P(n-k-1) partitions for right subarray of size n-k-1
+
+Claim: P(n) = n - 1
+
+Proof by induction:
+- Base: P(1) = 0 = 1-1 ✓
+- Step: Assume P(m) = m-1 for all m < n
+  P(n) = 1 + P(k) + P(n-k-1)
+       = 1 + (k-1) + (n-k-1-1)
+       = 1 + k - 1 + n - k - 2
+       = n - 1 ✓
+
+Therefore, RANDOM is called exactly n-1 times in both best and worst cases.
+
+=================================
+
+KEY TAKEAWAYS FOR MIDTERM:
+
+1. RANDOMIZED QUICKSORT:
+   - Choose pivot randomly
+   - Swap random element to end, then partition normally
+   - Expected O(n lg n) for ANY input
+   - Protects against adversarial inputs
+
+2. WHY RANDOMIZE?:
+   - Deterministic quicksort: Bad on sorted data
+   - Randomized quicksort: Good on ALL data (in expectation)
+   - Makes performance input-independent
+   - Adversary can't construct bad input
+
+3. EXPECTED vs WORST CASE:
+   - Worst case: Still Θ(n²), but probability ≈ 1/n!
+   - Expected case: Θ(n lg n) for every input
+   - Expected case is more meaningful
+   - Worst case requires extremely unlucky random choices
+
+4. NUMBER OF RANDOM CALLS:
+   - Always exactly n-1 calls
+   - One per partition
+   - Same in best and worst case
+   - What varies is recursion depth, not number of partitions
+
+5. RANDOMIZATION BENEFITS:
+   - No bad inputs (only bad luck)
+   - Consistent expected performance
+   - Simple to implement
+   - Small overhead (one random number per partition)
+
+6. RANDOMIZATION TECHNIQUES:
+   - Random pivot selection (shown here)
+   - Median-of-3: Pick 3 random elements, use median
+   - Median-of-medians: Guaranteed O(n lg n) worst case
+
+7. PROBABILITY ANALYSIS:
+   - Probability of worst case: ≈ 1/n! ≈ 0 for large n
+   - Probability of O(n lg n): ≈ 1 - 1/n! ≈ 1
+   - High probability bounds: P(T(n) > cn lg n) < 1/n^c
+
+8. COMPARISON:
+   - Deterministic quicksort: Fast on random, slow on sorted
+   - Randomized quicksort: Fast on everything (expected)
+   - Heapsort: Always O(n lg n), but slower constant factors
+   - Mergesort: Always O(n lg n), stable, but O(n) space
+
+9. PRACTICAL CONSIDERATIONS:
+   - Random number generation has cost
+   - But much cheaper than O(n²) on sorted data
+   - Modern implementations use randomization
+   - Or median-of-3 heuristic
+
+10. EXPECTED TIME ANALYSIS:
+    - Fix input, average over random choices
+    - E[T(n)] = Θ(n lg n) for all inputs
+    - Not average over inputs (that's different!)
+    - Randomization is in algorithm, not input
+
+11. KEY INSIGHT:
+    - Deterministic: Performance depends on input
+    - Randomized: Performance depends on random choices
+    - We control random choices → predictable performance
+
+12. WHEN TO USE:
+    - Input might be sorted/nearly sorted
+    - Need predictable performance
+    - Can't afford O(n²) worst case
+    - Don't need guaranteed worst-case bound (use heapsort for that)
+
+13. IMPLEMENTATION:
+    ```
+    RANDOMIZED-PARTITION(A, p, r):
+        i = RANDOM(p, r)        // O(1)
+        swap A[i] with A[r]     // O(1)
+        return PARTITION(A, p, r)  // Θ(n)
+    ```
+    Overhead: O(1) per partition
+    Total overhead: O(n) for entire sort
+    Negligible compared to O(n lg n) sorting time
+
+14. ALTERNATIVE: MEDIAN-OF-3:
+    - Pick 3 random elements
+    - Use median as pivot
+    - Better partitions on average
+    - Still O(n lg n) expected
+    - Commonly used in practice
+
+15. THEORETICAL GUARANTEE:
+    - With high probability: T(n) = O(n lg n)
+    - Specifically: P(T(n) > c·n lg n) < 1/n for large enough c
+    - Worst case is possible but astronomically unlikely

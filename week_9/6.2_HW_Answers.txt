@@ -1,0 +1,311 @@
+Homework Solutions: Section 6.2 - MAX-HEAPIFY Operation
+=========================================================
+
+MAX-HEAPIFY BASICS - WHAT YOU NEED TO KNOW:
+- Purpose: Fix a SINGLE violation of the max-heap property
+- Assumption: The subtrees rooted at LEFT(i) and RIGHT(i) are already max-heaps
+- Action: Let the violating element "float down" to its correct position
+- Time complexity: O(lg n) - proportional to height of tree
+- Key idea: Compare node with children, swap with larger child, recurse
+
+PSEUDOCODE:
+MAX-HEAPIFY(A, i):
+    l = LEFT(i)
+    r = RIGHT(i)
+    if l ≤ heap-size and A[l] > A[i]:
+        largest = l
+    else:
+        largest = i
+    if r ≤ heap-size and A[r] > A[largest]:
+        largest = r
+    if largest ≠ i:
+        swap A[i] with A[largest]
+        MAX-HEAPIFY(A, largest)
+
+=================================
+
+6.2-1: Illustrate MAX-HEAPIFY(A, 3) on A = 〈27, 17, 3, 16, 13, 10, 1, 5, 7, 12, 4, 8, 9, 0〉
+
+QUESTION RESTATED:
+Show step-by-step how MAX-HEAPIFY fixes the heap starting at index 3.
+
+INITIAL STATE:
+Array: [27, 17, 3, 16, 13, 10, 1, 5, 7, 12, 4, 8, 9, 0]
+Index:  1   2  3   4   5   6  7  8  9  10 11 12 13 14
+
+Tree representation:
+              27
+           /      \
+         17        3  ← Start here (index 3)
+        /  \      / \
+      16   13   10   1
+     / \   / \  / \  /
+    5  7  12 4 8  9 0
+
+STEP-BY-STEP EXECUTION:
+
+CALL 1: MAX-HEAPIFY(A, 3)
+- i = 3, A[3] = 3
+- LEFT(3) = 6, A[6] = 10
+- RIGHT(3) = 7, A[7] = 1
+- Compare: 3 vs 10 vs 1
+- Largest = 6 (value 10)
+- Swap A[3] with A[6]: 3 ↔ 10
+
+After swap:
+              27
+           /      \
+         17        10
+        /  \      / \
+      16   13    3   1  ← 3 moved down
+     / \   / \  / \  /
+    5  7  12 4 8  9 0
+
+- Recurse: MAX-HEAPIFY(A, 6)
+
+CALL 2: MAX-HEAPIFY(A, 6)
+- i = 6, A[6] = 3
+- LEFT(6) = 12, A[12] = 8
+- RIGHT(6) = 13, A[13] = 9
+- Compare: 3 vs 8 vs 9
+- Largest = 13 (value 9)
+- Swap A[6] with A[13]: 3 ↔ 9
+
+After swap:
+              27
+           /      \
+         17        10
+        /  \      / \
+      16   13    9   1
+     / \   / \  / \  /
+    5  7  12 4 8  3 0  ← 3 moved down again
+
+- Recurse: MAX-HEAPIFY(A, 13)
+
+CALL 3: MAX-HEAPIFY(A, 13)
+- i = 13, A[13] = 3
+- LEFT(13) = 26 > 14 (out of bounds)
+- RIGHT(13) = 27 > 14 (out of bounds)
+- No children → 3 is now a leaf
+- Done!
+
+FINAL ARRAY:
+[27, 17, 10, 16, 13, 9, 1, 5, 7, 12, 4, 8, 3, 0]
+
+ANSWER:
+The element 3 "floated down" from index 3 → 6 → 13, swapping with larger children (10, then 9) until it reached a leaf position.
+
+=================================
+
+6.2-4: What is the effect of calling MAX-HEAPIFY(A, i) when A[i] is larger than its children?
+
+QUESTION RESTATED:
+What happens if you call MAX-HEAPIFY on a node that already satisfies the max-heap property?
+
+CONCEPT:
+Trace through the algorithm logic.
+
+STEP-BY-STEP:
+
+1) MAX-HEAPIFY compares A[i] with A[LEFT(i)] and A[RIGHT(i)]
+
+2) If A[i] ≥ both children:
+   - largest = i (stays as i)
+   - The condition "if largest ≠ i" is FALSE
+   - No swap occurs
+   - No recursive call
+
+3) The function returns immediately
+
+ANSWER:
+No change occurs. The function does nothing and returns immediately in O(1) time. The heap remains unchanged.
+
+EXAMPLE:
+Array: [16, 14, 10, 8, 7, 9, 3]
+Call MAX-HEAPIFY(A, 1):
+- A[1] = 16, A[2] = 14, A[3] = 10
+- 16 ≥ 14 and 16 ≥ 10
+- largest = 1
+- No swap, return immediately
+
+=================================
+
+6.2-5: What is the effect of calling MAX-HEAPIFY(A, i) for i > heap-size/2?
+
+QUESTION RESTATED:
+What happens when you call MAX-HEAPIFY on a leaf node?
+
+CONCEPT:
+Recall from 6.1-8: nodes with index > ⌊n/2⌋ are leaves (no children).
+
+STEP-BY-STEP:
+
+1) For i > heap-size/2:
+   - LEFT(i) = 2i > heap-size
+   - RIGHT(i) = 2i + 1 > heap-size
+
+2) In MAX-HEAPIFY:
+   - The condition "l ≤ heap-size" is FALSE
+   - The condition "r ≤ heap-size" is FALSE
+   - largest = i (no children to compare)
+
+3) Since largest = i:
+   - No swap occurs
+   - No recursive call
+   - Function returns immediately
+
+ANSWER:
+No change occurs. Calling MAX-HEAPIFY on a leaf is a no-op that returns in O(1) time.
+
+EXAMPLE:
+n = 10, call MAX-HEAPIFY(A, 8):
+- i = 8 > 5 = ⌊10/2⌋ → it's a leaf
+- LEFT(8) = 16 > 10 → no left child
+- RIGHT(8) = 17 > 10 → no right child
+- Returns immediately
+
+=================================
+
+6.2-6: Write an iterative MAX-HEAPIFY using a loop instead of recursion.
+
+QUESTION RESTATED:
+Convert the recursive MAX-HEAPIFY to use iteration (while loop) instead.
+
+CONCEPT:
+Replace the recursive call with a loop that continues until no swap is needed.
+
+STEP-BY-STEP CONVERSION:
+
+1) RECURSIVE VERSION:
+   - Swaps, then calls itself on the new position
+   - Continues until no swap needed
+
+2) ITERATIVE VERSION:
+   - Use a while loop
+   - Keep track of current position
+   - Loop until no swap occurs
+
+PSEUDOCODE:
+
+MAX-HEAPIFY-ITERATIVE(A, i):
+    while true:
+        l = LEFT(i)
+        r = RIGHT(i)
+        largest = i
+        
+        if l ≤ A.heap-size and A[l] > A[i]:
+            largest = l
+        if r ≤ A.heap-size and A[r] > A[largest]:
+            largest = r
+            
+        if largest == i:
+            break  // No swap needed, done
+            
+        swap A[i] with A[largest]
+        i = largest  // Move down to the swapped position
+
+ANSWER:
+The iterative version uses a while loop that continues moving down the tree until the element finds its correct position (no swap needed).
+
+COMPARISON:
+- Recursive: Uses call stack, cleaner code
+- Iterative: No stack overhead, potentially faster in practice
+- Both: O(lg n) time complexity
+
+EXAMPLE TRACE:
+Same as 6.2-1, but using iteration:
+- i = 3 → swap with 6 → i = 6
+- i = 6 → swap with 13 → i = 13
+- i = 13 → no children → break
+
+=================================
+
+6.2-7: Show worst-case running time of MAX-HEAPIFY is Ω(lg n).
+
+QUESTION RESTATED:
+Prove that MAX-HEAPIFY can take at least Ω(lg n) time in the worst case.
+
+CONCEPT:
+Construct a scenario where MAX-HEAPIFY must recurse all the way from root to leaf.
+
+STEP-BY-STEP:
+
+1) WORST CASE SCENARIO:
+   - The element at position i is smaller than all elements below it
+   - It must "sink" all the way to a leaf
+   - This requires traveling the full height of the subtree
+
+2) CONSTRUCT EXAMPLE:
+   - Place the smallest element at the root
+   - All other elements satisfy max-heap property
+   
+   Example for n = 15:
+              1  ← smallest element at root
+           /     \
+         14       13
+        /  \     /  \
+       12  11   10   9
+      / \ / \  / \ / \
+     8  7 6 5 4  3 2  
+
+3) TRACE MAX-HEAPIFY(A, 1):
+   - Swap 1 with 14 (level 0 → 1)
+   - Swap 1 with 12 (level 1 → 2)
+   - Swap 1 with 8 (level 2 → 3)
+   - 1 reaches leaf at level 3
+
+4) NUMBER OF OPERATIONS:
+   - Height of tree: h = ⌊lg n⌋
+   - Number of swaps: h = ⌊lg n⌋
+   - Each swap is O(1)
+   - Total: Θ(h) = Θ(lg n)
+
+5) LOWER BOUND:
+   - In worst case, must make h comparisons and swaps
+   - Therefore, T(n) = Ω(lg n)
+
+ANSWER:
+The worst-case running time is Ω(lg n), achieved when the element must sink from the root to a leaf, requiring ⌊lg n⌋ swaps.
+
+FORMAL PROOF:
+- Let h = height of subtree rooted at i
+- Worst case: element sinks h levels
+- Each level: O(1) work
+- Total: Θ(h) = Θ(lg n)
+- Therefore: T(n) = Ω(lg n) ✓
+
+=================================
+
+KEY TAKEAWAYS FOR MIDTERM:
+
+1. MAX-HEAPIFY PURPOSE:
+   - Fixes ONE violation at node i
+   - Assumes subtrees are already heaps
+   - Lets element "float down" to correct position
+
+2. ALGORITHM:
+   - Compare node with both children
+   - Swap with LARGER child (important!)
+   - Recurse on swapped position
+   - Stop when node ≥ children or reaches leaf
+
+3. TIME COMPLEXITY:
+   - Best case: O(1) - no swap needed
+   - Worst case: O(lg n) - sink to leaf
+   - Average case: O(lg n)
+
+4. SPECIAL CASES:
+   - Node already ≥ children → O(1), no change
+   - Leaf node (i > n/2) → O(1), no change
+   - Root with smallest value → O(lg n), worst case
+
+5. ITERATIVE vs RECURSIVE:
+   - Same logic, different implementation
+   - Iterative: while loop, update i
+   - Recursive: call itself with new i
+   - Both O(lg n) time
+
+6. WHY SWAP WITH LARGER CHILD?
+   - Ensures max-heap property maintained
+   - If we swapped with smaller child, would violate property
+   - Larger child becomes new parent → still ≥ other child
