@@ -1,0 +1,534 @@
+TECHNICAL GUIDE: Heaps & Quicksort for Real Engineers
+======================================================
+
+Clear explanations. Real systems (GPU, CPU, AI, LeetCode). No bullshit.
+
+========================================
+HEAP FUNDAMENTALS
+========================================
+
+**What is a Heap?**
+Binary tree stored as array:
+- Max-heap: parent ≥ children (root = max)
+- Min-heap: parent ≤ children (root = min)
+
+Array: [16, 14, 10, 8, 7, 9, 3]
+Tree:       16
+           /  \
+          14   10
+         / \  / \
+        8  7 9   3
+
+Parent at i → children at 2i, 2i+1
+
+**Why Heaps?**
+- O(log n) insert/extract
+- O(1) find-max
+- O(n) build from scratch
+- Cache-friendly (array storage)
+
+========================================
+REAL-WORLD APPLICATIONS
+========================================
+
+**1. GPU Task Scheduling**
+```
+NVIDIA CUDA Stream Priorities:
+- High priority: Real-time rendering (60 FPS requirement)
+- Low priority: Batch ML training
+
+Implementation: Min-heap by deadline
+Result: High-priority kernels preempt low-priority
+```
+
+**2. LLM Beam Search (GPT, BERT)**
+```
+Problem: Generate text, keep top-k sequences
+Naive: Sort all candidates O(n log n)
+Heap: Maintain max-heap of size k O(n log k)
+
+For k=5, n=50000 tokens:
+- Sort: 50000 * log(50000) ≈ 815,000 ops
+- Heap: 50000 * log(5) ≈ 116,000 ops
+7x faster!
+```
+
+**3. Network Packet Routing**
+```
+Linux kernel pfifo_fast:
+- Band 0 (heap): Interactive (SSH, VoIP)
+- Band 1 (heap): Bulk (HTTP)
+- Band 2 (heap): Background (Email)
+
+Each band is a priority queue (heap)
+Ensures low-latency for critical traffic
+```
+
+**4. Database Merge Joins**
+```
+PostgreSQL merging N sorted tables:
+- Heap of size N (one element per table)
+- Extract-min, fetch next from that table
+- O(M log N) where M = total rows
+
+Example: Merge 100 tables, 1M rows each
+- Without heap: O(100M log 100M) ≈ 2.6B ops
+- With heap: O(100M log 100) ≈ 664M ops
+4x faster!
+```
+
+========================================
+LEETCODE PATTERNS
+========================================
+
+**Pattern 1: Kth Largest/Smallest**
+```python
+# LC 215: Kth Largest Element
+def findKthLargest(nums, k):
+    # Min-heap of size k
+    heap = nums[:k]
+    heapq.heapify(heap)  # O(k)
+    
+    for num in nums[k:]:  # O((n-k) log k)
+        if num > heap[0]:
+            heapq.heapreplace(heap, num)
+    
+    return heap[0]  # O(1)
+
+# Total: O(n log k) vs O(n log n) for sorting
+```
+
+**Pattern 2: Merge K Sorted Lists**
+```python
+# LC 23: Merge k Sorted Lists
+def mergeKLists(lists):
+    heap = []
+    # Add first element from each list
+    for i, lst in enumerate(lists):
+        if lst:
+            heapq.heappush(heap, (lst.val, i, lst))
+    
+    dummy = ListNode(0)
+    curr = dummy
+    
+    while heap:
+        val, i, node = heapq.heappop(heap)
+        curr.next = node
+        curr = curr.next
+        if node.next:
+            heapq.heappush(heap, (node.next.val, i, node.next))
+    
+    return dummy.next
+
+# Time: O(M log K) where M = total nodes, K = lists
+```
+
+**Pattern 3: Find Median (Two Heaps)**
+```python
+# LC 295: Find Median from Data Stream
+class MedianFinder:
+    def __init__(self):
+        self.small = []  # Max-heap (negated)
+        self.large = []  # Min-heap
+    
+    def addNum(self, num):
+        heapq.heappush(self.small, -num)
+        heapq.heappush(self.large, -heapq.heappop(self.small))
+        
+        if len(self.large) > len(self.small):
+            heapq.heappush(self.small, -heapq.heappop(self.large))
+    
+    def findMedian(self):
+        if len(self.small) > len(self.large):
+            return -self.small[0]
+        return (-self.small[0] + self.large[0]) / 2.0
+
+# Insert: O(log n), Find median: O(1)
+```
+
+========================================
+HEAP OPERATIONS (WITH CODE)
+========================================
+
+**BUILD-HEAP: O(n)**
+```python
+def build_max_heap(arr):
+    n = len(arr)
+    # Start from last non-leaf
+    for i in range(n // 2 - 1, -1, -1):
+        heapify(arr, n, i)
+
+# Why O(n)?
+# - n/2 leaves: 0 work
+# - n/4 nodes at height 1: O(1) work each
+# - n/8 nodes at height 2: O(2) work each
+# - 1 root at height log n: O(log n) work
+# Total: n/4*1 + n/8*2 + n/16*3 + ... = O(n)
+```
+
+**HEAPIFY: O(log n)**
+```python
+def heapify(arr, n, i):
+    largest = i
+    left = 2 * i + 1
+    right = 2 * i + 2
+    
+    if left < n and arr[left] > arr[largest]:
+        largest = left
+    if right < n and arr[right] > arr[largest]:
+        largest = right
+    
+    if largest != i:
+        arr[i], arr[largest] = arr[largest], arr[i]
+        heapify(arr, n, largest)
+
+# Element "sinks" down by swapping with larger child
+# Worst case: travels from root to leaf = O(log n)
+```
+
+**INSERT: O(log n)**
+```python
+def insert(heap, key):
+    heap.append(key)
+    i = len(heap) - 1
+    
+    # Bubble up
+    while i > 0:
+        parent = (i - 1) // 2
+        if heap[parent] < heap[i]:
+            heap[parent], heap[i] = heap[i], heap[parent]
+            i = parent
+        else:
+            break
+
+# Element "bubbles" up by swapping with parent
+# Worst case: travels from leaf to root = O(log n)
+```
+
+**EXTRACT-MAX: O(log n)**
+```python
+def extract_max(heap):
+    if not heap:
+        return None
+    
+    max_val = heap[0]
+    heap[0] = heap[-1]
+    heap.pop()
+    
+    if heap:
+        heapify(heap, len(heap), 0)
+    
+    return max_val
+
+# Replace root with last element, then heapify
+```
+
+========================================
+QUICKSORT FUNDAMENTALS
+========================================
+
+**What is Quicksort?**
+Divide-and-conquer sorting:
+1. Pick pivot
+2. Partition: elements < pivot on left, > pivot on right
+3. Recursively sort left and right
+
+**Time Complexity:**
+- Average: O(n log n)
+- Worst: O(n²) (sorted input with bad pivot choice)
+- Best: O(n log n)
+
+**Why Quicksort?**
+- In-place (O(1) extra space)
+- Cache-friendly (good locality)
+- Fast in practice (low constants)
+
+========================================
+QUICKSORT REAL-WORLD USES
+========================================
+
+**1. Database Sorting**
+```
+PostgreSQL ORDER BY:
+- Uses introsort (quicksort + heapsort hybrid)
+- Quicksort for average case speed
+- Switches to heapsort if recursion depth > 2*log(n)
+- Prevents O(n²) worst case
+```
+
+**2. C++ std::sort**
+```
+Implementation: Introsort
+- Start with quicksort
+- Track recursion depth
+- If depth > 2*log(n), switch to heapsort
+- Guarantees O(n log n) worst case
+- Achieves O(n log n) average with low constants
+```
+
+**3. Python sorted()**
+```
+Implementation: Timsort (not quicksort!)
+- Hybrid of merge sort + insertion sort
+- Exploits runs of sorted data
+- Stable sort (preserves order of equal elements)
+- O(n log n) worst case
+```
+
+========================================
+PARTITION OPERATION
+========================================
+
+**Lomuto Partition (Simple)**
+```python
+def partition(arr, low, high):
+    pivot = arr[high]
+    i = low - 1
+    
+    for j in range(low, high):
+        if arr[j] <= pivot:
+            i += 1
+            arr[i], arr[j] = arr[j], arr[i]
+    
+    arr[i + 1], arr[high] = arr[high], arr[i + 1]
+    return i + 1
+
+# Time: O(n) - single pass through array
+# Result: arr[low..i] <= pivot, arr[i+2..high] > pivot
+```
+
+**Hoare Partition (Efficient)**
+```python
+def hoare_partition(arr, low, high):
+    pivot = arr[low]
+    i = low - 1
+    j = high + 1
+    
+    while True:
+        i += 1
+        while arr[i] < pivot:
+            i += 1
+        
+        j -= 1
+        while arr[j] > pivot:
+            j -= 1
+        
+        if i >= j:
+            return j
+        
+        arr[i], arr[j] = arr[j], arr[i]
+
+# Fewer swaps than Lomuto
+# Used in production implementations
+```
+
+========================================
+QUICKSORT WORST CASE (O(n²))
+========================================
+
+**When Quicksort Fails:**
+
+1. **Already Sorted Array**
+```
+Array: [1, 2, 3, 4, 5]
+Pivot: 5 (last element)
+Result: Left = [1,2,3,4], Right = []
+Next: Left = [1,2,3], Right = []
+...
+Recursion depth: n
+Work per level: n, n-1, n-2, ..., 1
+Total: n(n+1)/2 = O(n²)
+```
+
+2. **All Elements Equal**
+```
+Array: [5, 5, 5, 5, 5]
+Pivot: 5
+Result: All elements go to one side
+Same O(n²) problem
+```
+
+**Solution: Randomized Quicksort**
+```python
+import random
+
+def randomized_partition(arr, low, high):
+    # Pick random pivot
+    pivot_idx = random.randint(low, high)
+    arr[pivot_idx], arr[high] = arr[high], arr[pivot_idx]
+    return partition(arr, low, high)
+
+def quicksort(arr, low, high):
+    if low < high:
+        pi = randomized_partition(arr, low, high)
+        quicksort(arr, low, pi - 1)
+        quicksort(arr, pi + 1, high)
+
+# Expected time: O(n log n) for ANY input
+# Worst case still O(n²), but probability ≈ 1/n! (negligible)
+```
+
+========================================
+LEETCODE QUICKSORT PATTERNS
+========================================
+
+**Pattern 1: Kth Largest (QuickSelect)**
+```python
+# LC 215: Kth Largest Element
+def findKthLargest(nums, k):
+    def quickselect(left, right):
+        pivot = nums[right]
+        i = left
+        
+        for j in range(left, right):
+            if nums[j] >= pivot:  # Note: >= for kth largest
+                nums[i], nums[j] = nums[j], nums[i]
+                i += 1
+        
+        nums[i], nums[right] = nums[right], nums[i]
+        
+        if i == k - 1:
+            return nums[i]
+        elif i < k - 1:
+            return quickselect(i + 1, right)
+        else:
+            return quickselect(left, i - 1)
+    
+    return quickselect(0, len(nums) - 1)
+
+# Average: O(n), Worst: O(n²)
+# Better than sorting: O(n log n)
+```
+
+**Pattern 2: Sort Colors (3-Way Partition)**
+```python
+# LC 75: Sort Colors (Dutch National Flag)
+def sortColors(nums):
+    low, mid, high = 0, 0, len(nums) - 1
+    
+    while mid <= high:
+        if nums[mid] == 0:
+            nums[low], nums[mid] = nums[mid], nums[low]
+            low += 1
+            mid += 1
+        elif nums[mid] == 1:
+            mid += 1
+        else:  # nums[mid] == 2
+            nums[mid], nums[high] = nums[high], nums[mid]
+            high -= 1
+    
+# One pass: O(n)
+# Partitions into: [0s | 1s | 2s]
+```
+
+========================================
+KEY INSIGHTS FOR INTERVIEWS
+========================================
+
+**When to Use Heap:**
+✓ Need top-k elements → Heap of size k: O(n log k)
+✓ Need repeated min/max → Heap: O(log n) per operation
+✓ Merge k sorted lists → Heap: O(M log k)
+✗ Need all elements sorted → Use quicksort: O(n log n)
+✗ Need stable sort → Use merge sort
+
+**When to Use Quicksort:**
+✓ Need to sort in-place → Quicksort: O(1) space
+✓ Need average O(n log n) → Quicksort with randomization
+✓ Need kth element → QuickSelect: O(n) average
+✗ Need guaranteed O(n log n) → Use heapsort or mergesort
+✗ Data might be sorted → Randomize pivot!
+
+**Time Complexity Cheat Sheet:**
+```
+BUILD-HEAP:     O(n)        ← Surprisingly fast!
+HEAP-INSERT:    O(log n)
+HEAP-EXTRACT:   O(log n)
+HEAPSORT:       O(n log n)  ← Always
+QUICKSORT-AVG:  O(n log n)
+QUICKSORT-WORST: O(n²)      ← Avoid with randomization
+QUICKSELECT:    O(n)        ← Average case
+```
+
+========================================
+COMMON MISTAKES TO AVOID
+========================================
+
+❌ Using full sort for "kth largest" → Use heap or quickselect
+❌ Building heap with n inserts → Use BUILD-HEAP: O(n) vs O(n log n)
+❌ Forgetting to randomize quicksort pivot → O(n²) on sorted data
+❌ Using quicksort when stability matters → Use mergesort
+❌ Using heap when data already sorted → Just use array indexing
+
+========================================
+PRODUCTION SYSTEM EXAMPLES
+========================================
+
+**1. Linux Kernel Scheduler**
+```c
+// kernel/sched/core.c
+// Uses red-black tree (similar to heap) for task scheduling
+// O(log n) insert/remove
+// Ensures fair CPU time distribution
+```
+
+**2. NVIDIA CUDA**
+```cuda
+// CUDA streams with priorities
+cudaStreamCreateWithPriority(&stream, flags, priority);
+// Internally uses heap for stream scheduling
+// High-priority streams preempt low-priority
+```
+
+**3. PostgreSQL**
+```sql
+-- Merge join uses heap
+SELECT * FROM table1 JOIN table2 ON table1.id = table2.id
+ORDER BY table1.id;
+-- Heap merges sorted results from both tables
+```
+
+**4. Redis Sorted Sets**
+```
+// Implemented with skip list (heap-like)
+ZADD leaderboard 100 "player1"
+ZRANGE leaderboard 0 9  // Top 10
+// O(log n) insert, O(log n + k) range query
+```
+
+========================================
+FINAL CHECKLIST
+========================================
+
+You understand heaps when you can:
+✓ Explain why BUILD-HEAP is O(n) not O(n log n)
+✓ Implement heapify from scratch
+✓ Recognize "kth largest" → heap pattern
+✓ Use two heaps for median finding
+✓ Explain heap vs sorting trade-offs
+
+You understand quicksort when you can:
+✓ Implement partition from scratch
+✓ Explain why sorted input is worst case
+✓ Know when to use quickselect vs full sort
+✓ Understand randomization prevents worst case
+✓ Recognize 3-way partition pattern
+
+========================================
+PRACTICE PROBLEMS (IN ORDER)
+========================================
+
+**Heaps:**
+1. LC 215: Kth Largest Element ← Start here!
+2. LC 703: Kth Largest in Stream
+3. LC 23: Merge k Sorted Lists
+4. LC 295: Find Median from Data Stream
+5. LC 347: Top K Frequent Elements
+
+**Quicksort:**
+1. LC 912: Sort an Array
+2. LC 75: Sort Colors (3-way partition)
+3. LC 215: Kth Largest (quickselect)
+4. LC 973: K Closest Points
+
+Now go solve problems! 🚀

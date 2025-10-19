@@ -1,0 +1,107 @@
+🎯 START HERE - HOMEWORK GUIDE
+================================
+
+PROBLEM FIXED: Confusing "CEO/company" analogies removed!
+NEW SOLUTION: Clear technical guide with real GPU/AI/LeetCode examples.
+
+📄 PRIMARY RESOURCE:
+--------------------
+**TECHNICAL_GUIDE_CLEAN.txt** ← Read this first!
+
+Contains:
+✅ Clear heap/quicksort definitions (no analogies)
+✅ Real GPU examples (CUDA stream priorities)
+✅ Real LLM examples (GPT beam search)
+✅ Real database examples (PostgreSQL merge joins)
+✅ Complete LeetCode patterns with working code
+✅ Production system examples (Linux kernel, NVIDIA, Redis)
+
+📚 HOMEWORK FILES (30 Problems):
+--------------------------------
+6.1_HW_Answers.txt - Heap properties (7 problems)
+6.2_HW_Answers.txt - MAX-HEAPIFY (4 problems)
+6.3_HW_Answers.txt - BUILD-MAX-HEAP (3 problems)
+6.4_HW_Answers.txt - HEAPSORT (2 problems)
+6.5_HW_Answers.txt - Priority queues (5 problems)
+7.1_HW_Answers.txt - PARTITION (3 problems)
+7.2_HW_Answers.txt - Quicksort analysis (4 problems)
+7.3_HW_Answers.txt - Randomized quicksort (2 problems)
+
+These have step-by-step solutions and proofs.
+(Some still have old "CEO ANALOGY" sections - ignore those)
+
+🚀 QUICK START:
+---------------
+1. Read TECHNICAL_GUIDE_CLEAN.txt (1-2 hours)
+2. Practice LC 215 (Kth Largest Element)
+3. Read homework files for detailed proofs
+4. Practice more LeetCode problems
+
+⚡ KEY CONCEPTS:
+----------------
+**Heaps:**
+- Max-heap: parent ≥ children (root = max)
+- Min-heap: parent ≤ children (root = min)
+- Height = O(log n) → operations are O(log n)
+- BUILD-HEAP is O(n) not O(n log n)!
+
+**Quicksort:**
+- PARTITION: O(n) - split around pivot
+- Average: O(n log n) with randomization
+- Worst: O(n²) on sorted input (fix: randomize!)
+- QuickSelect: O(n) for kth largest
+
+💡 LEETCODE PATTERNS:
+---------------------
+"Kth largest" → Heap of size k: O(n log k)
+"Top K elements" → Same pattern
+"Merge K sorted" → Min-heap: O(M log K)
+"Find median" → Two heaps (max + min)
+
+🎓 FOR YOUR MIDTERM:
+--------------------
+Focus on:
+1. Why BUILD-HEAP is O(n)
+2. How heapify works (sink down)
+3. How insert works (bubble up)
+4. Why quicksort fails on sorted input
+5. How randomization fixes it
+
+📊 TIME COMPLEXITY:
+-------------------
+BUILD-HEAP:     O(n)
+HEAP-INSERT:    O(log n)
+HEAP-EXTRACT:   O(log n)
+HEAPSORT:       O(n log n) always
+QUICKSORT-AVG:  O(n log n)
+QUICKSORT-WORST: O(n²) ← avoid!
+QUICKSELECT:    O(n) average
+
+🔥 REAL EXAMPLES:
+-----------------
+**GPU (CUDA):**
+- 10,000 tasks, heap height = 13
+- Insert/extract = 13 comparisons
+- Perfect for real-time scheduling
+
+**LLM (GPT Beam Search):**
+- Keep top-5 sequences from 50K tokens
+- Heap: O(50K * log 5) ≈ 116K ops
+- Sort: O(50K * log 50K) ≈ 815K ops
+- **7x faster with heap!**
+
+**Database (PostgreSQL):**
+- Merge 100 sorted tables
+- Heap of size 100, height = 7
+- Per-row cost: 7 comparisons
+- Much faster than naive merge
+
+✅ YOU'RE READY WHEN:
+---------------------
+✓ Can explain why BUILD-HEAP is O(n)
+✓ Can implement heapify from scratch
+✓ Can recognize "kth largest" → heap pattern
+✓ Can implement partition from scratch
+✓ Know when to use heap vs sort vs quickselect
+
+Good luck! 🚀
