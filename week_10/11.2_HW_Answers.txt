@@ -1,0 +1,322 @@
+### Problem 11.2-2
+**Consider a hash table with 9 slots and the hash function h(k) = k mod 9. Demonstrate what happens upon inserting the keys 5, 28, 19, 15, 20, 33, 12, 17, 10 with collisions resolved by chaining.**
+
+**Understanding the Problem:**
+- Hash table T with 9 slots (indices 0-8)
+- Hash function: h(k) = k mod 9
+- Collision resolution: chaining (each slot has a linked list)
+- Insert keys in order: 5, 28, 19, 15, 20, 33, 12, 17, 10
+
+**Step-by-Step Insertion:**
+
+**Initial State:**
+```
+T[0]: NIL
+T[1]: NIL
+T[2]: NIL
+T[3]: NIL
+T[4]: NIL
+T[5]: NIL
+T[6]: NIL
+T[7]: NIL
+T[8]: NIL
+```
+
+**Insert 5:**
+- h(5) = 5 mod 9 = 5
+- Insert 5 into T[5]
+
+```
+T[0]: NIL
+T[1]: NIL
+T[2]: NIL
+T[3]: NIL
+T[4]: NIL
+T[5]: 5 → NIL
+T[6]: NIL
+T[7]: NIL
+T[8]: NIL
+```
+
+**Insert 28:**
+- h(28) = 28 mod 9 = 1
+- Insert 28 into T[1]
+
+```
+T[0]: NIL
+T[1]: 28 → NIL
+T[2]: NIL
+T[3]: NIL
+T[4]: NIL
+T[5]: 5 → NIL
+T[6]: NIL
+T[7]: NIL
+T[8]: NIL
+```
+
+**Insert 19:**
+- h(19) = 19 mod 9 = 1
+- **COLLISION** at T[1]
+- Insert 19 at head of T[1] chain
+
+```
+T[0]: NIL
+T[1]: 19 → 28 → NIL
+T[2]: NIL
+T[3]: NIL
+T[4]: NIL
+T[5]: 5 → NIL
+T[6]: NIL
+T[7]: NIL
+T[8]: NIL
+```
+
+**Insert 15:**
+- h(15) = 15 mod 9 = 6
+- Insert 15 into T[6]
+
+```
+T[0]: NIL
+T[1]: 19 → 28 → NIL
+T[2]: NIL
+T[3]: NIL
+T[4]: NIL
+T[5]: 5 → NIL
+T[6]: 15 → NIL
+T[7]: NIL
+T[8]: NIL
+```
+
+**Insert 20:**
+- h(20) = 20 mod 9 = 2
+- Insert 20 into T[2]
+
+```
+T[0]: NIL
+T[1]: 19 → 28 → NIL
+T[2]: 20 → NIL
+T[3]: NIL
+T[4]: NIL
+T[5]: 5 → NIL
+T[6]: 15 → NIL
+T[7]: NIL
+T[8]: NIL
+```
+
+**Insert 33:**
+- h(33) = 33 mod 9 = 6
+- **COLLISION** at T[6]
+- Insert 33 at head of T[6] chain
+
+```
+T[0]: NIL
+T[1]: 19 → 28 → NIL
+T[2]: 20 → NIL
+T[3]: NIL
+T[4]: NIL
+T[5]: 5 → NIL
+T[6]: 33 → 15 → NIL
+T[7]: NIL
+T[8]: NIL
+```
+
+**Insert 12:**
+- h(12) = 12 mod 9 = 3
+- Insert 12 into T[3]
+
+```
+T[0]: NIL
+T[1]: 19 → 28 → NIL
+T[2]: 20 → NIL
+T[3]: 12 → NIL
+T[4]: NIL
+T[5]: 5 → NIL
+T[6]: 33 → 15 → NIL
+T[7]: NIL
+T[8]: NIL
+```
+
+**Insert 17:**
+- h(17) = 17 mod 9 = 8
+- Insert 17 into T[8]
+
+```
+T[0]: NIL
+T[1]: 19 → 28 → NIL
+T[2]: 20 → NIL
+T[3]: 12 → NIL
+T[4]: NIL
+T[5]: 5 → NIL
+T[6]: 33 → 15 → NIL
+T[7]: NIL
+T[8]: 17 → NIL
+```
+
+**Insert 10:**
+- h(10) = 10 mod 9 = 1
+- **COLLISION** at T[1]
+- Insert 10 at head of T[1] chain
+
+**Final Hash Table:**
+```
+T[0]: NIL
+T[1]: 10 → 19 → 28 → NIL
+T[2]: 20 → NIL
+T[3]: 12 → NIL
+T[4]: NIL
+T[5]: 5 → NIL
+T[6]: 33 → 15 → NIL
+T[7]: NIL
+T[8]: 17 → NIL
+```
+
+**Summary:**
+- **Total keys:** 9
+- **Slots used:** 6 out of 9
+- **Collisions:** 3 (keys 19, 33, and 10 collided)
+- **Longest chain:** T[1] with 3 elements (10 → 19 → 28)
+- **Load factor:** α = n/m = 9/9 = 1.0
+
+**Visual Representation:**
+```
+Slot | Chain
+-----|------------------
+  0  | (empty)
+  1  | 10 → 19 → 28
+  2  | 20
+  3  | 12
+  4  | (empty)
+  5  | 5
+  6  | 33 → 15
+  7  | (empty)
+  8  | 17
+```
+
+---
+
+### Problem 11.2-3
+**Professor Marley hypothesizes that he can obtain substantial performance gains by modifying the chaining scheme to keep each list in sorted order. How does the professor's modification affect the running time for successful searches, unsuccessful searches, insertions, and deletions?**
+
+**Understanding the Problem:**
+Compare standard chaining (unsorted lists) with sorted chaining (keeping each chain sorted by key).
+
+**Analysis:**
+
+**1. SUCCESSFUL SEARCH**
+
+**Unsorted Chaining:**
+- Search through chain until key is found
+- Average case: Θ(1 + α) where α = n/m
+- Must check all elements up to the target
+
+**Sorted Chaining:**
+- Search through chain until key is found OR we pass where it should be
+- Can stop early if we encounter a larger key
+- Average case: Still Θ(1 + α), but with a smaller constant factor
+- **Improvement:** Slight improvement in practice (fewer comparisons on average)
+
+**2. UNSUCCESSFUL SEARCH**
+
+**Unsorted Chaining:**
+- Must search entire chain
+- Average case: Θ(1 + α)
+- Must check all α elements in the chain
+
+**Sorted Chaining:**
+- Can stop as soon as we encounter a key larger than the search key
+- Average case: Θ(1 + α/2) on average (stop halfway through)
+- **Improvement:** Approximately 2× faster for unsuccessful searches!
+
+**3. INSERTION**
+
+**Unsorted Chaining:**
+- Insert at head of list (or tail)
+- Time: O(1) - just add to front
+- No search needed
+
+**Sorted Chaining:**
+- Must find correct position to maintain sorted order
+- Search through chain: O(α)
+- Then insert: O(1)
+- Total: O(1 + α)
+- **Degradation:** Much slower! Goes from O(1) to O(α)
+
+**4. DELETION**
+
+**Unsorted Chaining:**
+- Search for element: O(α)
+- Delete it: O(1)
+- Total: O(1 + α)
+
+**Sorted Chaining:**
+- Search for element (can stop early): O(α)
+- Delete it: O(1)
+- Total: O(1 + α)
+- **No significant change:** Both require searching
+
+**Summary Table:**
+
+| Operation           | Unsorted | Sorted  | Change        |
+|---------------------|----------|---------|---------------|
+| Successful Search   | Θ(1+α)   | Θ(1+α)  | Slight better |
+| Unsuccessful Search | Θ(1+α)   | Θ(1+α/2)| ~2× better    |
+| Insertion           | O(1)     | O(1+α)  | Much worse    |
+| Deletion            | O(1+α)   | O(1+α)  | Similar       |
+
+**Conclusion:**
+
+**When Sorted Chaining is Better:**
+- Read-heavy workloads (many searches, few insertions)
+- Many unsuccessful searches
+- Need to iterate through keys in order
+
+**When Unsorted Chaining is Better:**
+- Write-heavy workloads (many insertions)
+- Fast insertions are critical
+- Most searches are successful
+
+**Professor Marley's Hypothesis:**
+The professor is **PARTIALLY CORRECT**:
+- ✓ Gains for unsuccessful searches
+- ✓ Slight gains for successful searches
+- ✗ Significant loss for insertions
+- Whether it's a net gain depends on the workload!
+
+**Real-World Consideration:**
+In practice, most hash table workloads are write-heavy or balanced, so the O(1) insertion of unsorted chaining is usually preferred. However, for specific read-heavy applications with many unsuccessful searches, sorted chaining could be beneficial.
+
+**Alternative Optimization:**
+Instead of sorted lists, consider:
+- Using a better hash function to reduce α
+- Using a larger table (increase m)
+- Using open addressing instead of chaining
+- Using self-balancing trees (like red-black trees) for chains when α is large
+
+These alternatives often provide better overall performance than sorted chaining.
+
+---
+
+**Summary of Hash Tables with Chaining:**
+
+**Key Concepts:**
+1. **Chaining:** Each slot contains a linked list of elements
+2. **Collisions:** Multiple keys hash to same slot → add to chain
+3. **Load factor:** α = n/m (average chain length)
+4. **Performance:** O(1 + α) for operations
+
+**Advantages:**
+- Simple to implement
+- Never "fills up" (can always insert)
+- Performance degrades gracefully
+- Easy to delete elements
+
+**Disadvantages:**
+- Extra space for pointers
+- Poor cache performance (linked lists)
+- Performance depends on hash function quality
+
+**Best Practices:**
+- Keep α ≈ 1 (resize when needed)
+- Use good hash function
+- Insert at head for O(1) insertion
+- Consider sorted chains only for read-heavy workloads

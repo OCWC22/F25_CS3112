@@ -1,0 +1,112 @@
+### Problem 8.3-1
+**Using Figure 8.3 as a model, illustrate the operation of RADIX-SORT on the following list of English words: COW, DOG, SEA, RUG, ROW, MOB, BOX, TAB, BAR, EAR, TAR, DIG, BIG, TEA, NOW, FOX.**
+
+**Understanding the Problem:**
+Radix sort processes strings character-by-character from the LEAST significant position to the MOST significant position, using a stable sort at each step.
+
+**Initial Array:**
+COW, DOG, SEA, RUG, ROW, MOB, BOX, TAB, BAR, EAR, TAR, DIG, BIG, TEA, NOW, FOX
+
+**Step 1: Sort by 3rd character (rightmost/least significant)**
+
+After sorting by 3rd character:
+SEA, TEA, MOB, TAB, DOG, RUG, DIG, BIG, BAR, EAR, TAR, COW, ROW, NOW, BOX, FOX
+
+**Step 2: Sort by 2nd character (middle)**
+
+After sorting by 2nd character:
+BAR, EAR, TAR, TAB, SEA, TEA, DIG, BIG, DOG, MOB, COW, ROW, NOW, BOX, FOX, RUG
+
+**Step 3: Sort by 1st character (leftmost/most significant)**
+
+After sorting by 1st character:
+BAR, BIG, BOX, COW, DIG, DOG, EAR, FOX, MOB, NOW, RUG, ROW, SEA, TAB, TAR, TEA
+
+**Final Sorted Array:**
+BAR, BIG, BOX, COW, DIG, DOG, EAR, FOX, MOB, NOW, RUG, ROW, SEA, TAB, TAR, TEA
+
+---
+
+### Problem 8.3-2
+**Which of the following sorting algorithms are stable: insertion sort, merge sort, heapsort, and quicksort? Give a simple scheme that makes any comparison sort stable. How much additional time and space does your scheme entail?**
+
+**Stability Analysis:**
+
+**Insertion Sort: STABLE**
+- Equal elements maintain their relative order during insertion
+
+**Merge Sort: STABLE**
+- When merging, if elements are equal, take from left subarray first
+
+**Heapsort: NOT STABLE**
+- Heap operations can change relative order of equal elements
+
+**Quicksort: NOT STABLE**
+- Partitioning can swap equal elements out of order
+
+**Making Any Comparison Sort Stable:**
+
+**Scheme:** Attach the original index to each element as a tie-breaker.
+
+1. Create pairs (value, original_index) for each element
+2. Modify comparison: compare by value first, then by index if equal
+3. Sort using the modified comparison
+4. Extract just the values from the sorted pairs
+
+**Additional Costs:**
+- Time: O(n) extra for creating/extracting pairs (doesn't change overall complexity)
+- Space: O(n) for storing indices
+
+---
+
+### Problem 8.3-3
+**Use induction to prove that radix sort works. Where does your proof need the assumption that the intermediate sort is stable?**
+
+**Proof by Induction:**
+
+Let P(i) be: "After sorting on the i least significant digits, the array is sorted by those i digits."
+
+**Base Case (i=1):**
+After sorting on the 1st (least significant) digit, elements are ordered by that digit. P(1) is true.
+
+**Inductive Step:**
+Assume P(k) is true: after k passes, the array is sorted by the k least significant digits.
+
+After pass k+1 (sorting on digit k+1):
+- Elements with different digit k+1 values are correctly ordered by that digit
+- Elements with SAME digit k+1 value maintain their relative order (by stability)
+- Since they were already sorted by digits 1..k (by P(k)), they remain sorted by digits 1..k
+- Therefore, the array is now sorted by all k+1 digits
+
+**Where Stability is Needed:**
+The proof requires stability in the inductive step. Without stability, elements with the same digit k+1 value could be reordered, destroying the sorting by digits 1..k that we achieved in previous passes.
+
+---
+
+### Problem 8.3-5
+**Show how to sort n integers in the range 0 to n³ - 1 in O(n) time.**
+
+**Solution:**
+
+**Key Insight:** Treat each integer as a 3-digit number in base n.
+
+**Why This Works:**
+- Any number from 0 to n³-1 can be represented as: d₂·n² + d₁·n + d₀
+- Where each digit dᵢ is in range [0, n-1]
+- This gives us 3 digits in base n
+
+**Algorithm:**
+1. Convert each number to base-n representation (3 digits)
+2. Run radix sort with d=3 passes
+3. Each pass uses counting sort on one base-n digit
+
+**Time Complexity:**
+- Converting to base n: O(n) total
+- Radix sort: O(d(n+k)) where d=3, k=n
+- Total: O(3(n+n)) = O(n)
+
+**Example:**
+If n=10, we're sorting numbers 0 to 999.
+- Treat as 3-digit decimal numbers
+- Sort by ones, tens, then hundreds
+- 3 passes × O(n) per pass = O(n) total

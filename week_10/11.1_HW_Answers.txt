@@ -1,0 +1,220 @@
+### Problem 11.1-1
+**A dynamic set S is represented by a direct-address table T of length m. Describe a procedure that finds the maximum element of S. What is the worst-case performance of your procedure?**
+
+**Understanding the Problem:**
+A direct-address table T[0..m-1] stores elements where:
+- If key k is in set S, then T[k] contains the element (or pointer to it)
+- If key k is not in S, then T[k] = NIL
+- We need to find the element with the maximum key
+
+**Solution:**
+
+```
+DIRECT-ADDRESS-MAXIMUM(T)
+1  for i = m-1 downto 0
+2      if T[i] ≠ NIL
+3          return T[i]
+4  return NIL  // set is empty
+```
+
+**How This Works:**
+1. Start from the highest possible key (m-1)
+2. Scan backwards through the table
+3. Return the first non-NIL element we find
+4. This element has the maximum key since we're scanning from high to low
+
+**Example:**
+```
+T[0] = NIL
+T[1] = element with key 1
+T[2] = NIL
+T[3] = element with key 3
+T[4] = NIL
+T[5] = element with key 5
+T[6] = NIL
+T[7] = NIL
+```
+
+Scanning from i=7 down to i=0:
+- i=7: T[7] = NIL, continue
+- i=6: T[6] = NIL, continue
+- i=5: T[5] ≠ NIL, return T[5] ✓
+
+Maximum element has key 5.
+
+**Worst-Case Performance:**
+
+**Worst Case:** The maximum element is at T[0], or the table is empty.
+- We must scan all m positions
+- Time complexity: **Θ(m)**
+
+**Best Case:** The maximum element is at T[m-1].
+- We find it immediately
+- Time complexity: Θ(1)
+
+**Average Case:** Depends on distribution of keys, but could be Θ(m).
+
+**Optimization:**
+If we need frequent maximum queries, we could maintain a separate variable tracking the maximum key, updating it during INSERT and DELETE operations. This would give O(1) maximum queries but slightly slower INSERT/DELETE.
+
+---
+
+### Problem 11.1-2
+**A bit vector is simply an array of bits (each either 0 or 1). A bit vector of length m takes much less space than an array of m pointers. Describe how to use a bit vector to represent a dynamic set of distinct elements drawn from the set {0, 1, ..., m − 1} and with no satellite data. Dictionary operations should run in O(1) time.**
+
+**Understanding the Problem:**
+- We have a set S ⊆ {0, 1, ..., m-1}
+- Elements are just keys (no satellite data)
+- We want to implement: SEARCH, INSERT, DELETE in O(1) time
+- Use a bit vector (array of bits) instead of an array of pointers to save space
+
+**Solution:**
+
+**Data Structure:**
+```
+Let B[0..m-1] be a bit vector where:
+- B[k] = 1 if k ∈ S
+- B[k] = 0 if k ∉ S
+```
+
+**Operations:**
+
+```
+BIT-VECTOR-SEARCH(B, k)
+1  if k < 0 or k >= m
+2      return FALSE
+3  return B[k] == 1
+
+BIT-VECTOR-INSERT(B, k)
+1  if k < 0 or k >= m
+2      error "key out of range"
+3  B[k] = 1
+
+BIT-VECTOR-DELETE(B, k)
+1  if k < 0 or k >= m
+2      error "key out of range"
+3  B[k] = 0
+```
+
+**Time Complexity:**
+- **SEARCH:** O(1) - direct array access
+- **INSERT:** O(1) - direct array access
+- **DELETE:** O(1) - direct array access
+
+**Space Complexity:**
+- **Bit vector:** m bits = m/8 bytes (assuming 8 bits per byte)
+- **Pointer array:** m pointers = m × (4 or 8) bytes (depending on architecture)
+- **Space savings:** Factor of 32 or 64!
+
+**Example:**
+```
+Set S = {0, 3, 5, 7}
+m = 10
+
+Bit vector B:
+Index: 0  1  2  3  4  5  6  7  8  9
+Value: 1  0  0  1  0  1  0  1  0  0
+
+SEARCH(B, 5): B[5] = 1 → TRUE (5 is in S)
+SEARCH(B, 4): B[4] = 0 → FALSE (4 is not in S)
+INSERT(B, 4): B[4] = 1 → S = {0, 3, 4, 5, 7}
+DELETE(B, 3): B[3] = 0 → S = {0, 4, 5, 7}
+```
+
+**Advantages:**
+1. **Space efficient:** Uses only 1 bit per possible key
+2. **Fast:** All operations are O(1)
+3. **Simple:** Easy to implement
+4. **Cache friendly:** Compact representation
+
+**Disadvantages:**
+1. **No satellite data:** Can only store keys, not associated values
+2. **Fixed range:** Must know the range [0, m-1] in advance
+3. **Sparse sets:** Wastes space if |S| << m
+4. **No ordering:** Can't efficiently iterate through elements in order
+
+**When to Use:**
+- Keys are integers in a known, small range
+- No satellite data needed
+- Space is critical
+- Need O(1) operations
+- Examples: tracking which pages are loaded, which resources are in use, bloom filters
+
+**Additional Operations:**
+
+```
+BIT-VECTOR-UNION(B1, B2)
+// Returns bit vector representing B1 ∪ B2
+1  let B[0..m-1] be a new bit vector
+2  for i = 0 to m-1
+3      B[i] = B1[i] OR B2[i]
+4  return B
+
+BIT-VECTOR-INTERSECTION(B1, B2)
+// Returns bit vector representing B1 ∩ B2
+1  let B[0..m-1] be a new bit vector
+2  for i = 0 to m-1
+3      B[i] = B1[i] AND B2[i]
+4  return B
+
+BIT-VECTOR-SIZE(B)
+// Returns |S|, the number of elements in the set
+1  count = 0
+2  for i = 0 to m-1
+3      if B[i] == 1
+4          count = count + 1
+5  return count
+```
+
+**Set Operations Complexity:**
+- Union: O(m)
+- Intersection: O(m)
+- Size: O(m)
+
+**Practical Implementation:**
+In practice, bit vectors can be implemented using:
+- Integer arrays where each integer holds 32 or 64 bits
+- Bitwise operations (AND, OR, XOR, NOT) for efficient set operations
+- Bit manipulation for accessing individual bits
+
+**Example with 32-bit integers:**
+```
+// To access bit k:
+word_index = k / 32
+bit_index = k % 32
+bit_value = (B[word_index] >> bit_index) & 1
+
+// To set bit k:
+B[word_index] |= (1 << bit_index)
+
+// To clear bit k:
+B[word_index] &= ~(1 << bit_index)
+```
+
+This makes operations even faster by using hardware-level bitwise operations!
+
+---
+
+**Summary of Direct-Address Tables:**
+
+**Key Concepts:**
+1. **Direct addressing:** Use key as array index
+2. **Perfect for small key ranges:** When keys are in {0, 1, ..., m-1}
+3. **O(1) operations:** SEARCH, INSERT, DELETE all constant time
+4. **Space trade-off:** Uses Θ(m) space regardless of |S|
+
+**When to Use:**
+- Keys are non-negative integers
+- Key range is small (m is reasonable)
+- Need fast operations
+- Can afford O(m) space
+
+**Limitations:**
+- Wastes space if |S| << m (sparse sets)
+- Doesn't work for large key ranges (e.g., 64-bit integers)
+- Doesn't work for non-integer keys directly
+
+**Comparison with Hash Tables:**
+- Direct-address tables: No collisions, but limited to small key ranges
+- Hash tables: Handle large/arbitrary key ranges, but have collisions
+- Hash tables are a generalization of direct-address tables

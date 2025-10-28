@@ -1,0 +1,193 @@
+### Problem 8.4-1
+**Using Figure 8.4 as a model, illustrate the operation of BUCKET-SORT on the array A = ⟨.79, .13, .16, .64, .39, .20, .89, .53, .71, .42⟩.**
+
+**Understanding the Problem:**
+Bucket sort distributes elements into buckets, sorts each bucket, then concatenates them. For numbers in [0,1), we use n buckets where bucket i contains numbers in range [i/n, (i+1)/n).
+
+**Given:** A = ⟨.79, .13, .16, .64, .39, .20, .89, .53, .71, .42⟩, n = 10
+
+**Step 1: Create 10 empty buckets (B[0] through B[9])**
+
+B[0]: []  (range [0.0, 0.1))
+B[1]: []  (range [0.1, 0.2))
+B[2]: []  (range [0.2, 0.3))
+B[3]: []  (range [0.3, 0.4))
+B[4]: []  (range [0.4, 0.5))
+B[5]: []  (range [0.5, 0.6))
+B[6]: []  (range [0.6, 0.7))
+B[7]: []  (range [0.7, 0.8))
+B[8]: []  (range [0.8, 0.9))
+B[9]: []  (range [0.9, 1.0))
+
+**Step 2: Distribute elements into buckets**
+
+For each element A[i], place it in bucket B[⌊n · A[i]⌋]:
+
+- .79 → B[⌊10 × .79⌋] = B[7]
+- .13 → B[⌊10 × .13⌋] = B[1]
+- .16 → B[⌊10 × .16⌋] = B[1]
+- .64 → B[⌊10 × .64⌋] = B[6]
+- .39 → B[⌊10 × .39⌋] = B[3]
+- .20 → B[⌊10 × .20⌋] = B[2]
+- .89 → B[⌊10 × .89⌋] = B[8]
+- .53 → B[⌊10 × .53⌋] = B[5]
+- .71 → B[⌊10 × .71⌋] = B[7]
+- .42 → B[⌊10 × .42⌋] = B[4]
+
+After distribution:
+B[0]: []
+B[1]: [.13, .16]
+B[2]: [.20]
+B[3]: [.39]
+B[4]: [.42]
+B[5]: [.53]
+B[6]: [.64]
+B[7]: [.79, .71]
+B[8]: [.89]
+B[9]: []
+
+**Step 3: Sort each bucket (using insertion sort)**
+
+B[0]: [] → []
+B[1]: [.13, .16] → [.13, .16] (already sorted)
+B[2]: [.20] → [.20]
+B[3]: [.39] → [.39]
+B[4]: [.42] → [.42]
+B[5]: [.53] → [.53]
+B[6]: [.64] → [.64]
+B[7]: [.79, .71] → [.71, .79] (swap needed)
+B[8]: [.89] → [.89]
+B[9]: [] → []
+
+**Step 4: Concatenate all buckets**
+
+Final sorted array:
+[.13, .16, .20, .39, .42, .53, .64, .71, .79, .89]
+
+**Verification:** Elements are in ascending order ✓
+
+---
+
+### Problem 8.4-2
+**Explain why the worst-case running time for bucket sort is Θ(n²). What simple change to the algorithm preserves its linear average-case running time and makes its worst-case running time O(n lg n)?**
+
+**Part 1: Why worst-case is Θ(n²)**
+
+**Worst Case Scenario:**
+All n elements fall into the SAME bucket.
+
+**Analysis:**
+1. Creating buckets: O(n)
+2. Distributing elements: O(n)
+3. Sorting buckets: 
+   - One bucket has n elements
+   - Insertion sort on n elements: Θ(n²)
+   - Other buckets are empty: O(1) each
+4. Concatenating: O(n)
+
+**Total:** Θ(n²) dominated by sorting the single bucket
+
+**Example:**
+If all numbers are in range [0.0, 0.1), they all go to B[0]:
+- B[0]: [all n elements] → insertion sort takes Θ(n²)
+
+**Part 2: Simple change to achieve O(n lg n) worst-case**
+
+**Solution:** Use merge sort or heapsort instead of insertion sort for sorting each bucket.
+
+**Modified Algorithm:**
+```
+BUCKET-SORT-IMPROVED(A)
+1  n = A.length
+2  let B[0..n-1] be a new array of empty lists
+3  for i = 1 to n
+4      insert A[i] into list B[⌊n · A[i]⌋]
+5  for i = 0 to n-1
+6      sort list B[i] with merge sort (or heapsort)  // CHANGE HERE
+7  concatenate the lists B[0], B[1], ..., B[n-1] together
+```
+
+**New Complexity:**
+- Best/Average case: O(n) - still linear when elements are well-distributed
+- Worst case: O(n lg n) - when all elements in one bucket, merge sort takes O(n lg n)
+
+**Why This Works:**
+- Merge sort: O(k lg k) for k elements
+- Worst case: one bucket with n elements → O(n lg n)
+- Average case: each bucket has O(1) elements → O(n) total
+- We get the best of both worlds!
+
+---
+
+### Problem 8.4-3
+**Let X be a random variable that is equal to the number of heads in two flips of a fair coin. What is E[X²]? What is E²[X]?**
+
+**Understanding the Problem:**
+- X = number of heads in 2 coin flips
+- E[X²] = expected value of X²
+- E²[X] = (expected value of X)²
+
+**Step 1: Find the probability distribution of X**
+
+Possible outcomes for 2 flips:
+- HH: X = 2 (probability 1/4)
+- HT: X = 1 (probability 1/4)
+- TH: X = 1 (probability 1/4)
+- TT: X = 0 (probability 1/4)
+
+Distribution:
+- P(X = 0) = 1/4
+- P(X = 1) = 2/4 = 1/2
+- P(X = 2) = 1/4
+
+**Step 2: Calculate E[X]**
+
+E[X] = Σ x · P(X = x)
+     = 0 · (1/4) + 1 · (1/2) + 2 · (1/4)
+     = 0 + 1/2 + 1/2
+     = 1
+
+**Step 3: Calculate E[X²]**
+
+E[X²] = Σ x² · P(X = x)
+      = 0² · (1/4) + 1² · (1/2) + 2² · (1/4)
+      = 0 + 1/2 + 4/4
+      = 1/2 + 1
+      = 3/2
+
+**Step 4: Calculate E²[X]**
+
+E²[X] = (E[X])²
+      = 1²
+      = 1
+
+**Answers:**
+- **E[X²] = 3/2 = 1.5**
+- **E²[X] = 1**
+
+**Note:** E[X²] ≠ E²[X] in general!
+
+**Variance Connection:**
+Var(X) = E[X²] - E²[X] = 3/2 - 1 = 1/2
+
+This makes sense: the variance of the number of heads in 2 fair coin flips is 1/2.
+
+---
+
+**Summary of Bucket Sort:**
+
+**When to Use:**
+- Input uniformly distributed over [0, 1)
+- Need average-case O(n) performance
+- Can afford O(n) extra space
+
+**Key Properties:**
+- Average case: O(n)
+- Worst case: O(n²) with insertion sort, O(n lg n) with merge sort
+- Not comparison-based
+- Requires knowledge of input distribution
+
+**Comparison with Other Linear-Time Sorts:**
+- Counting sort: integers in small range
+- Radix sort: integers with fixed number of digits
+- Bucket sort: real numbers uniformly distributed

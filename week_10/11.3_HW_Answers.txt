@@ -1,0 +1,439 @@
+### Problem 11.3-1
+**You wish to search a linked list of length n, where each element contains a key k along with a hash value h(k). Each key is a long character string. How might you take advantage of the hash values when searching the list for an element with a given key?**
+
+**Understanding the Problem:**
+- Linked list with n elements
+- Each element stores: (key k, hash value h(k))
+- Keys are long strings (expensive to compare)
+- We want to search for a specific key efficiently
+
+**Key Insight:**
+Comparing hash values is much faster than comparing long strings!
+
+**Optimized Search Algorithm:**
+
+```
+HASH-AWARE-SEARCH(L, k)
+1  target_hash = h(k)           // Compute hash of search key
+2  current = L.head
+3  while current ≠ NIL
+4      if current.hash == target_hash    // Fast: compare integers
+5          if current.key == k            // Slow: compare strings only if hashes match
+6              return current
+7      current = current.next
+8  return NIL
+```
+
+**How This Works:**
+
+**Step 1: Compute target hash**
+- Calculate h(k) once at the beginning
+- Cost: O(|k|) where |k| is the length of the key string
+
+**Step 2: Compare hashes first**
+- For each element, compare hash values (integers)
+- Cost per comparison: O(1)
+- If hashes don't match, the keys definitely don't match → skip string comparison!
+
+**Step 3: Compare strings only when hashes match**
+- Only when h(current.key) == h(k) do we compare actual strings
+- Cost per string comparison: O(|k|)
+- This happens rarely if hash function is good
+
+**Performance Analysis:**
+
+**Without Hash Values (naive approach):**
+- Compare each key string directly
+- Cost: O(n · |k|) where n is list length, |k| is string length
+- Must do n expensive string comparisons
+
+**With Hash Values (optimized approach):**
+- Compare hash values first (cheap)
+- Compare strings only on hash matches (rare)
+- Expected cost: O(n + c · |k|) where c is number of hash collisions
+- If hash function is good: c << n, so much faster!
+
+**Example:**
+
+Searching for "ALGORITHM" in a list of 1000 elements:
+
+```
+List:
+1. ("APPLE", h("APPLE")=42)
+2. ("BANANA", h("BANANA")=17)
+3. ("ALGORITHM", h("ALGORITHM")=99)
+...
+1000. ("ZEBRA", h("ZEBRA")=31)
+
+Search for "ALGORITHM":
+target_hash = h("ALGORITHM") = 99
+
+Element 1: h=42 ≠ 99 → skip (no string comparison needed!)
+Element 2: h=17 ≠ 99 → skip
+Element 3: h=99 == 99 → compare strings: "ALGORITHM" == "ALGORITHM" ✓ FOUND!
+```
+
+**Benefits:**
+1. **Faster rejection:** Most elements rejected with O(1) hash comparison
+2. **Fewer string comparisons:** Only compare strings when hashes match
+3. **Significant speedup:** Especially for long strings and large lists
+
+**Trade-offs:**
+- **Extra space:** Store hash value with each element (typically 4-8 bytes)
+- **Hash collisions:** False positives require string comparison
+- **Good hash function needed:** Poor hash function → many collisions → less benefit
+
+**When This is Most Effective:**
+- Long keys (strings with many characters)
+- Large lists (many elements to search through)
+- Good hash function (few collisions)
+- Frequent searches (amortize hash computation cost)
+
+---
+
+### Problem 11.3-2
+**You hash a string of r characters into m slots by treating it as a radix-128 number and then using the division method. You can represent the number m as a 32-bit computer word, but the string of r characters, treated as a radix-128 number, takes many words. How can you apply the division method to compute the hash value of the character string without using more than a constant number of words of storage outside the string itself?**
+
+**Understanding the Problem:**
+- String S = s₁s₂...sᵣ (r characters)
+- Treat as radix-128 number: value = s₁·128^(r-1) + s₂·128^(r-2) + ... + sᵣ·128⁰
+- This number is HUGE (requires many words)
+- Want to compute: h(S) = (value) mod m
+- Constraint: Use only O(1) extra space (constant number of words)
+
+**Key Mathematical Insight:**
+
+**Modular Arithmetic Property:**
+(a + b) mod m = ((a mod m) + (b mod m)) mod m
+(a · b) mod m = ((a mod m) · (b mod m)) mod m
+
+This means we can compute the hash incrementally, taking mod m at each step!
+
+**Horner's Method with Modular Arithmetic:**
+
+```
+HASH-STRING(S, m)
+1  hash = 0
+2  for i = 1 to r
+3      hash = ((hash * 128) + S[i]) mod m
+4  return hash
+```
+
+**How This Works:**
+
+**Mathematical Derivation:**
+```
+value = s₁·128^(r-1) + s₂·128^(r-2) + ... + sᵣ
+      = (...((s₁·128 + s₂)·128 + s₃)·128 + ... + sᵣ)
+```
+
+This is Horner's method: process left to right, multiply by 128 and add next character.
+
+**With Modular Arithmetic:**
+```
+hash₀ = 0
+hash₁ = (hash₀ · 128 + s₁) mod m = s₁ mod m
+hash₂ = (hash₁ · 128 + s₂) mod m = (s₁·128 + s₂) mod m
+hash₃ = (hash₂ · 128 + s₃) mod m = (s₁·128² + s₂·128 + s₃) mod m
+...
+hashᵣ = (s₁·128^(r-1) + s₂·128^(r-2) + ... + sᵣ) mod m
+```
+
+**Example:**
+
+Hash "ABC" with m = 100:
+- A = 65, B = 66, C = 67 (ASCII values)
+
+```
+hash₀ = 0
+hash₁ = (0 · 128 + 65) mod 100 = 65 mod 100 = 65
+hash₂ = (65 · 128 + 66) mod 100 = 8386 mod 100 = 86
+hash₃ = (86 · 128 + 67) mod 100 = 11075 mod 100 = 75
+
+Result: h("ABC") = 75
+```
+
+**Verification (direct calculation):**
+```
+value = 65·128² + 66·128 + 67
+      = 65·16384 + 66·128 + 67
+      = 1064960 + 8448 + 67
+      = 1073475
+
+1073475 mod 100 = 75 ✓
+```
+
+**Space Complexity:**
+- **Variables used:** hash (1 word), i (1 word), S (input, doesn't count)
+- **Total extra space:** O(1) ✓
+
+**Time Complexity:**
+- **Loop iterations:** r (length of string)
+- **Per iteration:** O(1) (one multiplication, one addition, one mod)
+- **Total:** O(r)
+
+**Why This is Efficient:**
+1. **No large numbers:** Never store the full radix-128 value
+2. **Constant space:** Only need one variable for the running hash
+3. **Single pass:** Process string once, left to right
+4. **In-place:** Can compute hash while reading the string
+
+**Practical Implementation:**
+
+```python
+def hash_string(s, m):
+    hash_value = 0
+    for char in s:
+        hash_value = ((hash_value * 128) + ord(char)) % m
+    return hash_value
+```
+
+**Generalization:**
+This technique works for any radix r and modulus m:
+```
+HASH-STRING-GENERAL(S, r, m)
+1  hash = 0
+2  for i = 1 to length(S)
+3      hash = ((hash * r) + S[i]) mod m
+4  return hash
+```
+
+**Applications:**
+- Hashing strings in hash tables
+- Rolling hash (Rabin-Karp string matching)
+- Checksums and fingerprints
+- Distributed hash tables
+
+---
+
+### Problem 11.3-3
+**Consider a version of the division method in which h(k) = k mod m, where m = 2^p − 1 and k is a character string interpreted in radix 2^p. Show that if string x can be converted to string y by permuting its characters, then x and y hash to the same value. Give an example of an application in which this property would be undesirable in a hash function.**
+
+**Understanding the Problem:**
+- Hash function: h(k) = k mod m
+- Modulus: m = 2^p - 1
+- Keys: strings interpreted in radix 2^p
+- Claim: Permuting characters doesn't change the hash value
+
+**Proof:**
+
+**Step 1: Express string value**
+For string S = s₁s₂...sᵣ in radix 2^p:
+```
+value(S) = s₁·(2^p)^(r-1) + s₂·(2^p)^(r-2) + ... + sᵣ·(2^p)⁰
+```
+
+**Step 2: Key mathematical property**
+When m = 2^p - 1:
+```
+(2^p) mod (2^p - 1) = 1
+```
+
+Proof: 2^p = (2^p - 1) + 1, so 2^p ≡ 1 (mod 2^p - 1)
+
+**Step 3: Apply to powers**
+```
+(2^p)⁰ mod m = 1
+(2^p)¹ mod m = 1
+(2^p)² mod m = 1
+...
+(2^p)^k mod m = 1 for all k ≥ 0
+```
+
+**Step 4: Hash value of string**
+```
+h(S) = value(S) mod m
+     = (s₁·(2^p)^(r-1) + s₂·(2^p)^(r-2) + ... + sᵣ) mod m
+     = (s₁·1 + s₂·1 + ... + sᵣ·1) mod m
+     = (s₁ + s₂ + ... + sᵣ) mod m
+```
+
+**Conclusion:**
+The hash value is just the SUM of character values mod m, independent of position!
+
+**Step 5: Permutation invariance**
+If y is a permutation of x:
+- y has the same characters as x, just in different order
+- Sum of characters is the same: Σ(chars in x) = Σ(chars in y)
+- Therefore: h(x) = h(y) ✓
+
+**Example:**
+
+Let p = 3, so m = 2³ - 1 = 7, radix = 2³ = 8
+
+String "ABC":
+- A = 1, B = 2, C = 3 (simplified values)
+- value = 1·8² + 2·8¹ + 3·8⁰ = 64 + 16 + 3 = 83
+- h("ABC") = 83 mod 7 = 6
+
+String "CAB" (permutation):
+- C = 3, A = 1, B = 2
+- value = 3·8² + 1·8¹ + 2·8⁰ = 192 + 8 + 2 = 202
+- h("CAB") = 202 mod 7 = 6
+
+Alternative calculation (using sum):
+- h("ABC") = (1 + 2 + 3) mod 7 = 6 mod 7 = 6
+- h("CAB") = (3 + 1 + 2) mod 7 = 6 mod 7 = 6 ✓
+
+**Why This Property is Undesirable:**
+
+**Problem:** Many collisions for anagrams!
+
+**Example Application Where This is Bad:**
+
+**1. Dictionary/Spell Checker:**
+```
+Words: "listen", "silent", "enlist"
+All are anagrams → all hash to same value!
+Result: All collide in hash table → O(n) search time
+```
+
+**2. Compiler Symbol Table:**
+```
+Variables: "temp", "pmet", "mpet"
+All are anagrams → all hash to same value!
+Result: Poor performance for similar variable names
+```
+
+**3. String Deduplication:**
+```
+Strings: "abc", "bca", "cab"
+All hash to same value → must compare all strings
+Result: Can't quickly identify unique strings
+```
+
+**4. Password Hashing:**
+```
+Passwords: "password", "drowssap"
+Same hash → security vulnerability!
+Result: Attacker can find collisions easily
+```
+
+**Real-World Impact:**
+- **High collision rate:** Any set of anagrams collides
+- **Poor distribution:** Hash function doesn't distinguish word order
+- **Degraded performance:** Hash table becomes inefficient
+- **Security issues:** Predictable collisions enable attacks
+
+**Better Alternatives:**
+1. **Use m ≠ 2^p - 1:** Choose m to be a prime not of this form
+2. **Different hash function:** Use polynomial rolling hash with different modulus
+3. **Cryptographic hash:** Use SHA-256, MD5, etc. for security-critical applications
+
+---
+
+### Problem 11.3-4
+**Consider a hash table of size m = 1000 and a corresponding hash function h(k) = ⌊m(kA mod 1)⌋ for A = (√5 - 1)/2. Compute the locations to which the keys 61, 62, 63, 64, and 65 are mapped.**
+
+**Understanding the Problem:**
+- Multiplication method: h(k) = ⌊m(kA mod 1)⌋
+- m = 1000
+- A = (√5 - 1)/2 ≈ 0.6180339887... (golden ratio - 1)
+- Compute h(61), h(62), h(63), h(64), h(65)
+
+**Step-by-Step Calculations:**
+
+**Constant A:**
+```
+A = (√5 - 1)/2
+  = (2.2360679775 - 1)/2
+  = 1.2360679775/2
+  = 0.6180339887...
+```
+
+**Key 61:**
+```
+kA = 61 × 0.6180339887 = 37.6997073107
+kA mod 1 = 0.6997073107 (fractional part)
+m(kA mod 1) = 1000 × 0.6997073107 = 699.7073107
+h(61) = ⌊699.7073107⌋ = 699
+```
+
+**Key 62:**
+```
+kA = 62 × 0.6180339887 = 38.3180412994
+kA mod 1 = 0.3180412994
+m(kA mod 1) = 1000 × 0.3180412994 = 318.0412994
+h(62) = ⌊318.0412994⌋ = 318
+```
+
+**Key 63:**
+```
+kA = 63 × 0.6180339887 = 38.9363752881
+kA mod 1 = 0.9363752881
+m(kA mod 1) = 1000 × 0.9363752881 = 936.3752881
+h(63) = ⌊936.3752881⌋ = 936
+```
+
+**Key 64:**
+```
+kA = 64 × 0.6180339887 = 39.5547092768
+kA mod 1 = 0.5547092768
+m(kA mod 1) = 1000 × 0.5547092768 = 554.7092768
+h(64) = ⌊554.7092768⌋ = 554
+```
+
+**Key 65:**
+```
+kA = 65 × 0.6180339887 = 40.1730432655
+kA mod 1 = 0.1730432655
+m(kA mod 1) = 1000 × 0.1730432655 = 173.0432655
+h(65) = ⌊173.0432655⌋ = 173
+```
+
+**Summary of Results:**
+
+| Key | Hash Value h(k) |
+|-----|-----------------|
+| 61  | 699            |
+| 62  | 318            |
+| 63  | 936            |
+| 64  | 554            |
+| 65  | 173            |
+
+**Observations:**
+
+1. **Good distribution:** Values are spread across the range [0, 999]
+2. **No obvious pattern:** Consecutive keys map to very different slots
+3. **No collisions:** All five keys map to different slots
+4. **Golden ratio works well:** A = (√5-1)/2 is known to give good distribution
+
+**Why Golden Ratio is Special:**
+- Most irrational number (hardest to approximate with rationals)
+- Minimizes clustering in hash tables
+- Recommended by Knuth for multiplication method
+- Works well in practice
+
+---
+
+**Summary of Hash Functions:**
+
+**Key Concepts:**
+
+**1. Division Method:** h(k) = k mod m
+- Simple and fast
+- Choose m to be prime, not near power of 2
+- Avoid m = 2^p - 1 (causes anagram collisions)
+
+**2. Multiplication Method:** h(k) = ⌊m(kA mod 1)⌋
+- Works with any m (often choose power of 2)
+- A = (√5-1)/2 ≈ 0.618 is good choice
+- More complex but better distribution
+
+**3. Universal Hashing:**
+- Choose hash function randomly from a family
+- Guarantees good average-case performance
+- Protects against adversarial inputs
+
+**Good Hash Function Properties:**
+1. **Deterministic:** Same key always hashes to same value
+2. **Uniform distribution:** Keys spread evenly across slots
+3. **Efficient:** Fast to compute
+4. **Minimize collisions:** Different keys usually hash to different values
+5. **Avalanche effect:** Small change in key → large change in hash
+
+**Common Pitfalls:**
+- Using m = 2^p - 1 (anagram problem)
+- Poor choice of A in multiplication method
+- Not considering input distribution
+- Using weak hash for security applications
