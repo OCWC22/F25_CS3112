@@ -1,0 +1,41 @@
+Week 12 Homework Questions
+
+Section 12.1 - Binary Search Trees
+1. Draw all BSTs on {1,4,5,10,16,17,21} with heights 2,3,4,5,6
+2. Compare BST property vs min-heap property and explain O(n) sorting possibility
+4. Write recursive preorder and postorder traversal algorithms and prove they run in Θ(n)
+
+Section 12.2 - Query and Update
+1. Determine which search traces for finding 363 are impossible
+2. Write recursive TREE-MINIMUM and TREE-MAXIMUM algorithms
+3. Write algorithm for TREE-PREDECESSOR(x) with distinct keys
+5. Prove that if a node has two children, its successor has no left child and predecessor has no right child
+9. Show that for leaf x with parent y, y.key is either immediate predecessor or successor of x.key
+
+Section 12.3 - Insertion and Deletion
+2. Show that searches after insertion examine exactly 1 more node
+3. Analyze sorting by building BST then doing inorder traversal (worst/best case)
+5. Determine if deletion is commutative (delete x then y vs y then x)
+
+Section 20.1 - Representations of Graphs
+1. Compute out-degrees and in-degrees from adjacency lists
+2. Give adjacency-list and matrix representation for complete binary tree on 7 vertices
+
+Section 20.2 - Breadth-First Search
+1. Complete BFS table for Figure 20.2(a) from vertex 3 (requires figure)
+2. Complete BFS table for Figure 20.3 from source u with alphabetical neighbor ordering
+3. Show one-bit colors suffice for BFS and colors can be eliminated
+4. Analyze BFS with adjacency matrix (time complexity)
+6. Find shortest-path tree that cannot be a BFS tree
+
+Section 20.3 - Depth-First Search
+1. Fill color-to-color edge possibilities table for DFS
+2. Complete DFS with discovery/finish times for Figure 20.6 (requires figure)
+3. Give parenthesis structure for Figure 20.4 (requires figure)
+7. Find counterexample to: if u→v path exists and u.d < v.d, then v is descendant of u
+8. Find counterexample to: if u→v path exists then any DFS must have v.d ≤ u.f
+10. Explain how vertex u can end up in DFS tree containing only u
+
+Section 20.4 - Topological Sort
+1. Complete TOPOLOGICAL-SORT on Figure 20.8 with alphabetical ordering
+3. Show how to detect simple cycle in undirected graph in O(V) time
