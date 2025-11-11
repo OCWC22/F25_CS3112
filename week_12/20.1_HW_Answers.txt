@@ -1,0 +1,21 @@
+Section 20.1 Homework Answers
+
+20.1-1 - Out-degrees and in-degrees from adjacency lists
+
+• Out-degree of every vertex: length of each list; summing lengths over all vertices is |E|. Time Θ(V + E).
+
+• In-degrees: scan all lists and count incoming endpoints; also Θ(V + E).
+
+20.1-2 - Adjacency-list & matrix for a complete binary tree on 7 vertices (heap indexing 1..7)
+
+Edges (undirected) using heap relations i↔2i, i↔2i+1 where in range:
+
+• 1: {2,3}
+• 2: {1,4,5}
+• 3: {1,6,7}
+• 4: {2}
+• 5: {2}
+• 6: {3}
+• 7: {3}
+
+Adjacency matrix (symmetric 7×7): put 1s at those pairs (and 0s elsewhere).

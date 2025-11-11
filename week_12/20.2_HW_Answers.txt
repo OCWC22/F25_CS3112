@@ -1,0 +1,65 @@
+Section 20.2 Homework Answers
+
+20.2-2 - BFS on Figure 20.3 (undirected), source u, neighbors visited alphabetically
+
+First, read the graph (from the figure) and write each adjacency list in alphabetical order:
+
+• r: {s, t, w}
+• s: {r, u, v, w}
+• t: {r, u}
+• u: {s, t, y}
+• v: {s, w, x, y}
+• w: {r, s, v, x}
+• x: {v, w, y, z}
+• y: {u, v, x, z}
+• z: {x, y}
+
+BFS mechanics (queue Q, discover white neighbors in alpha order):
+
+• Start: color all WHITE, set d[•]=∞, π[•]=NIL.
+Make u GRAY with d[u]=0; Q = [u].
+
+1. Dequeue u: visit {s, t, y} → set d=1, parents π[s]=π[t]=π[y]=u.
+Q = [s, t, y].
+
+2. Dequeue s: visit {r, v, w} (u already seen) → set d=2, parents π[r]=π[v]=π[w]=s.
+Q = [t, y, r, v, w].
+
+3. Dequeue t: neighbors {r, u} already discovered → no change.
+Q = [y, r, v, w].
+
+4. Dequeue y: visit {x, z} (u,v already seen) → set d=2, parents π[x]=π[z]=y.
+Q = [r, v, w, x, z].
+
+5. Dequeue r, then v, then w, then x, then z: all neighbors already seen.
+
+Final tables:
+
+vertex    d    π
+u    0    NIL
+s    1    u
+t    1    u
+y    1    u
+r    2    s
+v    2    s
+w    2    s
+x    2    y
+z    2    y
+
+BFS order dequeued (one valid order): u, s, t, y, r, v, w, x, z.
+
+20.2-3 - One-bit colors suffice; colors can be eliminated
+
+• With BFS, vertices are effectively marked "undiscovered" vs "discovered" (and we know that BLACK only means "fully explored"). Using just 1 bit, treat GRAY/BLACK as the same "seen" state; the resulting d, π values are unaffected.
+
+• You can also drop colors entirely: since discovery is controlled by the queue, any vertex not yet enqueued is WHITE; those already in or already dequeued are "seen". Same BFS distances. (Formal justifications appear in standard BFS analyses.)
+
+20.2-4 - BFS with an adjacency matrix
+
+You must scan a full row (Θ(V)) to find neighbors of each vertex. Across all vertices this yields Θ(V²) time, vs. Θ(V+E) with adjacency lists.
+
+20.2-6 - Shortest-path tree that cannot be a BFS tree
+
+There exist directed graphs where you can pick a set of tree edges Eπ so that every root→v path in (V, Eπ) is a shortest path in G, yet no BFS run (for any adjacency ordering) produces exactly that tree. One construction idea (from common write-ups): make multiple parents at the same optimal level for some vertex, then choose a parent in Eπ that BFS can never encounter before the alternative parent due to the layer-by-layer expansion.
+
+(If you want, paste your graph from class and I'll verify whether its shortest-path tree is or isn't realizable by any BFS ordering.)

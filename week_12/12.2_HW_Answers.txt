@@ -1,0 +1,47 @@
+Section 12.2 Homework Answers
+
+12.2-1 - Which search traces are impossible for finding 363?
+
+Rule of thumb: as you search a BST, each comparison creates interval constraints. When you go left at a node k, all later nodes must be < k; when you go right, all later nodes must be > k. Check every hop.
+
+• (a) 2, 252, 401, 398, 330, 344, 397, 363 → possible (every move respects the necessary inequalities).
+
+• (b) 924, 220, 911, 244, 898, 258, 362, 363 → possible (all left/right choices consistent).
+
+• (c) 925, 202, 911, 240, 912, 245, 363 → impossible. After 911→left to 240, the next node must be < 911. But 912 violates < 911.
+
+• (d) 2, 399, 387, 219, 266, 382, 381, 278, 363 → possible (constraints remain consistent).
+
+• (e) 935, 278, 347, 621, 299, 392, 358, 363 → impossible. After 347→right, we must stay > 347; arriving at 299 violates > 347.
+
+How to check fast: carry an interval (L, R) of allowed values. Start L = -∞, R = +∞. At each node k: if target < k, update R = min(R, k); if target > k, update L = max(L, k). The next key in the sequence must lie strictly within (L, R).
+
+12.2-2 - Recursive TREE-MINIMUM and TREE-MAXIMUM
+
+TREE-MINIMUM(x):
+  if x.left = NIL: return x
+  return TREE-MINIMUM(x.left)
+
+TREE-MAXIMUM(x):
+  if x.right = NIL: return x
+  return TREE-MAXIMUM(x.right)
+
+Each runs in Θ(height).
+
+12.2-3 - TREE-PREDECESSOR(x) (distinct keys)
+
+• If x.left ≠ NIL, return TREE-MAXIMUM(x.left).
+
+• Else, go up using parents until you move up from a right child the first time; that parent is the predecessor.
+
+(Symmetric for successor.)
+
+12.2-5 - If a node has two children, prove: successor has no left child; predecessor has no right child
+
+Let x have both children. Its successor is the minimum in x.right. If that successor s had a left child, then something smaller than s would remain in the right subtree → contradicts minimality. Symmetrically, the predecessor (maximum in x.left) cannot have a right child.
+
+12.2-9 - For leaf x with parent y, show y.key is either the immediate predecessor or successor of x.key
+
+• If x is left child of y, then there is no key between x.key and y.key in x's (empty) right subtree or in y's left subtree (which is entirely ≤ x.key). Thus y.key is the successor of x.key.
+
+• If x is right child, symmetric: y.key is the predecessor.

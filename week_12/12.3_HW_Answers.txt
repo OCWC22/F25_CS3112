@@ -1,0 +1,45 @@
+Section 12.3 Homework Answers
+
+12.3-2 - Searches after insertion examine exactly 1 more node
+
+When you inserted v, you followed comparisons down to the first NIL child and stopped there. A later successful search for v follows the same path, but it stops one step earlier (at v instead of NIL). Thus "search nodes examined" = ("insert nodes examined") + 1.
+
+12.3-3 - Sort by building a BST, then inorder
+
+• Worst-case time: Θ(n²) (inserting already sorted input creates a chain; each insert can be Θ(n))
+
+• Best-case time: Θ(n log n) (if the tree stays balanced: total insert Θ(n log n) + inorder Θ(n))
+
+(For guaranteed Θ(n log n) use self-balancing trees like AVL/B-trees.)
+
+12.3-5 - Is deletion "commutative"? (delete x then y vs. y then x)
+
+No. Counterexample (keys 4,3,7,6). Start with:
+
+    4
+   / \
+  3   7
+     /
+    6
+
+• Delete 4 then 3 → replacement makes root 6, then removing 3 yields:
+
+  6
+   \
+    7
+
+• Delete 3 then 4 → tree becomes
+
+  4
+   \
+    7
+   /
+  6
+
+then deleting 4 produces root 7 with left 6:
+
+  7
+ /
+6
+
+Final trees differ ⇒ not commutative. (Many standard write-ups use this exact example.)

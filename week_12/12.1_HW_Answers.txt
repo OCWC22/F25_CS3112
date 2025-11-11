@@ -1,0 +1,95 @@
+Section 12.1 Homework Answers
+
+12.1-1 - BSTs on {1,4,5,10,16,17,21} with heights 2,3,4,5,6
+
+Height 2 (perfect, 7 nodes):
+
+        10
+      /    \
+     4      17
+    / \    /  \
+   1   5  16  21
+
+Height 3:
+
+        10
+       /   \
+      5     17
+     /       / \
+    4       16 21
+   /
+  1
+
+Height 4:
+
+        10
+       /  \
+      5    17
+     /
+    4
+   /
+  1
+       \
+        16
+         \
+          21
+
+Height 5:
+
+1
+ \
+  4
+   \
+    5
+     \
+      10
+        \
+         16
+          \
+           21
+          /
+         17
+
+Height 6 (a chain of 7 nodes):
+
+1
+ \
+  4
+   \
+    5
+     \
+      10
+        \
+         16
+           \
+            17
+              \
+               21
+
+12.1-2 - BST property vs. Min-heap property; can a min-heap print sorted in O(n)?
+
+BST property: for every node x, all keys in x.left ≤ x.key ≤ all in x.right (strict if all keys are distinct). This gives global in-order order.
+
+Min-heap property: every parent ≤ each child. This does not impose in-order ordering between subtrees/siblings; it only guarantees the minimum at the root.
+
+Sorted output in O(n) from a min-heap? No. You can repeatedly extract the min, but each extract-min costs O(log n), so printing in order is Θ(n log n), not Θ(n). You can't do it in linear time from a plain heap because the structure doesn't store global order. (A BST can in-order traverse in Θ(n).)
+
+12.1-4 - Recursive preorder / postorder in Θ(n)
+
+Preorder (root, left, right):
+
+PREORDER(x):
+  if x = NIL: return
+  visit(x)
+  PREORDER(x.left)
+  PREORDER(x.right)
+
+Postorder (left, right, root):
+
+POSTORDER(x):
+  if x = NIL: return
+  POSTORDER(x.left)
+  POSTORDER(x.right)
+  visit(x)
+
+Why Θ(n): each node is visited a constant number of times; total work sums to Θ(n) and stack depth is O(h) (≤ O(n), O(log n) on balanced trees).

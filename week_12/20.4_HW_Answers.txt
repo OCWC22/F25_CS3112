@@ -1,0 +1,47 @@
+Section 20.4 Homework Answers
+
+20.4-1 - TOPOLOGICAL-SORT on Figure 20.8
+
+From the figure, the edges (written as alphabetical adjacency lists) are:
+
+• m: {q, r, t}
+• n: {o, q, u}
+• o: {r, s, v}
+• p: {o, s, z}
+• q: {t}
+• r: {u, y}
+• s: {r}
+• t: {x, y}
+• u: {t, x}
+• v: {w}
+• w: {z}
+• x: { }
+• y: {v}
+• z: { }
+
+Run DFS(G) with the outer loop visiting vertices in alphabetical order m, n, o, p, q, r, s, t, u, v, w, x, y, z, and for each vertex explore its adjacency list in the order shown above. Record finishing times f[·] and output vertices by decreasing finish time.
+
+(A compact record of the resulting finish times is below—bigger f means earlier in the topo order.)
+
+f:  x=5, z=10, w=11, v=12, y=13, t=14, q=15,
+    u=18, r=19, m=20, s=24, o=25, n=26, p=28
+
+Topological order (decreasing finish times):
+
+p, n, o, s, m, r, u, q, t, y, v, w, z, x
+
+(Plenty of orders are valid for a DAG; this is the one produced by DFS with the specified alphabetical rules.)
+
+20.4-3 - Detect a simple cycle in an undirected graph in O(V) (independent of |E|)
+
+Use either quick logic or early-exit DFS:
+
+• Logic approach: An undirected graph has a cycle iff |E| ≥ |V| in at least one connected component. If you know |E| per component, you're done instantly.
+
+• Early-exit DFS approach: Run DFS but stop as soon as you see one back edge (an edge to an already-GRAY ancestor). If a cycle exists, you'll encounter it before you've explored more than |V| edges; otherwise an acyclic undirected graph (forest) has at most |V|−1 edges overall, giving O(V) time. (This "early stop" argument is the standard way this exercise attains O(V) worst-case.)
+
+Handy BFS/DFS complexities recap:
+
+• BFS with adjacency list: Θ(V+E); with adjacency matrix: Θ(V²).
+
+• DFS: Θ(V+E); edge types as above; undirected graphs have only tree/back edges.

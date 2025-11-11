@@ -1,0 +1,45 @@
+Section 20.3 Homework Answers
+
+20.3-1 - "Color-to-color" edge possibilities during DFS (directed vs. undirected)
+
+Key rule while examining edge (u, v) during DFS:
+
+• u is GRAY (we're exploring it).
+
+• If v is WHITE → tree edge.
+
+• If v is GRAY → back edge (to an ancestor).
+
+• If v is BLACK → forward or cross edge (descendant or neither).
+
+• For undirected graphs, every edge is either tree or back (no forward/cross).
+
+You can fill the 3×3 chart using those rules (remember edges are observed only when u is GRAY).
+
+20.3-2 and 20.3-3 - Depend on Figure 20.6 / 20.4
+
+How to do it quickly:
+
+1. Run DFS in alphabetical order (as required).
+
+2. When you first enter a vertex, write its discovery time d.
+
+3. When you finish its adjacency list and return, write its finish time f.
+
+4. Classify each encountered edge with the rule above (tree/back/forward/cross).
+
+5. The parenthesis structure (20.3-3) is just the nesting by discovery/finish: an interval [d(u), f(u)] contains exactly the intervals of descendants.
+
+(Share a snapshot of the figure and I'll fill the exact d/f times and classifications.)
+
+20.3-7 - Counterexample to "if u→v path exists and u.d < v.d, then v is a descendant of u"
+
+Consider three vertices u, x, v with edges u→x, x→v, and also an edge from some earlier vertex to v so that DFS discovers v before u. Then u.d < v.d may hold false; or even if u.d < v.d holds accidentally, v needn't be in u's subtree (discovered in another DFS tree). A small directed graph with two DFS trees suffices to violate the conjecture (standard DFS counterexample patterns).
+
+20.3-8 - Counterexample to "if u→v path exists then any DFS must have v.d ≤ u.f"
+
+You can arrange edges so DFS finishes u before it ever discovers v (e.g., by exploring a large unrelated component first), even though a path u→v exists. So v.d > u.f can occur.
+
+20.3-10 - How can a vertex u end up in a DFS tree containing only u?
+
+If all edges incident to u go to already-BLACK vertices when u is discovered (or there are only incoming edges into u), DFS from u finds no WHITE neighbors; the DFS-Visit returns immediately, leaving a singleton tree that contains just u.
