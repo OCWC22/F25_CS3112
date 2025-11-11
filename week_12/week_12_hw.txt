@@ -1,0 +1,143 @@
+Section 12.1:      1, 2, 4
+
+12.1-1
+For the set {1, 4, 5, 10, 16, 17, 21} of keys, draw binary search trees of
+heights 2, 3, 4, 5, and 6.
+12.1-2
+What is the difference between the binary-search-tree property and the
+min-heap property on page 163? Can the min-heap property be used to
+print out the keys of an n-node tree in sorted order in O(n) time? Show
+how, or explain why not.www.konkur.inTelegram: @uni_k
+
+12.1-4
+Give  recursive  algorithms  that  perform  preorder  and  postorder  tree
+walks in Θ(n) time on a tree of n nodes
+
+Section 12.2:      1, 2, 3, 5, 9
+
+12.2-1
+You are searching for the number 363 in a binary search tree containing
+numbers between 1 and 1000. Which of the following sequences cannot
+be the sequence of nodes examined?
+a. 2, 252, 401, 398, 330, 344, 397, 363.
+b. 924, 220, 911, 244, 898, 258, 362, 363.
+c. 925, 202, 911, 240, 912, 245, 363.
+d. 2, 399, 387, 219, 266, 382, 381, 278, 363.
+e. 935, 278, 347, 621, 299, 392, 358, 363.
+12.2-2
+Write  recursive  versions  of  TREE-MINIMUM  and  TREE-
+MAXIMUM.
+12.2-3
+Write the TREE-PREDECESSOR procedure.
+
+12.2-5
+Show  that  if  a  node  in  a  binary  search  tree  has  two  children,  then  its
+successor has no left child and its predecessor has no right child.
+
+12.2-9
+Let  T  be  a  binary  search  tree  whose  keys  are  distinct,  let  x  be  a  leaf
+node, and let y be its parent. Show that y.key is either the smallest key in
+T larger than x.key or the largest key in T smaller than x.key
+
+Section 12.3:      2, 3, 5
+
+12.3-2
+Suppose that you construct a binary search tree by repeatedly inserting
+distinct values into the tree. Argue that the number of nodes examined
+in  searching  for  a  value  in  the  tree  is  1  plus  the  number  of  nodes
+examined when the value was first inserted into the tree.
+12.3-3
+You can sort a given set of n numbers by first building a binary search
+tree  containing  these  numbers  (using  TREE-INSERT  repeatedly  to
+insert  the  numbers  one  by  one)  and  then  printing  the  numbers  by  an
+inorder tree walk. What are the worst-case and best-case running times
+for this sorting algorithm?
+
+12.3-5
+Is the operation of deletion “commutative” in the sense that deleting x
+and then y from a binary search tree leaves the same tree as deleting y
+and then x? Argue why it is or give a counterexample.
+
+
+Section 20.1:    1, 2
+
+20.1-1
+Given  an  adjacency-list  representation  of  a  directed  graph,  how  long
+does it take to compute the out-degree of every vertex? How long does it
+take to compute the in-degrees?
+20.1-2
+Give  an  adjacency-list  representation  for  a  complete  binary  tree  on  7
+vertices.  Give  an  equivalent  adjacency-matrix  representation.  Assume
+that the edges are undirected and that the vertices are numbered from 1
+to 7 as in a binary heap
+
+Section 20.2:    1, 2, 3, 4, 6
+
+20.2-1
+Show the d and π values that result from running breadth-first search on
+the directed graph of Figure 20.2(a), using vertex 3 as the source.
+20.2-2
+Show the d and π values that result from running breadth-first search on
+the  undirected  graph  of  Figure  20.3,  using  vertex  u  as  the  source.
+Assume that neighbors of a vertex are visited in alphabetical order.
+20.2-3
+Show  that  using  a  single  bit  to  store  each  vertex  color  suffices  by
+arguing  that  the  BFS  procedure  produces  the  same  result  if  line  18  is
+removed.  Then  show  how  to  obviate  the  need  for  vertex  colors
+altogether.www.konkur.inTelegram: @uni_k
+20.2-4
+What is the running time of BFS if we represent its input graph by an
+adjacency  matrix  and  modify  the  algorithm  to  handle  this  form  of
+input?
+
+20.2-6
+Give an example of a directed graph G = (V, E), a source vertex s ∈ V,
+and  a  set  of  tree  edges  Eπ  ⊆  E  such  that  for  each  vertex  v  ∈  V,  the
+unique simple path in the graph (V, Eπ) from s to v is a shortest path in
+G, yet the set of edges Eπ cannot be produced by running BFS on G, no
+matter how the vertices are ordered in each adjacency list
+
+Section 20.3:    1, 2, 3, 7, 8, 10
+
+
+20.3-1www.konkur.inTelegram: @uni_k
+Make a 3-by-3 chart with row and column labels WHITE, GRAY, and
+BLACK.  In  each  cell  (i,  j),  indicate  whether,  at  any  point  during  a
+depth-first  search  of  a  directed  graph,  there  can  be  an  edge  from  a
+vertex of color i to a vertex of color j. For each possible edge, indicate
+what  edge  types  it  can  be.  Make  a  second  such  chart  for  depth-first
+search of an undirected graph.
+20.3-2
+Show how depth-first search works on the graph of Figure 20.6. Assume
+that  the  for  loop  of  lines  5–7  of  the  DFS  procedure  considers  the
+vertices  in  alphabetical  order,  and  assume  that  each  adjacency  list  is
+ordered  alphabetically.  Show  the  discovery  and  finish  times  for  each
+vertex, and show the classification of each edge.
+20.3-3
+Show the parenthesis structure of the depth-first search of Figure 20.4.
+
+20.3-7
+Give  a  counterexample  to  the  conjecture  that  if  a  directed  graph  G
+contains a path from u to v, and if u.d < v.d in a depth-first search of G,
+then v is a descendant of u in the depth-first forest produced.
+20.3-8www.konkur.inTelegram: @uni_k
+Give  a  counterexample  to  the  conjecture  that  if  a  directed  graph  G
+contains a path from u to v, then any depth-first search must result in v.d
+≤ u.f.
+
+20.3-10
+Explain how a vertex u of a directed graph can end up in a depth-first
+tree containing only u, even though u has both incoming and outgoing
+edges in G.
+
+Section 20.4:    1, 3
+20.4-1
+Show  the  ordering  of  vertices  produced  by  TOPOLOGICAL-SORT
+when it is run on the dag of Figure 20.8. Assume that the for  loop  of
+lines  5–7  of  the  DFS  procedure  considers  the  vertices  in  alphabetical
+order, and assume that each adjacency list is ordered alphabetically.
+
+20.4-3
+Give an algorithm that determines whether an undirected graph G = (V,
+E)  contains  a  simple  cycle.  Your  algorithm  should  run  in  O(V)  time,
+independent of |E|.
