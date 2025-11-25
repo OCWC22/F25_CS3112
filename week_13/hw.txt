@@ -1,0 +1,58 @@
+Section  21.1:      1, 2, 4, 7
+
+Section  21.2:      1, 2, 6
+
+
+
+21.1-1
+Let (u, v) be a minimum-weight edge in a connected graph G. Show that
+(u, v) belongs to some minimum spanning tree of G.
+
+21.1-2
+Professor Sabatier conjectures the following converse of Theorem 21.1.
+Let G = (V, E) be a connected, undirected graph with a real-valued
+weight function w defined on E. Let A be a subset of E that is included
+in some minimum spanning tree for G, let (S, V – S) be any cut of G
+that respects A, and let (u, v) be a safe edge for A crossing (S, V – S).
+Then, (u, v) is a light edge for the cut. Show that the professor’s
+conjecture is incorrect by giving a counterexample.
+
+21.1-4
+Give a simple example of a connected graph such that the set of edges
+{(u, v) : there exists a cut (S, V – S) such that (u, v) is a light edge
+crossing (S, V – S)} does not form a minimum spanning tree.
+
+21.1-7
+Argue that if all edge weights of a graph are positive, then any subset of
+edges that connects all vertices and has minimum total weight must be a
+tree. Give an example to show that the same conclusion does not follow
+if we allow some weights to be nonpositive
+
+
+
+
+
+21.2-1
+Kruskal’s algorithm can return different spanning trees for the same
+input graph G, depending on how it breaks ties when the edges are
+sorted. Show that for each minimum spanning tree T of G, there is a
+way to sort the edges of G in Kruskal’s algorithm so that the algorithm
+returns T.
+
+21.2-2
+Give a simple implementation of Prim’s algorithm that runs in O(V2)
+time when the graph G = (V, E) is represented as an adjacency matrix.
+
+21.2-6
+Professor Borden proposes a new divide-and-conquer algorithm for
+computing minimum spanning trees, which goes as follows. Given a
+graph G = (V, E), partition the set V of vertices into two sets V1 and V2
+such that |V1| and |V2| differ by at most 1. Let E1 be the set of edges
+that are incident only on vertices in V1, and let E2 be the set of edges
+that are incident only on vertices in V2. Recursively solve a minimum-
+spanning-tree problem on each of the two subgraphs G1 = (V1, E1) and
+G2 = (V2, E2). Finally, select the minimum-weight edge in E that
+crosses the cut V1, V2), and use this edge to unite the resulting two
+minimum spanning trees into a single spanning tree.
+Either argue that the algorithm correctly computes a minimum
+spanning tree of G, or provide an example for which the algorithm fails
