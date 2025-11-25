@@ -23,21 +23,86 @@ PART 2: HOMEWORK SOLUTIONS (STEP-BY-STEP)
 --------------------------------------------------------------------------------
 
 ### 21.2-1
-**Problem:** Show that for each MST T, there is a way to sort edges in Kruskal’s algorithm so it returns T.
+**Problem:** Show that for each MST T, there is a way to sort edges in Kruskal's algorithm so it returns T.
 
 **The Issue:**
 Kruskal's algorithm sorts edges by weight. If two edges have the *same* weight (e.g., Edge A and Edge B both cost 5), the order is undefined. Picking A first might lead to a different tree than picking B first.
 
+**Example with Multiple MSTs:**
+```
+Graph with tied edge weights:
+
+      A
+     / \
+    /   \
+   1     1
+  /       \
+ /         \
+B-----------C
+      1
+
+All edges have weight 1 - there are 3 possible MSTs!
+```
+
 **Step-by-Step Solution:**
-1.  **Identify the Target:** We want the algorithm to produce a specific tree, $T$.
-2.  **The Trick:** We need to "rig" the sorting order.
-3.  **Sorting Rule:**
-    - Primary Sort Key: Edge Weight (Low to High).
-    - Secondary Sort Key: "Is this edge in T?" (Yes comes before No).
-4.  **Execution Trace:**
-    - The algorithm looks at all edges of Weight 1. It picks the ones in $T$ first. Since $T$ is a valid tree, these edges never form a cycle with each other. They are all accepted.
-    - Then it looks at the "other" edges of Weight 1. Since the nodes are already connected by the $T$ edges, these "other" edges will form cycles and be rejected.
-5.  **Conclusion:** By forcing the algorithm to prefer edges in $T$ when weights are tied, we guarantee it builds exactly $T$.
+
+**Target MST T:** We want Kruskal to return {(A,B), (B,C)}
+
+**Special Sorting Rule:**
+1. Sort by weight (primary)
+2. For equal weights: edges in T come first!
+
+```
+Sorted edges:
+1. (A,B) - weight 1, IN T  ← Pick first
+2. (B,C) - weight 1, IN T  ← Pick second
+3. (A,C) - weight 1, NOT IN T ← Reject (forms cycle)
+```
+
+**Kruskal execution:**
+```
+Step 1: Add (A,B)
+   A
+   |
+   1
+   |
+   B
+   |
+   C
+
+A and B now connected ✓
+```
+
+```
+Step 2: Add (B,C)
+   A
+   |
+   1
+   |
+   B
+   |
+   1
+   |
+   C
+
+B and C now connected ✓
+```
+
+```
+Step 3: Try to add (A,C)
+   A
+   / \
+  1   1
+ /     \
+B-------C
+
+Check: A and C are already connected (A→B→C)
+This would create a cycle! → REJECT ✗
+
+Result: MST = {(A,B), (B,C)} = Exactly our target T!
+```
+
+**Conclusion:** By breaking ties in favor of edges in our desired MST, we can make Kruskal produce any specific MST.
 
 **LeetCode Pattern:**
 *   **Problem:** "Lexicographically Smallest Equivalent String" (Union-Find).
@@ -53,22 +118,85 @@ Kruskal's algorithm sorts edges by weight. If two edges have the *same* weight (
 - However, if the graph is **Dense** (lots of edges, E ≈ V^2), then O(E log V) becomes O(V^2 log V), which is slower than O(V^2).
 - So, for dense graphs, we ditch the Heap and use a simple Array.
 
+**Example Graph and Execution:**
+
+**Adjacency Matrix:**
+```
+   A  B  C  D
+A[ 0, 4, ∞, 1]
+B[ 4, 0, 2, 3]
+C[∞, 2, 0, 5]
+D[ 1, 3, 5, 0]
+```
+
+**Graph visualization:**
+```
+    4
+A-------B
+ \     |3
+  \1   |
+   \   |2
+    D--C
+```
+
 **Step-by-Step Algorithm:**
-1.  **Setup:**
-    - `dist[]`: An array of size V. `dist[i]` stores the cheapest weight to connect Node `i` to our growing tree. Initialize to Infinity.
-    - `visited[]`: Boolean array. `visited[i]` is true if Node `i` is already in the tree.
-    - Start at Node 0. Set `dist[0] = 0`.
-2.  **The Loop (Run V times):**
-    - **Step A (Find Min):** Scan the `dist` array to find the unvisited node `u` with the smallest value.
-        - *Cost:* O(V) (simple for-loop scan).
-    - **Step B (Add to Tree):** Mark `u` as `visited`.
-    - **Step C (Update Neighbors):** Look at every neighbor `v` of `u`.
-        - If the edge weight `w(u, v)` is smaller than the current `dist[v]`, update `dist[v] = w(u, v)`.
-        - *Cost:* O(V) (since we check all V possible neighbors in the matrix).
-3.  **Total Complexity:**
-    - We run the loop V times.
-    - Inside, we do two O(V) operations.
-    - Total = V * (V + V) = **O(V^2)**.
+
+**Initial state:**
+```
+dist[] = [0, ∞, ∞, ∞]  ← A is source
+visited[] = [F, F, F, F]
+```
+
+**Iteration 1: Find minimum unvisited**
+```
+- Scan dist: A=0 (min), B=∞, C=∞, D=∞
+- Pick A (dist=0)
+- Mark A visited: [T, F, F, F]
+
+Update neighbors (scan A's row):
+- dist[B] = min(∞, 0+4) = 4
+- dist[C] = min(∞, 0+∞) = ∞
+- dist[D] = min(∞, 0+1) = 1
+
+Result: dist = [0, 4, ∞, 1]
+```
+
+**Iteration 2: Find minimum unvisited**
+```
+- Scan unvisited: B=4, C=∞, D=1
+- Pick D (dist=1)
+- Mark D visited: [T, F, F, T]
+
+Update neighbors (scan D's row):
+- dist[B] = min(4, 1+3) = 4 (no change)
+- dist[C] = min(∞, 1+5) = 6
+
+Result: dist = [0, 4, 6, 1]
+```
+
+**Iteration 3: Find minimum unvisited**
+```
+- Scan unvisited: B=4, C=6
+- Pick B (dist=4)
+- Mark B visited: [T, T, F, T]
+
+Update neighbors (scan B's row):
+- dist[C] = min(6, 4+2) = 6 (no change)
+
+Result: dist = [0, 4, 6, 1]
+```
+
+**Iteration 4: Find minimum unvisited**
+```
+- Only C left with dist=6
+- Pick C, mark visited
+
+Final distances: [0, 4, 6, 1]
+```
+
+**Complexity Analysis:**
+- Each iteration: O(V) to find minimum + O(V) to update neighbors
+- V iterations total: V × O(V) = **O(V²)**
 
 **Real Engineering Application:**
 *   **Scenario:** **All-to-All Communication in HPC.**
@@ -84,45 +212,88 @@ Kruskal's algorithm sorts edges by weight. If two edges have the *same* weight (
 **The Idea:** "Can we build an MST for the left half, an MST for the right half, and just stitch them together?"
 **The Verdict:** **NO.** This is a classic algorithm design mistake.
 
-**Step-by-Step Counterexample:**
-1.  **Graph:** A "Square" A-B-C-D.
-    - Top: A-B (Cost 1)
-    - Bottom: C-D (Cost 1)
-    - Left: A-C (Cost 100)
-    - Right: B-D (Cost 100)
-    - *Note:* We also need cross edges to make the "partition" logic tricky, but let's simplify.
-    - Let's use the Triangle example from the previous file, it's clearer.
-    - **Triangle A, B, C.**
-    - Edges: (A,B)=100, (B,C)=1, (A,C)=100.
-    - Partition: V1={A}, V2={B,C}.
-2.  **Recursive Step:**
-    - MST for V1 ({A}): No edges.
-    - MST for V2 ({B,C}): Edge (B,C) [Cost 1].
-3.  **Merge Step:**
-    - Find cheapest edge connecting V1 to V2.
-    - Edges are (A,B) [100] and (A,C) [100].
-    - Pick (A,B).
-4.  **Algorithm Output:** Edges { (B,C), (A,B) }. Total Cost: 101.
-5.  **The Truth:**
-    - Wait, for a triangle 100-100-1, the MST *is* 101. This example doesn't disprove it.
-    - We need a case where the "Internal" MST edges are heavy, but we are forced to keep them.
-6.  **Correct Counterexample:**
-    - **Nodes:** A, B, C, D.
-    - **Partition:** Left={A, C}, Right={B, D}.
-    - **Edges:**
-        - Vertical (Internal): A-C (Cost 100), B-D (Cost 100).
-        - Horizontal (Crossing): A-B (Cost 1), C-D (Cost 1).
-    - **Algorithm Execution:**
-        - Solve Left: Must pick A-C (100) to connect A and C.
-        - Solve Right: Must pick B-D (100) to connect B and D.
-        - Merge: Pick cheapest cross edge, say A-B (1).
-        - **Total:** 100 + 100 + 1 = **201**.
-    - **Actual MST:**
-        - Pick A-B (1).
-        - Pick C-D (1).
-        - Pick A-C (100) OR B-D (100) to connect top and bottom.
-        - **Total:** 1 + 1 + 100 = **102**.
-7.  **Why it failed:** The algorithm forced us to build expensive local roads (A-C) before realizing there was a cheaper highway system available via the other partition.
+**Counterexample Where It Fails:**
+
+**Graph where algorithm makes poor local decisions:**
+```
+    A -------- C
+    |100      |1
+    |          |
+    |100      |100
+    |          |
+    B -------- D
+    |1        |1
+    |          |
+    +----------+
+
+Partition: Left = {A, B}, Right = {C, D}
+
+Edges:
+- Internal (expensive): A-B (100), C-D (100)
+- Crossing (cheap): A-C (1), B-D (1), A-D (1), B-C (1)
+```
+
+**Algorithm Execution:**
+
+**Step 1: Partition into {A,B} and {C,D}**
+```
+    A -------- C
+    |100      |1
+    |          |
+    |100      |100
+    |          |
+    B -------- D
+    |1        |1
+    |          |
+    +----------+
+
+Left partition: {A,B}
+Right partition: {C,D}
+```
+
+**Step 2: Solve recursively**
+```
+Left MST {A,B}: Must take edge A-B with weight 100
+Right MST {C,D}: Must take edge C-D with weight 100
+
+A --100-- B      C --100-- D
+```
+
+**Step 3: Connect with cheapest crossing edge**
+```
+Cheapest crossing edges all have weight 1
+Pick A-C with weight 1
+
+Final result:
+A --100-- B
+|        |
+|1       |
+|        |
++--1-----+--100-- D
+          |
+          C
+
+Total cost = 100 + 100 + 1 = 201
+```
+
+**Actual OPTIMAL MST:**
+```
+A -------- C
+|1        |1
+|         |
+|1        |1
++---------+
+          D
+
+Total cost = 1 + 1 + 1 + 1 = 4
+
+B is connected via A-B-D path
+```
+
+**Why It Failed:**
+- Algorithm was forced to build expensive local roads (A-B, C-D) before seeing cheaper highway system
+- Made "local optimal" decisions without "global context"
+- Divide-and-conquer doesn't work for MST because decisions in one partition affect the other
 
 **LeetCode Pattern:**
 *   **Lesson:** **Global vs. Local Optima.**

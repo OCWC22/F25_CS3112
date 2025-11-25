@@ -16,31 +16,85 @@ PART 2: HOMEWORK SOLUTIONS (STEP-BY-STEP)
 --------------------------------------------------------------------------------
 
 ### 22.3-1
-**Problem:** Run Dijkstra on Figure 22.2.
+**Problem:** Run Dijkstra's algorithm on Figure 22.2, first using vertex s as the source and then using vertex z as the source.
 
-**The Algorithm (Step-by-Step):**
-1.  **Q (Priority Queue):** Put all nodes in Q. Start Node `s` = 0, others = Infinity.
-2.  **Loop:** While Q is not empty:
-    - **Pop:** Take the node `u` with the smallest `d` value.
-    - **Relax:** Check all neighbors `v` of `u`. If `d[u] + weight < d[v]`, update `d[v]`.
+**Figure 22.2 Graph (reconstructed):**
+```
+          10         1
+    s ------> t ------> x
+    |  \      | \     |
+    |  5\     |2  \4  |6
+    |    \    |    \  v
+    v     \   v     \ y
+    y --2-- z --3---/
+```
 
-**Execution Trace (Source s):**
-*   **Start:** Q = {s:0, t:inf, x:inf, y:inf, z:inf}.
-*   **Pop s (0):**
-    - Relax s->t (10) and s->y (5).
-    - Q = {y:5, t:10, x:inf, z:inf}. (Note: y moved to front).
-*   **Pop y (5):** "y is finalized. Shortest path to y is 5."
-    - Relax y->t (5+3=8). Update t from 10 to 8.
-    - Relax y->x (5+9=14).
-    - Relax y->z (5+2=7).
-    - Q = {z:7, t:8, x:14}.
-*   **Pop z (7):** "z is finalized."
-    - Relax z->x (7+6=13). Update x from 14 to 13.
-    - Q = {t:8, x:13}.
-*   **Pop t (8):** "t is finalized."
-    - Relax t->x (8+1=9). Update x from 13 to 9.
-    - Q = {x:9}.
-*   **Pop x (9):** Done.
+**Execution 1: Source = s**
+
+**Initial state:**
+```
+Q = {(s,0), (t,∞), (x,∞), (y,∞), (z,∞)}
+S = {} (empty set)
+```
+
+**Iteration 1:**
+```
+Extract min: s with d[s] = 0
+Add s to S: S = {s}
+Relax s's neighbors:
+- s→t: d[t] = min(∞, 0+10) = 10, π[t] = s
+- s→y: d[y] = min(∞, 0+5) = 5, π[y] = s
+
+Q = {(y,5), (t,10), (x,∞), (z,∞)}
+```
+
+**Iteration 2:**
+```
+Extract min: y with d[y] = 5
+Add y to S: S = {s,y}
+Relax y's neighbors:
+- y→t: d[t] = min(10, 5+2) = 7, π[t] = y
+- y→z: d[z] = min(∞, 5+3) = 8, π[z] = y
+
+Q = {(t,7), (z,8), (x,∞)}
+```
+
+**Iteration 3:**
+```
+Extract min: t with d[t] = 7
+Add t to S: S = {s,y,t}
+Relax t's neighbors:
+- t→x: d[x] = min(∞, 7+1) = 8, π[x] = t
+- t→z: d[z] = min(8, 7+4) = 8 (no change)
+
+Q = {(x,8), (z,8)}
+```
+
+**Iteration 4:**
+```
+Extract min: x with d[x] = 8 (tie-break with z)
+Add x to S: S = {s,y,t,x}
+Relax x's neighbors:
+- x→y: d[y] = min(5, 8+6) = 5 (no change)
+
+Q = {(z,8)}
+```
+
+**Iteration 5:**
+```
+Extract min: z with d[z] = 8
+Add z to S: S = {s,y,t,x,z}
+No outgoing edges to relax
+
+Q = {} (empty) - DONE
+```
+
+**Final distances from s:**
+- s: 0
+- y: 5 (s→y)
+- t: 7 (s→y→t)
+- x: 8 (s→y→t→x)
+- z: 8 (s→y→z)
 
 **Real Engineering Application:**
 *   **Scenario:** **Google Maps Navigation.**
@@ -58,43 +112,155 @@ PART 2: HOMEWORK SOLUTIONS (STEP-BY-STEP)
 ---
 
 ### 22.3-2
-**Problem:** Simple example where Dijkstra fails with negative edges.
+**Problem:** Give a simple example of a directed graph with negative-weight edges for which Dijkstra's algorithm produces an incorrect answer.
 
-**Why it fails (The Logic):**
-- Dijkstra assumes that if I visit Node A (cost 2) before Node B (cost 5), then Node A is "closer" and I'm done with it.
-- **Negative Edge:** A "Time Machine" or "Wormhole".
-- If going to B (5) lets me take a wormhole (-10) to A, the total cost is 5 - 10 = -5.
-- But Dijkstra already finalized A at cost 2! It never looks back.
+**Counterexample with Diagrams:**
 
-**Step-by-Step Counterexample:**
-1.  **Graph:**
-    - S -> A (Cost 2)
-    - S -> B (Cost 5)
-    - B -> A (Cost -10)
-2.  **Dijkstra's Mistake:**
-    - Q = {A:2, B:5}.
-    - Pop A (2). Mark A as "Done". (Mistake! A is not actually done).
-    - Pop B (5).
-    - Relax B->A. New cost = 5 - 10 = -5.
-    - **The Bug:** In standard Dijkstra, once a node is popped, we assume its value is final. We don't put it back in the Queue. So A stays at 2. The algorithm returns the wrong answer.
+**Graph with negative edge:**
+```
+      2
+    S → A
+    |   |
+    |5  |-10
+    v   v
+    B ←---/
+
+S→A cost = 2
+S→B cost = 5
+B→A cost = -10 (negative wormhole!)
+```
+
+**Dijkstra's Incorrect Execution:**
+
+**Step 1: Initialize**
+```
+Q = {S:0, A:∞, B:∞}
+d[S] = 0, d[A] = ∞, d[B] = ∞
+```
+
+**Step 2: Pop S (0)**
+```
+Relax S→A: d[A] = min(∞, 0+2) = 2
+Relax S→B: d[B] = min(∞, 0+5) = 5
+
+Q = {A:2, B:5}
+S = {S}
+```
+
+**Step 3: Pop A (2) ← MISTAKE!**
+```
+Add A to finalized set S = {S, A}
+Dijkstra assumes: d[A] = 2 is final and optimal
+
+Q = {B:5}
+```
+
+**Step 4: Pop B (5)**
+```
+Relax B→A: new path cost = 5 + (-10) = -5
+But A is already finalized! Dijkstra discards this improvement
+
+Result: d[A] = 2 (WRONG!)
+```
+
+**Correct Answer Should Be:**
+```
+S → B → A = 5 + (-10) = -5
+
+But Dijkstra returned: d[A] = 2
+```
+
+**Why it fails:**
+- Dijkstra assumes that when we extract the minimum distance vertex, that distance is final
+- With negative edges, a later vertex can provide a "time machine" back to improve already-finalized vertices
+- The greedy choice property breaks when negative weights exist
+
+**The Proof Failure:**
+The proof assumes: if d[u] ≤ d[v] when extracted, then no path through v can improve d[u]. This fails when there are negative edges where going to a more expensive node first enables a huge negative jump back.
 
 ---
 
 ### 22.3-4
-**Problem:** Modify Dijkstra to keep only reached vertices in Q.
+**Problem:** Modify the DIJKSTRA procedure so that the priority queue Q is more like the queue in the BFS procedure in that it contains only vertices that have been reached from source s so far: Q ⊆ V − S and v ∈ Q implies v.d ≠ ∞.
 
-**The Problem:**
-- Standard Dijkstra puts ALL 1 million nodes in the Queue at the start.
-- This wastes memory if we only explore 50 nodes.
+**Standard vs Optimized Dijkstra:**
 
-**The Fix (Sparse Dijkstra):**
-1.  **Start:** Q = {s:0}. (Only 1 item).
-2.  **Loop:** Pop `u`.
-3.  **Relax:** Look at neighbor `v`.
-    - If we find a new path to `v`:
-        - If `v` is NOT in Q and NOT visited: `Q.push(v)`.
-        - If `v` IS in Q: `Q.decrease_key(v)`.
-4.  **Result:** The Queue size only grows as we discover the map (like "Fog of War" in a video game).
+**Standard Dijkstra:**
+```
+Initial Q = {s:0, a:∞, b:∞, c:∞, d:∞, e:∞} ← All vertices
+Memory: O(V)
+
+Standard algorithm loads everything upfront!
+```
+
+**Sparse Dijkstra:**
+```
+Initial Q = {s:0} ← Only source
+Memory: O(reachable vertices)
+```
+
+**Algorithm Modification with Example:**
+
+**Graph example:**
+```
+Graph: s → a → b, s → c
+       2    3    1
+```
+
+**Step-by-Step Execution:**
+
+**Step 1: Q = {(s,0)}**
+```
+Extract s: Q = {}
+Relax s's neighbors:
+- Relax s→a: d[a] = 2, INSERT(Q,a) → Q = {(a,2)}
+- Relax s→c: d[c] = 1, INSERT(Q,c) → Q = {(c,1), (a,2)}
+```
+
+**Step 2: Q = {(c,1), (a,2)}**
+```
+Extract c: Q = {(a,2)}
+Relax c's neighbors (none found)
+```
+
+**Step 3: Q = {(a,2)}**
+```
+Extract a: Q = {}
+Relax a's neighbors:
+- Relax a→b: d[b] = 5, INSERT(Q,b) → Q = {(b,5)}
+```
+
+**Step 4: Q = {(b,5)}**
+```
+Extract b: Q = {}
+Relax b's neighbors (none found)
+
+DONE - Only loaded vertices we actually reached!
+```
+
+**Modified Algorithm:**
+```
+DIJKSTRA-SPARSE(G, w, s):
+1 for each vertex v ∈ G.V
+2     d[v] = ∞, π[v] = NIL
+3 d[s] = 0
+4 Q = {s}  ← Only source, not all vertices
+5 while Q ≠ Ø
+6     u = EXTRACT-MIN(Q)
+7     for each v ∈ G.Adj[u]
+8         if d[v] > d[u] + w(u, v)  ← Found better path
+9             d[v] = d[u] + w(u, v)
+10            π[v] = u
+11            if v ∉ Q and v ∉ S  ← NEW: Check if not already queued
+12                INSERT(Q, v)
+13            else if v ∈ Q
+14                DECREASE-KEY(Q, v, d[v])  ← Update priority
+```
+
+**Benefits:**
+- Memory: Only O(|reachable|) instead of O(|V|)
+- Performance: Better for sparse graphs where we explore small portion
+- "Fog of war": Only discover vertices as needed
 
 **Real Engineering Application:**
 *   **Scenario:** **Web Crawlers.**

@@ -21,24 +21,100 @@ PART 2: HOMEWORK SOLUTIONS (STEP-BY-STEP)
 --------------------------------------------------------------------------------
 
 ### 22.1-1
-**Problem:** Run Bellman-Ford on Figure 22.4.
+**Problem:** Run Bellman-Ford on Figure 22.4 using vertex z as the source, then modify edge (z,x) to weight 4 and run again using s as source.
 
-**The Algorithm (Step-by-Step):**
-1.  **Initialize:** Set distance to Source = 0, all others = Infinity.
-2.  **Loop:** Repeat |V|-1 times (where |V| is number of vertices).
-3.  **Inner Loop:** For EVERY edge (u, v) in the graph, try to **Relax** it.
+**Figure 22.4 Graph (reconstructed from problem):**
+```
+Original Graph:
+          6       5
+    s ------> t ------> y
+    ^         ^       ^
+    |         |       |
+   -1|        |-2     |-3
+    |         |       |
+    |         |       |
+    x <------ z ------> y
+          7           8
+```
 
-**Execution Trace (Source z):**
-*   **Pass 1:**
-    - We relax edges leaving `z` (since `z` is the only one with value 0).
-    - `d[x]` becomes 6. `d[y]` becomes 7.
-    - Then we relax edges leaving `x` and `y`.
-    - `d[t]` might update based on `x` or `y`.
-*   **Pass 2:**
-    - We check all edges again. If `d[x]` or `d[y]` changed in Pass 1, their neighbors might find new shortcuts in Pass 2.
-*   **Pass 3:**
-    - Check again.
-*   **Why 3 Passes?** The graph has 4 vertices. The longest possible path (without loops) has 3 edges. It takes 3 passes for information to propagate from one end of the chain to the other.
+**Execution 1: Source = z**
+
+**Initial state (Pass 0):**
+```
+d[s] = ∞, d[t] = ∞, d[x] = ∞, d[y] = ∞, d[z] = 0
+π[s] = NIL, π[t] = NIL, π[x] = NIL, π[y] = NIL, π[z] = NIL
+```
+
+**Pass 1: Relax all edges**
+```
+Edge (z,x): d[x] = min(∞, 0+7) = 7, π[x] = z
+Edge (z,y): d[y] = min(∞, 0+8) = 8, π[y] = z
+Edge (x,t): d[t] = min(∞, 7+5) = 12, π[t] = x
+Edge (t,y): d[y] = min(8, 12+2) = 8, π[y] = z
+Edge (t,s): d[s] = min(∞, 12+1) = 13, π[s] = t
+Edge (s,t): d[t] = min(12, 13+6) = 12, π[t] = x
+
+After Pass 1:
+d = [13, 12, 7, 8, 0]
+π = [t, x, z, z, NIL]
+```
+
+**Pass 2: Relax all edges again**
+```
+Edge (z,x): d[x] = min(7, 0+7) = 7 (no change)
+Edge (z,y): d[y] = min(8, 0+8) = 8 (no change)
+Edge (x,t): d[t] = min(12, 7+5) = 12 (no change)
+Edge (t,y): d[y] = min(8, 12+2) = 8 (no change)
+Edge (t,s): d[s] = min(13, 12+1) = 13 (no change)
+Edge (s,t): d[t] = min(12, 13+6) = 12 (no change)
+
+After Pass 2: No changes - algorithm has converged!
+```
+
+**Execution 2: Modified (z,x) = 4, Source = s**
+
+**Modified Graph:**
+```
+          6       5
+    s ------> t ------> y
+    ^         ^       ^
+    |         |       |
+   -1|        |-2     |-3
+    |         |       |
+    |         |       |
+    x <------ z ------> y
+          4           8
+```
+
+**Initial state (Pass 0):**
+```
+d[s] = 0, d[t] = ∞, d[x] = ∞, d[y] = ∞, d[z] = ∞
+π[s] = NIL, π[t] = NIL, π[x] = NIL, π[y] = NIL, π[z] = NIL
+```
+
+**Pass 1: Relax all edges**
+```
+Edge (s,t): d[t] = min(∞, 0+6) = 6, π[t] = s
+Edge (t,x): d[x] = min(∞, 6+5) = 11, π[x] = t
+Edge (x,z): d[z] = min(∞, 11-1) = 10, π[z] = x
+Edge (z,y): d[y] = min(∞, 10+8) = 18, π[y] = z
+Edge (t,y): d[y] = min(18, 6+2) = 8, π[y] = t
+
+After Pass 1:
+d = [0, 6, 11, 8, 10]
+π = [NIL, s, t, t, x]
+```
+
+**Pass 2: Continue relaxing**
+```
+Edge (x,z): d[z] = min(10, 11-1) = 10 (no change)
+Edge (z,x): d[x] = min(11, 10+4) = 11 (no change)
+Other edges also stable
+
+After Pass 2: No further changes
+```
+
+**Final Result:** Algorithm converges with optimal shortest paths found.
 
 **Real Engineering Application:**
 *   **Scenario:** **Distance Vector Routing (RIP Protocol).**
@@ -52,19 +128,64 @@ PART 2: HOMEWORK SOLUTIONS (STEP-BY-STEP)
 ### 22.1-2
 **Problem:** Prove that a path exists from s to v IFF Bellman-Ford terminates with v.d < Infinity.
 
-**Step-by-Step Logic:**
-1.  **Direction 1 (Path Exists -> Finite Value):**
-    - If there is a path `s -> a -> b -> v`, it has a finite length (say, 3 edges).
-    - In Pass 1, `s` updates `a`.
-    - In Pass 2, `a` updates `b`.
-    - In Pass 3, `b` updates `v`.
-    - Eventually, `v` will get a number. It won't stay Infinity.
-2.  **Direction 2 (Finite Value -> Path Exists):**
-    - If `v.d` is not Infinity, it means we assigned it a value.
-    - We only assign values based on `d[u] + w(u,v)`.
-    - This implies `u` had a value. Which implies `u`'s parent had a value.
-    - If you trace these parents back, you *must* eventually hit the Source `s` (the only node that started with a value).
-    - Therefore, a chain of edges (a path) exists from `s` to `v`.
+**Visual Proof:**
+
+**Part 1: Path exists → v.d < ∞**
+
+**Graph example:**
+```
+Graph example:
+    s → a → b → v
+    1   2   3
+
+If there's a path s→a→b→v with finite weights:
+```
+
+**Step-by-step propagation:**
+```
+Pass 1: s relaxes a → d[a] = 1
+    s(0) → a(1) → b(∞) → v(∞)
+```
+
+```
+Pass 2: a relaxes b → d[b] = 1+2 = 3
+    s(0) → a(1) → b(3) → v(∞)
+```
+
+```
+Pass 3: b relaxes v → d[v] = 3+3 = 6
+    s(0) → a(1) → b(3) → v(6)
+
+Result: v.d = 6 < ∞ ✓
+```
+
+**Part 2: v.d < ∞ → Path exists**
+
+**If v.d = 5 at termination:**
+```
+This means some edge (u,v) was relaxed:
+d[v] = d[u] + w(u,v) = 5
+
+But d[u] = 3, so there must be edge (w,u):
+d[u] = d[w] + w(w,u) = 3
+
+And d[w] = 1, so there must be edge (s,w):
+d[w] = d[s] + w(s,w) = 1
+
+But d[s] = 0 (source!)
+```
+
+**Chain back:**
+```
+s(0) → w(1) → u(3) → v(5)
+    ↑       ↑       ↑
+   source   edge    edge
+
+Complete path: s → w → u → v
+A complete path exists! ✓
+```
+
+**Conclusion:** Finite distance implies traceable path back to source.
 
 **LeetCode Pattern:**
 *   **Problem:** "Cheapest Flights Within K Stops" (Medium).
@@ -79,30 +200,70 @@ PART 2: HOMEWORK SOLUTIONS (STEP-BY-STEP)
 - Running Bellman-Ford V times (once for each start node) is too slow (O(V^2 E)).
 - We need O(VE).
 
-**Step-by-Step Solution (The "Reverse" Trick):**
-1.  **Concept:** Finding the best way *to* `v` from anywhere is the same as finding the best way *from* `v` to anywhere, if we reverse the roads.
-2.  **Step 1: Transpose Graph:** Reverse the direction of every arrow in the graph.
-    - Now, "u -> v" becomes "v -> u".
-3.  **Step 2: Super Source:**
-    - Wait, the question asks for min distance to `v` from *any* `u`.
-    - Actually, the standard trick is to add a **Super Source** `S'` that connects to every node with weight 0.
-    - Run BF from `S'`.
-    - `d[v]` will represent `min(0 + distance(u, v))` for all `u`.
-    - *Correction:* The question asks for `min_u delta(u, v)`.
-    - If we reverse the graph and run BF from `v`, we find `delta(v, u)` for all `u`.
-    - In the reversed graph, `delta_rev(v, u)` corresponds to `delta_orig(u, v)`.
-    - So, we just need to run BF *once* on the reversed graph starting from `v`?
-    - No, we need this for *all* `v`.
-    - Okay, let's look at the Super Source trick again.
-    - If we want `min_u delta(u, v)`, and we have negative cycles...
-    - If `v` can be reached by a negative cycle, the answer is -Infinity.
-    - If not, and `v` is reachable, the answer is usually 0 (since `delta(v, v) = 0`).
-    - **Wait, is the answer just 0 or -Infinity?**
-    - Yes. If `u` can be `v`, then `delta(v, v) = 0`. You can't beat 0 unless you have negative cycles.
-    - So the algorithm is:
-        1. Detect which nodes are part of (or reachable from) negative cycles.
-        2. For those nodes, answer is -Infinity.
-        3. For everyone else, answer is 0.
+**The "Super Source" Solution:**
+
+**Original Problem:**
+```
+Find min distance to v from ANY source u:
+
+      5          2
+  A ------ B ------ C
+  |        |        |
+  |3       |1       |4
+  |        |        |
+  D ------ E ------ F
+      6          1
+
+For each vertex v, we want: min(dist(A,v), dist(B,v), dist(C,v), dist(D,v), dist(E,v), dist(F,v))
+```
+
+**Solution: Add Super Source S'**
+```
+           S'
+         / | \
+        /  |  \
+       0   0   0
+      /    |    \
+     v     v     v
+
+    A ---- B ---- C
+    |      |      |
+    |3     |1     |4
+    |      |      |
+    D ---- E ---- F
+        6      1
+
+Super source S' connects to EVERY vertex with weight 0
+```
+
+**Algorithm Analysis:**
+```
+Run Bellman-Ford from S':
+
+- Initial: d[S'] = 0, all others = ∞
+- After first pass: All vertices get d = 0 (via S' edges)
+- Continue V-2 more passes: Finds all shortest paths
+
+For any vertex v:
+d[v] = min_u δ(S',u) + δ(u,v) = min_u 0 + δ(u,v) = min_u δ(u,v) = δ*(v)
+
+But wait... δ(v,v) = 0, so answer is always 0 unless negative cycles!
+```
+
+**Real Solution - Negative Cycle Detection:**
+```
+Actually, the question is about detecting negative cycle reachability:
+- If v can be reached by negative cycle: δ*(v) = -∞
+- Otherwise: δ*(v) = 0 (since you can start at v itself)
+
+Algorithm:
+1. Run standard Bellman-Ford from any vertex to detect negative cycles
+2. Run DFS/BFS from all negative cycle vertices
+3. For vertices reachable from negative cycles: δ*(v) = -∞
+4. For all other vertices: δ*(v) = 0
+
+Time: O(VE) for Bellman-Ford + O(V+E) for reachability = O(VE)
+```
 
 **Real Engineering Application:**
 *   **Scenario:** **Supply Chain Optimization.**

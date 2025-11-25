@@ -37,11 +37,55 @@ PART 2: HOMEWORK SOLUTIONS (STEP-BY-STEP)
 - We need to prove it's definitely part of the optimal solution.
 
 **Step-by-Step Proof (The "Cut" Logic):**
-1.  **Define the Cut:** Imagine a cut that separates vertex `u` from the rest of the graph. Let Set S = {u} and Set V-S = {everyone else}.
-2.  **Identify Crossing Edges:** The edge (u, v) connects `u` (in S) to `v` (in V-S). So, it crosses this cut.
-3.  **Compare Weights:** Since (u, v) is the minimum-weight edge in the *entire* graph, it must also be the minimum-weight edge crossing *this specific cut*. (You can't find a cheaper edge crossing the cut if there are no cheaper edges anywhere!).
-4.  **Apply the Theorem:** The "Cut Property" (Theorem 21.1) states: "For any cut, the Light Edge (cheapest crossing) is always in the MST."
-5.  **Conclusion:** Therefore, (u, v) is in the MST.
+
+**Visual Diagram of Example Graph:**
+```
+      2          3
+   A ----- B ----- C
+    \     / \     /
+  10 \  /10  \10 / 10
+      D ----- E ----- F
+      5          4
+
+The minimum-weight edge in this entire graph is (A,B) with weight 2.
+```
+
+**Step 1: Define the Cut**
+```
+Create a cut separating u from the rest of the graph:
+      CUT |
+          |
+      u   |    v
+     (A)  |   (B)
+          |
+          | All other vertices
+
+Cut separates: S = {A} and V-S = {B, C, D, E, F}
+```
+
+**Step 2: Identify Crossing Edges**
+```
+      CUT |
+          |
+   (A) --|--> (B)  Edge (A,B) weight 2 crosses the cut
+   (A) --|--> (D)  Edge (A,D) weight 10 crosses the cut
+          |
+          |
+```
+
+**Step 3: Find the Light Edge for this Cut**
+```
+      CUT |
+          |
+   (A) --|--> (B)  ✓ LIGHT EDGE: weight 2
+   (A) --|--> (D)  ✗ heavier: weight 10
+          |
+```
+
+**Step 4: Apply Cut Property**
+Since (A,B) is the minimum-weight edge in the *entire* graph, it must also be the minimum-weight edge crossing *this specific cut*. The "Cut Property" states: "For any cut, the Light Edge (cheapest crossing) is always in the MST."
+
+**Conclusion:** Therefore, (A,B) is in the MST.
 
 **Real Engineering Application:**
 *   **Scenario:** **Clustering in Machine Learning.**
@@ -50,12 +94,12 @@ PART 2: HOMEWORK SOLUTIONS (STEP-BY-STEP)
 
 **LeetCode Pattern:**
 *   **Problem:** "Min Cost to Connect All Points" (Medium/Hard).
-*   **Pattern:** Always pick the smallest edge first. This is the heart of **Kruskal’s Algorithm**.
+*   **Pattern:** Always pick the smallest edge first. This is the heart of **Kruskal's Algorithm**.
 
 ---
 
 ### 21.1-2
-**Problem:** Show that Professor Sabatier’s conjecture is incorrect.
+**Problem:** Show that Professor Sabatier's conjecture is incorrect.
 *Conjecture:* "If an edge is Safe (part of the MST), it must be the Lightest edge for the cut."
 
 **Breakdown:**
@@ -64,21 +108,63 @@ PART 2: HOMEWORK SOLUTIONS (STEP-BY-STEP)
 - *Analogy:* "All Ferraris are cars" (True) vs "All cars are Ferraris" (False).
 
 **Step-by-Step Counterexample:**
-1.  **Draw a Triangle:** Vertices A, B, C.
-    - Edge A-B: Cost 2
-    - Edge B-C: Cost 1
-    - Edge C-A: Cost 3
-2.  **Find the MST:** We need to connect A, B, C cheaply.
-    - Cheapest edge: B-C (1). Take it.
-    - Next cheapest: A-B (2). Take it.
-    - MST Edges: { (B,C), (A,B) }. Total Cost: 3.
-3.  **Identify a "Safe" Edge:** Edge (A,B) is in the MST, so it is "Safe".
-4.  **Create a Cut:** Let's split the world into {A, C} vs {B}.
-    - Edges crossing this cut: (A,B) [Cost 2] and (C,B) [Cost 1].
-5.  **Check the Conjecture:**
-    - For this cut, the "Light Edge" (cheapest) is (C,B) with cost 1.
-    - Our "Safe Edge" (A,B) has cost 2.
-    - **Result:** (A,B) is Safe, but it is NOT the Lightest edge for this specific cut. It was chosen because it was the Lightest edge for a *different* cut (the cut separating A from B,C).
+
+**Step 1: Draw Triangle Graph**
+```
+Triangle Graph with weighted edges:
+
+      A
+     / \
+    /   \
+   2     3  <-- Edge weights
+  /       \
+ /         \
+B-----------C
+      1
+```
+
+**Step 2: Find the MST**
+```
+Total weight: 1 + 2 = 3 ✓ Minimum
+
+      A
+     /
+    /2
+  /
+ /
+B-----------C
+      1
+```
+
+**Step 3: Identify a "Safe" Edge**
+```
+Edge (A,B) is in the MST, so it's SAFE
+```
+
+**Step 4: Create a Cut Where This Safe Edge is NOT Light**
+```
+Cut: {A, C} vs {B}
+
+      A
+     / \
+    /   \
+   2     3
+  /       \
+ /         \
+C-----------B
+      1
+  ^         ^
+  |         |
+CUT LINE separates {A,C} from {B}
+
+Edges crossing cut {A,C} vs {B}:
+- (A,B) with weight 2  <-- Our "safe" edge
+- (C,B) with weight 1  <-- LIGHT edge for THIS cut
+
+Result: (A,B) is safe but NOT light for this cut!
+```
+
+**Conclusion:** The conjecture is FALSE because an edge can be safe (in MST) without being the light edge for every possible cut.
 
 **Real Engineering Application:**
 *   **Scenario:** **Redundant Network Routing.**
@@ -95,16 +181,86 @@ PART 2: HOMEWORK SOLUTIONS (STEP-BY-STEP)
 - **Spoiler:** No, we get a mess with loops.
 
 **Step-by-Step Example:**
-1.  **Graph:** A Triangle A-B-C where all edges have weight 1.
-2.  **Cut 1 (Isolate A):** Cut {A} vs {B, C}.
-    - Crossing edges: (A,B) and (A,C). Both weight 1.
-    - Both are "Light". Pick both.
-3.  **Cut 2 (Isolate B):** Cut {B} vs {A, C}.
-    - Crossing edges: (B,A) and (B,C). Both weight 1.
-    - Both are "Light". Pick both.
-4.  **Result:** We have picked (A,B), (B,C), and (C,A).
-5.  **The Problem:** This forms a **Cycle** (A->B->C->A). A Tree cannot have cycles.
-6.  **Conclusion:** Simply grabbing every "local best" option leads to redundancy (loops). You need an algorithm (like Kruskal's) to say "Stop, we already connected these two."
+
+**Step 1: Equilateral Triangle Graph**
+```
+Equilateral Triangle - All edges weight 1:
+
+      A
+     / \
+    /   \
+   1     1
+  /       \
+ /         \
+B-----------C
+      1
+```
+
+**Step 2: Cut 1 - Isolate A**
+```
+Cut: {A} vs {B,C}
+
+      A*
+     / \
+    /   \
+   1*    1
+  /       \
+ /         \
+B*----------C*
+      1
+
+Light edges for this cut: (A,B) and (A,C) - both weight 1
+```
+
+**Step 3: Cut 2 - Isolate B**
+```
+Cut: {B} vs {A,C}
+
+      A*
+     / \
+    /   \
+   1     1
+  /       \
+ /         \
+B*----------C*
+      1*
+
+Light edges for this cut: (B,A) and (B,C) - both weight 1
+```
+
+**Step 4: Cut 3 - Isolate C**
+```
+Cut: {C} vs {A,B}
+
+      A*
+     / \
+    /   \
+   1     1*
+  /       \
+ /         \
+B*----------C*
+      1*
+
+Light edges for this cut: (C,A) and (C,B) - both weight 1
+```
+
+**Step 5: Problem Result**
+```
+All light edges collected: {(A,B), (A,C), (B,C)}
+
+      A
+     / \
+    /   \  <-- This forms a CYCLE!
+   1---1
+  / \ / \
+B---1---C  <-- NOT a tree!
+
+Total edges: 3
+Vertices: 3
+A tree with 3 vertices should only have 2 edges!
+```
+
+**Conclusion:** The set of all light edges can contain cycles, so it doesn't form a valid MST. You need an algorithm like Kruskal's to avoid creating cycles.
 
 **LeetCode Pattern:**
 *   **Concept:** **Cycle Detection.**
@@ -117,22 +273,94 @@ PART 2: HOMEWORK SOLUTIONS (STEP-BY-STEP)
 1. Argue that if weights are positive, a min-weight connecting subset must be a tree.
 2. Give an example with non-positive weights where it is not a tree.
 
-**Step-by-Step Explanation:**
-1.  **Positive Weights (Why Trees?):**
-    - Imagine you have a solution that connects everyone but contains a Cycle (Loop).
-    - In a loop, you have 2 ways to get between any two nodes.
-    - If you delete ONE edge from that loop, everyone is still connected (the other path still works).
-    - Since the edge had **Positive Weight** (cost > 0), deleting it **lowers** the total cost.
-    - Therefore, the solution with the loop was *not* the minimum. The minimum *must* be a Tree (no loops).
+**Part 1: Positive Weights**
 
-2.  **Non-Positive Weights (Why Loops?):**
-    - Imagine Edge Weights are **Rewards** (Negative Cost).
-    - Edge A-B pays you $2 (Weight -2).
-    - Edge B-C pays you $2 (Weight -2).
-    - Edge C-A pays you $2 (Weight -2).
-    - If you form a Tree (2 edges), you earn $4.
-    - If you form a Cycle (3 edges), you earn $6.
-    - **Conclusion:** If weights are negative (rewards), you want to collect as many edges as possible, creating loops. The "Minimum Weight" structure is no longer a Tree; it's the whole graph!
+**Step-by-Step Explanation:**
+
+**Graph with positive weights:**
+```
+      A
+     / \
+    /   \
+   4     5
+  /       \
+ /         \
+B-----------C
+      3
+
+Solution with cycle (BAD):
+- Take all 3 edges: total weight = 4 + 5 + 3 = 12
+- This connects everyone BUT has a cycle!
+
+      A
+     / \
+    /   \  <-- CYCLE!
+   4     5
+  / \   / \
+B---3-----C  <-- NOT minimal
+```
+
+**Solution as tree (GOOD):**
+```
+- Remove edge (A,C) weight 5
+- Keep (A,B) weight 4 and (B,C) weight 3
+- Total weight = 7
+- Everyone is still connected!
+
+      A
+     /
+    /4
+  /
+ /
+B-----------C
+      3
+```
+
+**Reason:** In a cycle, removing any edge still leaves connectivity. Since all edges have positive cost, removing reduces total cost. Therefore minimum must be acyclic (a tree).
+
+**Part 2: Non-Positive Weights**
+
+**Graph with negative weights (rewards):**
+```
+      A
+     / \
+    /   \
+  -2    -3
+  /       \
+ /         \
+B-----------C
+      -4
+
+Solution as tree:
+- Take 2 edges: total = (-2) + (-3) = -5
+
+      A
+     /
+    /-2
+  /
+ /
+B-----------C
+      -3
+```
+
+**Solution with cycle (BETTER):**
+```
+- Take all 3 edges: total = (-2) + (-3) + (-4) = -9  ← Better!
+
+      A
+     / \
+    /   \  <-- CYCLE gives more rewards!
+  -2----(-3)
+  / \   / \
+B--(-4)---C
+
+With negative weights, MORE edges = LOWER total cost
+The "minimum" connecting structure is the ENTIRE GRAPH
+```
+
+**Conclusion:**
+- **Positive weights:** Force trees (no redundant expensive edges)
+- **Negative weights:** Encourage cycles (collect all rewards!)
 
 **Real Engineering Application:**
 *   **Scenario:** **Arbitrage in Finance.**

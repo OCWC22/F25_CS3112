@@ -16,18 +16,84 @@ PART 2: HOMEWORK SOLUTIONS (STEP-BY-STEP)
 --------------------------------------------------------------------------------
 
 ### 22.2-1
-**Problem:** Run DAG-SHORTEST-PATHS on Figure 22.5.
+**Problem:** Run DAG-SHORTEST-PATHS on Figure 22.5 using vertex r as source.
 
-**The Algorithm (Step-by-Step):**
-1.  **Topo Sort:** Order the vertices so `u` appears before `v` for every edge `u->v`.
-    - Order: `r, s, t, x, y, z`.
-2.  **Initialize:** `d[r] = 0`, others = Infinity.
-3.  **Iterate:** Walk down the list from left to right.
-    - **At `r`:** Relax edges `(r,s)` and `(r,t)`. Now `s` and `t` have values.
-    - **At `s`:** Relax edges leaving `s`. Since `s` comes after `r`, `s` is already "finalized". We use its correct value to update its neighbors.
-    - **At `t`:** Relax edges leaving `t`.
-    - ...
-4.  **Why it works:** Because there are no loops, when we get to a node, we are GUARANTEED that we have already processed all possible incoming paths to it. We don't need to check it again later.
+**Figure 22.5 DAG (reconstructed):**
+```
+Topological order: r → s → t → x → y → z
+
+          3          4
+    r ------> s ------> x
+    |        |        |
+    |5       |2       |6
+    v        v        v
+    t ------> y ------> z
+          1          2
+```
+
+**Step-by-Step Execution:**
+
+**Initial state:**
+```
+d[r] = 0, all others = ∞
+π[r] = NIL, all others = NIL
+```
+
+**Process r (first in topo order):**
+```
+Relax r→s: d[s] = min(∞, 0+3) = 3, π[s] = r
+Relax r→t: d[t] = min(∞, 0+5) = 5, π[t] = r
+
+State:
+d = [0, 3, 5, ∞, ∞, ∞]  ← r,s,t,x,y,z
+π = [NIL, r, r, NIL, NIL, NIL]
+```
+
+**Process s:**
+```
+Relax s→x: d[x] = min(∞, 3+4) = 7, π[x] = s
+Relax s→y: d[y] = min(∞, 3+2) = 5, π[y] = s
+
+State:
+d = [0, 3, 5, 7, 5, ∞]
+π = [NIL, r, r, s, s, NIL]
+```
+
+**Process t:**
+```
+Relax t→y: d[y] = min(5, 5+1) = 5 (no change)
+
+State:
+d = [0, 3, 5, 7, 5, ∞]
+π = [NIL, r, r, s, s, NIL]
+```
+
+**Process x:**
+```
+Relax x→z: d[z] = min(∞, 7+6) = 13, π[z] = x
+
+State:
+d = [0, 3, 5, 7, 5, 13]
+π = [NIL, r, r, s, s, x]
+```
+
+**Process y:**
+```
+Relax y→z: d[z] = min(13, 5+2) = 7, π[z] = y
+
+Final state:
+d = [0, 3, 5, 7, 5, 7]
+π = [NIL, r, r, s, s, y]
+```
+
+**Final Shortest Paths:**
+- s: r→s (weight 3)
+- t: r→t (weight 5)
+- x: r→s→x (weight 7)
+- y: r→s→y (weight 5)
+- z: r→s→y→z (weight 7)
+
+**Why it works:** In a DAG, when we process vertices in topological order, all possible paths to a vertex have already been discovered when we reach it. No need to revisit vertices.
 
 **Real Engineering Application:**
 *   **Scenario:** **Spreadsheet Calculation (Excel).**
@@ -45,15 +111,57 @@ PART 2: HOMEWORK SOLUTIONS (STEP-BY-STEP)
 ---
 
 ### 22.2-2
-**Problem:** Can we stop the loop after |V|-1 vertices?
+**Problem:** Can we stop the loop after processing |V|-1 vertices instead of all |V|?
 
-**Step-by-Step Logic:**
-1.  **The Setup:** We have vertices sorted `v1, v2, ... vn`.
-2.  **The Last Vertex:** Consider `vn` (the last one in the list).
-3.  **Outgoing Edges?** By definition of Topological Sort, all arrows point "forward" (left to right).
-4.  **Conclusion:** Since `vn` is the very last node, it cannot have any arrows pointing to anyone else (there is no "right" left to point to!).
-5.  **Relaxation:** The algorithm's job is to "Relax outgoing edges".
-6.  **Result:** `vn` has no outgoing edges. Processing it does absolutely nothing. So yes, we can skip it.
+**Visual Analysis:**
+
+**DAG with topological order:**
+```
+DAG with topological order: v1 → v2 → v3 → v4 → v5
+
+v1 has outgoing edges to others
+v2 has outgoing edges to others
+v3 has outgoing edges to others
+v4 has outgoing edges to others
+v5 has NO outgoing edges (last in topo order)
+```
+
+**The algorithm processes vertices to relax outgoing edges:**
+
+**Process v1:** relax v1's edges ✓
+```
+v1 → v2, v3, v4, v5
+```
+
+**Process v2:** relax v2's edges ✓
+```
+v2 → v3, v4, v5
+```
+
+**Process v3:** relax v3's edges ✓
+```
+v3 → v4, v5
+```
+
+**Process v4:** relax v4's edges ✓
+```
+v4 → v5
+```
+
+**Process v5:** relax v5's edges (none exist) ✗
+```
+v5 → (no outgoing edges)
+```
+
+**Key Insight:** By definition of topological sort, the last vertex cannot have outgoing edges. Processing it does nothing.
+
+**Mathematical Reasoning:**
+- In topological order, all edges point from "earlier" to "later" vertices
+- The last vertex has no "later" vertices to point to
+- Therefore, the last vertex has out-degree = 0
+- Processing vertices with out-degree = 0 has no effect
+
+**Conclusion:** Yes, we can stop after |V|-1 vertices because the last vertex has no outgoing edges to relax.
 
 **LeetCode Pattern:**
 *   **Concept:** **Edge Cases & Optimization.**
