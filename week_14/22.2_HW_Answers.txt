@@ -1,0 +1,60 @@
+================================================================================
+SECTION 22.2: DAG SHORTEST PATHS
+================================================================================
+
+--------------------------------------------------------------------------------
+PART 1: (DEFINITIONS & CONCEPTS)
+--------------------------------------------------------------------------------
+1. **DAG (Directed Acyclic Graph):** A graph with one-way streets and NO loops.
+   - *Key Property:* You can line up the nodes in a straight line so all arrows point left-to-right.
+2. **Topological Sort:** The act of lining up the nodes in that straight line.
+   - *Analogy:* A recipe. 1. Crack eggs -> 2. Whisk -> 3. Cook. You can't Cook before Cracking.
+3. **Linear Time (O(V+E)):** The fastest possible time complexity for a graph algorithm. It means we touch every node and edge exactly once.
+
+--------------------------------------------------------------------------------
+PART 2: HOMEWORK SOLUTIONS (STEP-BY-STEP)
+--------------------------------------------------------------------------------
+
+### 22.2-1
+**Problem:** Run DAG-SHORTEST-PATHS on Figure 22.5.
+
+**The Algorithm (Step-by-Step):**
+1.  **Topo Sort:** Order the vertices so `u` appears before `v` for every edge `u->v`.
+    - Order: `r, s, t, x, y, z`.
+2.  **Initialize:** `d[r] = 0`, others = Infinity.
+3.  **Iterate:** Walk down the list from left to right.
+    - **At `r`:** Relax edges `(r,s)` and `(r,t)`. Now `s` and `t` have values.
+    - **At `s`:** Relax edges leaving `s`. Since `s` comes after `r`, `s` is already "finalized". We use its correct value to update its neighbors.
+    - **At `t`:** Relax edges leaving `t`.
+    - ...
+4.  **Why it works:** Because there are no loops, when we get to a node, we are GUARANTEED that we have already processed all possible incoming paths to it. We don't need to check it again later.
+
+**Real Engineering Application:**
+*   **Scenario:** **Spreadsheet Calculation (Excel).**
+    - Cell C1 depends on B1. B1 depends on A1.
+    - Excel builds a dependency graph (DAG).
+    - When you update A1, Excel does a Topological Sort to determine the order of updates: A1 -> B1 -> C1.
+    - It computes the values in one pass (Linear Time). It doesn't loop around guessing values.
+
+**LeetCode Pattern:**
+*   **Problem:** "Course Schedule II" (Medium).
+*   **Pattern:** This IS Topological Sort. "Find an order to take courses such that you satisfy prerequisites."
+*   **Problem:** "Longest Path in a Matrix" (Hard).
+*   **Pattern:** In a DAG, "Longest Path" is easy (just flip weights to negative and run Shortest Path). In a general graph, Longest Path is NP-Hard (impossible). This distinction helps you identify if a problem is solvable or not.
+
+---
+
+### 22.2-2
+**Problem:** Can we stop the loop after |V|-1 vertices?
+
+**Step-by-Step Logic:**
+1.  **The Setup:** We have vertices sorted `v1, v2, ... vn`.
+2.  **The Last Vertex:** Consider `vn` (the last one in the list).
+3.  **Outgoing Edges?** By definition of Topological Sort, all arrows point "forward" (left to right).
+4.  **Conclusion:** Since `vn` is the very last node, it cannot have any arrows pointing to anyone else (there is no "right" left to point to!).
+5.  **Relaxation:** The algorithm's job is to "Relax outgoing edges".
+6.  **Result:** `vn` has no outgoing edges. Processing it does absolutely nothing. So yes, we can skip it.
+
+**LeetCode Pattern:**
+*   **Concept:** **Edge Cases & Optimization.**
+*   In interviews, pointing out that "the last iteration is redundant" shows you understand the *structure* of the data, not just the code. It's a "Senior Engineer" observation.

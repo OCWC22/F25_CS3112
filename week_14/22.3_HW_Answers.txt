@@ -1,0 +1,108 @@
+================================================================================
+SECTION 22.3: DIJKSTRA'S ALGORITHM
+================================================================================
+
+--------------------------------------------------------------------------------
+PART 1: (DEFINITIONS & CONCEPTS)
+--------------------------------------------------------------------------------
+1. **Priority Queue (Min-Heap):** A waiting list where the "VIP" (smallest number) always gets to skip to the front.
+   - *Operations:* `Insert` (Add someone), `Extract-Min` (Call the VIP), `Decrease-Key` (Update someone's priority).
+2. **Greedy Choice Property:** The idea that picking the best option *right now* leads to the best global outcome.
+   - *Dijkstra's Logic:* "If Node A is the closest city to me (5 miles), there is NO WAY I can find a path to A that is shorter than 5 miles by going through Node B (10 miles) first." (Assumes positive weights).
+3. **Relaxation:** (See Section 22.1). Updating a path because we found a shortcut.
+
+--------------------------------------------------------------------------------
+PART 2: HOMEWORK SOLUTIONS (STEP-BY-STEP)
+--------------------------------------------------------------------------------
+
+### 22.3-1
+**Problem:** Run Dijkstra on Figure 22.2.
+
+**The Algorithm (Step-by-Step):**
+1.  **Q (Priority Queue):** Put all nodes in Q. Start Node `s` = 0, others = Infinity.
+2.  **Loop:** While Q is not empty:
+    - **Pop:** Take the node `u` with the smallest `d` value.
+    - **Relax:** Check all neighbors `v` of `u`. If `d[u] + weight < d[v]`, update `d[v]`.
+
+**Execution Trace (Source s):**
+*   **Start:** Q = {s:0, t:inf, x:inf, y:inf, z:inf}.
+*   **Pop s (0):**
+    - Relax s->t (10) and s->y (5).
+    - Q = {y:5, t:10, x:inf, z:inf}. (Note: y moved to front).
+*   **Pop y (5):** "y is finalized. Shortest path to y is 5."
+    - Relax y->t (5+3=8). Update t from 10 to 8.
+    - Relax y->x (5+9=14).
+    - Relax y->z (5+2=7).
+    - Q = {z:7, t:8, x:14}.
+*   **Pop z (7):** "z is finalized."
+    - Relax z->x (7+6=13). Update x from 14 to 13.
+    - Q = {t:8, x:13}.
+*   **Pop t (8):** "t is finalized."
+    - Relax t->x (8+1=9). Update x from 13 to 9.
+    - Q = {x:9}.
+*   **Pop x (9):** Done.
+
+**Real Engineering Application:**
+*   **Scenario:** **Google Maps Navigation.**
+    - You are at `s`. You want to go to `x`.
+    - The map is huge. Dijkstra explores radially outward.
+    - It finds "gas stations" (nodes) in order of travel time.
+    - It guarantees that when it says "You have arrived", it really found the fastest route.
+
+**LeetCode Pattern:**
+*   **Problem:** "Network Delay Time" (Medium).
+*   **Pattern:** This is standard Dijkstra. "How long until all nodes receive the signal?" = "What is the maximum shortest path?"
+*   **Problem:** "Path with Minimum Effort" (Medium).
+*   **Pattern:** Dijkstra isn't just for "Sum of Weights". It works for any "Monotonic" function. Here, cost = max(height difference). The logic holds.
+
+---
+
+### 22.3-2
+**Problem:** Simple example where Dijkstra fails with negative edges.
+
+**Why it fails (The Logic):**
+- Dijkstra assumes that if I visit Node A (cost 2) before Node B (cost 5), then Node A is "closer" and I'm done with it.
+- **Negative Edge:** A "Time Machine" or "Wormhole".
+- If going to B (5) lets me take a wormhole (-10) to A, the total cost is 5 - 10 = -5.
+- But Dijkstra already finalized A at cost 2! It never looks back.
+
+**Step-by-Step Counterexample:**
+1.  **Graph:**
+    - S -> A (Cost 2)
+    - S -> B (Cost 5)
+    - B -> A (Cost -10)
+2.  **Dijkstra's Mistake:**
+    - Q = {A:2, B:5}.
+    - Pop A (2). Mark A as "Done". (Mistake! A is not actually done).
+    - Pop B (5).
+    - Relax B->A. New cost = 5 - 10 = -5.
+    - **The Bug:** In standard Dijkstra, once a node is popped, we assume its value is final. We don't put it back in the Queue. So A stays at 2. The algorithm returns the wrong answer.
+
+---
+
+### 22.3-4
+**Problem:** Modify Dijkstra to keep only reached vertices in Q.
+
+**The Problem:**
+- Standard Dijkstra puts ALL 1 million nodes in the Queue at the start.
+- This wastes memory if we only explore 50 nodes.
+
+**The Fix (Sparse Dijkstra):**
+1.  **Start:** Q = {s:0}. (Only 1 item).
+2.  **Loop:** Pop `u`.
+3.  **Relax:** Look at neighbor `v`.
+    - If we find a new path to `v`:
+        - If `v` is NOT in Q and NOT visited: `Q.push(v)`.
+        - If `v` IS in Q: `Q.decrease_key(v)`.
+4.  **Result:** The Queue size only grows as we discover the map (like "Fog of War" in a video game).
+
+**Real Engineering Application:**
+*   **Scenario:** **Web Crawlers.**
+    - You want to find the shortest click-path from Wikipedia "Start" to "Philosophy".
+    - The Web has billions of pages. You can't load them all into a Queue.
+    - You only add pages to your Queue as you click links (discover them).
+    - This is exactly the "Sparse" optimization.
+
+**LeetCode Pattern:**
+*   **Implementation Note:** In Python/Java standard libraries, `PriorityQueue` doesn't support `decrease_key` efficiently.
+*   **Workaround:** We usually just add the node *again* to the PQ with the new lower priority. When we pop the old "stale" entry later, we ignore it. This is "Lazy Dijkstra".

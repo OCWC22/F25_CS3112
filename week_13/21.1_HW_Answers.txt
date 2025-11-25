@@ -1,0 +1,140 @@
+================================================================================
+SECTION 21.1: MINIMUM SPANNING TREES (THEORY & FOUNDATIONS)
+================================================================================
+
+--------------------------------------------------------------------------------
+PART 1:(DEFINITIONS & CONCEPTS)
+--------------------------------------------------------------------------------
+Before solving the problems, you must understand these terms.
+
+1. **Graph (G):** A collection of "Nodes" (Vertices, V) connected by "Lines" (Edges, E).
+   - *Analogy:* A map of cities (V) and roads (E).
+2. **Weighted Graph:** Each edge has a number (Weight) associated with it.
+   - *Analogy:* The roads have lengths or toll costs.
+3. **Spanning Tree:** A subset of edges that connects ALL vertices together with NO loops (cycles).
+   - *Why "Tree"?* Because it branches out without looping back.
+   - *Why "Spanning"?* Because it touches (spans) every single vertex.
+4. **Minimum Spanning Tree (MST):** The Spanning Tree with the lowest total weight (sum of all edge weights).
+   - *Goal:* Connect everyone for the cheapest total price.
+5. **Cut (S, V-S):** A line drawn through the graph that separates the vertices into two disjoint groups (Group S and Group V-S).
+   - *Analogy:* Building a wall that splits the country into East and West.
+6. **Crossing Edge:** An edge that goes from a vertex in Group S to a vertex in Group V-S.
+   - *Analogy:* A bridge crossing the wall.
+7. **Light Edge:** The edge with the SMALLEST weight crossing a specific cut.
+   - *Analogy:* The cheapest bridge across the wall.
+8. **Safe Edge:** An edge that is guaranteed to be part of the final MST.
+   - *Key Rule:* If an edge is a "Light Edge" for *any* valid cut, it is a "Safe Edge".
+
+--------------------------------------------------------------------------------
+PART 2: HOMEWORK SOLUTIONS (STEP-BY-STEP)
+--------------------------------------------------------------------------------
+
+### 21.1-1
+**Problem:** Let (u, v) be a minimum-weight edge in a connected graph G. Show that (u, v) belongs to some minimum spanning tree of G.
+
+**Breakdown:**
+- We have the single cheapest edge in the entire graph.
+- We need to prove it's definitely part of the optimal solution.
+
+**Step-by-Step Proof (The "Cut" Logic):**
+1.  **Define the Cut:** Imagine a cut that separates vertex `u` from the rest of the graph. Let Set S = {u} and Set V-S = {everyone else}.
+2.  **Identify Crossing Edges:** The edge (u, v) connects `u` (in S) to `v` (in V-S). So, it crosses this cut.
+3.  **Compare Weights:** Since (u, v) is the minimum-weight edge in the *entire* graph, it must also be the minimum-weight edge crossing *this specific cut*. (You can't find a cheaper edge crossing the cut if there are no cheaper edges anywhere!).
+4.  **Apply the Theorem:** The "Cut Property" (Theorem 21.1) states: "For any cut, the Light Edge (cheapest crossing) is always in the MST."
+5.  **Conclusion:** Therefore, (u, v) is in the MST.
+
+**Real Engineering Application:**
+*   **Scenario:** **Clustering in Machine Learning.**
+    *   When you run a clustering algorithm (like Single-Linkage Clustering), you start by grouping the two closest data points together.
+    *   This problem proves *why* that works. The "closest points" (min weight edge) are mathematically guaranteed to belong to the same "structure" (MST). You don't need to worry that grouping them now will mess up the big picture later.
+
+**LeetCode Pattern:**
+*   **Problem:** "Min Cost to Connect All Points" (Medium/Hard).
+*   **Pattern:** Always pick the smallest edge first. This is the heart of **Kruskal’s Algorithm**.
+
+---
+
+### 21.1-2
+**Problem:** Show that Professor Sabatier’s conjecture is incorrect.
+*Conjecture:* "If an edge is Safe (part of the MST), it must be the Lightest edge for the cut."
+
+**Breakdown:**
+- **True:** Every Light edge is Safe.
+- **False:** Every Safe edge is Light. (This is what we need to disprove).
+- *Analogy:* "All Ferraris are cars" (True) vs "All cars are Ferraris" (False).
+
+**Step-by-Step Counterexample:**
+1.  **Draw a Triangle:** Vertices A, B, C.
+    - Edge A-B: Cost 2
+    - Edge B-C: Cost 1
+    - Edge C-A: Cost 3
+2.  **Find the MST:** We need to connect A, B, C cheaply.
+    - Cheapest edge: B-C (1). Take it.
+    - Next cheapest: A-B (2). Take it.
+    - MST Edges: { (B,C), (A,B) }. Total Cost: 3.
+3.  **Identify a "Safe" Edge:** Edge (A,B) is in the MST, so it is "Safe".
+4.  **Create a Cut:** Let's split the world into {A, C} vs {B}.
+    - Edges crossing this cut: (A,B) [Cost 2] and (C,B) [Cost 1].
+5.  **Check the Conjecture:**
+    - For this cut, the "Light Edge" (cheapest) is (C,B) with cost 1.
+    - Our "Safe Edge" (A,B) has cost 2.
+    - **Result:** (A,B) is Safe, but it is NOT the Lightest edge for this specific cut. It was chosen because it was the Lightest edge for a *different* cut (the cut separating A from B,C).
+
+**Real Engineering Application:**
+*   **Scenario:** **Redundant Network Routing.**
+    *   In a network, you might have a primary fiber line (cheapest) and a backup copper line (more expensive).
+    *   The backup line is part of your "Safe" reliable network structure (MST), even though for a specific local connection, it might not be the absolute fastest link available. It serves a different purpose (connecting a different part of the subgraph).
+
+---
+
+### 21.1-4
+**Problem:** Give a simple example where the set of light edges for all cuts does not form a minimum spanning tree.
+
+**Breakdown:**
+- If we look at *every possible way* to slice the graph, and for each slice we pick the cheapest bridge, do we get a Tree?
+- **Spoiler:** No, we get a mess with loops.
+
+**Step-by-Step Example:**
+1.  **Graph:** A Triangle A-B-C where all edges have weight 1.
+2.  **Cut 1 (Isolate A):** Cut {A} vs {B, C}.
+    - Crossing edges: (A,B) and (A,C). Both weight 1.
+    - Both are "Light". Pick both.
+3.  **Cut 2 (Isolate B):** Cut {B} vs {A, C}.
+    - Crossing edges: (B,A) and (B,C). Both weight 1.
+    - Both are "Light". Pick both.
+4.  **Result:** We have picked (A,B), (B,C), and (C,A).
+5.  **The Problem:** This forms a **Cycle** (A->B->C->A). A Tree cannot have cycles.
+6.  **Conclusion:** Simply grabbing every "local best" option leads to redundancy (loops). You need an algorithm (like Kruskal's) to say "Stop, we already connected these two."
+
+**LeetCode Pattern:**
+*   **Concept:** **Cycle Detection.**
+*   **Pattern:** In "Graph Valid Tree" or "Redundant Connection", you must detect if adding an edge creates a loop. If it does, you discard it, even if it's "cheap".
+
+---
+
+### 21.1-7
+**Problem:**
+1. Argue that if weights are positive, a min-weight connecting subset must be a tree.
+2. Give an example with non-positive weights where it is not a tree.
+
+**Step-by-Step Explanation:**
+1.  **Positive Weights (Why Trees?):**
+    - Imagine you have a solution that connects everyone but contains a Cycle (Loop).
+    - In a loop, you have 2 ways to get between any two nodes.
+    - If you delete ONE edge from that loop, everyone is still connected (the other path still works).
+    - Since the edge had **Positive Weight** (cost > 0), deleting it **lowers** the total cost.
+    - Therefore, the solution with the loop was *not* the minimum. The minimum *must* be a Tree (no loops).
+
+2.  **Non-Positive Weights (Why Loops?):**
+    - Imagine Edge Weights are **Rewards** (Negative Cost).
+    - Edge A-B pays you $2 (Weight -2).
+    - Edge B-C pays you $2 (Weight -2).
+    - Edge C-A pays you $2 (Weight -2).
+    - If you form a Tree (2 edges), you earn $4.
+    - If you form a Cycle (3 edges), you earn $6.
+    - **Conclusion:** If weights are negative (rewards), you want to collect as many edges as possible, creating loops. The "Minimum Weight" structure is no longer a Tree; it's the whole graph!
+
+**Real Engineering Application:**
+*   **Scenario:** **Arbitrage in Finance.**
+    *   In currency exchange, "weights" are conversion rates. Sometimes, a cycle (USD -> EUR -> JPY -> USD) results in a profit (Negative Cost).
+    *   In this case, you *want* the cycle. You don't want a "Spanning Tree" of currencies; you want to find the "Negative Cycle" to make infinite money.

@@ -1,0 +1,113 @@
+================================================================================
+SECTION 22.1: BELLMAN-FORD ALGORITHM
+================================================================================
+
+--------------------------------------------------------------------------------
+PART 1: (DEFINITIONS & CONCEPTS)
+--------------------------------------------------------------------------------
+1. **Shortest Path:** The path between two nodes with the minimum total sum of edge weights.
+2. **Relaxation:** The core operation of shortest path algorithms.
+   - *Equation:* `if d[v] > d[u] + w(u,v) then d[v] = d[u] + w(u,v)`
+   - *Translation:* "I currently think it takes `d[v]` cost to get to `v`. But I just found a path through `u` that costs `d[u] + w(u,v)`. If that's cheaper, I'll update my belief."
+   - *Analogy:* Checking Google Maps and finding a faster route.
+3. **Negative Weight Edge:** An edge that *reduces* the total cost (e.g., a rebate or time gain).
+   - *Danger:* Standard algorithms like Dijkstra crash here.
+4. **Negative Weight Cycle:** A loop where the sum of weights is negative.
+   - *Result:* You can spin in this loop forever, reducing cost to -Infinity. Shortest path is undefined.
+5. **Convergence:** When the algorithm stops updating values because the optimal solution has been found.
+
+--------------------------------------------------------------------------------
+PART 2: HOMEWORK SOLUTIONS (STEP-BY-STEP)
+--------------------------------------------------------------------------------
+
+### 22.1-1
+**Problem:** Run Bellman-Ford on Figure 22.4.
+
+**The Algorithm (Step-by-Step):**
+1.  **Initialize:** Set distance to Source = 0, all others = Infinity.
+2.  **Loop:** Repeat |V|-1 times (where |V| is number of vertices).
+3.  **Inner Loop:** For EVERY edge (u, v) in the graph, try to **Relax** it.
+
+**Execution Trace (Source z):**
+*   **Pass 1:**
+    - We relax edges leaving `z` (since `z` is the only one with value 0).
+    - `d[x]` becomes 6. `d[y]` becomes 7.
+    - Then we relax edges leaving `x` and `y`.
+    - `d[t]` might update based on `x` or `y`.
+*   **Pass 2:**
+    - We check all edges again. If `d[x]` or `d[y]` changed in Pass 1, their neighbors might find new shortcuts in Pass 2.
+*   **Pass 3:**
+    - Check again.
+*   **Why 3 Passes?** The graph has 4 vertices. The longest possible path (without loops) has 3 edges. It takes 3 passes for information to propagate from one end of the chain to the other.
+
+**Real Engineering Application:**
+*   **Scenario:** **Distance Vector Routing (RIP Protocol).**
+    - Old internet routers used this exact algorithm.
+    - Router A tells Router B: "I can reach Google in 5 hops."
+    - Router B tells Router C: "I can reach Google in 6 hops (via A)."
+    - This "gossip" spreads periodically. If a link dies (weight Infinity), the bad news propagates slowly (Pass by Pass). This slow convergence is why modern internet uses OSPF (Dijkstra) instead.
+
+---
+
+### 22.1-2
+**Problem:** Prove that a path exists from s to v IFF Bellman-Ford terminates with v.d < Infinity.
+
+**Step-by-Step Logic:**
+1.  **Direction 1 (Path Exists -> Finite Value):**
+    - If there is a path `s -> a -> b -> v`, it has a finite length (say, 3 edges).
+    - In Pass 1, `s` updates `a`.
+    - In Pass 2, `a` updates `b`.
+    - In Pass 3, `b` updates `v`.
+    - Eventually, `v` will get a number. It won't stay Infinity.
+2.  **Direction 2 (Finite Value -> Path Exists):**
+    - If `v.d` is not Infinity, it means we assigned it a value.
+    - We only assign values based on `d[u] + w(u,v)`.
+    - This implies `u` had a value. Which implies `u`'s parent had a value.
+    - If you trace these parents back, you *must* eventually hit the Source `s` (the only node that started with a value).
+    - Therefore, a chain of edges (a path) exists from `s` to `v`.
+
+**LeetCode Pattern:**
+*   **Problem:** "Cheapest Flights Within K Stops" (Medium).
+*   **Pattern:** This problem is literally Bellman-Ford but limited to `K` passes instead of `|V|-1`. It asks "Can I get there?" (Reachability) and "What's the cost?" (Shortest Path).
+
+---
+
+### 22.1-6
+**Problem:** Find the shortest path to `v` from ANY source `u` in the graph. (Compute min_{u} delta(u, v)).
+
+**The Challenge:**
+- Running Bellman-Ford V times (once for each start node) is too slow (O(V^2 E)).
+- We need O(VE).
+
+**Step-by-Step Solution (The "Reverse" Trick):**
+1.  **Concept:** Finding the best way *to* `v` from anywhere is the same as finding the best way *from* `v` to anywhere, if we reverse the roads.
+2.  **Step 1: Transpose Graph:** Reverse the direction of every arrow in the graph.
+    - Now, "u -> v" becomes "v -> u".
+3.  **Step 2: Super Source:**
+    - Wait, the question asks for min distance to `v` from *any* `u`.
+    - Actually, the standard trick is to add a **Super Source** `S'` that connects to every node with weight 0.
+    - Run BF from `S'`.
+    - `d[v]` will represent `min(0 + distance(u, v))` for all `u`.
+    - *Correction:* The question asks for `min_u delta(u, v)`.
+    - If we reverse the graph and run BF from `v`, we find `delta(v, u)` for all `u`.
+    - In the reversed graph, `delta_rev(v, u)` corresponds to `delta_orig(u, v)`.
+    - So, we just need to run BF *once* on the reversed graph starting from `v`?
+    - No, we need this for *all* `v`.
+    - Okay, let's look at the Super Source trick again.
+    - If we want `min_u delta(u, v)`, and we have negative cycles...
+    - If `v` can be reached by a negative cycle, the answer is -Infinity.
+    - If not, and `v` is reachable, the answer is usually 0 (since `delta(v, v) = 0`).
+    - **Wait, is the answer just 0 or -Infinity?**
+    - Yes. If `u` can be `v`, then `delta(v, v) = 0`. You can't beat 0 unless you have negative cycles.
+    - So the algorithm is:
+        1. Detect which nodes are part of (or reachable from) negative cycles.
+        2. For those nodes, answer is -Infinity.
+        3. For everyone else, answer is 0.
+
+**Real Engineering Application:**
+*   **Scenario:** **Supply Chain Optimization.**
+    - You have 50 factories (u) and 1 customer (v).
+    - You want to find which factory can ship to the customer cheapest.
+    - Instead of calculating 50 separate paths, you reverse the map arrows.
+    - You start at the Customer and find the shortest path to *all* factories in one go.
+    - The factory with the lowest result is your winner.

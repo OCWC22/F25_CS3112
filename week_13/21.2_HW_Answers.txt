@@ -1,0 +1,129 @@
+================================================================================
+SECTION 21.2: MST ALGORITHMS (KRUSKAL'S & PRIM'S)
+================================================================================
+
+--------------------------------------------------------------------------------
+PART 1: (DEFINITIONS & CONCEPTS)
+--------------------------------------------------------------------------------
+1. **Greedy Algorithm:** An approach that makes the locally optimal choice at each step (e.g., "pick the cheapest edge right now") with the hope of finding the global optimum.
+   - *Note:* For MSTs, Greedy ALWAYS works. For other problems (like Chess), it usually fails.
+2. **Adjacency Matrix:** A 2D grid (V x V) where cell [i][j] stores the weight of the edge between node i and node j.
+   - *Pros:* Fast to look up "Is there an edge between A and B?" (O(1)).
+   - *Cons:* Uses lots of memory (V^2), slow to iterate if edges are few.
+3. **Adjacency List:** A list where each node stores a list of its neighbors.
+   - *Pros:* Saves memory for sparse graphs.
+4. **Priority Queue (Min-Heap):** A data structure that organizes items so you can always "Extract the Minimum" in O(log N) time.
+   - *Crucial for:* Prim's Algorithm and Dijkstra's Algorithm.
+5. **Disjoint Set Union (DSU) / Union-Find:** A data structure that tracks which nodes are in the same group.
+   - *Operations:* `Find(x)` (Which group is x in?) and `Union(x, y)` (Merge group x and group y).
+   - *Crucial for:* Kruskal's Algorithm (to detect cycles).
+
+--------------------------------------------------------------------------------
+PART 2: HOMEWORK SOLUTIONS (STEP-BY-STEP)
+--------------------------------------------------------------------------------
+
+### 21.2-1
+**Problem:** Show that for each MST T, there is a way to sort edges in Kruskal’s algorithm so it returns T.
+
+**The Issue:**
+Kruskal's algorithm sorts edges by weight. If two edges have the *same* weight (e.g., Edge A and Edge B both cost 5), the order is undefined. Picking A first might lead to a different tree than picking B first.
+
+**Step-by-Step Solution:**
+1.  **Identify the Target:** We want the algorithm to produce a specific tree, $T$.
+2.  **The Trick:** We need to "rig" the sorting order.
+3.  **Sorting Rule:**
+    - Primary Sort Key: Edge Weight (Low to High).
+    - Secondary Sort Key: "Is this edge in T?" (Yes comes before No).
+4.  **Execution Trace:**
+    - The algorithm looks at all edges of Weight 1. It picks the ones in $T$ first. Since $T$ is a valid tree, these edges never form a cycle with each other. They are all accepted.
+    - Then it looks at the "other" edges of Weight 1. Since the nodes are already connected by the $T$ edges, these "other" edges will form cycles and be rejected.
+5.  **Conclusion:** By forcing the algorithm to prefer edges in $T$ when weights are tied, we guarantee it builds exactly $T$.
+
+**LeetCode Pattern:**
+*   **Problem:** "Lexicographically Smallest Equivalent String" (Union-Find).
+*   **Pattern:** When multiple valid answers exist, we often need a secondary sorting rule (like alphabetical order) to ensure a deterministic output.
+
+---
+
+### 21.2-2
+**Problem:** Implement Prim’s algorithm in O(V^2) using an adjacency matrix.
+
+**Why O(V^2)?**
+- Usually, Prim's uses a Priority Queue (Heap) and runs in O(E log V).
+- However, if the graph is **Dense** (lots of edges, E ≈ V^2), then O(E log V) becomes O(V^2 log V), which is slower than O(V^2).
+- So, for dense graphs, we ditch the Heap and use a simple Array.
+
+**Step-by-Step Algorithm:**
+1.  **Setup:**
+    - `dist[]`: An array of size V. `dist[i]` stores the cheapest weight to connect Node `i` to our growing tree. Initialize to Infinity.
+    - `visited[]`: Boolean array. `visited[i]` is true if Node `i` is already in the tree.
+    - Start at Node 0. Set `dist[0] = 0`.
+2.  **The Loop (Run V times):**
+    - **Step A (Find Min):** Scan the `dist` array to find the unvisited node `u` with the smallest value.
+        - *Cost:* O(V) (simple for-loop scan).
+    - **Step B (Add to Tree):** Mark `u` as `visited`.
+    - **Step C (Update Neighbors):** Look at every neighbor `v` of `u`.
+        - If the edge weight `w(u, v)` is smaller than the current `dist[v]`, update `dist[v] = w(u, v)`.
+        - *Cost:* O(V) (since we check all V possible neighbors in the matrix).
+3.  **Total Complexity:**
+    - We run the loop V times.
+    - Inside, we do two O(V) operations.
+    - Total = V * (V + V) = **O(V^2)**.
+
+**Real Engineering Application:**
+*   **Scenario:** **All-to-All Communication in HPC.**
+    - In High-Performance Computing (supercomputers), every processor often connects to every other processor (Dense Graph).
+    - Managing a complex Heap data structure adds overhead (pointers, memory jumps).
+    - A simple array scan (O(V^2)) is extremely CPU-cache friendly and faster for these dense, hardware-level topologies.
+
+---
+
+### 21.2-6
+**Problem:** Analyze a Divide-and-Conquer MST algorithm: Partition V into V1, V2, solve recursively, then add min edge crossing the cut.
+
+**The Idea:** "Can we build an MST for the left half, an MST for the right half, and just stitch them together?"
+**The Verdict:** **NO.** This is a classic algorithm design mistake.
+
+**Step-by-Step Counterexample:**
+1.  **Graph:** A "Square" A-B-C-D.
+    - Top: A-B (Cost 1)
+    - Bottom: C-D (Cost 1)
+    - Left: A-C (Cost 100)
+    - Right: B-D (Cost 100)
+    - *Note:* We also need cross edges to make the "partition" logic tricky, but let's simplify.
+    - Let's use the Triangle example from the previous file, it's clearer.
+    - **Triangle A, B, C.**
+    - Edges: (A,B)=100, (B,C)=1, (A,C)=100.
+    - Partition: V1={A}, V2={B,C}.
+2.  **Recursive Step:**
+    - MST for V1 ({A}): No edges.
+    - MST for V2 ({B,C}): Edge (B,C) [Cost 1].
+3.  **Merge Step:**
+    - Find cheapest edge connecting V1 to V2.
+    - Edges are (A,B) [100] and (A,C) [100].
+    - Pick (A,B).
+4.  **Algorithm Output:** Edges { (B,C), (A,B) }. Total Cost: 101.
+5.  **The Truth:**
+    - Wait, for a triangle 100-100-1, the MST *is* 101. This example doesn't disprove it.
+    - We need a case where the "Internal" MST edges are heavy, but we are forced to keep them.
+6.  **Correct Counterexample:**
+    - **Nodes:** A, B, C, D.
+    - **Partition:** Left={A, C}, Right={B, D}.
+    - **Edges:**
+        - Vertical (Internal): A-C (Cost 100), B-D (Cost 100).
+        - Horizontal (Crossing): A-B (Cost 1), C-D (Cost 1).
+    - **Algorithm Execution:**
+        - Solve Left: Must pick A-C (100) to connect A and C.
+        - Solve Right: Must pick B-D (100) to connect B and D.
+        - Merge: Pick cheapest cross edge, say A-B (1).
+        - **Total:** 100 + 100 + 1 = **201**.
+    - **Actual MST:**
+        - Pick A-B (1).
+        - Pick C-D (1).
+        - Pick A-C (100) OR B-D (100) to connect top and bottom.
+        - **Total:** 1 + 1 + 100 = **102**.
+7.  **Why it failed:** The algorithm forced us to build expensive local roads (A-C) before realizing there was a cheaper highway system available via the other partition.
+
+**LeetCode Pattern:**
+*   **Lesson:** **Global vs. Local Optima.**
+*   Many Dynamic Programming problems (like "House Robber") teach you that making a decision now (robbing this house) might prevent a better decision later. This Divide-and-Conquer approach failed because it made "final" decisions on the sub-problems without knowing the global context.
